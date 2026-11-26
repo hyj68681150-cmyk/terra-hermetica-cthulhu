@@ -28,14 +28,14 @@
     #scanline-overlay {
       position: fixed;
       inset: 0;
-      z-index: 60;
+      z-index: 38;
       pointer-events: none;
       background: repeating-linear-gradient(
         to bottom,
-        rgba(5, 11, 108, 0.33) 0px,
-        rgba(5, 11, 108, 0.33) 1px,
-        rgba(255, 255, 255, 0.03) 1px,
-        rgba(255, 255, 255, 0.03) 3px
+        rgba(5, 11, 108, 0.28) 0px,
+        rgba(5, 11, 108, 0.28) 1px,
+        rgba(255, 255, 255, 0.025) 1px,
+        rgba(255, 255, 255, 0.025) 3px
       );
     }
 
@@ -75,14 +75,14 @@
     }
 
     .condensed-monument {
-      font-family: "Impact", "Arial Narrow", "Franklin Gothic Medium", "PingFang SC", "Microsoft YaHei", sans-serif;
+      font-family: "Bahnschrift Light", "Segoe UI Light", "Calibri Light", "Helvetica Neue", "Arial Narrow", sans-serif;
       text-transform: uppercase;
-      letter-spacing: 0.03em;
-      line-height: 0.95;
+      letter-spacing: 0.09em;
+      line-height: 1.05;
       display: inline-block;
-      transform: scaleY(1.26);
+      transform: scaleX(0.84) scaleY(1.18);
       transform-origin: center;
-      font-weight: 700;
+      font-weight: 300;
     }
     .lapidary-serif {
       letter-spacing: 0.32em;
@@ -126,27 +126,67 @@
     }
 
     .liber-nav-btn {
-      padding: 4px 10px;
+      padding: 5px 9px;
       font-size: 10px;
-      letter-spacing: 0.15em;
+      letter-spacing: 0.12em;
       text-transform: uppercase;
-      color: rgba(244, 247, 255, 0.74);
+      color: rgba(244, 247, 255, 0.82);
       border: 1px solid transparent;
-      transition: all 0.2s ease;
+      transition: all 0.18s ease;
+      white-space: nowrap;
+      flex-shrink: 0;
     }
     .liber-nav-btn:hover {
       color: #ffffff;
-      border-color: rgba(244, 247, 255, 0.45);
-      background: rgba(255, 255, 255, 0.08);
+      border-color: rgba(244, 247, 255, 0.5);
+      background: rgba(255, 255, 255, 0.12);
     }
     .liber-nav-btn.active {
-      color: #1224e6;
-      background: #f4f7ff;
-      border-color: #f4f7ff;
+      color: #08159e !important;
+      background: #f4f7ff !important;
+      border-color: #ffffff !important;
       font-weight: 700;
+      box-shadow: 0 0 12px rgba(244, 247, 255, 0.45);
     }
-    body.colophon-mode .liber-nav-btn { color: rgba(18, 36, 226, 0.78); }
-    body.colophon-mode .liber-nav-btn.active { background: #1224e6; color: #ffffff; border-color: #1224e6; }
+    body.colophon-mode .liber-nav-btn { color: rgba(18, 36, 226, 0.85); }
+    body.colophon-mode .liber-nav-btn.active { background: #1224e6 !important; color: #ffffff !important; border-color: #1224e6 !important; }
+
+    .badge-gold { border: 1px solid rgba(255, 229, 150, 0.68); color: #ffe596; background: rgba(255, 229, 150, 0.11); padding: 1px 6px; font-size: 9.5px; font-family: monospace; letter-spacing: 0.06em; }
+    .badge-cyan { border: 1px solid rgba(116, 232, 255, 0.68); color: #88f0ff; background: rgba(116, 232, 255, 0.11); padding: 1px 6px; font-size: 9.5px; font-family: monospace; letter-spacing: 0.06em; }
+    .badge-crimson { border: 1px solid rgba(255, 96, 128, 0.78); color: #ff9eb0; background: rgba(255, 72, 108, 0.18); padding: 1px 6px; font-size: 9.5px; font-family: monospace; letter-spacing: 0.06em; }
+
+    #live-ticker {
+      position: fixed;
+      left: 308px;
+      right: 336px;
+      bottom: 22px;
+      height: 25px;
+      z-index: 44;
+      background: rgba(7, 15, 128, 0.88);
+      border: 1px solid rgba(244, 247, 255, 0.38);
+      display: flex;
+      align-items: center;
+      overflow: hidden;
+      font-size: 10px;
+      backdrop-filter: blur(6px);
+    }
+    #ticker-track {
+      display: inline-flex;
+      white-space: nowrap;
+      gap: 36px;
+      animation: tickerScroll 48s linear infinite;
+      padding-left: 16px;
+    }
+    #ticker-track:hover { animation-play-state: paused; }
+    @keyframes tickerScroll {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+    @media (max-width: 1360px) {
+      #top-left-brand, #top-right-pill { display: none !important; }
+      #live-ticker { left: 28px; right: 28px; bottom: 18px; }
+      #bottom-roman-pill { display: none !important; }
+    }
 
     .bp-btn {
       border: 1px solid rgba(244, 247, 255, 0.38);
@@ -350,8 +390,9 @@
       #codex-roman-title { font-size: 19px !important; margin: 3px 0 !important; }
 
       .split-liber { flex-direction: column !important; justify-content: flex-start !important; gap: 22px !important; padding: 52px 14px 32px 14px !important; }
-      #stage-scp, #stage-architectura { padding: 52px 14px 36px 14px !important; }
-      .atlas-grid, .scp-grid { grid-template-columns: 1fr !important; }
+      #stage-scp, #stage-architectura, #stage-oraculum { padding: 52px 14px 36px 14px !important; }
+      .atlas-grid, .scp-grid, .oraculum-grid { grid-template-columns: 1fr !important; }
+      #live-ticker { display: none !important; }
       input[type="range"] { height: 4px; }
       input[type="range"]::-webkit-slider-thumb { width: 18px; height: 18px; }
     }
@@ -367,16 +408,18 @@
     THEOLOGIA CAERULEA · SCP × MYTHOS
   </div>
 
-  <!-- Top-Center 6-Chapter Navigation Bar -->
-  <nav id="top-nav" class="no-scrollbar" style="position:fixed; top:22px; left:50%; transform:translateX(-50%); z-index:55; display:flex; flex-wrap:wrap; align-items:center; justify-content:center; gap:3px; background:rgba(11,22,178,0.92); border:1px solid rgba(244,247,255,0.44); padding:2px 6px;">
+  <!-- Top-Center 7-Chapter Single-Row Navigation Bar -->
+  <nav id="top-nav" class="no-scrollbar" style="position:fixed; top:18px; left:50%; transform:translateX(-50%); z-index:55; display:flex; flex-wrap:nowrap; white-space:nowrap; overflow-x:auto; max-width:calc(100vw - 44px); align-items:center; gap:2px; background:rgba(9,19,158,0.94); border:1px solid rgba(244,247,255,0.48); padding:3px 6px; box-shadow:0 6px 24px rgba(4,9,88,0.5);">
     <button class="liber-nav-btn" data-liber="prologus">PROLOGVS · 序章</button>
-    <button class="liber-nav-btn active" data-liber="terra">I · 圣蓝地球 3D</button>
-    <button class="liber-nav-btn" data-liber="pantheon">II · 至高神性谱</button>
-    <button class="liber-nav-btn" data-liber="scp">III · SCP 机密档案</button>
-    <button class="liber-nav-btn" data-liber="architectura">IV · 十二圣城站点</button>
+    <button class="liber-nav-btn active" data-liber="terra">I · 圣蓝地球</button>
+    <button class="liber-nav-btn" data-liber="pantheon">II · 至高神性</button>
+    <button class="liber-nav-btn" data-liber="scp">III · 机密档案 (12)</button>
+    <button class="liber-nav-btn" data-liber="architectura">IV · 十二圣城</button>
+    <button class="liber-nav-btn" data-liber="oraculum">V · 奇术神学终端</button>
     <button class="liber-nav-btn" data-liber="colophon">COLOPHON · 终章</button>
-    <span style="color:rgba(255,255,255,0.3); padding:0 2px;">|</span>
-    <button id="btn-cinema" class="liber-nav-btn" style="color:#fff4b8; display:inline-flex; align-items:center;"><svg class="ico" viewBox="0 0 14 14"><polygon points="3.5,2.2 11.5,7 3.5,11.8"/></svg><span>宣传片巡礼</span></button>
+    <span style="color:rgba(255,255,255,0.28); padding:0 2px;">|</span>
+    <button id="btn-audio" class="liber-nav-btn" style="color:#88f0ff; display:inline-flex; align-items:center;"><svg class="ico" viewBox="0 0 14 14"><polygon points="2,5.2 4.8,5.2 8,2.5 8,11.5 4.8,8.8 2,8.8"/><path d="M10 4.8 Q12 7 10 9.2"/></svg><span>圣咏声景: 关</span></button>
+    <button id="btn-cinema" class="liber-nav-btn" style="color:#ffe596; display:inline-flex; align-items:center;"><svg class="ico" viewBox="0 0 14 14"><polygon points="3.5,2.2 11.5,7 3.5,11.8"/></svg><span>宣传片巡礼</span></button>
   </nav>
 
   <!-- Top-Right Dynamic Chapter & Clearance Tag -->
@@ -427,23 +470,42 @@
   </div>
 
   <!-- Camera Scale Sub-bar -->
-  <div id="globe-cam-bar" class="no-scrollbar" style="position:fixed; top:60px; left:50%; transform:translateX(-50%); z-index:45; display:flex; flex-wrap:wrap; gap:5px; background:rgba(11,23,178,0.88); border:1px solid rgba(244,247,255,0.38); padding:4px 8px; font-size:10.5px;">
+  <div id="globe-cam-bar" class="no-scrollbar" style="position:fixed; top:56px; left:50%; transform:translateX(-50%); z-index:46; display:flex; flex-wrap:nowrap; white-space:nowrap; overflow-x:auto; max-width:calc(100vw - 44px); gap:5px; background:rgba(9,19,158,0.90); border:1px solid rgba(244,247,255,0.38); padding:4px 8px; font-size:10.5px;">
     <button id="mobile-drawer-btn" class="bp-btn" style="padding:3px 10px; background:#f4f7ff; color:#1022dc; font-weight:700;"><svg class="ico" viewBox="0 0 14 14"><line x1="2" y1="4" x2="12" y2="4"/><circle cx="5" cy="4" r="1.5"/><line x1="2" y1="10" x2="12" y2="10"/><circle cx="9" cy="10" r="1.5"/></svg>站点与地形控制</button>
     <button class="bp-btn" style="padding:3px 10px;" data-cam="cosmos"><svg class="ico" viewBox="0 0 14 14"><circle cx="7" cy="7" r="5.2"/><ellipse cx="7" cy="7" rx="5.2" ry="2.1" transform="rotate(-28 7 7)"/><circle cx="7" cy="7" r="1"/></svg>外神星盘 (0.7x)</button>
-    <button class="bp-btn" style="padding:3px 10px;" data-cam="planet"><svg class="ico" viewBox="0 0 14 14"><circle cx="7" cy="7" r="5.2"/><ellipse cx="7" cy="7" rx="2.4" ry="5.2"/><line x1="1.8" y1="7" x2="12.2" y2="7"/></svg>山脉大河 (1.15x)</button>
-    <button class="bp-btn active" style="padding:3px 10px;" data-cam="skyline"><svg class="ico" viewBox="0 0 14 14"><path d="M1.5 11.8 L12.5 11.8 M3 11.8 L3 7.5 L5.5 7.5 L5.5 11.8 M5.5 11.8 L5.5 4.2 L8.5 2.2 L8.5 11.8 M8.5 6.5 L11 6.5 L11 11.8"/></svg>地势建筑 (5.2x)</button>
+    <button class="bp-btn" style="padding:3px 10px;" data-cam="planet"><svg class="ico" viewBox="0 0 14 14"><circle cx="7" cy="7" r="5.2"/><ellipse cx="7" cy="7" rx="2.4" ry="5.2"/><line x1="1.8" y1="7" x2="12.2" y2="7"/></svg>全球水系 (1.2x)</button>
+    <button class="bp-btn active" style="padding:3px 10px;" data-cam="cradle"><svg class="ico" viewBox="0 0 14 14"><path d="M1.5 10.5 Q7 2.5 12.5 10.5"/><circle cx="4" cy="8.5" r="1.1"/><circle cx="10" cy="8.5" r="1.1"/></svg>洲际地脉 (2.4x)</button>
+    <button class="bp-btn" style="padding:3px 10px;" data-cam="skyline"><svg class="ico" viewBox="0 0 14 14"><path d="M1.5 11.8 L12.5 11.8 M3 11.8 L3 7.5 L5.5 7.5 L5.5 11.8 M5.5 11.8 L5.5 4.2 L8.5 2.2 L8.5 11.8 M8.5 6.5 L11 6.5 L11 11.8"/></svg>卫城建筑 (5.2x)</button>
     <button class="bp-btn" style="padding:3px 10px;" data-cam="street"><svg class="ico" viewBox="0 0 14 14"><path d="M2 11.8 L2 6.5 A5 5 0 0 1 12 6.5 L12 11.8"/><circle cx="5.5" cy="7.2" r="1"/><path d="M5.5 8.4 L5.5 11.8"/><circle cx="8.5" cy="7.8" r="0.9"/><path d="M8.5 8.9 L8.5 11.8"/></svg>街道人流 (8.8x)</button>
     <button id="btn-toggle-ui" class="bp-btn" style="padding:3px 10px;">隐藏两侧图版</button>
   </div>
 
+  <!-- Live Global Overwatch Incident Ticker -->
+  <div id="live-ticker">
+    <span style="background:#ffe596; color:#08159e; font-weight:700; padding:0 8px; height:100%; display:inline-flex; align-items:center; font-family:monospace; font-size:9.5px; letter-spacing:0.1em; flex-shrink:0;">O5 TELEMETRY</span>
+    <div style="overflow:hidden; flex:1;">
+      <div id="ticker-track"></div>
+    </div>
+  </div>
+
   <!-- Left Blueprint Instrument Plate -->
-  <aside id="left-panel" class="blueprint-panel custom-scroll" style="position:fixed; left:28px; top:102px; bottom:50px; width:268px; z-index:40; padding:13px; display:flex; flex-direction:column; gap:9px; font-size:11px; overflow-y:auto;">
+  <aside id="left-panel" class="blueprint-panel custom-scroll" style="position:fixed; left:24px; top:96px; bottom:54px; width:272px; z-index:42; padding:12px; display:flex; flex-direction:column; gap:8px; font-size:11px; overflow-y:auto;">
     <div style="display:flex; align-items:center; justify-content:space-between;">
-      <span class="lapidary-serif" style="font-size:9.5px; letter-spacing:0.2em;">TERRA &amp; SRA CONTROL</span>
+      <span class="lapidary-serif" style="font-size:9.5px; letter-spacing:0.18em; color:#ffe596;">TERRA &amp; SRA TELEMETRY</span>
       <div style="display:flex; align-items:center; gap:6px;">
-        <span id="zoom-readout" style="font-family:monospace; font-size:10px; border:1px solid rgba(255,255,255,0.45); padding:1px 6px;">5.2x</span>
+        <span id="zoom-readout" style="font-family:monospace; font-size:10px; border:1px solid rgba(255,255,255,0.45); padding:1px 6px;">2.4x</span>
         <button id="mobile-drawer-close" class="bp-btn" style="padding:1px 7px; font-size:10px; display:none;">× 收起</button>
       </div>
+    </div>
+
+    <!-- Real-time Dual Hume / Akiva / Sanity Seismograph Oscilloscope -->
+    <div style="border:1px solid rgba(116,232,255,0.38); background:rgba(5,12,106,0.72); padding:6px;">
+      <div style="display:flex; justify-content:space-between; font-family:monospace; font-size:9.5px; margin-bottom:4px;">
+        <span id="osc-hume" style="color:#88f0ff;">HUME: 1.12 Hm</span>
+        <span id="osc-akiva" style="color:#ffe596;">AKIVA: 94 Ak</span>
+        <span id="osc-san" style="color:#c8ffd8;">SAN: 89%</span>
+      </div>
+      <canvas id="telemetry-canvas" width="244" height="44" style="width:100%; height:44px; display:block;"></canvas>
     </div>
 
     <div class="hairline-divider"></div>
@@ -508,89 +570,109 @@
   </aside>
 
   <!-- Right Blueprint Dossier & Topography Inspector -->
-  <aside id="right-panel" class="blueprint-panel" style="position:fixed; right:28px; top:102px; width:296px; z-index:40; padding:15px; display:flex; flex-direction:column; gap:9px; font-size:11px;">
-    <div style="text-align:center; border-bottom:1px solid rgba(244,247,255,0.3); padding-bottom:9px;">
-      <div id="codex-tag" class="lapidary-serif" style="font-size:9px; letter-spacing:0.2em; color:#c8d8ff;">
-        APOLLYON · SCP-3000 / R'LYEH
+  <aside id="right-panel" class="blueprint-panel custom-scroll" style="position:fixed; right:24px; top:96px; max-height:calc(100dvh - 150px); overflow-y:auto; width:302px; z-index:42; padding:14px; display:flex; flex-direction:column; gap:8px; font-size:11px;">
+    <div style="text-align:center; border-bottom:1px solid rgba(244,247,255,0.3); padding-bottom:8px;">
+      <div id="codex-tag" class="lapidary-serif" style="font-size:9px; letter-spacing:0.18em; color:#ffe596;">
+        THAUMIEL · SITE-01 / PHAROS
       </div>
-      <div id="codex-roman-title" class="condensed-monument" style="font-size:25px; margin-top:7px; margin-bottom:5px; color:#ffffff;">
-        SANCTUM R'LYEH
+      <div id="codex-roman-title" class="condensed-monument" style="font-size:24px; margin-top:6px; margin-bottom:4px; color:#ffffff;">
+        SITE-01 ALEXANDRIA
       </div>
       <div id="codex-title" style="font-size:12px; font-weight:700; color:#eef3ff;">
-        拉莱耶与渊海遗忘海沟
+        亚历山大·O5圣座与翠玉大灯塔
       </div>
-      <div id="codex-coords" style="font-family:monospace; font-size:9.5px; color:#b8cbff; margin-top:2px;">
-        47°09'S · 126°43'W · 海拔 -4800m ~ +620m
+      <div id="codex-coords" style="font-family:monospace; font-size:9.5px; color:#88f0ff; margin-top:2px;">
+        31°12'N · 29°55'E · 尼罗河入海口
       </div>
+      <div id="codex-badges" style="display:flex; justify-content:center; gap:5px; flex-wrap:wrap; margin-top:6px;"></div>
     </div>
 
-    <blockquote id="codex-motto" style="font-style:italic; font-size:10.5px; color:#e4ecff; border-left:2px solid #ffffff; padding-left:8px; line-height:1.5;">
-      “唯有沉入群青深渊者，方知遗忘与永恒同源。”
+    <!-- Dynamic SVG Topographic & River Cross-Section Profile -->
+    <div id="codex-profile-box" style="border:1px solid rgba(116,232,255,0.34); background:rgba(5,12,106,0.65); padding:5px 7px;">
+      <div style="display:flex; justify-content:space-between; font-size:9px; font-family:monospace; color:#b8cbff; margin-bottom:2px;">
+        <span>TOPOGRAPHIC ELEVATION PROFILE</span>
+        <span id="codex-garrison" style="color:#ffe596;">MTF ALPHA-1</span>
+      </div>
+      <div id="codex-profile-svg"></div>
+    </div>
+
+    <blockquote id="codex-motto" style="font-style:italic; font-size:10.5px; color:#e4ecff; border-left:2px solid #ffe596; padding-left:8px; line-height:1.45;">
+      “Quod superius est sicut quod inferius — 如其在上，如其在下。”
     </blockquote>
 
-    <p id="codex-desc" style="font-size:11px; color:#dce6ff; line-height:1.62;">
-      耸立于万米海沟陡崖之上的三层错落玄武岩卫城，深海暗河穿城汇入旋涡；四座基金会-赫尔墨斯现实稳定锚星塔锁住地脉，石阶与拱桥上可见络绎不绝的深海朝圣者与特遣队巡逻队列。
+    <p id="codex-desc" style="font-size:11px; color:#dce6ff; line-height:1.58;">
+      尼罗河三角洲主航道穿城入海，两岸石砌河堤帆影穿梭。高台之上耸立三层法罗斯大灯塔、十二肋拱秘仪大穹顶与古典柱廊。
     </p>
 
-    <div style="border:1px solid rgba(244,247,255,0.32); padding:8px 9px; background:rgba(8,18,145,0.52); display:flex; flex-direction:column; gap:5px;">
+    <div style="border:1px solid rgba(244,247,255,0.32); padding:7px 9px; background:rgba(8,18,145,0.52); display:flex; flex-direction:column; gap:4px;">
       <div>
-        <span style="font-size:9.5px; color:#b8cbff;"><svg class="ico" viewBox="0 0 14 14"><path d="M1.8 8.8 L5.2 3 L8.2 7.2 L10.2 4.6 L12.4 8.8"/><path d="M1.5 11.2 Q4.5 9.6 7 11.2 T12.5 11.2"/></svg>地势水文：</span>
-        <span id="codex-terrain" style="font-size:10.5px; font-weight:600;">断层海崖 · 穿城暗河 · 三级高差台地</span>
+        <span style="font-size:9.5px; color:#88f0ff;"><svg class="ico" viewBox="0 0 14 14"><path d="M1.8 8.8 L5.2 3 L8.2 7.2 L10.2 4.6 L12.4 8.8"/><path d="M1.5 11.2 Q4.5 9.6 7 11.2 T12.5 11.2"/></svg>地势水文：</span>
+        <span id="codex-terrain" style="font-size:10.5px; font-weight:600;">尼罗河宽阔水道 · 河口冲积洲</span>
       </div>
       <div>
-        <span style="font-size:9.5px; color:#b8cbff;"><svg class="ico" viewBox="0 0 14 14"><polygon points="2,5.2 7,2 12,5.2"/><line x1="4" y1="5.2" x2="4" y2="11.2"/><line x1="7" y1="5.2" x2="7" y2="11.2"/><line x1="10" y1="5.2" x2="10" y2="11.2"/><line x1="2" y1="11.5" x2="12" y2="11.5"/></svg>核心建筑：</span>
-        <span id="codex-arch" style="font-size:10.5px; font-weight:600;">阶梯卫城 · 倾斜柱廊 · 现实稳定锚四塔</span>
+        <span style="font-size:9.5px; color:#ffe596;"><svg class="ico" viewBox="0 0 14 14"><polygon points="2,5.2 7,2 12,5.2"/><line x1="4" y1="5.2" x2="4" y2="11.2"/><line x1="7" y1="5.2" x2="7" y2="11.2"/><line x1="10" y1="5.2" x2="10" y2="11.2"/><line x1="2" y1="11.5" x2="12" y2="11.5"/></svg>核心建筑：</span>
+        <span id="codex-arch" style="font-size:10.5px; font-weight:600;">三层八角大灯塔 · 肋拱双穹顶</span>
       </div>
       <div>
-        <span style="font-size:9.5px; color:#b8cbff;"><svg class="ico" viewBox="0 0 14 14"><circle cx="4.5" cy="4.2" r="1.3"/><path d="M4.5 5.8 L4.5 9.5 M4.5 9.5 L3 12 M4.5 9.5 L6 12"/><circle cx="9.5" cy="4.8" r="1.2"/><path d="M9.5 6.2 L9.5 9.6 M9.5 9.6 L8.2 12 M9.5 9.6 L10.8 12"/></svg>人流动态：</span>
-        <span id="codex-crowd" style="font-size:10.5px; font-weight:600;">深渊朝圣队列 · MTF 潜航巡逻艇</span>
+        <span style="font-size:9.5px; color:#dce6ff;"><svg class="ico" viewBox="0 0 14 14"><circle cx="4.5" cy="4.2" r="1.3"/><path d="M4.5 5.8 L4.5 9.5 M4.5 9.5 L3 12 M4.5 9.5 L6 12"/><circle cx="9.5" cy="4.8" r="1.2"/><path d="M9.5 6.2 L9.5 9.6 M9.5 9.6 L8.2 12 M9.5 9.6 L10.8 12"/></svg>人流动态：</span>
+        <span id="codex-crowd" style="font-size:10.5px; font-weight:600;">赫尔墨斯学者行旅 · 白帆商船队</span>
       </div>
     </div>
 
-    <div style="display:grid; grid-template-columns:1fr 1fr; gap:6px;">
-      <button id="btn-skyline" class="bp-btn" style="padding:6px; font-size:10.5px;"><svg class="ico" viewBox="0 0 14 14"><path d="M1.5 11.8 L12.5 11.8 M3 11.8 L3 7.5 L5.5 7.5 L5.5 11.8 M5.5 11.8 L5.5 4.2 L8.5 2.2 L8.5 11.8 M8.5 6.5 L11 6.5 L11 11.8"/></svg>地势全景 (5.2x)</button>
-      <button id="btn-street" class="bp-btn" style="padding:6px; font-size:10.5px;"><svg class="ico" viewBox="0 0 14 14"><path d="M2 11.8 L2 6.5 A5 5 0 0 1 12 6.5 L12 11.8"/><circle cx="5.5" cy="7.2" r="1"/><path d="M5.5 8.4 L5.5 11.8"/><circle cx="8.5" cy="7.8" r="0.9"/><path d="M8.5 8.9 L8.5 11.8"/></svg>观摩人流 (8.8x)</button>
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:5px;">
+      <button id="btn-skyline" class="bp-btn" style="padding:5px; font-size:10px;"><svg class="ico" viewBox="0 0 14 14"><path d="M1.5 11.8 L12.5 11.8 M3 11.8 L3 7.5 L5.5 7.5 L5.5 11.8 M5.5 11.8 L5.5 4.2 L8.5 2.2 L8.5 11.8 M8.5 6.5 L11 6.5 L11 11.8"/></svg>卫城全景 (5.2x)</button>
+      <button id="btn-street" class="bp-btn" style="padding:5px; font-size:10px;"><svg class="ico" viewBox="0 0 14 14"><path d="M2 11.8 L2 6.5 A5 5 0 0 1 12 6.5 L12 11.8"/><circle cx="5.5" cy="7.2" r="1"/><path d="M5.5 8.4 L5.5 11.8"/><circle cx="8.5" cy="7.8" r="0.9"/><path d="M8.5 8.9 L8.5 11.8"/></svg>街道人流 (8.8x)</button>
     </div>
+    <button id="btn-open-dossier" class="bp-btn" style="padding:5px; font-size:10px; color:#ffe596; border-color:rgba(255,229,150,0.45);">查阅该站点关联 O5 机密卷宗 →</button>
   </aside>
 
   <!-- ===================================================================== -->
   <!-- STAGE II: LIBER II · APEX DEITIES (MYTHOS × SCP WOODCUT ARCHED NICHE) -->
   <!-- ===================================================================== -->
-  <section id="stage-pantheon" class="chapter-stage split-liber" style="align-items:center; justify-content:center; gap:50px; padding:64px 52px 52px 52px;">
-    <div style="flex:1; max-width:460px; display:flex; flex-direction:column; align-items:center; text-align:center;">
-      <div style="position:relative; width:324px; height:324px; display:flex; align-items:center; justify-content:center;">
+  <section id="stage-pantheon" class="chapter-stage split-liber custom-scroll" style="align-items:center; justify-content:center; gap:44px; padding:68px 44px 44px 44px;">
+    <div style="flex:1; max-width:480px; display:flex; flex-direction:column; align-items:center; text-align:center;">
+      <div style="position:relative; width:300px; height:300px; display:flex; align-items:center; justify-content:center;">
         <canvas id="wheel-canvas" width="648" height="648" style="position:absolute; inset:0; width:100%; height:100%; cursor:pointer;"></canvas>
-        <div style="position:relative; z-index:4; pointer-events:none; display:flex; flex-direction:column; align-items:center; padding:0 36px;">
-          <div id="pan-symbol" style="height:50px; display:flex; align-items:center; justify-content:center; margin-bottom:8px;"></div>
-          <div id="pan-latin" class="lapidary-serif" style="font-size:10.5px; letter-spacing:0.28em; color:#dce6ff; margin-bottom:12px;">
+        <div style="position:relative; z-index:4; pointer-events:none; display:flex; flex-direction:column; align-items:center; padding:0 34px;">
+          <div id="pan-symbol" style="height:46px; display:flex; align-items:center; justify-content:center; margin-bottom:6px;"></div>
+          <div id="pan-latin" class="lapidary-serif" style="font-size:10px; letter-spacing:0.24em; color:#ffe596; margin-bottom:10px;">
             I · CTHULHU / SCP-2662-Ω
           </div>
-          <div id="pan-condensed" class="condensed-monument" style="font-size:32px; color:#ffffff; margin-bottom:12px;">
+          <div id="pan-condensed" class="condensed-monument" style="font-size:28px; color:#ffffff; margin-bottom:10px;">
             ABYSSAL ARCHPRIEST
           </div>
-          <p id="pan-sub" style="font-size:11px; color:#cedbff; line-height:1.58;">
+          <p id="pan-sub" style="font-size:11px; color:#cedbff; line-height:1.52;">
             沉眠之渊海大主教 · 太平洋底非欧圣城拉莱耶之主
           </p>
         </div>
       </div>
 
-      <div id="pan-selector" style="display:flex; gap:5px; margin-top:14px; flex-wrap:wrap; justify-content:center;"></div>
+      <div id="pan-selector" style="display:flex; gap:5px; margin-top:10px; flex-wrap:wrap; justify-content:center;"></div>
 
-      <p id="pan-lore" style="font-size:12px; color:#e4ecff; line-height:1.78; margin-top:14px; max-width:430px;"></p>
+      <p id="pan-lore" style="font-size:12px; color:#e4ecff; line-height:1.72; margin-top:12px; max-width:450px;"></p>
 
-      <button id="pan-jump-btn" class="bp-btn active" style="margin-top:15px; padding:7px 22px; font-size:11px; letter-spacing:0.16em;">
-        切入该神性关联之 3D 站点与地形 →
+      <!-- 6-Axis Theological & Containment Threat Radar + Sacred Scripture -->
+      <div style="display:flex; align-items:center; gap:14px; margin-top:12px; border:1px solid rgba(244,247,255,0.34); background:rgba(7,16,132,0.58); padding:8px 12px; width:100%; max-width:450px; text-align:left;">
+        <canvas id="pantheon-radar-canvas" width="160" height="140" style="width:145px; height:126px; flex-shrink:0;"></canvas>
+        <div style="display:flex; flex-direction:column; gap:6px; font-size:11px;">
+          <div id="pan-metrics" style="display:flex; gap:5px; flex-wrap:wrap;"></div>
+          <blockquote id="pan-scripture" style="font-style:italic; color:#ffe596; font-size:11px; line-height:1.55; border-left:2px solid #88f0ff; padding-left:8px;"></blockquote>
+        </div>
+      </div>
+
+      <button id="pan-jump-btn" class="bp-btn active" style="margin-top:12px; padding:7px 22px; font-size:11px; letter-spacing:0.16em;">
+        切入该神性关联之 3D 圣城站点与地形 →
       </button>
     </div>
 
-    <div style="flex:1; max-width:450px; display:flex; flex-direction:column; align-items:center;">
-      <div style="font-size:11px; letter-spacing:0.3em; color:#ffffff; margin-bottom:6px; font-family:Georgia,serif;">— SIGILLUM —</div>
-      <div style="width:min(405px, 84vw); height:445px; border:1px solid rgba(244,247,255,0.7); padding:6px; border-radius:210px 210px 0 0; box-shadow:0 0 50px rgba(8,18,140,0.7);">
-        <div style="width:100%; height:100%; border:1px solid rgba(244,247,255,0.38); border-radius:204px 204px 0 0; overflow:hidden; background:#0f20d8;">
+    <div style="flex:1; max-width:460px; display:flex; flex-direction:column; align-items:center;">
+      <div style="font-size:10.5px; letter-spacing:0.32em; color:#ffe596; margin-bottom:6px; font-family:Georgia,serif;">— CHALCOGRAPHIA SACRA · 铜版明暗圣像 —</div>
+      <div style="width:min(415px, 86vw); height:470px; border:1px solid rgba(244,247,255,0.75); padding:6px; border-radius:215px 215px 0 0; box-shadow:0 0 55px rgba(5,12,110,0.85);">
+        <div style="width:100%; height:100%; border:1px solid rgba(116,232,255,0.45); border-radius:208px 208px 0 0; overflow:hidden; background:#0916b8;">
           <canvas id="woodcut-canvas" width="520" height="580" style="width:100%; height:100%; display:block;"></canvas>
         </div>
       </div>
-      <div id="pan-fig-caption" class="lapidary-serif" style="font-size:9.5px; letter-spacing:0.3em; color:#dce6ff; margin-top:12px;">
+      <div id="pan-fig-caption" class="lapidary-serif" style="font-size:9.5px; letter-spacing:0.28em; color:#88f0ff; margin-top:10px;">
         FIG. I · CTHULHU · SOMNIUM R'LYEH
       </div>
     </div>
@@ -599,35 +681,96 @@
   <!-- ===================================================================== -->
   <!-- STAGE III: LIBER III · SCP × MYTHOS CLASSIFIED CONTAINMENT ARCHIVES   -->
   <!-- ===================================================================== -->
-  <section id="stage-scp" class="chapter-stage custom-scroll" style="flex-direction:column; padding:68px 44px 56px 44px;">
-    <div style="text-align:center; margin-bottom:24px;">
-      <div class="lapidary-serif" style="font-size:11px; color:#c8d8ff;">OVERWATCH COMMAND · O5-COUNCIL &times; ORDO CAERULEUS</div>
-      <div class="condensed-monument" style="font-size:42px; margin-top:10px; margin-bottom:10px;">
-        SCP &times; MYTHOS CLASSIFIED DOSSIERS
+  <section id="stage-scp" class="chapter-stage custom-scroll" style="flex-direction:column; padding:68px 40px 56px 40px;">
+    <div style="text-align:center; margin-bottom:18px;">
+      <div class="lapidary-serif" style="font-size:10.5px; color:#ffe596;">OVERWATCH COMMAND · O5-COUNCIL &times; MISKATONIC ARCHIVES &times; ORDO CAERULEUS</div>
+      <div class="condensed-monument" style="font-size:38px; margin-top:8px; margin-bottom:8px;">
+        CLASSIFIED DOSSIERS &amp; FIELD LOGS
       </div>
-      <p style="font-size:12px; color:#dce6ff; max-width:720px; margin:0 auto; line-height:1.75;">
-        赫尔墨斯蓝色神学部与基金会战术神学部联合编纂机密卷宗。点击档案中的白色遮蔽条 <span class="scp-redact" onclick="this.classList.toggle('revealed')">[O5机密已解密]</span> 可凭借五级权限显影隐藏记录，或一键切入对应 3D 收容站点观测地势与人员流动。
+      <p style="font-size:12px; color:#dce6ff; max-width:780px; margin:0 auto; line-height:1.7;">
+        收录 <b>12 份</b>基金会至高异常卷宗、旧日支配者深海声呐实录、同行组织（GOI）秘约与禁断典籍残页。点击白色遮蔽条 <span class="scp-redact" onclick="this.classList.toggle('revealed')">[O5五级权限已显影]</span> 可解密隐藏文本，亦可展开每份档案附带的<b>现场探索与审讯记录</b>。
       </p>
+      <div id="scp-filter-bar" style="display:flex; justify-content:center; gap:6px; flex-wrap:wrap; margin-top:14px;">
+        <button class="bp-btn active" style="padding:4px 12px; font-size:11px;" data-scpcat="all">全部卷宗 (12)</button>
+        <button class="bp-btn" style="padding:4px 12px; font-size:11px;" data-scpcat="scp">SCP 至高异常 (5)</button>
+        <button class="bp-btn" style="padding:4px 12px; font-size:11px;" data-scpcat="mythos">旧日与外神实录 (3)</button>
+        <button class="bp-btn" style="padding:4px 12px; font-size:11px;" data-scpcat="goi">特遣队与同行组织 GOI (2)</button>
+        <button class="bp-btn" style="padding:4px 12px; font-size:11px;" data-scpcat="codex">禁断秘典残卷 (2)</button>
+      </div>
     </div>
 
-    <div id="scp-grid" class="scp-grid" style="display:grid; grid-template-columns:repeat(2, minmax(0, 1fr)); gap:16px; max-width:1120px; margin:0 auto; width:100%;"></div>
+    <div id="scp-grid" class="scp-grid" style="display:grid; grid-template-columns:repeat(2, minmax(0, 1fr)); gap:16px; max-width:1160px; margin:0 auto; width:100%;"></div>
   </section>
 
   <!-- ===================================================================== -->
   <!-- STAGE IV: LIBER IV · TWELVE 3D CITIES & CONTAINMENT MEGASTRUCTURES    -->
   <!-- ===================================================================== -->
-  <section id="stage-architectura" class="chapter-stage custom-scroll" style="flex-direction:column; padding:68px 44px 56px 44px;">
-    <div style="text-align:center; margin-bottom:24px;">
-      <div class="lapidary-serif" style="font-size:11px; color:#c8d8ff;">LIBER QUARTUS · TOPOGRAPHIA, FLUMINA ET URBES</div>
-      <div class="condensed-monument" style="font-size:42px; margin-top:10px; margin-bottom:10px;">
+  <section id="stage-architectura" class="chapter-stage custom-scroll" style="flex-direction:column; padding:68px 40px 56px 40px;">
+    <div style="text-align:center; margin-bottom:20px;">
+      <div class="lapidary-serif" style="font-size:10.5px; color:#88f0ff;">LIBER QUARTUS · TOPOGRAPHIA, FLUMINA ET URBES</div>
+      <div class="condensed-monument" style="font-size:38px; margin-top:8px; margin-bottom:8px;">
         TWELVE SITES &amp; SANCTUARIES OF TERRA
       </div>
-      <p style="font-size:12px; color:#dce6ff; max-width:700px; margin:0 auto; line-height:1.7;">
-        每座圣城与基金会站点均构建在具有真实<b>高低差台地、环绕山峰、穿城河流瀑布与街道行人/特遣队人流</b>的三维地形之上。
+      <p style="font-size:12px; color:#dce6ff; max-width:740px; margin:0 auto; line-height:1.7;">
+        每座圣城与基金会收容巨构均附有<b>实测地形高差剖面图、水系水文参数、驻防特遣队/修会编制</b>，支持一键切入 `5.2x` 卫城全景或 `8.8x` 街道朝圣人流视角。
       </p>
     </div>
 
-    <div id="atlas-grid" class="atlas-grid" style="display:grid; grid-template-columns:repeat(3, minmax(0, 1fr)); gap:15px; max-width:1120px; margin:0 auto; width:100%;"></div>
+    <div id="atlas-grid" class="atlas-grid" style="display:grid; grid-template-columns:repeat(3, minmax(0, 1fr)); gap:15px; max-width:1160px; margin:0 auto; width:100%;"></div>
+  </section>
+
+  <!-- ===================================================================== -->
+  <!-- STAGE V: LIBER V · TACTICAL THEOLOGY AIC TERMINAL & COSMOLOGY         -->
+  <!-- ===================================================================== -->
+  <section id="stage-oraculum" class="chapter-stage custom-scroll" style="flex-direction:column; padding:68px 40px 56px 40px;">
+    <div style="text-align:center; margin-bottom:18px;">
+      <div class="lapidary-serif" style="font-size:10.5px; color:#ffe596;">LIBER QUINTUS · DEPARTMENT OF TACTICAL THEOLOGY &times; TRISMEGISTUS.AIC</div>
+      <div class="condensed-monument" style="font-size:38px; margin-top:8px; margin-bottom:6px;">
+        ORACULUM &amp; COSMOLOGIA CAERULEA
+      </div>
+      <p style="font-size:12px; color:#dce6ff; max-width:760px; margin:0 auto; line-height:1.68;">
+        基金会战术神学部人工智能圣谕台（`TRISMEGISTUS-O5.AIC`）与九重群青宇宙论星图。可检索任意旧日支配者、SCP项目、同行组织（GOI），或直接下达全球奇术收容仪轨指令。
+      </p>
+    </div>
+
+    <div class="oraculum-grid" style="display:grid; grid-template-columns:1.15fr 0.85fr; gap:18px; max-width:1160px; margin:0 auto; width:100%;">
+      <!-- Left: Interactive AIC Terminal & World-State Ritual Console -->
+      <div style="border:1px solid rgba(244,247,255,0.48); padding:5px; background:rgba(8,17,142,0.78); display:flex; flex-direction:column;">
+        <div style="border:1px solid rgba(116,232,255,0.28); padding:14px; display:flex; flex-direction:column; gap:10px; flex:1;">
+          <div style="display:flex; justify-content:space-between; align-items:center; font-family:monospace; font-size:10.5px; color:#88f0ff; border-bottom:1px solid rgba(244,247,255,0.24); padding-bottom:6px;">
+            <span>NODE: TRISMEGISTUS-O5.AIC // ONLINE</span>
+            <span id="aic-status-badge" class="badge-gold">CLEARANCE LEVEL 5</span>
+          </div>
+
+          <div id="aic-output" class="custom-scroll" style="height:260px; overflow-y:auto; background:rgba(4,9,82,0.82); border:1px solid rgba(244,247,255,0.22); padding:12px; font-size:12px; line-height:1.75; color:#e4ecff; font-family:'Georgia', serif;"></div>
+
+          <div style="display:flex; gap:6px;">
+            <input id="aic-input" type="text" placeholder="输入关键词检索（如：克苏鲁 / 2000 / 破碎之神 / 欲肉 / 蛇之手 / 阿拉卡达 / 休谟）..." style="flex:1; background:rgba(5,12,102,0.9); border:1px solid rgba(244,247,255,0.45); color:#ffffff; padding:7px 10px; font-size:11.5px; outline:none;" />
+            <button id="aic-send-btn" class="bp-btn active" style="padding:7px 16px; font-size:11px;">神学检索</button>
+          </div>
+
+          <div style="font-size:10px; color:#b8cbff; letter-spacing:0.12em; margin-top:2px;">快捷圣谕检索与全球奇术仪轨执行：</div>
+          <div style="display:grid; grid-template-columns:repeat(2, minmax(0,1fr)); gap:6px;">
+            <button class="bp-btn aic-quick" style="padding:6px 8px; font-size:10.5px; text-align:left;" data-q="蓝色神学与休谟场论">◈ 原理：神圣群青与斯克兰顿锚</button>
+            <button class="bp-btn aic-quick" style="padding:6px 8px; font-size:10.5px; text-align:left;" data-q="旧日支配者与基金会分级">◈ 谱系：外神/旧日与 Apollyon 映射</button>
+            <button class="bp-btn aic-quick" style="padding:6px 8px; font-size:10.5px; text-align:left;" data-q="六大秘教与同行组织">◈ 势力：破碎之神·欲肉·蛇之手·GOC</button>
+            <button class="bp-btn aic-quick" style="padding:6px 8px; font-size:10.5px; text-align:left; color:#ffe596;" data-ritual="calabasas">❖ 仪轨：执行 220-Calabasas 锁链加固</button>
+            <button class="bp-btn aic-quick" style="padding:6px 8px; font-size:10.5px; text-align:left; color:#88f0ff;" data-ritual="overdrive">❖ 仪轨：全球 SRA 满功率群青共振</button>
+            <button class="bp-btn aic-quick" style="padding:6px 8px; font-size:10.5px; text-align:left; color:#ff9eb0;" data-ritual="starsright">❖ 推演：群星归位 XK 级世界末日</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right: 9-Sphere Cosmology Diagram + 6 Esoteric Factions Concordat -->
+      <div style="display:flex; flex-direction:column; gap:12px;">
+        <div style="border:1px solid rgba(244,247,255,0.48); padding:10px; background:rgba(8,17,142,0.78); display:flex; flex-direction:column; align-items:center;">
+          <div style="font-size:10px; letter-spacing:0.2em; color:#ffe596; margin-bottom:4px;">NINE SPHERES OF CAERULEA · 九重群青宇宙论</div>
+          <canvas id="cosmology-canvas" width="420" height="240" style="width:100%; max-width:420px; height:220px; display:block;"></canvas>
+        </div>
+
+        <div id="faction-list" style="display:grid; grid-template-columns:repeat(2, minmax(0,1fr)); gap:8px;"></div>
+      </div>
+    </div>
   </section>
 
   <!-- ===================================================================== -->
@@ -693,6 +836,9 @@
         fig: "FIG. I  ·  CTHULHU  ·  SANCTUM R'LYEH",
         sub: '沉眠之渊海大主教 · 南太平洋非欧巨石卫城与心灵感应潮汐源',
         lore: '基金会战术神学部将其定级为 Apollyon/潜伏态旧日支配者。在赫尔墨斯蓝色神学中，他是“下层深蓝”的梦境教宗；拉莱耶外围四座巨型斯克兰顿现实稳定锚正以群青谐波维持其沉眠。',
+        scripture: '“在永恒的拉莱耶宅邸中，死去的克苏鲁候汝入梦；唯有群青谐波可锁其梦境潮汐。”',
+        metrics: ['CLASS: APOLLYON', 'HUME: 0.38 Hm', 'AKIVA: -920 Ak'],
+        stats: [92, 95, 98, 94, 96, 90],
         artType: 'cthulhu', city: 'rlyeh', cam: 'skyline'
       },
       {
@@ -701,6 +847,9 @@
         fig: 'FIG. II  ·  YOG-SOTHOTH  ·  PORTA INFINITA',
         sub: '万物归一者 · 被放逐者之图书馆与一切口袋维度的终极门钥',
         lore: '超越基金会休谟指数测量上限的全知时空本体。于天幕化为十三颗咬合旋转的克莱因蓝晶球，地上则锚定于帕米尔冷原的巨型双环星门，连接三波特兰与无尽平行宇宙。',
+        scripture: '“过去、现在、未来合而为一；彼乃门户，彼乃门钥，亦为万径之看门人。”',
+        metrics: ['CLASS: ARCHON', 'HUME: ∞ Hm', 'WAYS: ALL-PORTALS'],
+        stats: [100, 100, 88, 82, 85, 100],
         artType: 'yogsothoth', city: 'leng', cam: 'street'
       },
       {
@@ -709,6 +858,9 @@
         fig: 'FIG. III  ·  SCP-001  ·  CUSTOS EDENIS',
         sub: '伊甸园四翼守门人（Clef 提案）· 两河交汇处的炽白群青巨像',
         lore: '伫立于底格里斯河与幼发拉底河交汇高台之上的百米级四翼发光神性实体，手持温度媲美太阳核心的烈焰巨剑。任何跨过警戒河岸的敌意实体皆在瞬间被抹除，Site-0 哨站沿河岸严密监测。',
+        scripture: '“四翼掩面，烈剑指东；听从神圣群青之诫命：预备（PREPARE）。”',
+        metrics: ['CLASS: YESOD/KETER', 'HUME: 8.90 Hm', 'AKIVA: +4800 Ak'],
+        stats: [86, 100, 76, 99, 72, 84],
         artType: 'guardian', city: 'gate001', cam: 'street'
       },
       {
@@ -717,6 +869,9 @@
         fig: 'FIG. IV  ·  SCP-3000  ·  ABYSSUS OBLIVIONIS',
         sub: '阿难陀舍沙 · 盘踞孟加拉湾万米海沟的九百公里遗忘巨鳗',
         lore: 'Thaumiel 级深海太古神明，其分泌的 Y-909 化合物是基金会全球记忆删除药剂的唯一来源。在蓝色神学中，它掌管“神圣遗忘”，抹去凡人因窥见外神真相而崩解的疯狂记忆。',
+        scripture: '“群星终将熄灭，唯有阿难陀舍沙在深渊尽头永恒盘绕，吞噬一切姓名与记忆。”',
+        metrics: ['CLASS: THAUMIEL', 'COMPOUND: Y-909', 'LENGTH: ~900 KM'],
+        stats: [78, 88, 100, 86, 65, 82],
         artType: 'scp3000', city: 'rlyeh', cam: 'street'
       },
       {
@@ -725,6 +880,9 @@
         fig: 'FIG. V  ·  MEKHANE  ·  DEUS EX MACHINA',
         sub: '破碎之神麦卡恩与血肉母神亚大伯斯 · 理性齿轮与原初血肉的永恒角力',
         lore: '麦卡恩以发条、星盘与赫尔墨斯几何赋予人类理性，化作自身破碎的青铜神躯以囚禁亚大伯斯（SCP-610 血肉瘟疫之源）。在开罗阿蒙尼-拉姆与贝加尔湖封锁墙，两派神迹至今对峙。',
+        scripture: '“我神曾自碎神躯，铸为囚禁血肉盲兽的黄铜牢笼；齿轮咬合之处，混沌退散。”',
+        metrics: ['CLASS: ARCHON/KETER', 'CHURCH: GOI-004', 'RIVAL: SARKIC'],
+        stats: [88, 96, 70, 92, 94, 85],
         artType: 'mekhane', city: 'baikal', cam: 'street'
       },
       {
@@ -733,6 +891,9 @@
         fig: 'FIG. VI  ·  SCP-2317  ·  ULTIMA CATENA',
         sub: '吞世者 · 异界盐漠七柱祭坛之下仅余最后一根锁链的末日巨神',
         lore: '公元前秘教铸造七根神圣锁链将其锁于地下玄武岩圆阵，如今六根已断，仅剩第七根锁链紧绷嗡鸣。基金会以“特殊程序 220-Calabasas”维持神学仪轨幻象，延缓 XK 级世界末日。',
+        scripture: '“七印已破其六，唯余末链独鸣；切勿令凡人知晓收容早已失效。”',
+        metrics: ['CLASS: APOLLYON', 'CHAINS: 1 / 7 INTACT', 'PROC: 220-CALABASAS'],
+        stats: [95, 92, 84, 100, 88, 100],
         artType: 'scp2317', city: 'leng', cam: 'skyline'
       },
       {
@@ -741,6 +902,9 @@
         fig: 'FIG. VII  ·  AZATHOTH  ·  REX IN TENEBRIS',
         sub: '原初盲目痴愚混沌核 & 撼动创世之树的深红/深靛逆王',
         lore: '一位是居于宇宙最外层盲目吹奏创世驻波的无心原核，一位是企图撕裂生命之树七重封印、令万有归于静默的旧日逆王。二者共同构成蓝色负神学的绝对敬畏边界。',
+        scripture: '“在时间之外的无光王座上，盲目痴愚之核在单调的长笛声中啃噬万有。”',
+        metrics: ['CLASS: APOLLYON-Ω', 'THREAT: ZK-REALITY', 'SEALS: SEVEN'],
+        stats: [100, 100, 100, 100, 95, 100],
         artType: 'azathoth', city: 'site13', cam: 'cosmos'
       },
       {
@@ -749,61 +913,112 @@
         fig: 'FIG. VIII  ·  SCP-2264  ·  CURIA ALAGADDAE',
         sub: '伏行之混沌奈亚拉托提普 & 阿拉卡达吊王宫廷黑衣大使',
         lore: '千面信使行走在开罗逆金字塔与布拉格查理大桥下的维度裂门（SCP-2264）之间。在假面舞会簇拥的阿拉卡达尖塔内，四色假面领主与无面大使编织着跨越多元宇宙的密谋。',
+        scripture: '“绝不可在阿拉卡达的假面舞会上摘下面具；吊王在王座上正如流放之神般沉默。”',
+        metrics: ['CLASS: ARCHON', 'NEXUS: ALAGADDA', 'AVATARS: 1,000'],
+        stats: [94, 90, 97, 85, 100, 93],
         artType: 'nyarlathotep', city: 'prague', cam: 'street'
       }
     ];
 
     // =========================================================================
-    // 2. CLASSIFIED SCP × MYTHOS DOSSIERS (LIBER III)
+    // 2. TWELVE CLASSIFIED SCP × MYTHOS × GOI × CODEX DOSSIERS (LIBER III)
     // =========================================================================
     const SCP_FILES = [
       {
-        code: 'SCP-2000 · THAUMIEL',
+        cat: 'scp', badge: 'badge-gold', code: 'SCP-2000 · THAUMIEL',
         title: '机械降神 · 黄石火山口地下文明重启巨构',
-        hume: '1.35 Hm (SRA 阵列强化)',
-        city: 'site2000',
-        summary: '位于怀俄明州黄石破火山口深层花岗岩地幔上方，配备 8 座巨型斯克兰顿现实稳定锚冷却塔与 50 万台布莱特/扎尔茨曼人类克隆舱。已知至少在 <span class="scp-redact" onclick="this.classList.toggle(\'revealed\')">[旧日苏醒导致的 2 次 K 级纪元重置]</span> 后重新播种并建造了现代人类文明。',
-        proc: '全天候由 MTF Alpha-1 与赫尔墨斯工程团驻守火山口台地，严禁非 O5 人员接近中央升降竖井。'
+        hume: '1.35 Hm · SRA×8', city: 'site2000',
+        summary: '位于怀俄明州黄石破火山口深层花岗岩地幔上方，配备 8 座斯克兰顿现实稳定锚冷却塔与 50 万台布莱特/扎尔茨曼人类克隆舱。已知至少在 <span class="scp-redact" onclick="this.classList.toggle(\'revealed\')">[旧日苏醒导致的 2 次 K 级纪元重置]</span> 后重新播种并建造了现代人类文明。',
+        proc: '全天候由 MTF Alpha-1 与赫尔墨斯工程团驻守火山口台地，严禁非 O5 人员接近中央升降竖井。',
+        log: '【工程日志 2000-Ω】地下 B-14 层发现早于现代基金会的古典拉丁铜版铭文：“此井已重启人类第七次，切勿唤醒黄石地幔下的原初蠕行者。”——首席奇术师 C. 扎尔茨曼博士'
       },
       {
-        code: 'SCP-001 · KETER / YESOD',
+        cat: 'scp', badge: 'badge-gold', code: 'SCP-001 · YESOD / KETER',
         title: '守门人 · 两河流域伊甸四翼炽天使巨像',
-        hume: '8.90 Hm (神圣奇术饱和)',
-        city: 'gate001',
+        hume: '8.90 Hm · 奇术饱和', city: 'gate001',
         summary: '立于底格里斯与幼发拉底两河交汇高崖之上，高约三百肘尺，生有四翼并持炽白火焰剑。任何进入半径 1 公里河谷禁区的敌对人员均收到心灵指令 <span class="scp-redact" onclick="this.classList.toggle(\'revealed\')">“遗忘，或归于原初群青”</span> 并瞬间原子化。',
-        proc: '远古站点 Site-0 沿外围双河石堤呈半月形布防，仅允许无人观测船在下游河道巡航。'
+        proc: '远古站点 Site-0 沿外围双河石堤呈半月形布防，仅允许无人观测船在下游河道巡航。',
+        log: '【紧急遥测 001-伊甸】当印度洋海沟发生 8.9 级异常震动时，SCP-001 曾短暂将火焰巨剑转向东南深海方向达 14 秒，阿基瓦辐射峰值突破 6,400 Ak。'
       },
       {
-        code: 'SCP-1730 · NEUTRALIZED / KETER',
+        cat: 'scp', badge: 'badge-crimson', code: 'SCP-1730 · KETER / NEUTRALIZED',
         title: '第十三号站点 · 跨宇宙奇术焚化巨塔群',
-        hume: '0.24 Hm (现实结构严重扭曲)',
-        city: 'site13',
-        summary: '自平行宇宙滑入本位面的超巨型阶梯式收容综合体，地下深达数十层，曾同时关押并处决包括鹿神、水蛭男孩与 <span class="scp-redact" onclick="this.classList.toggle(\'revealed\')">[至高神性实体 MALIDRAMAGIUAN]</span> 在内的数百个灭世级异常，塔壁刻满埃默森主任启动的赫尔墨斯-所罗门奇术拘束阵。',
-        proc: '由 MTF Tau-5 “轮回（Samsara）”半神义体小队沿高空连廊与外围隔离壕沟执行常态化清剿。'
+        hume: '0.24 Hm · 现实扭曲', city: 'site13',
+        summary: '自平行宇宙（GOC 与基金会合并时间线）滑入本位面的超巨型阶梯式收容综合体，曾同时关押并焚化包括鹿神、水蛭男孩与 <span class="scp-redact" onclick="this.classList.toggle(\'revealed\')">[至高多臂神性实体 MALIDRAMAGIUAN]</span> 在内的数百个灭世级异常。',
+        proc: '由 MTF Tau-5 “轮回（Samsara）”半神义体小队沿高空连廊与外围隔离壕沟执行常态化清剿。',
+        log: '【MTF Tau-5 行动记录】队长 Nanku：“地下第 28 层墙壁全是活体认知危害铭文，奥林匹斯级奇术焚化炉仍在喷射群青色死光，休谟读数正在崩溃！”'
       },
       {
-        code: 'SCP-3000 × R\'LYEH · APOLLYON',
-        title: '拉莱耶海渊卫城与阿难陀舍沙共鸣带',
-        hume: '0.41 Hm (深渊梦境潮汐)',
-        city: 'rlyeh',
-        summary: '深海声呐测绘证实南太平洋拉莱耶非欧巨石卫城与印度洋海沟通过地幔暗河相连。每当克苏鲁翻身引发低频次声波，深海便涌现发光的 <span class="scp-redact" onclick="this.classList.toggle(\'revealed\')">[深潜者朝圣人流与认知危害水母群]</span>。',
-        proc: '四座深海青金石稳定塔持续注入反向神学圣咏，潜航编队于外围海崖全天巡逻。'
+        cat: 'scp', badge: 'badge-crimson', code: 'SCP-2317-K · APOLLYON',
+        title: '异界之门与吞世者 · 帕米尔冷原七柱盐漠祭坛',
+        hume: '0.31 Hm · 末链紧绷', city: 'leng',
+        summary: '通过秘门连接异界盐湖盆地，地下玄武岩圆阵内囚禁着身高逾两百公里的有角巨魔“诸界吞噬者”。埃里克什秘教铸造的七根神圣锁链已断裂六根，仅余 <span class="scp-redact" onclick="this.classList.toggle(\'revealed\')">[预计将在三十年内崩断的第七锁链]</span>。',
+        proc: '每日执行虚构仪轨“程序 220-Calabasas”以维持基层人员信念与残余阿基瓦场稳定。',
+        log: '【O5-13 备忘录】赫尔墨斯蓝色神学部正尝试以冷原双环星门引入第八重天球引力弦，作为替代第七锁链的唯一备用方案。'
       },
       {
-        code: 'SCP-2264 · ALAGADDA',
+        cat: 'scp', badge: 'badge-cyan', code: 'SCP-2264 · ARCHON / ALAGADDA',
         title: '阿拉卡达宫廷门扉 · 布拉格炼金星堡地宫',
-        hume: '0.62 Hm (多维折叠态)',
-        city: 'prague',
-        summary: '隐藏于布拉格哥特大教堂与炼金术士黄金巷地底的铅制秘门，通往色彩扭曲的城邦“阿拉卡达”。门内耸立着 <span class="scp-redact" onclick="this.classList.toggle(\'revealed\')">[被铁链束缚于王座的吊王与黑衣无面大使]</span>，与奈亚拉托提普共享跨维度信标。',
-        proc: '蔷薇十字圣殿骑士与基金会秘传学分部联合驻守查理大桥与十二角星芒城垣。'
+        hume: '0.62 Hm · 多维折叠', city: 'prague',
+        summary: '隐藏于布拉格哥特大教堂与炼金术士黄金巷地底的铅制秘门，仅可通过特定炼金密语开启，通往与所有维度接壤的狂欢城邦“阿拉卡达”。门内耸立着 <span class="scp-redact" onclick="this.classList.toggle(\'revealed\')">[被锁于王座的吊王与黑衣无面大使]</span>。',
+        proc: '蔷薇十字圣殿骑士与基金会秘传学分部联合驻守查理大桥与十二角星芒城垣。',
+        log: '【探索日志 2264-4】温克勒博士：“温莎宫廷学者告诉我，吊王的王座下压着通往卡美洛与幻梦境卡达斯的裂缝，而黑衣大使正是伏行混沌的投影。”'
       },
       {
-        code: 'SCP-610 × MEKHANE · KETER',
-        title: '贝加尔湖断层封锁墙与破碎之神青铜圣柜',
-        hume: '0.88 Hm (生物质畸变区)',
-        city: 'baikal',
-        summary: '西伯利亚大裂谷与贝加尔湖沿岸爆发的憎恶血肉畸变群落，被三层六角形重型火焰净化高墙严密封锁；墙内核心却矗立着破碎之神教会建造的 <span class="scp-redact" onclick="this.classList.toggle(\'revealed\')">[麦卡恩巨型齿轮发条大穹顶]</span> 以机械圣律压制血肉蔓延。',
-        proc: '环湖铁道与冰原桥头堡部署全天候重装净化特遣队，禁止任何平民渡船越过封锁浮标。'
+        cat: 'mythos', badge: 'badge-crimson', code: 'SCP-2662-Ω × R\'LYEH · APOLLYON',
+        title: '拉莱耶海渊卫城与阿难陀舍沙地幔共鸣带',
+        hume: '0.41 Hm · 梦境潮汐', city: 'rlyeh',
+        summary: '深海声呐测绘证实南太平洋 47°09\'S 矗立着违背欧几里得几何学的玄武岩三级巨城，并与孟加拉湾 SCP-3000 通过地幔暗河相连。每逢太阳黑子极值，海崖便涌现 <span class="scp-redact" onclick="this.classList.toggle(\'revealed\')">[数以万计的深潜者朝圣人流与心灵低语]</span>。',
+        proc: 'MTF Gamma-6“深海喂食者”四艘核动力潜航舰与四座海底 SRA 稳定塔全天候运转。',
+        log: '【声呐截获记录】水听器阵列记录到 17Hz 极低频包络波，经赫尔墨斯语料库转译后与公元 730 年《阿尔·阿吉夫》抄本第四章逐字吻合。'
+      },
+      {
+        cat: 'mythos', badge: 'badge-cyan', code: 'MISKATONIC-1931 · ELDER ARCHIVE',
+        title: '南极疯狂山脉五芒星古城 · 戴尔教授与第72哨站实录',
+        hume: '0.79 Hm · 太古遗存', city: 'antarctica',
+        summary: '越过海拔万尺的锯齿黑山脉，冰封盆地内保存着五亿年前“古老者”建造的五角星截面摩天石塔群与十道悬空石桥。地底深渊仍封存着能够模拟一切器官与文字的 <span class="scp-redact" onclick="this.classList.toggle(\'revealed\')">[失控原生质巨兽“修格斯（Shoggoth）”]</span>。',
+        proc: '基金会 Outpost-72 与密斯卡托尼克大学极地遗产组联合封锁全部地下冰裂入口。',
+        log: '【勘探录音 72-B】“Tekeli-li! Tekeli-li! ——冰道下方传来类似地铁全速驶过的气压呼啸声，请求立即封闭三号五芒星竖井！”'
+      },
+      {
+        cat: 'mythos', badge: 'badge-cyan', code: 'UIU-1928 × DAGON · KETER',
+        title: '印斯茅斯礁港清剿行动与三波特兰秘仪通道',
+        hume: '0.84 Hm · 混血群落', city: 'arkham',
+        summary: '1928 年美国政府与早期基金会前身对马萨诸塞州印斯茅斯港实施水雷封锁后，残余大衮秘教徒退入外海魔鬼礁海底都市；而上游阿卡姆密斯卡托尼克河谷则隐藏着通往 <span class="scp-redact" onclick="this.classList.toggle(\'revealed\')">[口袋城邦“三波特兰”与被放逐者之图书馆]</span> 的水下拱门。',
+        proc: 'UIU 特工与基金会潜航艇监控密斯卡托尼克河口，严格审查密大珍本馆借阅名单。',
+        log: '【馆藏借阅警报】拉丁文版《死灵之书》（Olaus Wormius 1623 刻本）在锁入铅盒状态下自行翻至第 751 页，纸面析出深海水盐结晶。'
+      },
+      {
+        cat: 'goi', badge: 'badge-gold', code: 'GOI-004 × SCP-610 · CONCORDAT',
+        title: '贝加尔湖断层封锁墙与破碎之神青铜圣柜盟约',
+        hume: '0.88 Hm · 机械镇压', city: 'baikal',
+        summary: '西伯利亚大裂谷沿岸爆发的 SCP-610 欲肉教血肉瘟疫区被三道六角形火焰高墙封锁。根据《群青秘约》，基金会允许破碎之神教会齿轮正教在隔离区中心运转 <span class="scp-redact" onclick="this.classList.toggle(\'revealed\')">[麦卡恩发条心脏谐振穹顶]</span>，以纯机械几何场抑制血肉增殖。',
+        proc: 'MTF Eta-5 与齿轮正教圣骑士团沿环湖高墙分区巡逻，严防卡르基斯特残党渗透。',
+        log: '【联席会议纪要】大牧首罗伯特·布麻罗代表发函：“血肉盲目生长，唯发条与圣蓝星盘可定乾坤；若阿蒙尼-拉姆重启，610 将在三日内灰飞烟灭。”'
+      },
+      {
+        cat: 'goi', badge: 'badge-gold', code: 'SITE-CN-01 × 异学会 · THAUMIEL',
+        title: '东海蓬莱七重镇海宝塔与太平洋海眼封印大阵',
+        hume: '1.42 Hm · 奇术稳固', city: 'penglai',
+        summary: '传承自先秦方士与中华异学会的东海海山奇术枢纽，后改组为基金会中国分部核心圣座 Site-CN-01。山巅七层翘角飞檐宝塔实为巨型 <span class="scp-redact" onclick="this.classList.toggle(\'revealed\')">[洛书-斯克兰顿复合海眼镇压锚]</span>，压制西太平洋深海旧日支脉。',
+        proc: '异学会竹简阁与基金会奇术师每日卯酉二时沿玉带河石桥巡检三十六座镇水兽。',
+        log: '【竹简卷四·沧溟志】“东海之东有归墟焉，八纮九野之水莫不注之；立太乙青金七级浮屠，可令渊海大妖千年不寤。”'
+      },
+      {
+        cat: 'codex', badge: 'badge-crimson', code: 'CODEX-730 · AL-AZIF / NECRONOMICON',
+        title: '《阿尔·阿吉夫（死灵之书）》大马士革群青铜版校勘本',
+        hume: 'COGNITOHAZARD · V级', city: 'cairo',
+        summary: '公元八世纪萨那狂人阿卜杜勒·阿尔哈兹莱德游历鲁卜哈利沙漠无名古柱城与开罗地宫后撰写的禁忌巨著。本馆藏本为 1586 年布拉格约翰·迪伊博士以 <span class="scp-redact" onclick="this.classList.toggle(\'revealed\')">[青金石粉与异常抗模因墨水]</span> 镌刻的唯一安全校勘版。',
+        proc: '原卷封存于亚历山大 Site-01 地下穹顶，阅读超过三页须提前注射 W 级记忆加固剂。',
+        log: '【校勘批注】迪伊博士手记：“凡直接注视旧日真名者必疯；唯有借赫尔墨斯之铜版扫描栅格折射其形，方能直视深渊而不堕。”'
+      },
+      {
+        cat: 'codex', badge: 'badge-cyan', code: 'TABULA-VIII · THEOLOGIA CAERULEA',
+        title: '《翠玉录·第八重神圣群青补遗》与战术神学宪章',
+        hume: '1.80 Hm · 基准圣律', city: 'alexandria',
+        summary: '出土于亚历山大法罗斯大灯塔地基下的绿松石-青金石合铸碑板，揭示宇宙并非善恶二元，而是由“盲目熵增的旧日深渊”与“赋予秩序的第八重天球群青圣律”构成；这正是现代 <span class="scp-redact" onclick="this.classList.toggle(\'revealed\')">[斯克兰顿现实稳定锚与战术神学部]</span> 的真正理论源头。',
+        proc: '全文铭刻于 Site-01 十二肋大穹顶内壁，作为全球休谟基准场的频率校准母本。',
+        log: '【碑文首句】“Verum sine mendacio, certum et verissimum: 如其在上之星盘，如其在下之海渊；执群青之规尺者，可丈量不可名状之神。”'
       }
     ];
 
@@ -1252,6 +1467,20 @@
       ['alexandria', 'cairo'], ['rlyeh', 'penglai'], ['rlyeh', 'antarctica']
     ];
 
+    const MARITIME_ROUTES = [
+      [[31.2, 29.9], [36.5, 15.0], [36.0, -5.5], [42.6, -70.7]],
+      [[-47.1, -126.7], [-25.0, -105.0], [8.0, -82.0]],
+      [[-47.1, -126.7], [-32.0, 165.0], [18.0, 138.0], [33.8, 136.5]],
+      [[12.0, 88.0], [-5.0, 82.0], [-35.0, 76.0], [-72.0, 72.0]],
+      [[29.9, 32.5], [14.0, 43.0], [12.0, 62.0], [26.0, 56.0], [30.5, 48.0]]
+    ];
+
+    const ORBITAL_SATS = [
+      { code: 'AIC-SAT-I', inc: 0.62, asc: 0.4, speed: 0.22, alt: 1.22 },
+      { code: 'SRA-ORB-II', inc: -0.78, asc: 2.3, speed: -0.18, alt: 1.27 },
+      { code: 'O5-EYE-III', inc: 1.12, asc: 4.1, speed: 0.15, alt: 1.31 }
+    ];
+
     // =========================================================================
     // 5. STATE & CAMERA GEOMETRY
     // =========================================================================
@@ -1261,8 +1490,10 @@
     const state = {
       liber: 'terra',
       pantheonIdx: 0,
+      scpCat: 'all',
+      audioOn: false,
       cinemaPlaying: false,
-      relief: 1.0,
+      relief: 1.05,
       seal: 0.88,
       abyss: 0.86,
       outer: 0.88,
@@ -1273,20 +1504,19 @@
       showGods: true,
       autoRotate: true,
       uiHidden: false,
-      // Start on Alexandria or R'lyeh? Let's start on Alexandria (with Nile river, bridges, boats, terraced Pharos & dense scholar crowds) or R'lyeh! Let's start on R'lyeh and let 1-click visit all 12!
-      rotY: -(-126.72 * Math.PI) / 180,
-      rotX: (-47.15 * Math.PI) / 180 - TILT_OFFSET,
-      baseFocusRotY: -(-126.72 * Math.PI) / 180,
+      rotY: -(29.92 * Math.PI) / 180,
+      rotX: (31.20 * Math.PI) / 180 - TILT_OFFSET * 0.42,
+      baseFocusRotY: -(29.92 * Math.PI) / 180,
       targetRotY: null,
       targetRotX: null,
       velY: 0, velX: 0,
-      zoom: 5.2,
-      targetZoom: 5.2,
+      zoom: 2.35,
+      targetZoom: 2.35,
       dragging: false,
       userDraggedAtHighZoom: false,
       lastX: 0, lastY: 0,
       mouseX: window.innerWidth * 0.5, mouseY: window.innerHeight * 0.5,
-      selectedId: 'rlyeh',
+      selectedId: 'alexandria',
       hoveredId: null,
       time: 0
     };
@@ -1555,28 +1785,40 @@
           float riverMask = max(smoothstep(rWidth, 0.001, rVal1), smoothstep(rWidth * 0.75, 0.0008, rVal2) * 0.85);
           riverMask *= landMask * smoothstep(0.82, 0.02, elev);
 
-          // Animated downstream shimmering flow pulse!
-          float flowPulse = 0.72 + 0.28 * sin((h0 - seaLevel) * 140.0 + u_time * 4.2);
-          // Carve dark cobalt river gorge + bright white shimmering current center!
-          landCol = mix(landCol, deepCobalt, riverMask * 0.85);
-          landCol = mix(landCol, ivoryWhite, riverMask * smoothstep(rWidth * 0.45, 0.0, min(rVal1, rVal2)) * flowPulse);
+          // Animated downstream shimmering flow pulse in Astral Cyan-Ivory!
+          float flowPulse = 0.75 + 0.25 * sin((h0 - seaLevel) * 140.0 + u_time * 4.2);
+          vec3 cyanRiver = vec3(0.46, 0.92, 1.0);
+          landCol = mix(landCol, vec3(0.03, 0.12, 0.58), riverMask * 0.88);
+          landCol = mix(landCol, cyanRiver, riverMask * smoothstep(rWidth * 0.58, 0.0, min(rVal1, rVal2)) * flowPulse);
         }
 
         vec3 col = mix(ocean, landCol, landMask);
         col = mix(col, ivoryWhite, clamp(coastLine * 0.92 + contourLine, 0.0, 1.0));
 
-        // Dense Urban Street Networks in River Basins & Coasts
+        // Dense Urban Street Networks & Warm Electrum-Gold Sanctuaries in River Basins & Coasts
         float su = abs(fract(lon * 190.0) - 0.5);
         float sv = abs(fract(lat * 190.0) - 0.5);
-        float sGrid = smoothstep(0.14, 0.02, min(su, sv)) * landMask * smoothstep(0.55, 0.12, elev) * smoothstep(0.50, 0.72, fbm(P * 12.0));
-        col = mix(col, ivoryWhite, sGrid * 0.78);
+        float urbanZone = landMask * smoothstep(0.55, 0.10, elev) * smoothstep(0.48, 0.72, fbm(P * 12.0));
+        float sGrid = smoothstep(0.14, 0.02, min(su, sv)) * urbanZone;
+        vec3 electrumGold = vec3(1.0, 0.89, 0.58);
+        col = mix(col, mix(ivoryWhite, electrumGold, 0.55), sGrid * 0.82);
 
-        // Cthulhu & SCP-3000 Abyssal Trench Bioluminescence
+        // Drifting Copperplate Atmospheric Cloud Swirls & R'lyeh Abyssal Typhoon!
+        if (u_mobile < 0.5) {
+          vec3 cPos = vec3(P.x * cos(u_time * 0.022) + P.z * sin(u_time * 0.022), P.y * 1.35, -P.x * sin(u_time * 0.022) + P.z * cos(u_time * 0.022));
+          float cloudFbm = fbm(cPos * 4.6 + vec3(fbm(cPos * 9.0) * 0.45));
+          float cloudBand = smoothstep(0.58, 0.78, cloudFbm) * 0.26;
+          col = mix(col, vec3(0.86, 0.94, 1.0), cloudBand);
+        }
+
+        // Cthulhu & SCP-3000 Abyssal Trench Bioluminescence (shifts to Apollyon Crimson under breach!)
         float rift = pow(ridged(P * 9.5 + vec3(0.0, u_time * 0.03, 0.0)), 4.2) * (1.0 - landMask * 0.75);
         vec3 rlyehP = vec3(-0.545, -0.733, -0.407);
         float dR = length(P - rlyehP);
         float rlyehRings = smoothstep(0.18, 0.02, abs(fract(dR * 22.0 - u_time * 0.45) - 0.5)) * exp(-dR * 4.8);
-        col = mix(col, ivoryWhite, clamp((rift * 0.75 + rlyehRings * 0.85) * u_abyss, 0.0, 0.9));
+        float breachTint = clamp((u_abyss - 0.72) * 3.2 * (1.0 - u_seal), 0.0, 1.0);
+        vec3 riftColor = mix(vec3(0.52, 0.93, 1.0), vec3(1.0, 0.36, 0.54), breachTint);
+        col = mix(col, riftColor, clamp((rift * 0.82 + rlyehRings * 0.88) * u_abyss, 0.0, 0.92));
 
         // Astrolabe Graticule
         float gLon = abs(fract(lon / (3.14159265 / 9.0) + 0.5) - 0.5);
@@ -1893,41 +2135,143 @@
       const archUnit = surfRadius * 0.052;
       const highLOD = state.zoom >= 1.95;
 
-      // 0. MACRO PLANETARY PILGRIMAGE & MTF LOGISTICS HUMAN STREAMS (1.0x - 4.2x)!
-      if (state.showCrowds && state.zoom < 4.5) {
-        for (const [idA, idB] of MACRO_ROUTES) {
+      // 0A. 3D VAULTED THAUMATURGIC LEY-LINE ARCS & PILGRIMAGE STREAMS!
+      if (state.zoom < 5.2) {
+        for (let rIdx = 0; rIdx < MACRO_ROUTES.length; rIdx++) {
+          const [idA, idB] = MACRO_ROUTES[rIdx];
           const cA = CITIES.find(x => x.id === idA), cB = CITIES.find(x => x.id === idB);
           if (!cA || !cB) continue;
           const vA = latLonToVec3(cA.lat, cA.lon), vB = latLonToVec3(cB.lat, cB.lon);
 
-          // Dashed route track
-          ctx.strokeStyle = 'rgba(244, 247, 255, 0.26)';
-          ctx.lineWidth = 0.9;
-          ctx.setLineDash([3, 5]);
-          ctx.beginPath();
-          let started = false;
-          for (let s = 0; s <= 20; s++) {
-            const u = s / 20;
-            const p = normalize3([vA[0]*(1-u)+vB[0]*u, vA[1]*(1-u)+vB[1]*u, vA[2]*(1-u)+vB[2]*u]);
-            const vc = rotateToCamera(p, state.rotY, state.rotX);
-            if (vc[2] < 0) { started = false; continue; }
-            const sx = cx + vc[0] * surfRadius * 1.004, sy = cy - vc[1] * surfRadius * 1.004;
-            if (!started) { ctx.moveTo(sx, sy); started = true; } else ctx.lineTo(sx, sy);
-          }
-          ctx.stroke();
-          ctx.setLineDash([]);
-
-          // Animated Caravan / Pilgrim / MTF Convoy Dots streaming along the route!
-          ctx.fillStyle = '#ffffff';
-          for (let k = 0; k < 7; k++) {
-            const u = (k / 7 + t * 0.065) % 1;
-            const p = normalize3([vA[0]*(1-u)+vB[0]*u, vA[1]*(1-u)+vB[1]*u, vA[2]*(1-u)+vB[2]*u]);
-            const vc = rotateToCamera(p, state.rotY, state.rotX);
-            if (vc[2] > 0.02) {
-              ctx.beginPath();
-              ctx.arc(cx + vc[0] * surfRadius * 1.006, cy - vc[1] * surfRadius * 1.006, 1.9, 0, Math.PI * 2);
-              ctx.fill();
+          // High-altitude vaulted 3D Thaumaturgic Ley-Line Arc in Electrum Gold / Astral Cyan!
+          if (state.showRings && state.seal > 0.1) {
+            ctx.strokeStyle = rIdx % 2 === 0 ? `rgba(255, 229, 150, ${0.42 * state.seal})` : `rgba(136, 240, 255, ${0.42 * state.seal})`;
+            ctx.lineWidth = 1.1;
+            ctx.beginPath();
+            let arcStarted = false;
+            for (let s = 0; s <= 24; s++) {
+              const u = s / 24;
+              const p = normalize3([vA[0]*(1-u)+vB[0]*u, vA[1]*(1-u)+vB[1]*u, vA[2]*(1-u)+vB[2]*u]);
+              const alt = 1.0 + Math.sin(u * Math.PI) * 0.115 * state.seal;
+              const vc = rotateToCamera(p, state.rotY, state.rotX);
+              if (vc[2] < -0.08) { arcStarted = false; continue; }
+              const sx = cx + vc[0] * surfRadius * alt, sy = cy - vc[1] * surfRadius * alt;
+              if (!arcStarted) { ctx.moveTo(sx, sy); arcStarted = true; } else ctx.lineTo(sx, sy);
             }
+            ctx.stroke();
+
+            // Flying Thaumaturgic Harmonic Packet along the vaulted 3D arc!
+            const uPulse = (t * 0.18 + rIdx * 0.23) % 1;
+            const pP = normalize3([vA[0]*(1-uPulse)+vB[0]*uPulse, vA[1]*(1-uPulse)+vB[1]*uPulse, vA[2]*(1-uPulse)+vB[2]*uPulse]);
+            const altP = 1.0 + Math.sin(uPulse * Math.PI) * 0.115 * state.seal;
+            const vcP = rotateToCamera(pP, state.rotY, state.rotX);
+            if (vcP[2] > 0) {
+              ctx.fillStyle = rIdx % 2 === 0 ? '#ffe596' : '#88f0ff';
+              ctx.beginPath(); ctx.arc(cx + vcP[0] * surfRadius * altP, cy - vcP[1] * surfRadius * altP, 2.3, 0, Math.PI * 2); ctx.fill();
+            }
+          }
+
+          if (state.showCrowds && state.zoom < 4.5) {
+            ctx.strokeStyle = 'rgba(244, 247, 255, 0.24)';
+            ctx.lineWidth = 0.85;
+            ctx.setLineDash([3, 5]);
+            ctx.beginPath();
+            let started = false;
+            for (let s = 0; s <= 18; s++) {
+              const u = s / 18;
+              const p = normalize3([vA[0]*(1-u)+vB[0]*u, vA[1]*(1-u)+vB[1]*u, vA[2]*(1-u)+vB[2]*u]);
+              const vc = rotateToCamera(p, state.rotY, state.rotX);
+              if (vc[2] < 0) { started = false; continue; }
+              const sx = cx + vc[0] * surfRadius * 1.004, sy = cy - vc[1] * surfRadius * 1.004;
+              if (!started) { ctx.moveTo(sx, sy); started = true; } else ctx.lineTo(sx, sy);
+            }
+            ctx.stroke();
+            ctx.setLineDash([]);
+
+            ctx.fillStyle = '#ffffff';
+            for (let k = 0; k < 5; k++) {
+              const u = (k / 5 + t * 0.065) % 1;
+              const p = normalize3([vA[0]*(1-u)+vB[0]*u, vA[1]*(1-u)+vB[1]*u, vA[2]*(1-u)+vB[2]*u]);
+              const vc = rotateToCamera(p, state.rotY, state.rotX);
+              if (vc[2] > 0.02) {
+                ctx.beginPath();
+                ctx.arc(cx + vc[0] * surfRadius * 1.006, cy - vc[1] * surfRadius * 1.006, 1.7, 0, Math.PI * 2);
+                ctx.fill();
+              }
+            }
+          }
+        }
+      }
+
+      // 0B. GLOBAL MARITIME MTF CONTAINMENT FLOTILLAS, SONAR RINGS & POLAR AURORAS!
+      if (state.showTerrain && state.zoom < 5.5) {
+        // Polar Auroras shimmering above Antarctica & Arctic/Site-13!
+        for (const poleLat of [-73, 68]) {
+          const bands = IS_MOBILE ? 18 : 32;
+          for (let b = 0; b < bands; b++) {
+            const lon = (b / bands) * 360 + Math.sin(t * 0.4 + b) * 8;
+            const lat = poleLat + Math.sin(b * 0.7 + t * 0.9) * 3.8;
+            const v0 = rotateToCamera(latLonToVec3(lat, lon), state.rotY, state.rotX);
+            if (v0[2] < 0.02) continue;
+            const x0 = cx + v0[0] * surfRadius * 1.015, y0 = cy - v0[1] * surfRadius * 1.015;
+            const x1 = cx + v0[0] * surfRadius * 1.065, y1 = cy - v0[1] * surfRadius * 1.065;
+            const aurAlpha = (0.16 + 0.18 * Math.sin(t * 2.4 + b * 0.9)) * v0[2];
+            ctx.strokeStyle = b % 3 === 0 ? `rgba(255, 229, 150, ${aurAlpha})` : `rgba(116, 238, 255, ${aurAlpha})`;
+            ctx.lineWidth = Math.max(1.5, surfRadius * 0.008);
+            ctx.beginPath(); ctx.moveTo(x0, y0); ctx.lineTo(x1, y1); ctx.stroke();
+          }
+        }
+
+        // Naval Containment Flotillas & Wakes across Oceans
+        MARITIME_ROUTES.forEach((wp, mIdx) => {
+          const pts3 = wp.map(([la, lo]) => latLonToVec3(la, lo));
+          for (let shipIdx = 0; shipIdx < 2; shipIdx++) {
+            const u = (t * 0.038 + shipIdx * 0.48 + mIdx * 0.17) % 0.99;
+            const pos3 = normalize3(samplePath3D(pts3, u));
+            const nxt3 = normalize3(samplePath3D(pts3, Math.min(0.999, u + 0.02)));
+            const vc = rotateToCamera(pos3, state.rotY, state.rotX);
+            const vn = rotateToCamera(nxt3, state.rotY, state.rotX);
+            if (vc[2] < 0.08) continue;
+            const sx = cx + vc[0] * surfRadius * 1.005, sy = cy - vc[1] * surfRadius * 1.005;
+            const ang = Math.atan2(-(vn[1] - vc[1]), vn[0] - vc[0]);
+            ctx.save(); ctx.translate(sx, sy); ctx.rotate(ang);
+            // V-Wake
+            ctx.strokeStyle = 'rgba(136, 240, 255, 0.55)'; ctx.lineWidth = 0.9;
+            ctx.beginPath(); ctx.moveTo(-9, -3.2); ctx.lineTo(2, 0); ctx.lineTo(-9, 3.2); ctx.stroke();
+            // Engraved Ship Hull
+            ctx.fillStyle = '#f4f7ff';
+            ctx.beginPath(); ctx.moveTo(4.5, 0); ctx.lineTo(-3.5, -2.1); ctx.lineTo(-3.5, 2.1); ctx.closePath(); ctx.fill();
+            ctx.restore();
+            // Periodic Sonar Sweep Ring!
+            const sonarR = ((t * 14 + mIdx * 9 + shipIdx * 17) % 24);
+            if (sonarR < 18) {
+              ctx.strokeStyle = `rgba(136, 240, 255, ${(1 - sonarR / 18) * 0.5})`;
+              ctx.lineWidth = 0.8;
+              ctx.beginPath(); ctx.arc(sx, sy, sonarR, 0, Math.PI * 2); ctx.stroke();
+            }
+          }
+        });
+      }
+
+      // 0C. LOW-EARTH-ORBIT SCP OVERWATCH SATELLITES (AIC-SAT)!
+      if (state.showRings && state.zoom < 3.6) {
+        for (const sat of ORBITAL_SATS) {
+          const a = t * sat.speed + sat.asc;
+          const ox = Math.cos(a), oy = Math.sin(a) * Math.sin(sat.inc), oz = Math.sin(a) * Math.cos(sat.inc);
+          const vc = rotateToCamera([ox, oy, oz], state.rotY * 0.4, state.rotX * 0.4);
+          if (vc[2] < -0.1) continue;
+          const sx = cx + vc[0] * surfRadius * sat.alt, sy = cy - vc[1] * surfRadius * sat.alt;
+          const gx = cx + vc[0] * surfRadius, gy = cy - vc[1] * surfRadius;
+          // Ground telemetry scan beam
+          ctx.strokeStyle = 'rgba(136, 240, 255, 0.25)'; ctx.lineWidth = 0.9; ctx.setLineDash([2, 3]);
+          ctx.beginPath(); ctx.moveTo(sx, sy); ctx.lineTo(gx, gy); ctx.stroke(); ctx.setLineDash([]);
+          // Satellite solar wings + diamond core
+          ctx.strokeStyle = '#ffe596'; ctx.fillStyle = '#0916b8'; ctx.lineWidth = 1.2;
+          ctx.beginPath(); ctx.moveTo(sx - 8, sy - 3); ctx.lineTo(sx + 8, sy + 3); ctx.stroke();
+          ctx.beginPath(); ctx.rect(sx - 2.5, sy - 2.5, 5, 5); ctx.fill(); ctx.stroke();
+          if (!IS_MOBILE) {
+            ctx.fillStyle = 'rgba(255, 229, 150, 0.85)'; ctx.font = '8.5px monospace';
+            ctx.fillText(sat.code, sx + 7, sy - 4);
           }
         }
       }
@@ -2385,35 +2729,105 @@
           }
         }
 
-        // F) GREAT CTHULHU AT R'LYEH
+        // F) COPPERPLATE ENGRAVED SPECTRAL CTHULHU & SRA CONTAINMENT BEAMS AT R'LYEH!
         if (c.id === 'rlyeh' && state.showGods && state.abyss > 0.15) {
-          const sc = (0.55 + 0.65 * state.abyss) * archUnit * 1.35;
-          const rise = proj(0, 0.68, 1.82 + Math.sin(t * 1.5) * 0.10);
-          ctx.save(); ctx.translate(rise.x, rise.y); ctx.globalAlpha = vis * Math.min(1, state.abyss * 1.3);
-          ctx.strokeStyle = 'rgba(255, 255, 255, 0.65)'; ctx.lineWidth = 1.1;
-          ctx.beginPath(); ctx.arc(0, -sc * 0.38, sc * 1.05, 0, Math.PI * 2); ctx.stroke();
-          const beat = Math.sin(t * 1.8) * 0.16;
+          const sc = (0.42 + 0.48 * state.abyss) * archUnit * 0.95;
+          const rise = proj(0, 0.88, 1.95 + Math.sin(t * 1.4) * 0.08);
+
+          // 4 Cyan-Gold Scranton Reality Anchor Suppression Beams locking onto the Entity!
+          if (state.seal > 0.15) {
+            for (const [sx, sy] of [[-1.15, 0.85], [1.15, 0.85], [-1.15, -0.95], [1.15, -0.95]]) {
+              const sTop = proj(sx, sy, 1.22);
+              ctx.strokeStyle = `rgba(136, 240, 255, ${0.55 * state.seal * vis})`;
+              ctx.lineWidth = 1.3;
+              ctx.setLineDash([4, 3]); ctx.lineDashOffset = -t * 24;
+              ctx.beginPath(); ctx.moveTo(sTop.x, sTop.y); ctx.lineTo(rise.x, rise.y - sc * 0.25); ctx.stroke();
+              ctx.setLineDash([]);
+            }
+          }
+
+          ctx.save(); ctx.translate(rise.x, rise.y); ctx.globalAlpha = vis * Math.min(0.92, state.abyss * 1.15);
+
+          // Engraved Occult Double Astrolabe Aureole & Radial Sigil Ticks
+          ctx.strokeStyle = 'rgba(255, 229, 150, 0.72)'; ctx.lineWidth = 1.1;
+          ctx.beginPath(); ctx.arc(0, -sc * 0.35, sc * 1.18, 0, Math.PI * 2); ctx.stroke();
+          ctx.strokeStyle = 'rgba(136, 240, 255, 0.55)'; ctx.lineWidth = 0.85;
+          ctx.beginPath(); ctx.arc(0, -sc * 0.35, sc * 0.98, 0, Math.PI * 2); ctx.stroke();
+          for (let r = 0; r < 16; r++) {
+            const ra = (r / 16) * Math.PI * 2 + t * 0.18;
+            ctx.beginPath();
+            ctx.moveTo(Math.cos(ra) * sc * 0.98, -sc * 0.35 + Math.sin(ra) * sc * 0.98);
+            ctx.lineTo(Math.cos(ra) * sc * 1.18, -sc * 0.35 + Math.sin(ra) * sc * 1.18);
+            ctx.stroke();
+          }
+
+          // Ribbed Copperplate Hatched Wings (translucent skeleton + fine horizontal engraving lines!)
+          const beat = Math.sin(t * 1.6) * 0.12;
           for (const dir of [-1, 1]) {
-            const sh = { x: dir * sc * 0.35, y: -sc * 0.1 }, elb = { x: dir * sc * (1.18 + beat), y: -sc * (1.15 + beat * 0.4) };
-            const tips = [{ x: dir*sc*(2.35+beat), y: -sc*0.92 }, { x: dir*sc*(2.15+beat), y: -sc*0.28 }, { x: dir*sc*(1.68+beat*0.5), y: sc*0.28 }, { x: dir*sc*1.02, y: sc*0.56 }];
-            ctx.fillStyle = 'rgba(12, 26, 192, 0.94)'; ctx.strokeStyle = '#ffffff'; ctx.lineWidth = 1.3;
+            const sh = { x: dir * sc * 0.28, y: -sc * 0.18 };
+            const elb = { x: dir * sc * (1.05 + beat), y: -sc * (1.08 + beat * 0.3) };
+            const tips = [
+              { x: dir * sc * (2.05 + beat), y: -sc * 0.86 },
+              { x: dir * sc * (1.88 + beat), y: -sc * 0.32 },
+              { x: dir * sc * (1.48 + beat * 0.5), y: sc * 0.18 },
+              { x: dir * sc * 0.92, y: sc * 0.42 }
+            ];
+            ctx.fillStyle = 'rgba(9, 20, 156, 0.68)'; ctx.strokeStyle = 'rgba(244, 247, 255, 0.88)'; ctx.lineWidth = 1.15;
             ctx.beginPath(); ctx.moveTo(sh.x, sh.y); ctx.lineTo(elb.x, elb.y); ctx.lineTo(tips[0].x, tips[0].y);
-            for (let k = 0; k < tips.length - 1; k++) ctx.quadraticCurveTo((tips[k].x+tips[k+1].x)*0.43, (tips[k].y+tips[k+1].y)*0.43, tips[k+1].x, tips[k+1].y);
-            ctx.quadraticCurveTo(dir * sc * 0.45, sc * 0.2, sh.x, sc * 0.35); ctx.closePath(); ctx.fill(); ctx.stroke();
-            for (const tp of tips) { ctx.beginPath(); ctx.moveTo(elb.x, elb.y); ctx.lineTo(tp.x, tp.y); ctx.stroke(); }
+            for (let k = 0; k < tips.length - 1; k++) {
+              ctx.quadraticCurveTo((tips[k].x + tips[k+1].x) * 0.44, (tips[k].y + tips[k+1].y) * 0.44, tips[k+1].x, tips[k+1].y);
+            }
+            ctx.quadraticCurveTo(dir * sc * 0.4, sc * 0.15, sh.x, sc * 0.22); ctx.closePath(); ctx.fill(); ctx.stroke();
+
+            // Fine wing-rib spokes + cross-ribs
+            ctx.strokeStyle = 'rgba(136, 240, 255, 0.62)'; ctx.lineWidth = 0.85;
+            for (const tp of tips) {
+              ctx.beginPath(); ctx.moveTo(elb.x, elb.y); ctx.lineTo(tp.x, tp.y); ctx.stroke();
+              for (let h = 1; h <= 4; h++) {
+                const u = h / 5;
+                const rx = elb.x + (tp.x - elb.x) * u, ry = elb.y + (tp.y - elb.y) * u;
+                ctx.beginPath(); ctx.moveTo(rx, ry); ctx.lineTo(rx - dir * sc * 0.14, ry + sc * 0.08); ctx.stroke();
+              }
+            }
           }
-          ctx.fillStyle = '#1226e4'; ctx.strokeStyle = '#ffffff'; ctx.lineWidth = 1.4;
-          ctx.beginPath(); ctx.ellipse(0, -sc * 0.38, sc * 0.50, sc * 0.65, 0, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
+
+          // Engraved Mitre-Crowned Cephalopod Cranium with Copperplate Contour Hatching!
+          ctx.fillStyle = 'rgba(8, 17, 140, 0.92)'; ctx.strokeStyle = '#f4f7ff'; ctx.lineWidth = 1.3;
+          ctx.beginPath();
+          ctx.moveTo(0, -sc * 1.02);
+          ctx.bezierCurveTo(sc * 0.56, -sc * 0.82, sc * 0.52, -sc * 0.12, sc * 0.28, sc * 0.05);
+          ctx.lineTo(-sc * 0.28, sc * 0.05);
+          ctx.bezierCurveTo(-sc * 0.52, -sc * 0.12, -sc * 0.56, -sc * 0.82, 0, -sc * 1.02);
+          ctx.closePath(); ctx.fill(); ctx.stroke();
+
+          // Horizontal copperplate shading lines across cranium
+          ctx.strokeStyle = 'rgba(244, 247, 255, 0.48)'; ctx.lineWidth = 0.8;
+          for (let h = -9; h <= 0; h++) {
+            const hy = h * sc * 0.095;
+            const hw = sc * 0.40 * Math.sqrt(Math.max(0, 1 - Math.pow((hy + sc * 0.48) / (sc * 0.56), 2)));
+            ctx.beginPath(); ctx.moveTo(-hw, hy); ctx.lineTo(hw, hy); ctx.stroke();
+          }
+
+          // Six Slitted Eldritch Ocelli Eyes (3 per side, glowing Electrum Gold / Crimson!)
+          const eyeCol = (state.abyss > 0.78 && state.seal < 0.45) ? '#ff6b86' : '#ffe596';
           for (const dir of [-1, 1]) {
-            ctx.fillStyle = '#ffffff';
-            ctx.beginPath(); ctx.ellipse(dir * sc * 0.19, -sc * 0.30, sc * 0.11, sc * 0.055, dir * -0.25, 0, Math.PI * 2); ctx.fill();
+            for (let e = 0; e < 3; e++) {
+              const ex = dir * sc * (0.12 + e * 0.09), ey = -sc * (0.26 + e * 0.09);
+              const er = sc * (0.055 - e * 0.01);
+              ctx.strokeStyle = eyeCol; ctx.lineWidth = 1.1;
+              ctx.beginPath(); ctx.ellipse(ex, ey, er * 1.4, er * 0.65, dir * -0.3, 0, Math.PI * 2); ctx.stroke();
+              ctx.fillStyle = '#ffffff';
+              ctx.beginPath(); ctx.arc(ex, ey, er * 0.38, 0, Math.PI * 2); ctx.fill();
+            }
           }
-          for (let f = -4.5; f <= 4.5; f += 1) {
-            const nf = f / 4.5, w1 = Math.sin(t * 3.1 + f) * sc * 0.32;
-            const x0 = nf * sc * 0.32, y0 = -sc * 0.05, x1 = nf * sc * 0.62 + w1, y1 = sc * 0.45, x2 = nf * sc * 0.78 - w1 * 0.6, y2 = sc * (0.98 + (1 - Math.abs(nf)) * 0.28);
-            ctx.strokeStyle = '#0b19b8'; ctx.lineWidth = Math.max(2.4, sc * 0.11); ctx.lineCap = 'round';
+
+          // Fine Engraved Tentacular Beard with Stipple Nodes
+          for (let f = -3.5; f <= 3.5; f += 1) {
+            const nf = f / 3.5, w1 = Math.sin(t * 2.6 + f * 1.3) * sc * 0.22;
+            const x0 = nf * sc * 0.24, y0 = sc * 0.02, x1 = nf * sc * 0.46 + w1, y1 = sc * 0.38, x2 = nf * sc * 0.58 - w1 * 0.5, y2 = sc * (0.76 + (1 - Math.abs(nf)) * 0.22);
+            ctx.strokeStyle = '#0917b5'; ctx.lineWidth = Math.max(2.0, sc * 0.075); ctx.lineCap = 'round';
             ctx.beginPath(); ctx.moveTo(x0, y0); ctx.quadraticCurveTo(x1, y1, x2, y2); ctx.stroke();
-            ctx.strokeStyle = '#ffffff'; ctx.lineWidth = Math.max(1.1, sc * 0.05);
+            ctx.strokeStyle = 'rgba(244, 247, 255, 0.92)'; ctx.lineWidth = Math.max(0.95, sc * 0.032);
             ctx.beginPath(); ctx.moveTo(x0, y0); ctx.quadraticCurveTo(x1, y1, x2, y2); ctx.stroke();
           }
           ctx.restore();
@@ -2442,98 +2856,184 @@
     const woodCanvas = document.getElementById('woodcut-canvas');
     const ctxWood = woodCanvas.getContext('2d');
 
+    const radarCanvas = document.getElementById('pantheon-radar-canvas');
+    const ctxRadar = radarCanvas ? radarCanvas.getContext('2d') : null;
+    const RADAR_LABELS = ['休谟', '神性', '模因', '灭世', '秘教', '烈度'];
+
+    function drawPantheonRadar(stats) {
+      if (!ctxRadar) return;
+      ctxRadar.clearRect(0, 0, 160, 140);
+      const cx = 80, cy = 70, R = 46;
+      ctxRadar.strokeStyle = 'rgba(244, 247, 255, 0.25)'; ctxRadar.lineWidth = 0.8;
+      for (const ring of [0.35, 0.68, 1.0]) {
+        ctxRadar.beginPath();
+        for (let i = 0; i < 6; i++) {
+          const a = (i / 6) * Math.PI * 2 - Math.PI * 0.5;
+          const x = cx + Math.cos(a) * R * ring, y = cy + Math.sin(a) * R * ring;
+          if (i === 0) ctxRadar.moveTo(x, y); else ctxRadar.lineTo(x, y);
+        }
+        ctxRadar.closePath(); ctxRadar.stroke();
+      }
+      ctxRadar.fillStyle = '#b8cbff'; ctxRadar.font = '9.5px sans-serif';
+      ctxRadar.textAlign = 'center'; ctxRadar.textBaseline = 'middle';
+      for (let i = 0; i < 6; i++) {
+        const a = (i / 6) * Math.PI * 2 - Math.PI * 0.5;
+        ctxRadar.beginPath(); ctxRadar.moveTo(cx, cy); ctxRadar.lineTo(cx + Math.cos(a) * R, cy + Math.sin(a) * R); ctxRadar.stroke();
+        ctxRadar.fillText(RADAR_LABELS[i], cx + Math.cos(a) * (R + 14), cy + Math.sin(a) * (R + 12));
+      }
+      ctxRadar.fillStyle = 'rgba(136, 240, 255, 0.26)';
+      ctxRadar.strokeStyle = '#ffe596'; ctxRadar.lineWidth = 1.5;
+      ctxRadar.beginPath();
+      for (let i = 0; i < 6; i++) {
+        const a = (i / 6) * Math.PI * 2 - Math.PI * 0.5;
+        const v = (stats[i] || 80) / 100;
+        const x = cx + Math.cos(a) * R * v, y = cy + Math.sin(a) * R * v;
+        if (i === 0) ctxRadar.moveTo(x, y); else ctxRadar.lineTo(x, y);
+      }
+      ctxRadar.closePath(); ctxRadar.fill(); ctxRadar.stroke();
+    }
+
+    function sphereLit(nx, ny, cx0, cy0, r, lx = -0.45, ly = -0.55) {
+      const dx = (nx - cx0) / r, dy = (ny - cy0) / r, d2 = dx * dx + dy * dy;
+      if (d2 >= 1) return 0;
+      const dz = Math.sqrt(1 - d2);
+      const diff = Math.max(0, dx * lx + dy * ly + dz * 0.70);
+      const rim = Math.pow(1 - dz, 2.4) * 0.55;
+      return Math.min(1.15, 0.14 + diff * 0.88 + rim);
+    }
+
     function drawLiberTwo(t) {
       ctxWheel.clearRect(0, 0, 648, 648);
       ctxWheel.save(); ctxWheel.translate(324, 324);
       ctxWheel.strokeStyle = 'rgba(244, 247, 255, 0.72)'; ctxWheel.lineWidth = 1.8;
       ctxWheel.beginPath(); ctxWheel.arc(0, 0, 260, 0, Math.PI * 2); ctxWheel.stroke();
-      ctxWheel.strokeStyle = 'rgba(244, 247, 255, 0.35)';
+      ctxWheel.strokeStyle = 'rgba(136, 240, 255, 0.35)'; ctxWheel.lineWidth = 1.1;
       ctxWheel.beginPath(); ctxWheel.arc(0, 0, 242, 0, Math.PI * 2); ctxWheel.stroke();
+      for (let tk = 0; tk < 72; tk++) {
+        const ta = (tk / 72) * Math.PI * 2 + t * 0.02;
+        const r0 = tk % 9 === 0 ? 234 : 242;
+        ctxWheel.beginPath(); ctxWheel.moveTo(Math.cos(ta)*r0, Math.sin(ta)*r0); ctxWheel.lineTo(Math.cos(ta)*250, Math.sin(ta)*250); ctxWheel.stroke();
+      }
 
       PANTHEON.forEach((p, idx) => {
         const a = (idx / 8) * Math.PI * 2 - Math.PI * 0.5;
         const x = Math.cos(a) * 260, y = Math.sin(a) * 260, active = idx === state.pantheonIdx;
-        ctxWheel.fillStyle = active ? '#ffffff' : '#1326e6'; ctxWheel.strokeStyle = '#ffffff'; ctxWheel.lineWidth = 2;
+        ctxWheel.fillStyle = active ? '#ffe596' : '#0d1ec9'; ctxWheel.strokeStyle = active ? '#ffe596' : '#ffffff'; ctxWheel.lineWidth = 2;
         ctxWheel.beginPath(); ctxWheel.arc(x, y, active ? 10 : 5.5, 0, Math.PI * 2); ctxWheel.fill(); ctxWheel.stroke();
-        ctxWheel.fillStyle = active ? '#ffffff' : 'rgba(244,247,255,0.65)';
-        ctxWheel.font = `${active ? 'bold ' : ''}20px Georgia, serif`; ctxWheel.textAlign = 'center'; ctxWheel.textBaseline = 'middle';
+        ctxWheel.fillStyle = active ? '#ffe596' : 'rgba(244,247,255,0.68)';
+        ctxWheel.font = `${active ? 'bold ' : ''}19px Georgia, serif`; ctxWheel.textAlign = 'center'; ctxWheel.textBaseline = 'middle';
         ctxWheel.fillText(p.roman, Math.cos(a) * 292, Math.sin(a) * 292);
       });
       ctxWheel.restore();
 
+      // High-Definition Chiaroscuro Volumetric Copperplate Scanline Plate!
       const Wc = 520, Hc = 580;
-      ctxWood.fillStyle = '#1326e6'; ctxWood.fillRect(0, 0, Wc, Hc);
+      const grad = ctxWood.createRadialGradient(Wc * 0.5, Hc * 0.38, 20, Wc * 0.5, Hc * 0.5, Hc * 0.72);
+      grad.addColorStop(0, '#1935f5'); grad.addColorStop(0.6, '#1022dc'); grad.addColorStop(1, '#07118c');
+      ctxWood.fillStyle = grad; ctxWood.fillRect(0, 0, Wc, Hc);
+
       const art = PANTHEON[state.pantheonIdx].artType;
-      const rows = IS_MOBILE ? 96 : 132, rowStep = Hc / rows, xStep = IS_MOBILE ? 5 : 3;
-      ctxWood.fillStyle = '#f4f7ff';
+      const rows = IS_MOBILE ? 112 : 168, rowStep = Hc / rows, xStep = IS_MOBILE ? 4 : 2.5;
 
       for (let r = 0; r < rows; r++) {
         const py = (r + 0.5) * rowStep, ny = (py / Hc) * 2 - 1;
-        for (let x = 16; x < Wc - 16; x += xStep) {
+        for (let x = 14; x < Wc - 14; x += xStep) {
           const nx = (x / Wc) * 2 - 1;
-          let val = 0;
-          if (Math.abs(Math.abs(nx) - 0.82) < 0.014 && ny > -0.35 && ny < 0.85) val += 0.6;
-
-          if (art === 'cthulhu') {
-            const dHead = Math.hypot(nx * 1.3, (ny + 0.18) * 1.1);
-            if (dHead < 0.34) val += (1 - dHead / 0.34) * 0.92;
-            if (Math.abs(Math.hypot(nx, ny + 0.18) - 0.52) < 0.03) val += 0.85;
-            const wingY = -0.15 - Math.abs(nx) * 0.45 + Math.sin(Math.abs(nx) * 8 - t * 2) * 0.05;
-            if (Math.abs(nx) > 0.22 && Math.abs(nx) < 0.88 && ny > wingY && ny < wingY + 0.42) val += 0.68 * (1 - (ny - wingY) / 0.42);
-            if (ny > 0.05 && ny < 0.78 && Math.abs(nx) < 0.48 && Math.sin(nx * 18 + Math.sin(ny * 8 - t * 2.5) * 1.8) > 0.45) val += 0.8;
-            if (ny > 0.58 && Math.abs(nx) < 0.45 + (ny - 0.58)) val += 0.75;
-          } else if (art === 'guardian') {
-            // SCP-001 Four-Winged Seraphic Gate Guardian + Blazing Vertical Sword!
-            if (Math.abs(nx) < 0.035 && ny > -0.68 && ny < 0.75) val += 1.0; // Flaming sword & pillar
-            if (Math.abs(ny - 0.08) < 0.025 && Math.abs(nx) < 0.22) val += 0.95; // Crossguard
-            const dHalo = Math.hypot(nx, ny + 0.28);
-            if (dHalo < 0.24) val += (1 - dHalo / 0.24) * 0.95;
-            // Four sweeping wings
-            const w1 = Math.abs(ny - (-0.28 - Math.abs(nx) * 0.55 + Math.sin(Math.abs(nx)*6 - t*2)*0.04));
-            const w2 = Math.abs(ny - (-0.02 + Math.abs(nx) * 0.35));
-            if (Math.abs(nx) > 0.08 && Math.abs(nx) < 0.86 && (w1 < 0.14 || w2 < 0.12)) val += 0.78;
-          } else if (art === 'scp3000') {
-            // Giant Coiling Abyssal Eel Anantashesha in Deep Trench!
-            const spineX = Math.sin(ny * 4.5 - t * 1.6) * (0.48 - ny * 0.15);
-            const dist = Math.abs(nx - spineX);
-            const thick = 0.14 * (1.1 - (ny + 1) * 0.3);
-            if (dist < thick && ny > -0.65 && ny < 0.85) val += (1 - dist / thick) * 0.95;
-            if (Math.hypot(nx - Math.sin(-0.65*4.5 - t*1.6)*0.55, ny + 0.62) < 0.20) val += 0.9;
-          } else if (art === 'mekhane') {
-            // Broken God Giant Interlocking Cogwheels & Sacred Heart
-            const d = Math.hypot(nx, ny + 0.02), a = Math.atan2(ny + 0.02, nx);
-            const gear = 0.52 + 0.07 * Math.sign(Math.sin(a * 12 + t * 1.5));
-            if (d < gear && d > 0.34) val += 0.88;
-            if (d < 0.18 || (Math.abs(nx) < 0.04 && d < 0.5) || (Math.abs(ny + 0.02) < 0.04 && d < 0.5)) val += 0.92;
-          } else if (art === 'scp2317') {
-            // 7 Pillars & Chains converging on the Devourer's Maw!
-            for (let p = -3; p <= 3; p++) {
-              if (Math.abs(nx - p * 0.22) < 0.032 && ny > -0.25 && ny < 0.75) val += 0.85;
-            }
-            if (Math.abs(ny - (0.35 - Math.abs(nx) * 0.6)) < 0.025) val += 0.95;
-            if (Math.hypot(nx, ny - 0.42) < 0.28) val += 0.85;
-          } else if (art === 'yogsothoth') {
-            for (let k = 0; k < 9; k++) {
-              const ang = (k / 9) * Math.PI * 2 + t * 0.25, rad = k === 0 ? 0 : 0.42, sr = k === 0 ? 0.32 : 0.17;
-              const d = Math.hypot(nx - Math.cos(ang)*rad, ny - (Math.sin(ang)*rad*0.9 - 0.04));
-              if (d < sr) val = Math.max(val, Math.sqrt(Math.max(0, 1 - (d / sr) ** 2)) * 0.95);
-            }
-          } else if (art === 'nyarlathotep') {
-            if (ny > 0.15 && ny < 0.82 && nx > -0.65 + (0.82 - ny)*0.55 && nx < 0.65 - (0.82 - ny)*0.2) val += Math.sin(ny * 48) > 0 ? 0.78 : 0.25;
-            const dSun = Math.hypot(nx - 0.02, ny + 0.32);
-            if (dSun < 0.22) val += (1 - dSun / 0.22) * 1.1;
-            if (Math.abs(nx - 0.02) < 0.09 && ny > -0.22 && ny < 0.18) val += 0.92;
-          } else {
-            const d = Math.hypot(nx, ny + 0.04), swirl = Math.sin(d * 26 - t * 3 + Math.atan2(ny + 0.04, nx) * 4);
-            if (d < 0.78 && d > 0.12) val += (0.5 + 0.5 * swirl) * (1 - d * 0.9);
+          // Subtle Renaissance radiating chiaroscuro God-rays & fluted temple pilasters!
+          const rayAng = Math.atan2(ny + 0.25, nx);
+          let val = 0.05 + 0.07 * Math.max(0, Math.cos(rayAng * 18 + t * 0.6)) * Math.exp(-Math.hypot(nx, ny + 0.25) * 1.1);
+          // Architectural fluted side columns & perspective pedestal steps
+          if (Math.abs(Math.abs(nx) - 0.84) < 0.045 && ny > -0.32 && ny < 0.88) {
+            val += 0.42 * Math.cos(((Math.abs(nx) - 0.84) / 0.045) * Math.PI * 0.5) * (0.65 + 0.35 * Math.sin(nx * 140));
+          }
+          if (ny > 0.76 && Math.abs(nx) < 0.88) {
+            val += (Math.sin(ny * 75) > 0 ? 0.48 : 0.14) * (1 - Math.abs(nx) * 0.35);
           }
 
-          if (val > 0.08) {
-            const hLine = Math.min(rowStep * 0.88, val * rowStep * 0.92);
-            ctxWood.fillRect(x, py - hLine * 0.5, xStep + 0.15, hLine);
+          if (art === 'cthulhu') {
+            val += sphereLit(nx * 1.15, ny, 0, -0.22, 0.33, -0.5, -0.5) * 0.95;
+            const dHalo = Math.hypot(nx, ny + 0.22);
+            if (Math.abs(dHalo - 0.48) < 0.022 || Math.abs(dHalo - 0.55) < 0.012) val += 0.78;
+            const wingTop = -0.22 - Math.abs(nx) * 0.42 + Math.sin(Math.abs(nx) * 9 - t * 1.8) * 0.04;
+            if (Math.abs(nx) > 0.22 && Math.abs(nx) < 0.82 && ny > wingTop && ny < wingTop + 0.46) {
+              const rib = 0.55 + 0.45 * Math.sin((ny - wingTop) * 42 + Math.abs(nx) * 16);
+              val += 0.68 * (1 - (ny - wingTop) / 0.46) * rib;
+            }
+            if (ny > 0.02 && ny < 0.76 && Math.abs(nx) < 0.46) {
+              const wave = Math.sin(nx * 22 + Math.sin(ny * 9 - t * 2.4) * 2.1);
+              if (wave > 0.25) val += wave * 0.82 * (1 - Math.abs(nx) * 1.4);
+            }
+          } else if (art === 'guardian') {
+            const swordGlow = Math.exp(-Math.abs(nx) * 26) * (ny > -0.78 && ny < 0.76 ? 1.15 : 0);
+            val += swordGlow;
+            if (Math.abs(ny - 0.06) < 0.022 && Math.abs(nx) < 0.26) val += 0.95;
+            val += sphereLit(nx, ny, 0, -0.28, 0.20, 0, -0.6) * 0.95;
+            for (const [slope, yOff] of [[-0.55, -0.28], [0.32, -0.02]]) {
+              const wy = yOff + Math.abs(nx) * slope + Math.sin(Math.abs(nx) * 14 - t * 2) * 0.025;
+              const feather = Math.abs(ny - wy);
+              if (Math.abs(nx) > 0.07 && Math.abs(nx) < 0.82 && feather < 0.15) {
+                val += (1 - feather / 0.15) * (0.62 + 0.35 * Math.sin(Math.abs(nx) * 48));
+              }
+            }
+          } else if (art === 'scp3000') {
+            for (let seg = -0.68; seg <= 0.72; seg += 0.07) {
+              const sx = Math.sin(seg * 4.8 - t * 1.5) * (0.46 - seg * 0.14);
+              const rad = 0.145 * (1.12 - (seg + 0.8) * 0.28);
+              val = Math.max(val, sphereLit(nx, ny, sx, seg, rad, -0.55, -0.45) * 0.98);
+            }
+          } else if (art === 'mekhane') {
+            const d = Math.hypot(nx, ny + 0.04), a = Math.atan2(ny + 0.04, nx);
+            const gear = 0.54 + 0.065 * Math.sign(Math.sin(a * 16 + t * 1.2));
+            if (d < gear && d > 0.34) val += 0.75 + 0.25 * Math.sin(d * 60);
+            const dInner = Math.hypot(nx, ny + 0.04);
+            const gear2 = 0.28 + 0.04 * Math.sign(Math.sin(a * 10 - t * 1.8));
+            if (dInner < gear2 && dInner > 0.16) val += 0.85;
+            val += sphereLit(nx, ny, 0, -0.04, 0.14) * 1.05;
+          } else if (art === 'scp2317') {
+            for (let p = -3; p <= 3; p++) {
+              const px0 = p * 0.21;
+              if (Math.abs(nx - px0) < 0.036 && ny > -0.28 && ny < 0.76) {
+                val += 0.82 * Math.cos(((nx - px0) / 0.036) * 1.3);
+              }
+            }
+            if (Math.abs(ny - (0.36 - Math.abs(nx) * 0.62)) < 0.022) val += 0.98;
+            val += sphereLit(nx, ny, 0, 0.44, 0.27, 0, -0.8) * 0.92;
+          } else if (art === 'yogsothoth') {
+            for (let k = 0; k < 9; k++) {
+              const ang = (k / 9) * Math.PI * 2 + t * 0.24, rad = k === 0 ? 0 : 0.43, sr = k === 0 ? 0.30 : 0.165;
+              val = Math.max(val, sphereLit(nx, ny, Math.cos(ang) * rad, Math.sin(ang) * rad * 0.9 - 0.04, sr, -0.45, -0.55) * 1.04);
+            }
+          } else if (art === 'nyarlathotep') {
+            if (ny > -0.52 && ny < 0.22 && Math.abs(nx) < (0.22 - ny) * 0.58) {
+              val += (nx < 0 ? 0.88 : 0.38) * (0.75 + 0.25 * Math.sin(ny * 55));
+            }
+            val += sphereLit(nx, ny, 0, -0.60, 0.14, -0.3, -0.5) * 1.1;
+            if (ny > 0.26 && ny < 0.78 && Math.abs(nx) < (ny - 0.15) * 0.85) {
+              val += (nx > 0 ? 0.76 : 0.32);
+            }
+          } else {
+            const d = Math.hypot(nx, ny + 0.04), a = Math.atan2(ny + 0.04, nx);
+            const swirl = Math.sin(d * 28 - t * 2.8 + a * 5);
+            if (d < 0.78 && d > 0.10) val += (0.52 + 0.48 * swirl) * (1 - d * 0.85);
+            val += sphereLit(nx, ny, 0, -0.04, 0.16) * 0.95;
+          }
+
+          if (val > 0.07) {
+            const hLine = Math.min(rowStep * 0.92, val * rowStep * 0.88);
+            ctxWood.fillStyle = val > 0.92 ? '#ffe9a8' : '#f4f7ff';
+            ctxWood.fillRect(x, py - hLine * 0.5, xStep + 0.18, hLine);
           }
         }
       }
+
+      // Copperplate Inner Marginalia Frame & Coordinate Crosshairs inside Niche!
+      ctxWood.strokeStyle = 'rgba(244, 247, 255, 0.42)'; ctxWood.lineWidth = 1;
+      ctxWood.strokeRect(22, 260, Wc - 44, Hc - 282);
+      ctxWood.fillStyle = 'rgba(255, 229, 150, 0.78)'; ctxWood.font = '10px Georgia, serif';
+      ctxWood.fillText('ORDO CAERULEUS · TABULA SACRA', 34, Hc - 32);
+      ctxWood.textAlign = 'right';
+      ctxWood.fillText(`SCALE 1:${(state.pantheonIdx + 1) * 144}`, Wc - 34, Hc - 32);
+      ctxWood.textAlign = 'left';
     }
 
     // =========================================================================
@@ -2598,14 +3098,76 @@
     let prevTs = performance.now();
     const zoomReadout = document.getElementById('zoom-readout');
 
+    const telCanvas = document.getElementById('telemetry-canvas');
+    const ctxTel = telCanvas ? telCanvas.getContext('2d') : null;
+    const cosmoCanvas = document.getElementById('cosmology-canvas');
+    const ctxCosmo = cosmoCanvas ? cosmoCanvas.getContext('2d') : null;
+
+    function drawTelemetryOscilloscope(t) {
+      if (!ctxTel || state.uiHidden) return;
+      ctxTel.clearRect(0, 0, 244, 44);
+      ctxTel.strokeStyle = 'rgba(244,247,255,0.12)'; ctxTel.lineWidth = 0.7;
+      ctxTel.beginPath(); ctxTel.moveTo(0, 22); ctxTel.lineTo(244, 22); ctxTel.stroke();
+
+      // Trace 1: Hume Field (Cyan)
+      ctxTel.strokeStyle = '#88f0ff'; ctxTel.lineWidth = 1.25;
+      ctxTel.beginPath();
+      for (let x = 0; x <= 244; x += 3) {
+        const y = 22 - (state.seal - 0.5) * 12 + Math.sin(x * 0.09 - t * 4.5) * (3 + state.abyss * 7) * Math.sin(x * 0.025 + t);
+        if (x === 0) ctxTel.moveTo(x, y); else ctxTel.lineTo(x, y);
+      }
+      ctxTel.stroke();
+
+      // Trace 2: Akiva / Keter Breach (Gold -> Crimson)
+      ctxTel.strokeStyle = (state.abyss > 0.78 && state.seal < 0.45) ? '#ff6b86' : '#ffe596';
+      ctxTel.lineWidth = 1.1;
+      ctxTel.beginPath();
+      for (let x = 0; x <= 244; x += 3) {
+        const spike = Math.pow(Math.max(0, Math.sin(x * 0.14 - t * 6.2)), 6) * 14 * state.abyss;
+        const y = 28 - spike + Math.cos(x * 0.06 + t * 2.2) * 2.5;
+        if (x === 0) ctxTel.moveTo(x, y); else ctxTel.lineTo(x, y);
+      }
+      ctxTel.stroke();
+    }
+
+    function drawCosmology(t) {
+      if (!ctxCosmo) return;
+      ctxCosmo.clearRect(0, 0, 420, 240);
+      ctxCosmo.save(); ctxCosmo.translate(210, 120);
+      const spheres = [
+        { r: 22, col: '#88f0ff', label: 'TERRA · 休谟基准界' },
+        { r: 44, col: 'rgba(244,247,255,0.55)', label: 'SRA · 斯克兰顿帷幕' },
+        { r: 68, col: 'rgba(255,229,150,0.65)', label: 'VIII · 赫尔墨斯群青天球' },
+        { r: 92, col: 'rgba(136,240,255,0.45)', label: 'PORTA · 放逐者图书馆/冷原' },
+        { r: 112, col: 'rgba(255,120,145,0.55)', label: 'AZATHOTH · 盲目外神深渊' }
+      ];
+      spheres.forEach((s, idx) => {
+        ctxCosmo.strokeStyle = s.col; ctxCosmo.lineWidth = idx === 2 ? 1.6 : 1.0;
+        ctxCosmo.beginPath(); ctxCosmo.ellipse(0, 0, s.r * 1.55, s.r * 0.88, 0, 0, Math.PI * 2); ctxCosmo.stroke();
+        const na = t * (0.28 - idx * 0.04) * (idx % 2 === 0 ? 1 : -1) + idx * 1.2;
+        const nx = Math.cos(na) * s.r * 1.55, ny = Math.sin(na) * s.r * 0.88;
+        ctxCosmo.fillStyle = s.col;
+        ctxCosmo.beginPath(); ctxCosmo.arc(nx, ny, 3.2, 0, Math.PI * 2); ctxCosmo.fill();
+      });
+      ctxCosmo.fillStyle = '#ffffff'; ctxCosmo.beginPath(); ctxCosmo.arc(0, 0, 6, 0, Math.PI * 2); ctxCosmo.fill();
+      ctxCosmo.fillStyle = '#ffe596'; ctxCosmo.font = '9.5px monospace'; ctxCosmo.textAlign = 'left';
+      ctxCosmo.fillText('IX · OUTER CHAOS', -198, -98);
+      ctxCosmo.fillStyle = '#88f0ff';
+      ctxCosmo.fillText('VIII · DIVINUM CAERULEUM', 62, -98);
+      ctxCosmo.fillText('I · TERRA HUME 1.0', -46, 4);
+      ctxCosmo.restore();
+    }
+
     function animate(ts) {
       const dt = Math.min(0.05, (ts - prevTs) / 1000);
       prevTs = ts; state.time += dt;
 
       if (state.liber === 'prologus') drawPrologus(state.time);
       else if (state.liber === 'pantheon') drawLiberTwo(state.time);
+      else if (state.liber === 'oraculum') drawCosmology(state.time);
       else if (state.liber === 'colophon') drawColophon(state.time);
       else if (state.liber === 'terra') {
+        drawTelemetryOscilloscope(state.time);
         if (state.targetRotY !== null) {
           let dy = state.targetRotY - state.rotY;
           while (dy > Math.PI) dy -= Math.PI * 2;
@@ -2662,28 +3224,90 @@
     // =========================================================================
     const LIBER_META = {
       prologus:     { right: 'CLEARANCE O5 · PROLOGVS',   roman: '— O · ORDO CAERULEUS —' },
-      terra:        { right: 'CLEARANCE O5 · LIBER I',    roman: '— I · HUME 1.04 · SRA ONLINE —' },
+      terra:        { right: 'CLEARANCE O5 · LIBER I',    roman: '— I · HUME 1.12 · SRA ONLINE —' },
       pantheon:     { right: 'APOLLYON · LIBER II',       roman: '— II · DEITATES ET SCP —' },
-      scp:          { right: 'CLASSIFIED · LIBER III',    roman: '— III · EYES ONLY O5 —' },
+      scp:          { right: 'ARCHIVUM · LIBER III',      roman: '— III · EYES ONLY O5 —' },
       architectura: { right: 'SITES & URBES · LIBER IV',  roman: '— IV · TOPOGRAPHIA —' },
-      colophon:     { right: 'COLOPHON',                  roman: '— V · FINIS —' }
+      oraculum:     { right: 'TRISMEGISTUS.AIC · LIBER V',roman: '— V · TACTICAL THEOLOGY —' },
+      colophon:     { right: 'COLOPHON',                  roman: '— VI · FINIS —' }
     };
 
     const leftPanel = document.getElementById('left-panel');
     const rightPanel = document.getElementById('right-panel');
     const camBar = document.getElementById('globe-cam-bar');
+    const liveTicker = document.getElementById('live-ticker');
+
+    // =========================================================================
+    // PROCEDURAL WEBAUDIO SACRED CATHEDRAL CHOIR & ABYSSAL SONAR SYNTHESIZER!
+    // =========================================================================
+    let audioCtx = null, masterGain = null, sonarTimer = null;
+    function playClickBlip(freq = 680) {
+      if (!state.audioOn || !audioCtx) return;
+      const o = audioCtx.createOscillator(), g = audioCtx.createGain();
+      o.type = 'triangle'; o.frequency.value = freq;
+      g.gain.setValueAtTime(0.04, audioCtx.currentTime);
+      g.gain.exponentialRampToValueAtTime(0.0008, audioCtx.currentTime + 0.065);
+      o.connect(g); g.connect(audioCtx.destination);
+      o.start(); o.stop(audioCtx.currentTime + 0.07);
+    }
+    function toggleSacredAudio() {
+      const btn = document.getElementById('btn-audio');
+      if (!audioCtx) {
+        const AC = window.AudioContext || window.webkitAudioContext;
+        if (!AC) return;
+        audioCtx = new AC();
+        masterGain = audioCtx.createGain();
+        masterGain.gain.value = 0.0;
+        const filter = audioCtx.createBiquadFilter();
+        filter.type = 'lowpass'; filter.frequency.value = 460;
+        filter.connect(masterGain); masterGain.connect(audioCtx.destination);
+
+        // Hermetic Sacred Fifth & Octave Choir Pad (110Hz A2, 165Hz E3, 220Hz A3, 277.18Hz C#4)
+        [55, 110, 164.81, 220, 329.63].forEach((f, idx) => {
+          const osc = audioCtx.createOscillator();
+          const g = audioCtx.createGain();
+          osc.type = idx % 2 === 0 ? 'sine' : 'triangle';
+          osc.frequency.value = f;
+          g.gain.value = idx === 0 ? 0.28 : 0.12;
+          osc.connect(g); g.connect(filter); osc.start();
+        });
+      }
+      state.audioOn = !state.audioOn;
+      if (audioCtx.state === 'suspended') audioCtx.resume();
+      masterGain.gain.setTargetAtTime(state.audioOn ? 0.16 : 0.0, audioCtx.currentTime, 0.35);
+      if (sonarTimer) { clearInterval(sonarTimer); sonarTimer = null; }
+      if (state.audioOn) {
+        playClickBlip(880);
+        sonarTimer = setInterval(() => {
+          if (!state.audioOn || !audioCtx) return;
+          const p = audioCtx.createOscillator(), pg = audioCtx.createGain();
+          p.type = 'sine';
+          p.frequency.setValueAtTime(state.abyss > 0.7 ? 196 : 528, audioCtx.currentTime);
+          p.frequency.exponentialRampToValueAtTime(132, audioCtx.currentTime + 1.8);
+          pg.gain.setValueAtTime(0.035, audioCtx.currentTime);
+          pg.gain.exponentialRampToValueAtTime(0.0005, audioCtx.currentTime + 1.9);
+          p.connect(pg); pg.connect(audioCtx.destination);
+          p.start(); p.stop(audioCtx.currentTime + 2.0);
+        }, 5200);
+      }
+      btn.innerHTML = `<svg class="ico" viewBox="0 0 14 14"><polygon points="2,5.2 4.8,5.2 8,2.5 8,11.5 4.8,8.8 2,8.8"/>${state.audioOn ? '<path d="M10 4.2 Q12.5 7 10 9.8"/><path d="M11.4 2.8 Q14.2 7 11.4 11.2"/>' : '<line x1="10" y1="5" x2="13" y2="9"/><line x1="13" y1="5" x2="10" y2="9"/>'}</svg><span>圣咏声景: ${state.audioOn ? '开' : '关'}</span>`;
+    }
+    document.getElementById('btn-audio').addEventListener('click', toggleSacredAudio);
 
     window.switchLiber = function(name) {
+      playClickBlip(620);
       state.liber = name;
       document.body.classList.toggle('colophon-mode', name === 'colophon');
       document.querySelectorAll('.liber-nav-btn[data-liber]').forEach(b => b.classList.toggle('active', b.dataset.liber === name));
-      ['prologus', 'pantheon', 'scp', 'architectura', 'colophon'].forEach(st => {
-        document.getElementById(`stage-${st}`).classList.toggle('open', name === st);
+      ['prologus', 'pantheon', 'scp', 'architectura', 'oraculum', 'colophon'].forEach(st => {
+        const el = document.getElementById(`stage-${st}`);
+        if (el) el.classList.toggle('open', name === st);
       });
       const inTerra = name === 'terra';
       document.getElementById('globe-stage-wrap').style.opacity = inTerra ? '1' : '0';
       document.getElementById('globe-stage-wrap').style.pointerEvents = inTerra ? 'auto' : 'none';
       camBar.style.display = inTerra ? 'flex' : 'none';
+      if (liveTicker) liveTicker.style.display = (inTerra && !IS_MOBILE) ? 'flex' : 'none';
       if (!inTerra) leftPanel.classList.remove('mobile-sheet-open');
       leftPanel.classList.toggle('panel-hidden-left', !inTerra || state.uiHidden);
       rightPanel.classList.toggle('panel-hidden-right', !inTerra || state.uiHidden);
@@ -2717,6 +3341,7 @@
     });
 
     function selectPantheon(idx) {
+      playClickBlip(740);
       state.pantheonIdx = idx;
       const p = PANTHEON[idx];
       document.getElementById('pan-symbol').innerHTML = p.sym;
@@ -2725,6 +3350,13 @@
       document.getElementById('pan-sub').textContent = p.sub;
       document.getElementById('pan-lore').textContent = p.lore;
       document.getElementById('pan-fig-caption').textContent = p.fig;
+      const scripEl = document.getElementById('pan-scripture');
+      if (scripEl) scripEl.textContent = p.scripture || '';
+      const metEl = document.getElementById('pan-metrics');
+      if (metEl && p.metrics) {
+        metEl.innerHTML = p.metrics.map((m, mi) => `<span class="${mi===0?'badge-crimson':(mi===1?'badge-cyan':'badge-gold')}">${m}</span>`).join('');
+      }
+      drawPantheonRadar(p.stats || [90,90,90,90,90,90]);
       document.querySelectorAll('#pan-selector button').forEach((b, i) => b.classList.toggle('active', i === idx));
     }
     document.getElementById('pan-selector').innerHTML = PANTHEON.map((p, i) => `
@@ -2743,46 +3375,214 @@
     });
     selectPantheon(0);
 
-    // Populate Liber III: Classified SCP × Mythos Files
-    document.getElementById('scp-grid').innerHTML = SCP_FILES.map(f => `
-      <article style="border:1px solid rgba(244,247,255,0.48); padding:5px; background:rgba(10,21,168,0.72);">
-        <div style="border:1px solid rgba(244,247,255,0.22); padding:16px; height:100%; display:flex; flex-direction:column; justify-content:space-between; gap:12px;">
-          <div>
-            <div style="display:flex; justify-content:space-between; align-items:center; font-family:monospace; font-size:10.5px; color:#fff4b8; border-bottom:1px solid rgba(244,247,255,0.25); padding-bottom:6px;">
-              <span>ITEM #: ${f.code}</span>
-              <span>HUME: ${f.hume}</span>
-            </div>
-            <h3 style="font-size:16px; font-weight:700; margin-top:10px; color:#ffffff;">${f.title}</h3>
-            <p style="font-size:12px; color:#e4ecff; line-height:1.75; margin-top:8px;"><b>异常描述：</b>${f.summary}</p>
-            <p style="font-size:11.5px; color:#bfd0ff; line-height:1.65; margin-top:8px;"><b>特殊收容措施：</b>${f.proc}</p>
-          </div>
-          <button class="bp-btn" style="width:100%; padding:6px; font-size:11px; letter-spacing:0.14em;" onclick="jumpAtlas('${f.city}')">
-            调取 3D 站点地形、河流与人员流动监控 (8.8x) →
-          </button>
-        </div>
-      </article>
-    `).join('');
+    // Helper: Generate SVG Topographic Elevation & River Cross-Section Profile per City!
+    const CITY_META_EXTRA = {
+      rlyeh:      { badge: 'badge-crimson', cls: 'APOLLYON', hume: '0.41 Hm', garrison: 'MTF GAMMA-6 深海喂食者', prof: [18, 42, 24, 68, 86, 62, 12, 54, 38, 14], riverAt: 6 },
+      alexandria: { badge: 'badge-gold',    cls: 'THAUMIEL', hume: '1.48 Hm', garrison: 'MTF ALPHA-1 红右手',     prof: [22, 34, 58, 92, 66, 14, 16, 48, 36, 20], riverAt: 5 },
+      site2000:   { badge: 'badge-gold',    cls: 'THAUMIEL', hume: '1.35 Hm', garrison: 'SRA 工程团 × ALPHA-1',  prof: [92, 74, 42, 64, 58, 18, 52, 68, 88, 95], riverAt: 5 },
+      gate001:    { badge: 'badge-gold',    cls: 'YESOD',    hume: '8.90 Hm', garrison: 'SITE-0 远古守望哨',      prof: [38, 22, 14, 56, 96, 58, 14, 24, 42, 48], riverAt: 2 },
+      prague:     { badge: 'badge-cyan',    cls: 'ARCHON',   hume: '0.62 Hm', garrison: '蔷薇十字 × 秘传学分部',  prof: [54, 78, 88, 62, 15, 36, 72, 92, 64, 44], riverAt: 4 },
+      site13:     { badge: 'badge-crimson', cls: 'KETER',    hume: '0.24 Hm', garrison: 'MTF TAU-5 轮回小队',    prof: [90, 68, 22, 76, 94, 76, 18, 28, 74, 92], riverAt: 6 },
+      cairo:      { badge: 'badge-cyan',    cls: 'ARCHON',   hume: '0.92 Hm', garrison: '齿轮正教 × 埃及站点',    prof: [46, 64, 92, 82, 56, 14, 18, 58, 44, 32], riverAt: 5 },
+      antarctica: { badge: 'badge-crimson', cls: 'KETER',    hume: '0.79 Hm', garrison: 'OUTPOST-72 × 密大科考', prof: [96, 82, 44, 88, 94, 84, 42, 78, 92, 98], riverAt: -1 },
+      penglai:    { badge: 'badge-gold',    cls: 'THAUMIEL', hume: '1.42 Hm', garrison: 'SITE-CN-01 × 中华异学会',prof: [16, 48, 86, 96, 64, 16, 44, 62, 28, 12], riverAt: 5 },
+      baikal:     { badge: 'badge-crimson', cls: 'KETER',    hume: '0.88 Hm', garrison: 'MTF ETA-5 × 发条圣骑士', prof: [88, 66, 48, 78, 48, 10, 12, 52, 76, 90], riverAt: 5 },
+      arkham:     { badge: 'badge-cyan',    cls: 'EUCLID+',  hume: '0.84 Hm', garrison: 'UIU × 密大秘仪馆藏组',   prof: [44, 68, 84, 52, 14, 38, 48, 22, 62, 16], riverAt: 4 },
+      leng:       { badge: 'badge-crimson', cls: 'APOLLYON', hume: '0.31 Hm', garrison: 'O5 220-CALABASAS 仪轨队',prof: [98, 86, 74, 92, 78, 24, 26, 72, 88, 96], riverAt: -1 }
+    };
 
-    // Populate Liber IV: 12 Topographic Cities & Sites
-    document.getElementById('atlas-grid').innerHTML = CITIES.map(c => `
-      <article style="border:1px solid rgba(244,247,255,0.45); padding:5px; background:rgba(12,24,184,0.65);">
-        <div style="border:1px solid rgba(244,247,255,0.22); padding:14px; height:100%; display:flex; flex-direction:column; justify-content:space-between; gap:10px;">
-          <div>
-            <div style="display:flex; justify-content:space-between; font-size:9.5px; letter-spacing:0.16em; color:#c8d8ff;">
-              <span>${c.tag}</span>
+    function buildElevationProfileSVG(cityId, h = 38) {
+      const m = CITY_META_EXTRA[cityId] || CITY_META_EXTRA.alexandria;
+      const pts = m.prof;
+      const Wp = 260;
+      const coords = pts.map((v, i) => `${(i / (pts.length - 1)) * Wp},${(h - 4) - (v / 100) * (h - 9)}`);
+      const poly = `0,${h} ${coords.join(' ')} ${Wp},${h}`;
+      const rx = m.riverAt >= 0 ? (m.riverAt / (pts.length - 1)) * Wp : -1;
+      return `<svg viewBox="0 0 ${Wp} ${h}" style="width:100%; height:${h}px; display:block;">
+        <polygon points="${poly}" fill="rgba(116,232,255,0.16)" />
+        <polyline points="${coords.join(' ')}" fill="none" stroke="#f4f7ff" stroke-width="1.3" />
+        ${rx >= 0 ? `<circle cx="${rx}" cy="${h - 6}" r="3" fill="#88f0ff" /><line x1="${rx-8}" y1="${h-5}" x2="${rx+8}" y2="${h-5}" stroke="#88f0ff" stroke-width="1.6"/>` : ''}
+        <line x1="0" y1="${h-1}" x2="${Wp}" y2="${h-1}" stroke="rgba(244,247,255,0.3)" stroke-width="0.8"/>
+      </svg>`;
+    }
+
+    // Populate Liber III: 12 Classified SCP × Mythos × GOI × Codex Files with Category Filter & Expandable Logs!
+    function renderScpArchive(cat = 'all') {
+      state.scpCat = cat;
+      const list = cat === 'all' ? SCP_FILES : SCP_FILES.filter(f => f.cat === cat);
+      document.getElementById('scp-grid').innerHTML = list.map((f, idx) => `
+        <article style="border:1px solid rgba(244,247,255,0.48); padding:5px; background:rgba(9,19,156,0.76);">
+          <div style="border:1px solid rgba(244,247,255,0.22); padding:15px; height:100%; display:flex; flex-direction:column; justify-content:space-between; gap:10px;">
+            <div>
+              <div style="display:flex; justify-content:space-between; align-items:center; gap:6px; border-bottom:1px solid rgba(244,247,255,0.24); padding-bottom:6px;">
+                <span class="${f.badge || 'badge-gold'}">${f.code}</span>
+                <span class="badge-cyan">${f.hume}</span>
+              </div>
+              <h3 style="font-size:15.5px; font-weight:700; margin-top:9px; color:#ffffff;">${f.title}</h3>
+              <p style="font-size:12px; color:#e4ecff; line-height:1.72; margin-top:7px;"><b>异常与神学综述：</b>${f.summary}</p>
+              <p style="font-size:11.5px; color:#bfd0ff; line-height:1.62; margin-top:6px;"><b>收容与驻防协议：</b>${f.proc}</p>
+              <details style="margin-top:8px; border:1px solid rgba(136,240,255,0.3); background:rgba(4,10,88,0.68); padding:6px 9px; font-size:11px; color:#ffe596; cursor:pointer;">
+                <summary style="font-weight:700; color:#88f0ff; outline:none;">展开现场探索 / 声呐 / 秘典批注实录</summary>
+                <p style="margin-top:6px; color:#eef4ff; line-height:1.65;">${f.log}</p>
+              </details>
             </div>
-            <div class="condensed-monument" style="font-size:23px; margin-top:9px; margin-bottom:5px;">${c.roman}</div>
-            <div style="font-size:12.5px; font-weight:700;">${c.name}</div>
-            <div style="font-size:10.5px; color:#fff4b8; margin-top:5px;"><svg class="ico" viewBox="0 0 14 14"><path d="M1.8 8.8 L5.2 3 L8.2 7.2 L10.2 4.6 L12.4 8.8"/><path d="M1.5 11.2 Q4.5 9.6 7 11.2 T12.5 11.2"/></svg>${c.terrain}</div>
-            <div style="font-size:10.5px; color:#d0deff; margin-top:2px;"><svg class="ico" viewBox="0 0 14 14"><circle cx="4.5" cy="4.2" r="1.3"/><path d="M4.5 5.8 L4.5 9.5 M4.5 9.5 L3 12 M4.5 9.5 L6 12"/><circle cx="9.5" cy="4.8" r="1.2"/><path d="M9.5 6.2 L9.5 9.6 M9.5 9.6 L8.2 12 M9.5 9.6 L10.8 12"/></svg>${c.crowd}</div>
-            <p style="font-size:11px; color:#e4ecff; line-height:1.62; margin-top:7px;">${c.desc}</p>
+            <button class="bp-btn" style="width:100%; padding:6px; font-size:10.5px; letter-spacing:0.12em;" onclick="jumpAtlas('${f.city}')">
+              调取该卷宗对应之 3D 站点地形、河流与人员流动 (8.8x) →
+            </button>
           </div>
-          <button class="bp-btn" style="width:100%; padding:6px; font-size:10.5px; letter-spacing:0.12em;" onclick="jumpAtlas('${c.id}')">
-            俯冲观测山川河流与街道人流 →
-          </button>
+        </article>
+      `).join('');
+    }
+    renderScpArchive('all');
+    document.querySelectorAll('#scp-filter-bar button').forEach(btn => {
+      btn.addEventListener('click', () => {
+        playClickBlip(700);
+        document.querySelectorAll('#scp-filter-bar button').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        renderScpArchive(btn.dataset.scpcat);
+      });
+    });
+
+    // Populate Liber IV: 12 Topographic Cities & Sites with Elevation Cross-Sections!
+    document.getElementById('atlas-grid').innerHTML = CITIES.map(c => {
+      const m = CITY_META_EXTRA[c.id] || CITY_META_EXTRA.alexandria;
+      return `
+      <article style="border:1px solid rgba(244,247,255,0.45); padding:5px; background:rgba(10,21,168,0.70);">
+        <div style="border:1px solid rgba(244,247,255,0.22); padding:13px; height:100%; display:flex; flex-direction:column; justify-content:space-between; gap:9px;">
+          <div>
+            <div style="display:flex; justify-content:space-between; align-items:center; gap:4px;">
+              <span class="${m.badge}">${m.cls}</span>
+              <span class="badge-cyan">${m.hume}</span>
+            </div>
+            <div class="condensed-monument" style="font-size:21px; margin-top:8px; margin-bottom:4px;">${c.roman}</div>
+            <div style="font-size:12.5px; font-weight:700;">${c.name}</div>
+            <div style="margin:7px 0; border:1px solid rgba(116,232,255,0.28); background:rgba(5,11,98,0.65); padding:4px 6px;">
+              ${buildElevationProfileSVG(c.id, 32)}
+            </div>
+            <div style="font-size:10.5px; color:#ffe596;"><svg class="ico" viewBox="0 0 14 14"><path d="M1.8 8.8 L5.2 3 L8.2 7.2 L10.2 4.6 L12.4 8.8"/><path d="M1.5 11.2 Q4.5 9.6 7 11.2 T12.5 11.2"/></svg>${c.terrain}</div>
+            <div style="font-size:10.5px; color:#88f0ff; margin-top:2px;"><svg class="ico" viewBox="0 0 14 14"><circle cx="4.5" cy="4.2" r="1.3"/><path d="M4.5 5.8 L4.5 9.5 M4.5 9.5 L3 12 M4.5 9.5 L6 12"/><circle cx="9.5" cy="4.8" r="1.2"/><path d="M9.5 6.2 L9.5 9.6 M9.5 9.6 L8.2 12 M9.5 9.6 L10.8 12"/></svg>${c.crowd}</div>
+            <p style="font-size:11px; color:#e4ecff; line-height:1.58; margin-top:6px;">${c.desc}</p>
+          </div>
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:5px;">
+            <button class="bp-btn" style="padding:5px; font-size:10px;" onclick="window.switchLiber('terra'); setCamMode('skyline','${c.id}')">5.2x 卫城地势</button>
+            <button class="bp-btn active" style="padding:5px; font-size:10px;" onclick="jumpAtlas('${c.id}')">8.8x 街道人流 →</button>
+          </div>
         </div>
-      </article>
-    `).join('');
+      </article>`;
+    }).join('');
+
+    // =========================================================================
+    // LIBER V · TRISMEGISTUS-O5.AIC ORACLE TERMINAL & ESOTERIC FACTIONS!
+    // =========================================================================
+    const FACTIONS = [
+      { name: 'SCP 基金会 · 战术神学部', code: 'OVERWATCH / DoTT', badge: 'badge-gold', desc: '统辖全球斯克兰顿现实稳定锚（SRA）与阿基瓦辐射阵列，以科学量化仪轨收容神明级异常。', city: 'site2000' },
+      { name: '赫尔墨斯群青修会', code: 'ORDO CAERULEUS', badge: 'badge-cyan', desc: '执掌《翠玉录》第八重天球几何圣律，与 Site-01 联合设计全球地脉星盘与铜版抗模因滤网。', city: 'alexandria' },
+      { name: '破碎之神教会', code: 'GOI-004 · MEKHANE', badge: 'badge-gold', desc: '崇奉理性、发条与精密齿轮，在开罗阿蒙尼-拉姆与贝加尔湖协助压制欲肉血肉瘟疫。', city: 'baikal' },
+      { name: '欲肉教团 & 深渊密教', code: 'SARKIC / DAGON', badge: 'badge-crimson', desc: '崇拜原初血肉母神亚大伯斯与沉眠之克苏鲁，企图瓦解现实锚并唤醒海底与裂谷古神。', city: 'rlyeh' },
+      { name: '蛇之手 · 放逐者图书馆', code: 'SERPENT\'S HAND', badge: 'badge-cyan', desc: '依托犹格·索托斯全知门径穿行于三波特兰与冷原双环星门，主张超自然知识自由共享。', city: 'leng' },
+      { name: '密斯卡托尼克 & 异学会', code: 'MISKATONIC / CN-01', badge: 'badge-gold', desc: '东西方两大古籍与奇术研究重镇，分别镇守阿卡姆/南极古老者遗迹与东海蓬莱海眼大阵。', city: 'penglai' }
+    ];
+    const facEl = document.getElementById('faction-list');
+    if (facEl) {
+      facEl.innerHTML = FACTIONS.map(f => `
+        <div style="border:1px solid rgba(244,247,255,0.36); background:rgba(6,14,116,0.72); padding:9px; display:flex; flex-direction:column; justify-content:space-between; gap:5px;">
+          <div>
+            <span class="${f.badge}">${f.code}</span>
+            <div style="font-size:12px; font-weight:700; color:#ffffff; margin-top:5px;">${f.name}</div>
+            <p style="font-size:10.5px; color:#d4e2ff; line-height:1.52; margin-top:4px;">${f.desc}</p>
+          </div>
+          <button class="bp-btn" style="padding:3px 6px; font-size:9.5px;" onclick="window.switchLiber('terra'); setCamMode('skyline','${f.city}')">定位驻地 →</button>
+        </div>
+      `).join('');
+    }
+
+    const AIC_KB = [
+      { keys: ['蓝色神学', '休谟', '斯克兰顿', '群青', '原理', 'hume', 'sra'], reply: '<b>[TRISMEGISTUS.AIC · 场论解析]</b> 现代斯克兰顿现实稳定锚（SRA）并非单纯机械装置，其核心谐振腔完全复刻了亚历山大出土《翠玉录·第八重群青补遗》中的十二面体天球频率（基准 1.00–1.80 Hm）。当外神或旧日支配者迫近时，局部现实休谟跌破 0.40 Hm，唯有注入“神圣群青”驻波方可防止欧几里得空间坍缩。' },
+      { keys: ['旧日', '外神', '克苏鲁', '分级', 'apollyon', '谱系', '2662', '3000'], reply: '<b>[TRISMEGISTUS.AIC · 神性映射表]</b> 战术神学部将拉莱耶沉眠实体（Cthulhu / SCP-2662-Ω）与吞世者（SCP-2317-K）同列为 <b>Apollyon 级潜伏末日</b>；阿难陀舍沙（SCP-3000）因提供 Y-909 遗忘化合物定级为 <b>Thaumiel</b>；犹格·索托斯与阿拉卡达（SCP-2264）因构成多元宇宙底层通道，定级为不可强行收容之 <b>Archon</b>。' },
+      { keys: ['六大', '秘教', '同行', '破碎之神', '麦卡恩', '欲肉', '蛇之手', 'goc', '异学会'], reply: '<b>[TRISMEGISTUS.AIC · 地缘奇术格局]</b> 当前地球由十二处高能奇术节点维系：基金会与赫尔墨斯修会执掌亚历山大、黄石 SCP-2000 及 Site-13；中华异学会镇守东海蓬莱海眼；齿轮正教与基金会在贝加尔湖联合遏制 SCP-610 欲肉瘟疫；蛇之手则控制冷原与三波特兰门径。' },
+      { keys: ['阿拉卡达', '2264', '吊王', '奈亚', '布拉格'], reply: '<b>[TRISMEGISTUS.AIC · SCP-2264 警告]</b> 布拉格星堡地底铅门连接异界城邦阿拉卡达。声纹与奇术比对确认“阿拉卡达黑衣无面大使”与克苏鲁神话中的“伏行之混沌”奈亚拉托提普共享同一高维本体，切勿携带未加密模因进入查理大桥地下裂隙。' },
+      { keys: ['2000', '黄石', '重启'], reply: '<b>[TRISMEGISTUS.AIC · O5 绝密]</b> SCP-2000 当前处于热备状态，8 座 SRA 冷却塔运转正常，克隆库储备充足。地质监测显示黄石破火山口瀑布水位稳定。' }
+    ];
+
+    const aicOut = document.getElementById('aic-output');
+    function appendAicMsg(html, isUser = false) {
+      if (!aicOut) return;
+      const div = document.createElement('div');
+      div.style.marginBottom = '10px';
+      div.style.padding = '7px 9px';
+      div.style.borderLeft = isUser ? '2px solid #ffe596' : '2px solid #88f0ff';
+      div.style.background = isUser ? 'rgba(255,229,150,0.08)' : 'rgba(116,232,255,0.07)';
+      div.innerHTML = html;
+      aicOut.appendChild(div);
+      aicOut.scrollTop = aicOut.scrollHeight;
+    }
+    appendAicMsg('<b>[SYSTEM READY]</b> 欢迎接入基金会战术神学部 <b>TRISMEGISTUS-O5.AIC</b> 圣谕终端。您可点击下方快捷芯片检索神学档案，或直接执行全球奇术仪轨以改变 3D 地球收容态势。');
+
+    function handleAicQuery(q) {
+      if (!q.trim()) return;
+      playClickBlip(780);
+      appendAicMsg(`<span style="color:#ffe596;">[O5 检索指令] &gt; ${q}</span>`, true);
+      const ql = q.toLowerCase();
+      const hit = AIC_KB.find(item => item.keys.some(k => ql.includes(k)));
+      if (hit) {
+        appendAicMsg(hit.reply);
+      } else {
+        const cityHit = CITIES.find(c => c.name.toLowerCase().includes(ql) || c.desc.includes(q) || c.god.includes(q));
+        if (cityHit) {
+          appendAicMsg(`<b>[站点检索命中 · ${cityHit.roman}]</b> ${cityHit.desc} <br/><button class="bp-btn active" style="margin-top:6px; padding:3px 10px; font-size:10px;" onclick="window.switchLiber('terra'); setCamMode('street','${cityHit.id}')">切入 ${cityHit.short} 8.8x 实时监控 →</button>`);
+        } else {
+          appendAicMsg(`<b>[TRISMEGISTUS.AIC · 综合推演]</b> 已在《死灵之书》与 O5 数据库中检索“<b>${q}</b>”：该词条关联第 VIII 重群青频率谐振，建议调高斯克兰顿稳定锚功率至 90% 以上后前往 <b>LIBER III</b> 查阅完整卷宗。`);
+        }
+      }
+    }
+
+    document.getElementById('aic-send-btn').addEventListener('click', () => {
+      const inp = document.getElementById('aic-input');
+      handleAicQuery(inp.value); inp.value = '';
+    });
+    document.getElementById('aic-input').addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') { handleAicQuery(e.target.value); e.target.value = ''; }
+    });
+    document.querySelectorAll('.aic-quick').forEach(btn => {
+      btn.addEventListener('click', () => {
+        if (btn.dataset.q) {
+          handleAicQuery(btn.dataset.q);
+        } else if (btn.dataset.ritual) {
+          playClickBlip(520);
+          const r = btn.dataset.ritual;
+          if (r === 'calabasas') {
+            sRelief.value = 105; sSeal.value = 96; sAbyss.value = 35; sOuter.value = 45; applySliders();
+            appendAicMsg('<b>[仪轨已执行 · 220-CALABASAS]</b> 帕米尔冷原第七锁链已完成群青奇术加固，全球休谟指数回升至安全阈值！正在为您切入冷原双环星门现场……');
+            setTimeout(() => { window.switchLiber('terra'); setCamMode('skyline', 'leng'); }, 900);
+          } else if (r === 'overdrive') {
+            sRelief.value = 100; sSeal.value = 100; sAbyss.value = 12; sOuter.value = 15; applySliders();
+            appendAicMsg('<b>[仪轨已执行 · SRA 满功率共振]</b> 全球十二座圣城现实稳定锚已进入 100% 群青超频模式，深渊裂隙已全面压制！');
+            setTimeout(() => { window.switchLiber('terra'); setCamMode('cradle', 'alexandria'); }, 900);
+          } else if (r === 'starsright') {
+            sRelief.value = 140; sSeal.value = 15; sAbyss.value = 100; sOuter.value = 100; applySliders();
+            appendAicMsg('<b style="color:#ff8da3;">[警告 · XK级群星归位推演已激活]</b> 全球现实稳定锚跌破 15%，拉莱耶海沟爆发绯红阿波罗级异常脉冲，外神星环全面显圣！');
+            setTimeout(() => { window.switchLiber('terra'); setCamMode('skyline', 'rlyeh'); }, 900);
+          }
+        }
+      });
+    });
+
+    // Populate Live Overwatch Incident Ticker!
+    const TICKER_EVENTS = [
+      { city: 'leng',       txt: '[APOLLYON] 帕米尔冷原 SCP-2317 第七锁链张力升至 94.2%，程序 220-Calabasas 正在注入群青谐波' },
+      { city: 'alexandria', txt: '[THAUMIEL] 亚历山大 Site-01 法罗斯大灯塔休谟基准稳定于 1.48 Hm，尼罗河航道商船通行正常' },
+      { city: 'rlyeh',      txt: '[SONAR-17Hz] 南太平洋 47°09\'S 侦测到拉莱耶低频梦境潮汐，MTF Gamma-6 四艘潜航舰已合围' },
+      { city: 'site13',     txt: '[KETER] 阿拉斯加 Site-13 地下第 28 层奇术焚化炉持续运转，MTF Tau-5 轮回小队已控制高空连廊' },
+      { city: 'baikal',     txt: '[CONCORDAT] 贝加尔湖隔离墙外围气温 -34°C，破碎之神发条大穹顶正以 88Hz 压制 SCP-610 活性' },
+      { city: 'penglai',    txt: '[SITE-CN-01] 东海蓬莱太乙七重镇海塔完成酉时巡检，西太平洋海眼水脉平稳' }
+    ];
+    const tickerTrack = document.getElementById('ticker-track');
+    if (tickerTrack) {
+      const htmlItems = [...TICKER_EVENTS, ...TICKER_EVENTS].map(ev =>
+        `<span style="cursor:pointer; color:#dce6ff;" onclick="window.switchLiber('terra'); setCamMode('skyline','${ev.city}')"><b style="color:#88f0ff;">◈</b> ${ev.txt}</span>`
+      ).join('');
+      tickerTrack.innerHTML = htmlItems;
+    }
 
     window.jumpAtlas = function(cityId) {
       window.switchLiber('terra');
@@ -2910,6 +3710,15 @@
       document.getElementById('abyss-val').textContent  = `${sAbyss.value}%`;
       document.getElementById('outer-val').textContent  = `${sOuter.value}%`;
       const hume = (0.35 + 1.15 * state.seal - 0.32 * state.abyss).toFixed(2);
+      const akiva = Math.round(12 + 115 * state.seal - 45 * state.abyss + 35 * state.outer);
+      const san = Math.max(8, Math.min(99, Math.round(52 + 48 * state.seal - 38 * state.abyss)));
+      const oscH = document.getElementById('osc-hume'), oscA = document.getElementById('osc-akiva'), oscS = document.getElementById('osc-san');
+      if (oscH) oscH.textContent = `HUME: ${hume} Hm`;
+      if (oscA) oscA.textContent = `AKIVA: ${akiva} Ak`;
+      if (oscS) {
+        oscS.textContent = `SAN: ${san}%`;
+        oscS.style.color = san < 45 ? '#ff8da3' : '#c8ffd8';
+      }
       if (state.liber === 'terra') {
         document.getElementById('bottom-roman-pill').textContent = `— I · HUME ${hume} · SRA ${state.seal > 0.4 ? 'ONLINE' : 'FAILING'} —`;
       }
@@ -2920,12 +3729,13 @@
     }));
 
     const PRESETS = {
-      communion: { relief: 100, seal: 88, abyss: 86, outer: 88 },
-      deluge:    { relief: 135, seal: 20, abyss: 100, outer: 100 },
+      communion: { relief: 105, seal: 88, abyss: 86, outer: 88 },
+      deluge:    { relief: 138, seal: 18, abyss: 100, outer: 100 },
       sapphire:  { relief: 95,  seal: 100, abyss: 15, outer: 12 }
     };
     document.querySelectorAll('[data-preset]').forEach(btn => {
       btn.addEventListener('click', () => {
+        playClickBlip(640);
         const p = PRESETS[btn.dataset.preset];
         document.querySelectorAll('[data-preset]').forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
@@ -2934,8 +3744,9 @@
       });
     });
 
-    const CAM_MODES = { cosmos: 0.72, planet: 1.15, skyline: 5.2, street: 8.8 };
+    const CAM_MODES = { cosmos: 0.72, planet: 1.20, cradle: 2.35, skyline: 5.2, street: 8.8 };
     function setCamMode(mode, cityOverride) {
+      playClickBlip(720);
       document.querySelectorAll('[data-cam]').forEach(b => b.classList.toggle('active', b.dataset.cam === mode));
       state.targetZoom = CAM_MODES[mode];
       selectCity(cityOverride || state.selectedId, true, CAM_MODES[mode]);
@@ -2943,6 +3754,10 @@
     document.querySelectorAll('[data-cam]').forEach(btn => btn.addEventListener('click', () => setCamMode(btn.dataset.cam)));
     document.getElementById('btn-skyline').addEventListener('click', () => setCamMode('skyline'));
     document.getElementById('btn-street').addEventListener('click', () => setCamMode('street'));
+    document.getElementById('btn-open-dossier').addEventListener('click', () => {
+      window.switchLiber('scp');
+      renderScpArchive('all');
+    });
 
     const btnToggleUI = document.getElementById('btn-toggle-ui');
     btnToggleUI.addEventListener('click', () => {
@@ -3003,6 +3818,16 @@
       document.getElementById('codex-arch').textContent = c.arch;
       document.getElementById('codex-crowd').textContent = c.crowd;
 
+      const m = CITY_META_EXTRA[id] || CITY_META_EXTRA.alexandria;
+      const badgeEl = document.getElementById('codex-badges');
+      if (badgeEl) {
+        badgeEl.innerHTML = `<span class="${m.badge}">CLASS: ${m.cls}</span><span class="badge-cyan">HUME: ${m.hume}</span>`;
+      }
+      const garEl = document.getElementById('codex-garrison');
+      if (garEl) garEl.textContent = m.garrison;
+      const profEl = document.getElementById('codex-profile-svg');
+      if (profEl) profEl.innerHTML = buildElevationProfileSVG(id, 38);
+
       if (focus) {
         state.targetRotY = -(c.lon * Math.PI) / 180;
         const panAmt = smoothstepJS(1.3, 3.6, upcomingZoom);
@@ -3011,9 +3836,9 @@
       renderCityList();
     }
 
+    applySliders();
     renderCityList();
-    // Open directly on Alexandria or Site-2000 or R'lyeh? Let's start on Alexandria (with wide Nile river, boats, bridges, terraced acropolis, Pharos, domes & bustling scholar crowds) or R'lyeh! Wait: R'lyeh ALSO has river, bridges, boats, terraced acropolis, 7 surrounding trench-peaks, 4 SRA towers, Cthulhu AND pilgrim crowds! Let's start on R'lyeh so Cthulhu is front-and-center!
-    selectCity('rlyeh', false);
+    selectCity('alexandria', false);
   </script>
 </body>
 </html>
