@@ -17,11 +17,11 @@
   "provenanceLabel": "SCP原典 Clef提案",
   "badge": "badge-gold",
   "geo": {
-    "lat": 31,
-    "lon": 47.43,
+    "lat": 31.0044,
+    "lon": 47.4395,
     "precision": "region"
   },
-  "coordsText": "31°00'N · 47°26'E · 两河交汇圣台",
+  "coordsText": "31.00°N · 47.44°E · 实测海拔 4 m",
   "motto": "“四翼掩面，烈剑指东；凡血肉之躯不得擅越雷池。”",
   "summary": "底格里斯河与幼发拉底河在此交汇环绕阶梯圣山，山巅大门前矗立着展开四翼、手擎通天白炽巨剑的守门人（SCP-001）；外围河岸分布着 Site-0 观测堡垒群与顶礼膜拜的朝圣人群。",
   "terrain": "双河交汇三角洲 · 阶梯圣山绝壁 · 悬崖飞瀑",
@@ -50,26 +50,29 @@
   },
   "infobox": [
     {
-      "label": "来源归属",
-      "value": "SCP原典 Clef提案",
+      "label": "文献出处",
+      "value": "Dr. Clef 提案原典：底格里斯河与幼发拉底河交汇处区域坐标",
       "original": false
     },
     {
-      "label": "坐标纪要",
-      "value": "31°00'N · 47°26'E · 两河交汇圣台",
+      "label": "实测高程/水深",
+      "value": "实测海拔 4 m",
       "original": false
     },
     {
-      "label": "休谟基准",
-      "value": "8.90 Hm",
-      "original": true
+      "label": "定位精度",
+      "value": "region",
+      "original": false
     },
     {
-      "label": "驻防编制",
-      "value": "Site-0 远古守望哨",
-      "original": true
+      "label": "z12 实地地貌",
+      "value": "伊拉克古尔奈（Al-Qurnah）底格里斯河与幼发拉底河交汇处河道沙洲水面",
+      "original": false
     }
   ],
   "relatedIds": [],
-  "updatedAt": "2026-11-26"
+  "updatedAt": "2026-11-26",
+  "realElevationMeters": 4,
+  "z12RealLocation": "伊拉克古尔奈（Al-Qurnah）底格里斯河与幼发拉底河交汇处河道沙洲水面",
+  "coordSource": "Dr. Clef 提案原典：底格里斯河与幼发拉底河交汇处区域坐标"
 }

@@ -17,11 +17,11 @@
   "provenanceLabel": "SCP原典 CC-BY-SA",
   "badge": "badge-gold",
   "geo": {
-    "lat": 44.6,
-    "lon": -110.5,
+    "lat": 44.462,
+    "lon": -110.498,
     "precision": "region"
   },
-  "coordsText": "44°36'N · 110°30'W · 海拔 2450m",
+  "coordsText": "44.46°N · 110.50°W · 实测海拔 2,403 m",
   "motto": "“纵使群星归位、世界倾覆，人类文明亦将于此重铸。”",
   "summary": "群山环抱的黄石破火山口盆地内，黄石河自高山飞瀑直泻峡谷。盆地中央耸立着重型装甲穹顶、八座斯克兰顿现实稳定锚冷却高塔与地下克隆库竖井，大批科研与D级人员正沿栈桥有序入井。",
   "terrain": "环形火山口群峰 · 峡谷大瀑布 · 三层装甲地台",
@@ -50,26 +50,29 @@
   },
   "infobox": [
     {
-      "label": "来源归属",
-      "value": "SCP原典 CC-BY-SA",
+      "label": "文献出处",
+      "value": "SCP-2000 原典（HammerMaiden）：美国黄石国家公园破火山口区域级坐标",
       "original": false
     },
     {
-      "label": "坐标纪要",
-      "value": "44°36'N · 110°30'W · 海拔 2450m",
+      "label": "实测高程/水深",
+      "value": "实测海拔 2,403 m",
       "original": false
     },
     {
-      "label": "休谟基准",
-      "value": "1.35 Hm",
-      "original": true
+      "label": "定位精度",
+      "value": "region",
+      "original": false
     },
     {
-      "label": "驻防编制",
-      "value": "SRA 工程团 × Alpha-1",
-      "original": true
+      "label": "z12 实地地貌",
+      "value": "美国怀俄明州黄石国家公园破火山口中央荒野台地（黄石湖以北无人火山穹丘）",
+      "original": false
     }
   ],
   "relatedIds": [],
-  "updatedAt": "2026-11-26"
+  "updatedAt": "2026-11-26",
+  "realElevationMeters": 2403,
+  "z12RealLocation": "美国怀俄明州黄石国家公园破火山口中央荒野台地（黄石湖以北无人火山穹丘）",
+  "coordSource": "SCP-2000 原典（HammerMaiden）：美国黄石国家公园破火山口区域级坐标"
 }

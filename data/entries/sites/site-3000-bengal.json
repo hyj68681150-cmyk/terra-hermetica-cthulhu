@@ -1,0 +1,76 @@
+{
+  "id": "site-3000-bengal",
+  "legacyCityId": "rlyeh",
+  "category": "sites",
+  "code": "SCP-3000 · THAUMIEL",
+  "title": "孟加拉湾海沟·SCP-3000 (SCP-3000 Anantashesha Zone)",
+  "short": "孟加拉湾海沟·SCP-3000",
+  "aliases": [
+    "孟加拉湾海沟·SCP-3000",
+    "SCP-3000 Anantashesha Zone",
+    "SCP-3000 · THAUMIEL"
+  ],
+  "clearance": 1,
+  "provenance": "scp-canon",
+  "provenanceLabel": "SCP原典",
+  "badge": "badge-crimson",
+  "motto": "",
+  "terrain": "印度洋孟加拉湾中部深海扇海面（无陆地，划设直径 300km 禁航区）",
+  "arch": "档案图层监测点",
+  "crowd": "无人封锁区",
+  "god": "SCP-3000 · THAUMIEL",
+  "style": "rlyeh",
+  "type": "abyss",
+  "hasRiver": false,
+  "hasWaterfall": false,
+  "mountainRing": "coastal_bluffs",
+  "elevationProfile": {
+    "prof": [
+      20,
+      30,
+      25,
+      35,
+      28,
+      22,
+      18,
+      24,
+      20,
+      18
+    ],
+    "riverAt": -1
+  },
+  "relatedIds": [],
+  "geo": {
+    "lat": 11.5,
+    "lon": 88.5,
+    "precision": "region"
+  },
+  "realElevationMeters": -3236,
+  "z12RealLocation": "印度洋孟加拉湾中部深海扇海面（无陆地，划设直径 300km 禁航区）",
+  "coordSource": "SCP-3000 原典（A Random Day, djkaktus, Joreth）：孟加拉湾深海封锁区",
+  "summary": "孟加拉湾深海扇水深 3,236 米禁航海域，盘踞体长数百公里的认知危害实体阿难陀舍沙（SCP-3000），由潜艇站点 Atzak 监控。",
+  "coordsText": "11.50°N · 88.50°E · 实测水深 3,236 m",
+  "infobox": [
+    {
+      "label": "文献出处",
+      "value": "SCP-3000 原典（A Random Day, djkaktus, Joreth）：孟加拉湾深海封锁区",
+      "original": false
+    },
+    {
+      "label": "实测高程/水深",
+      "value": "实测水深 3,236 m",
+      "original": false
+    },
+    {
+      "label": "定位精度",
+      "value": "region",
+      "original": false
+    },
+    {
+      "label": "z12 实地地貌",
+      "value": "印度洋孟加拉湾中部深海扇海面（无陆地，划设直径 300km 禁航区）",
+      "original": false
+    }
+  ],
+  "updatedAt": "2026-11-26"
+}

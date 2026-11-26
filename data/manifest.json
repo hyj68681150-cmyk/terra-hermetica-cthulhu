@@ -2,9 +2,9 @@
   "generatedBy": "tools/build-manifest.mjs",
   "updatedAt": "2026-11-26",
   "counts": {
-    "entries": 41,
+    "entries": 43,
     "novels": 1,
-    "mapFiles": 0
+    "mapFiles": 3
   },
   "entries": [
     {
@@ -563,8 +563,8 @@
       "provenance": "scp-canon",
       "summary": "底格里斯河与幼发拉底河在此交汇环绕阶梯圣山，山巅大门前矗立着展开四翼、手擎通天白炽巨剑的守门人（SCP-001）；外围河岸分布着 Site-0 观测堡垒群与顶礼膜拜的朝圣人群。",
       "geo": {
-        "lat": 31,
-        "lon": 47.43,
+        "lat": 31.0044,
+        "lon": 47.4395,
         "precision": "region"
       },
       "mapSiteId": null,
@@ -587,8 +587,8 @@
       "provenance": "scp-canon",
       "summary": "镶嵌在阿拉斯加雪山冰河裂谷中的超巨型粗野主义收容要塞，拥有下沉式隔离深坑、六座奇术焚化高塔与纵横交错的高空武装连廊，轮回特遣队正沿连廊突入核心。",
       "geo": {
-        "lat": 63.8,
-        "lon": -145.7,
+        "lat": 62.94,
+        "lon": -150.85,
         "precision": "region"
       },
       "mapSiteId": null,
@@ -611,12 +611,34 @@
       "provenance": "scp-canon",
       "summary": "群山环抱的黄石破火山口盆地内，黄石河自高山飞瀑直泻峡谷。盆地中央耸立着重型装甲穹顶、八座斯克兰顿现实稳定锚冷却高塔与地下克隆库竖井，大批科研与D级人员正沿栈桥有序入井。",
       "geo": {
-        "lat": 44.6,
-        "lon": -110.5,
+        "lat": 44.462,
+        "lon": -110.498,
         "precision": "region"
       },
       "mapSiteId": null,
       "path": "data/entries/sites/site-2000.json",
+      "updatedAt": "2026-11-26"
+    },
+    {
+      "id": "site-3000-bengal",
+      "category": "sites",
+      "code": "SCP-3000 · THAUMIEL",
+      "title": "孟加拉湾海沟·SCP-3000 (SCP-3000 Anantashesha Zone)",
+      "aliases": [
+        "孟加拉湾海沟·SCP-3000",
+        "SCP-3000 Anantashesha Zone",
+        "SCP-3000 · THAUMIEL"
+      ],
+      "clearance": 1,
+      "provenance": "scp-canon",
+      "summary": "孟加拉湾深海扇水深 3,236 米禁航海域，盘踞体长数百公里的认知危害实体阿难陀舍沙（SCP-3000），由潜艇站点 Atzak 监控。",
+      "geo": {
+        "lat": 11.5,
+        "lon": 88.5,
+        "precision": "region"
+      },
+      "mapSiteId": null,
+      "path": "data/entries/sites/site-3000-bengal.json",
       "updatedAt": "2026-11-26"
     },
     {
@@ -635,9 +657,9 @@
       "provenance": "original",
       "summary": "尼罗河三角洲主航道穿城入海，两岸石砌河堤帆影穿梭。高台之上耸立三层法罗斯大灯塔、十二肋拱秘仪大穹顶与古典柱廊，桥面与神道阶梯上学者与信使人流如织。",
       "geo": {
-        "lat": 31.2,
-        "lon": 29.92,
-        "precision": "region"
+        "lat": 31.214,
+        "lon": 29.8856,
+        "precision": "exact"
       },
       "mapSiteId": null,
       "path": "data/entries/sites/site-alexandria.json",
@@ -659,9 +681,9 @@
       "provenance": "cthulhu-canon",
       "summary": "四周环绕高耸险峻的南极锯齿状黑岩山峰，盆地内矗立七座五角星截面摩天石塔与十道半空悬空连廊；基金会极地考察队正沿冰川栈道深入古城区。",
       "geo": {
-        "lat": -76.5,
-        "lon": 72,
-        "precision": "region"
+        "lat": -76.25,
+        "lon": 113.1667,
+        "precision": "exact"
       },
       "mapSiteId": null,
       "path": "data/entries/sites/site-antarctica.json",
@@ -683,8 +705,8 @@
       "provenance": "cthulhu-canon",
       "summary": "密斯卡托尼克河自内陆丘陵蜿蜒穿过阿卡姆学城石拱桥注入海湾，北岸高坡耸立大学哥特钟楼与藏书馆，南岸低地遍布折顶街屋与码头，外海矗立魔鬼礁珊瑚尖塔。",
       "geo": {
-        "lat": 42.62,
-        "lon": -70.75,
+        "lat": 42.548,
+        "lon": -70.865,
         "precision": "region"
       },
       "mapSiteId": null,
@@ -707,8 +729,8 @@
       "provenance": "scp-canon",
       "summary": "大陆最深裂谷湖泊与两侧高耸山岭构成剧烈地形起伏，安加拉河穿峡而出；三重重型隔离城墙与净化高塔拱卫着中央麦卡恩齿轮大穹顶，巡逻装甲队沿城墙昼夜川流不息。",
       "geo": {
-        "lat": 53.5,
-        "lon": 108,
+        "lat": 53.24,
+        "lon": 107.42,
         "precision": "region"
       },
       "mapSiteId": null,
@@ -731,12 +753,34 @@
       "provenance": "scp-canon",
       "summary": "尼罗河绿洲低地与吉萨石灰岩高台形成鲜明高低差，三座七阶大金字塔、方尖碑大道与阿蒙尼-拉姆青铜发条穹顶并立，天顶倒悬着奈亚拉托提普的逆黑金字塔。",
       "geo": {
-        "lat": 29.98,
-        "lon": 31.13,
-        "precision": "region"
+        "lat": 29.976,
+        "lon": 31.1308,
+        "precision": "city"
       },
       "mapSiteId": null,
       "path": "data/entries/sites/site-cairo.json",
+      "updatedAt": "2026-11-26"
+    },
+    {
+      "id": "site-innsmouth",
+      "category": "sites",
+      "code": "INNSMOUTH · 1928",
+      "title": "印斯茅斯与魔鬼礁 (Innsmouth & Devil's Reef)",
+      "aliases": [
+        "印斯茅斯与魔鬼礁",
+        "Innsmouth & Devil's Reef",
+        "INNSMOUTH · 1928"
+      ],
+      "clearance": 1,
+      "provenance": "cthulhu-canon",
+      "summary": "1928 年美国财政部与早期异常机构联合清剿的衰败海港印斯茅斯及外海深潜者栖息地“魔鬼礁”海域。",
+      "geo": {
+        "lat": 42.682,
+        "lon": -70.768,
+        "precision": "region"
+      },
+      "mapSiteId": null,
+      "path": "data/entries/sites/site-innsmouth.json",
       "updatedAt": "2026-11-26"
     },
     {
@@ -755,8 +799,8 @@
       "provenance": "scp-canon",
       "summary": "昆仑与喜马拉雅万仞雪峰环绕的高原绝境，上层高台直立着犹格·索托斯双环星门与独石修道院，前侧下沉祭坛围立着 SCP-2317 的七根玄武岩锁链石柱（仅最后一根银白锁链依然紧绷发光）！",
       "geo": {
-        "lat": 35.8,
-        "lon": 84.5,
+        "lat": 39.035,
+        "lon": 73.535,
         "precision": "region"
       },
       "mapSiteId": null,
@@ -779,9 +823,9 @@
       "provenance": "original",
       "summary": "奇峰耸峙的仙山高台飞流直下汇入穿城玉带河，山巅矗立七层翘角飞檐镇海宝塔，山腰与海湾层叠分布重檐钟鼓楼、四孔石拱长桥与来往如梭的方士及特工行旅。",
       "geo": {
-        "lat": 33.8,
-        "lon": 136.5,
-        "precision": "region"
+        "lat": 37.8283,
+        "lon": 120.7522,
+        "precision": "city"
       },
       "mapSiteId": null,
       "path": "data/entries/sites/site-penglai.json",
@@ -803,9 +847,9 @@
       "provenance": "scp-canon",
       "summary": "伏尔塔瓦河蜿蜒穿过波希米亚丘陵，七孔查理石拱大桥上游人如织；高坡城堡区耸立着飞扶壁哥特双尖塔大教堂、玫瑰花窗与扭曲高耸的阿拉卡达大使尖塔。",
       "geo": {
-        "lat": 50.08,
-        "lon": 14.43,
-        "precision": "region"
+        "lat": 50.0933,
+        "lon": 14.3965,
+        "precision": "city"
       },
       "mapSiteId": null,
       "path": "data/entries/sites/site-prague.json",
@@ -828,7 +872,7 @@
       "summary": "拔起于万米深渊海沟陡崖之上的三级错落巨石卫城，深海暗河穿城而过；外围矗立四座基金会-赫尔墨斯现实稳定锚星塔，石阶与拱桥上可见络绎不绝的深海朝圣队列与潜航巡逻艇。",
       "geo": {
         "lat": -47.15,
-        "lon": -126.72,
+        "lon": -126.7167,
         "precision": "exact"
       },
       "mapSiteId": null,

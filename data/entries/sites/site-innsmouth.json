@@ -1,0 +1,76 @@
+{
+  "id": "site-innsmouth",
+  "legacyCityId": "arkham",
+  "category": "sites",
+  "code": "INNSMOUTH · 1928",
+  "title": "印斯茅斯与魔鬼礁 (Innsmouth & Devil's Reef)",
+  "short": "印斯茅斯与魔鬼礁",
+  "aliases": [
+    "印斯茅斯与魔鬼礁",
+    "Innsmouth & Devil's Reef",
+    "INNSMOUTH · 1928"
+  ],
+  "clearance": 1,
+  "provenance": "cthulhu-canon",
+  "provenanceLabel": "克苏鲁原典",
+  "badge": "badge-cyan",
+  "motto": "",
+  "terrain": "美国马萨诸塞州梅里马克河口梅花岛（Plum Island）外侧大西洋近海暗礁区",
+  "arch": "档案图层监测点",
+  "crowd": "无人封锁区",
+  "god": "INNSMOUTH · 1928",
+  "style": "rlyeh",
+  "type": "abyss",
+  "hasRiver": false,
+  "hasWaterfall": false,
+  "mountainRing": "coastal_bluffs",
+  "elevationProfile": {
+    "prof": [
+      20,
+      30,
+      25,
+      35,
+      28,
+      22,
+      18,
+      24,
+      20,
+      18
+    ],
+    "riverAt": -1
+  },
+  "relatedIds": [],
+  "geo": {
+    "lat": 42.682,
+    "lon": -70.768,
+    "precision": "region"
+  },
+  "realElevationMeters": 0,
+  "z12RealLocation": "美国马萨诸塞州伊普斯维奇湾（Ipswich Bay）与梅花岛南水道入海口外海暗礁",
+  "coordSource": "洛夫克拉夫特《印斯茅斯之影》伊普斯维奇湾-鹤滩入海口外海原型坐标",
+  "summary": "1928 年美国财政部与早期异常机构联合清剿的衰败海港印斯茅斯及外海深潜者栖息地“魔鬼礁”海域。",
+  "coordsText": "42.68°N · 70.77°W · 实测近海暗礁 0 m",
+  "infobox": [
+    {
+      "label": "文献出处",
+      "value": "洛夫克拉夫特《印斯茅斯之影》伊普斯维奇湾-梅花岛南口外海原型坐标",
+      "original": false
+    },
+    {
+      "label": "实测高程/水深",
+      "value": "实测近海暗礁 0 m",
+      "original": false
+    },
+    {
+      "label": "定位精度",
+      "value": "region",
+      "original": false
+    },
+    {
+      "label": "z12 实地地貌",
+      "value": "美国马萨诸塞州伊普斯维奇湾与梅花岛水道入海口外海暗礁",
+      "original": false
+    }
+  ],
+  "updatedAt": "2026-11-26"
+}

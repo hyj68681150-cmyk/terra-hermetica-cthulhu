@@ -17,11 +17,11 @@
   "provenanceLabel": "SCP-1730 原典",
   "badge": "badge-crimson",
   "geo": {
-    "lat": 63.8,
-    "lon": -145.7,
+    "lat": 62.94,
+    "lon": -150.85,
     "precision": "region"
   },
-  "coordsText": "63°48'N · 145°42'W · 阿拉斯加冰川谷",
+  "coordsText": "62.94°N · 150.85°W · 实测海拔 1,774 m",
   "motto": "“站点到底发生了什么？——神明曾在地下三十层被投入奇术焚化炉。”",
   "summary": "镶嵌在阿拉斯加雪山冰河裂谷中的超巨型粗野主义收容要塞，拥有下沉式隔离深坑、六座奇术焚化高塔与纵横交错的高空武装连廊，轮回特遣队正沿连廊突入核心。",
   "terrain": "雪山冰川深谷 · 下沉式巨型基坑 · 冰融急流",
@@ -50,26 +50,29 @@
   },
   "infobox": [
     {
-      "label": "来源归属",
-      "value": "SCP-1730 原典",
+      "label": "文献出处",
+      "value": "SCP-1730 原典（djkaktus）：阿拉斯加荒野冰原区域级坐标",
       "original": false
     },
     {
-      "label": "坐标纪要",
-      "value": "63°48'N · 145°42'W · 阿拉斯加冰川谷",
+      "label": "实测高程/水深",
+      "value": "实测海拔 1,774 m",
       "original": false
     },
     {
-      "label": "休谟基准",
-      "value": "0.24 Hm",
-      "original": true
+      "label": "定位精度",
+      "value": "region",
+      "original": false
     },
     {
-      "label": "驻防编制",
-      "value": "MTF Tau-5 轮回小队",
-      "original": true
+      "label": "z12 实地地貌",
+      "value": "美国阿拉斯加州德纳里山脉南麓卡希尔特纳冰川无人雪原",
+      "original": false
     }
   ],
   "relatedIds": [],
-  "updatedAt": "2026-11-26"
+  "updatedAt": "2026-11-26",
+  "realElevationMeters": 1774,
+  "z12RealLocation": "美国阿拉斯加州德纳里山脉南麓卡希尔特纳冰川无人雪原",
+  "coordSource": "SCP-1730 原典（djkaktus）：阿拉斯加荒野冰原区域级坐标"
 }

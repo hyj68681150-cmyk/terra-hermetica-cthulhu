@@ -17,11 +17,11 @@
   "provenanceLabel": "CN分部衍生+原创",
   "badge": "badge-gold",
   "geo": {
-    "lat": 33.8,
-    "lon": 136.5,
-    "precision": "region"
+    "lat": 37.8283,
+    "lon": 120.7522,
+    "precision": "city"
   },
-  "coordsText": "33°48'N · 136°30'E · 仙山悬瀑海湾",
+  "coordsText": "37.83°N · 120.75°E · 实测海岬礁盘 0–32 m",
   "motto": "“山海有高下，飞瀑入沧溟；七重飞檐塔，永镇太平洋海眼。”",
   "summary": "奇峰耸峙的仙山高台飞流直下汇入穿城玉带河，山巅矗立七层翘角飞檐镇海宝塔，山腰与海湾层叠分布重檐钟鼓楼、四孔石拱长桥与来往如梭的方士及特工行旅。",
   "terrain": "海上奇峰高台 · 悬崖百丈飞瀑 · 玉带河入海湾",
@@ -50,26 +50,29 @@
   },
   "infobox": [
     {
-      "label": "来源归属",
-      "value": "CN分部衍生+原创",
+      "label": "文献出处",
+      "value": "山东蓬莱丹崖山外海黄渤海交汇处 37°49′42″N 120°45′08″E（本站原创设定）",
       "original": true
     },
     {
-      "label": "坐标纪要",
-      "value": "33°48'N · 136°30'E · 仙山悬瀑海湾",
+      "label": "实测高程/水深",
+      "value": "实测海岬礁盘 0–32 m",
       "original": false
     },
     {
-      "label": "休谟基准",
-      "value": "1.42 Hm",
-      "original": true
+      "label": "定位精度",
+      "value": "city",
+      "original": false
     },
     {
-      "label": "驻防编制",
-      "value": "Site-CN-01 × 中华异学会",
-      "original": true
+      "label": "z12 实地地貌",
+      "value": "中国山东省烟台市蓬莱区丹崖山-田横山外侧黄渤海分界海域礁盘",
+      "original": false
     }
   ],
   "relatedIds": [],
-  "updatedAt": "2026-11-26"
+  "updatedAt": "2026-11-26",
+  "realElevationMeters": 0,
+  "z12RealLocation": "中国山东省烟台市蓬莱区丹崖山-田横山外侧黄渤海分界海域礁盘",
+  "coordSource": "山东蓬莱丹崖山外海黄渤海交汇处 37°49′42″N 120°45′08″E（本站原创设定）"
 }

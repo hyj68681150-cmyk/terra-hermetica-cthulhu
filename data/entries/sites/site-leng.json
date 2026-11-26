@@ -17,11 +17,11 @@
   "provenanceLabel": "洛氏+SCP-2317合流",
   "badge": "badge-crimson",
   "geo": {
-    "lat": 35.8,
-    "lon": 84.5,
+    "lat": 39.035,
+    "lon": 73.535,
     "precision": "region"
   },
-  "coordsText": "35°48'N · 84°30'E · 海拔 5400m 极高荒原",
+  "coordsText": "39.03°N · 73.53°E · 实测海拔 3,915 m",
   "motto": "“雪山绝顶耸立着犹格双环星门，下沉盐坑中七根锁链已断其六。”",
   "summary": "昆仑与喜马拉雅万仞雪峰环绕的高原绝境，上层高台直立着犹格·索托斯双环星门与独石修道院，前侧下沉祭坛围立着 SCP-2317 的七根玄武岩锁链石柱（仅最后一根银白锁链依然紧绷发光）！",
   "terrain": "世界屋脊万仞雪峰 · 双层高差断崖 · 下沉盐漠祭坑",
@@ -50,26 +50,29 @@
   },
   "infobox": [
     {
-      "label": "来源归属",
-      "value": "洛氏+SCP-2317合流",
-      "original": false
-    },
-    {
-      "label": "坐标纪要",
-      "value": "35°48'N · 84°30'E · 海拔 5400m 极高荒原",
-      "original": false
-    },
-    {
-      "label": "休谟基准",
-      "value": "0.31 Hm",
+      "label": "文献出处",
+      "value": "SCP-2317 异界盐漠（DrClef）之本站原创地球高寒咸水盆地映射点",
       "original": true
     },
     {
-      "label": "驻防编制",
-      "value": "O5 220-Calabasas 仪轨队",
-      "original": true
+      "label": "实测高程/水深",
+      "value": "实测海拔 3,915 m",
+      "original": false
+    },
+    {
+      "label": "定位精度",
+      "value": "region",
+      "original": false
+    },
+    {
+      "label": "z12 实地地貌",
+      "value": "帕米尔高原喀拉库勒高寒封闭咸水湖心岛北端无人盐碱荒滩",
+      "original": false
     }
   ],
   "relatedIds": [],
-  "updatedAt": "2026-11-26"
+  "updatedAt": "2026-11-26",
+  "realElevationMeters": 3915,
+  "z12RealLocation": "帕米尔高原喀拉库勒高寒封闭咸水湖心岛北端无人盐碱荒滩",
+  "coordSource": "SCP-2317 异界盐漠（DrClef）之本站原创地球高寒咸水盆地映射点"
 }

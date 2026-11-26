@@ -17,11 +17,11 @@
   "provenanceLabel": "洛氏原典+三波特兰",
   "badge": "badge-cyan",
   "geo": {
-    "lat": 42.62,
-    "lon": -70.75,
+    "lat": 42.548,
+    "lon": -70.865,
     "precision": "region"
   },
-  "coordsText": "42°37'N · 70°45'W · 密斯卡托尼克河口",
+  "coordsText": "42.55°N · 70.86°W · 实测河口海湾 0 m",
   "motto": "“密斯卡托尼克河穿过古老石桥流入大海，河岸灯火映照着学城与礁塔。”",
   "summary": "密斯卡托尼克河自内陆丘陵蜿蜒穿过阿卡姆学城石拱桥注入海湾，北岸高坡耸立大学哥特钟楼与藏书馆，南岸低地遍布折顶街屋与码头，外海矗立魔鬼礁珊瑚尖塔。",
   "terrain": "密斯卡托尼克河谷 · 南北两岸高差坡地 · 海岸礁盘",
@@ -50,26 +50,29 @@
   },
   "infobox": [
     {
-      "label": "来源归属",
-      "value": "洛氏原典+三波特兰",
+      "label": "文献出处",
+      "value": "洛夫克拉夫特阿卡姆原型地：马萨诸塞州北岸塞勒姆-贝弗利河口海域",
       "original": false
     },
     {
-      "label": "坐标纪要",
-      "value": "42°37'N · 70°45'W · 密斯卡托尼克河口",
+      "label": "实测高程/水深",
+      "value": "实测河口海湾 0 m",
       "original": false
     },
     {
-      "label": "休谟基准",
-      "value": "0.84 Hm",
-      "original": true
+      "label": "定位精度",
+      "value": "region",
+      "original": false
     },
     {
-      "label": "驻防编制",
-      "value": "UIU × 密大秘仪馆藏组",
-      "original": true
+      "label": "z12 实地地貌",
+      "value": "美国马萨诸塞州北岸塞勒姆湾与贝弗利港交汇海岬水域",
+      "original": false
     }
   ],
   "relatedIds": [],
-  "updatedAt": "2026-11-26"
+  "updatedAt": "2026-11-26",
+  "realElevationMeters": 0,
+  "z12RealLocation": "美国马萨诸塞州北岸塞勒姆湾与贝弗利港交汇海岬水域",
+  "coordSource": "洛夫克拉夫特阿卡姆原型地：马萨诸塞州北岸塞勒姆-贝弗利河口海域"
 }

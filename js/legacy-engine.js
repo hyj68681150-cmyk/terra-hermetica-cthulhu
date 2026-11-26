@@ -19,7 +19,7 @@ export function mountArchiveEngine({ PANTHEON, SCP_FILES, CITIES, FACTIONS, AIC_
     const SIN_TILT = Math.sin(TILT_OFFSET);
 
     const state = {
-      liber: 'terra',
+      liber: 'map',
       theme: document.documentElement.getAttribute('data-theme') || 'day',
       pantheonIdx: 0,
       scpCat: 'all',
@@ -1712,8 +1712,15 @@ export function mountArchiveEngine({ PANTHEON, SCP_FILES, CITIES, FACTIONS, AIC_
       ctxCosmo.restore();
     }
 
+    const ANIMATED_LIBERS = new Set(['prologus', 'pantheon', 'oraculum', 'colophon', 'gallery']);
     let mobFrameTimer = 0;
+    let rafActive = false;
     function scheduleNextFrame() {
+      if (!ANIMATED_LIBERS.has(state.liber)) {
+        rafActive = false;
+        return;
+      }
+      rafActive = true;
       if (IS_MOBILE) {
         if (mobFrameTimer) clearTimeout(mobFrameTimer);
         mobFrameTimer = setTimeout(() => {
@@ -1738,7 +1745,7 @@ export function mountArchiveEngine({ PANTHEON, SCP_FILES, CITIES, FACTIONS, AIC_
         else if (state.liber === 'pantheon') drawLiberTwo(state.time);
         else if (state.liber === 'oraculum') drawCosmology(state.time);
         else if (state.liber === 'colophon') drawColophon(state.time);
-        else if (state.liber === 'terra') {
+        else if (state.liber === 'gallery') {
           drawTelemetryOscilloscope(state.time);
           if (state.targetRotY !== null) {
             let dy = state.targetRotY - state.rotY;
@@ -1799,7 +1806,9 @@ export function mountArchiveEngine({ PANTHEON, SCP_FILES, CITIES, FACTIONS, AIC_
     // =========================================================================
     const LIBER_META = {
       prologus:     { right: '序卷 · 馆藏导览',     roman: '' },
-      terra:        { right: '第一卷 · 圣城地图',   roman: '' },
+      map:          { right: '第一卷 · 写实地球档案图', roman: '' },
+      gallery:      { right: '展厅 · 铜版神学星象仪', roman: '' },
+      entry:        { right: '馆藏词条详单', roman: '' },
       pantheon:     { right: '第二卷 · 神祇图鉴',   roman: '' },
       scp:          { right: '第三卷 · 机密档案',   roman: '' },
       architectura: { right: '第四卷 · 十二站点志', roman: '' },
@@ -1887,29 +1896,37 @@ export function mountArchiveEngine({ PANTHEON, SCP_FILES, CITIES, FACTIONS, AIC_
 
     window.selectPantheon = selectPantheon;
     window.switchLiber = function(name, fromRouter = false) {
-      if (name === 'map') name = 'terra';
+      if (name === 'terra') name = 'gallery';
       if (!fromRouter) pushChapterHash(name);
       playClickBlip(620);
       state.liber = name;
       document.querySelectorAll('.liber-nav-btn[data-liber]').forEach(b => b.classList.toggle('active', b.dataset.liber === name));
-      ['prologus', 'pantheon', 'scp', 'architectura', 'oraculum', 'colophon'].forEach(st => {
+      ['prologus', 'map', 'pantheon', 'scp', 'architectura', 'oraculum', 'colophon', 'entry'].forEach(st => {
         const el = document.getElementById(`stage-${st}`);
         if (el) el.classList.toggle('open', name === st);
       });
-      const inTerra = name === 'terra';
-      document.getElementById('globe-stage-wrap').style.opacity = inTerra ? '1' : '0';
-      document.getElementById('globe-stage-wrap').style.pointerEvents = inTerra ? 'auto' : 'none';
+      const inTerra = name === 'gallery';
+      const gw = document.getElementById('globe-stage-wrap');
+      gw.style.display = inTerra ? 'block' : 'none';
+      gw.style.opacity = inTerra ? '1' : '0';
+      gw.style.pointerEvents = inTerra ? 'auto' : 'none';
       camBar.style.display = inTerra ? 'flex' : 'none';
+      leftPanel.style.display = inTerra ? 'flex' : 'none';
+      rightPanel.style.display = inTerra ? 'flex' : 'none';
       if (liveTicker) liveTicker.style.display = (inTerra && !IS_MOBILE) ? 'flex' : 'none';
       if (!inTerra) leftPanel.classList.remove('mobile-sheet-open');
       leftPanel.classList.toggle('panel-hidden-left', !inTerra || state.uiHidden);
       rightPanel.classList.toggle('panel-hidden-right', !inTerra || state.uiHidden);
-      const meta = LIBER_META[name] || LIBER_META.terra;
+      const meta = LIBER_META[name] || LIBER_META.map;
       document.getElementById('top-right-pill').textContent = meta.right;
       if (name === 'prologus') drawPrologus(state.time);
       else if (name === 'pantheon') drawLiberTwo(state.time);
       else if (name === 'oraculum') drawCosmology(state.time);
       else if (name === 'colophon') drawColophon(state.time);
+      if (ANIMATED_LIBERS.has(name) && !rafActive) {
+        prevTs = performance.now();
+        scheduleNextFrame();
+      }
     };
 
     document.querySelectorAll('.liber-nav-btn[data-liber]').forEach(btn => {
@@ -2078,8 +2095,8 @@ export function mountArchiveEngine({ PANTHEON, SCP_FILES, CITIES, FACTIONS, AIC_
           <p class="prose-read" style="font-size:15.5px; margin-top:8px;">${escapeHtml(c.desc)}</p>
         </div>
         <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px;">
-          <button class="bp-btn" style="font-size:14px;" onclick="window.switchLiber('terra'); setCamMode('skyline','${escapeHtml(c.id)}')">5.2x 卫城地势</button>
-          <button class="bp-btn active" style="font-size:14px;" onclick="jumpAtlas('${escapeHtml(c.id)}')">8.8x 街道近景 →</button>
+          <button class="bp-btn" style="font-size:14px;" onclick="window.switchLiber('gallery'); setCamMode('skyline','${escapeHtml(c.id)}')">铜版星象仪视角</button>
+          <button class="bp-btn active" style="font-size:14px;" onclick="jumpAtlas('${escapeHtml(c.id)}')">在写实地球定位 →</button>
         </div>
       </article>`;
     }).join('');
@@ -2093,7 +2110,7 @@ export function mountArchiveEngine({ PANTHEON, SCP_FILES, CITIES, FACTIONS, AIC_
             <div style="font-size:16px; font-weight:700; color:var(--klein); margin-top:6px;">${escapeHtml(f.name)}</div>
             <p class="desc-copy" style="margin-top:6px;">${escapeHtml(f.desc)}</p>
           </div>
-          <button class="bp-btn" style="width:100%; font-size:14px;" onclick="window.switchLiber('terra'); setCamMode('skyline','${escapeHtml(f.city)}')">在地图定位 →</button>
+          <button class="bp-btn" style="width:100%; font-size:14px;" onclick="window.jumpRealMap('${escapeHtml(f.city)}')">在地图定位 →</button>
         </div>
       `).join('');
     }
@@ -2106,10 +2123,10 @@ export function mountArchiveEngine({ PANTHEON, SCP_FILES, CITIES, FACTIONS, AIC_
         html: `<b>[收容档案命中 · ${escapeHtml(f.code)}]</b> <b>${escapeHtml(f.title)}</b><br/>${renderSafeMarkup(f.summary)}<br/><span style="font-size:14px; color:var(--ink-sec);">收容措施（本站设定）：${escapeHtml(f.proc)}</span>`
       })),
       ...CITIES.map(c => ({
-        kind: '站点地理', title: `${c.name}（${c.coords}）`, city: c.id, liber: 'terra',
+        kind: '站点地理', title: `${c.name}（${c.coords}）`, city: c.id, liber: 'map',
         scpNums: ([c.name, c.tag].join(' ').match(/SCP-\d+/gi) || []).map(s => s.toUpperCase()),
         terms: [c.id, c.roman, c.name, c.short, c.god, ...c.name.split(/[·\s()（）/]+/).filter(x => x.length >= 2)],
-        html: `<b>[站点地理命中 · ${escapeHtml(c.name)}]</b><br/><b>坐标位置：</b>${escapeHtml(c.coords)}（地势：${escapeHtml(c.terrain)}）<br/>${escapeHtml(c.desc)}<br/><button class="bp-btn active" style="margin-top:8px;" onclick="window.switchLiber('terra'); setCamMode('skyline','${escapeHtml(c.id)}')">在三维地图定位 ${escapeHtml(c.short)} →</button>`
+        html: `<b>[站点地理命中 · ${escapeHtml(c.name)}]</b><br/><b>坐标位置：</b>${escapeHtml(c.coords)}（地势：${escapeHtml(c.terrain)}）<br/>${escapeHtml(c.desc)}<br/><button class="bp-btn active" style="margin-top:8px;" onclick="window.jumpRealMap('${escapeHtml(c.id)}')">在写实地球定位 ${escapeHtml(c.short)} →</button>`
       })),
       ...PANTHEON.map((p, idx) => ({
         kind: '神祇图鉴', title: `${p.latin} · ${p.condensed}`, city: p.city, liber: 'pantheon', pIdx: idx,
@@ -2255,10 +2272,10 @@ export function mountArchiveEngine({ PANTHEON, SCP_FILES, CITIES, FACTIONS, AIC_
       tickerTrack.innerHTML = htmlItems;
     }
 
-    window.jumpAtlas = function(cityId) {
-      window.switchLiber('terra');
-      setCamMode('street', cityId);
+    window.jumpRealMap = function(cityId) {
+      window.location.hash = '#/map/' + encodeURIComponent(cityId);
     };
+    window.jumpAtlas = window.jumpRealMap;
 
     // Globe Multi-Touch Pinch-to-Zoom, Single-Finger Orbit & Wheel Controls
     const activePointers = new Map();
@@ -2266,7 +2283,7 @@ export function mountArchiveEngine({ PANTHEON, SCP_FILES, CITIES, FACTIONS, AIC_
     let downPt = { x: 0, y: 0, moved: false };
 
     cFront.addEventListener('pointerdown', (e) => {
-      if (state.liber !== 'terra') return;
+      if (state.liber !== 'gallery') return;
       if (leftPanel.classList.contains('mobile-sheet-open')) {
         leftPanel.classList.remove('mobile-sheet-open');
       }
@@ -2315,7 +2332,7 @@ export function mountArchiveEngine({ PANTHEON, SCP_FILES, CITIES, FACTIONS, AIC_
           state.rotY += dx * sens; state.rotX = Math.max(-2.35, Math.min(1.35, state.rotX + dy * sens));
           state.velY = dx * sens * 0.42; state.velX = dy * sens * 0.42;
         }
-      } else if (state.liber === 'terra' && !IS_MOBILE) {
+      } else if (state.liber === 'gallery' && !IS_MOBILE) {
         let hit = null;
         for (const p of clickablePins) if (Math.hypot(e.clientX - p.x, e.clientY - p.y) <= p.r) { hit = p.id; break; }
         state.hoveredId = hit; cFront.style.cursor = hit ? 'pointer' : 'grab';
@@ -2332,7 +2349,7 @@ export function mountArchiveEngine({ PANTHEON, SCP_FILES, CITIES, FACTIONS, AIC_
         state.dragging = true;
       } else if (activePointers.size === 0) {
         state.dragging = false;
-        if (state.liber === 'terra' && wasSingleTap) {
+        if (state.liber === 'gallery' && wasSingleTap) {
           const pad = IS_MOBILE ? 14 : 4;
           let best = null, bestD = Infinity;
           for (const p of clickablePins) {
@@ -2347,7 +2364,7 @@ export function mountArchiveEngine({ PANTHEON, SCP_FILES, CITIES, FACTIONS, AIC_
     cFront.addEventListener('pointercancel', handlePointerEnd);
 
     cFront.addEventListener('wheel', (e) => {
-      if (state.liber !== 'terra') return;
+      if (state.liber !== 'gallery') return;
       e.preventDefault();
       state.targetZoom = Math.max(0.65, Math.min(10.5, state.targetZoom * Math.exp(-e.deltaY * 0.0012)));
       document.querySelectorAll('[data-cam]').forEach(b => b.classList.remove('active'));

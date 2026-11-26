@@ -17,11 +17,11 @@
   "provenanceLabel": "原典+破碎之神",
   "badge": "badge-cyan",
   "geo": {
-    "lat": 29.98,
-    "lon": 31.13,
-    "precision": "region"
+    "lat": 29.976,
+    "lon": 31.1308,
+    "precision": "city"
   },
-  "coordsText": "29°59'N · 31°08'E · 尼罗河西岸高台",
+  "coordsText": "29.98°N · 31.13°E · 实测海拔 86 m",
   "motto": "“尼罗河东岸帆樯林立，西岸砂岩高台耸立着太阳金字塔与发条神殿。”",
   "summary": "尼罗河绿洲低地与吉萨石灰岩高台形成鲜明高低差，三座七阶大金字塔、方尖碑大道与阿蒙尼-拉姆青铜发条穹顶并立，天顶倒悬着奈亚拉托提普的逆黑金字塔。",
   "terrain": "尼罗河冲积绿洲 · 吉萨断层石质高台 · 沙漠陡崖",
@@ -50,26 +50,29 @@
   },
   "infobox": [
     {
-      "label": "来源归属",
-      "value": "原典+破碎之神",
+      "label": "文献出处",
+      "value": "洛夫克拉夫特《奈亚拉托提普》开罗吉萨高台 + 破碎之神教会沙漠遗迹区域延伸",
       "original": false
     },
     {
-      "label": "坐标纪要",
-      "value": "29°59'N · 31°08'E · 尼罗河西岸高台",
+      "label": "实测高程/水深",
+      "value": "实测海拔 86 m",
       "original": false
     },
     {
-      "label": "休谟基准",
-      "value": "0.92 Hm",
-      "original": true
+      "label": "定位精度",
+      "value": "city",
+      "original": false
     },
     {
-      "label": "驻防编制",
-      "value": "齿轮正教 × 埃及站点",
-      "original": true
+      "label": "z12 实地地貌",
+      "value": "埃及开罗西南吉萨金字塔群西侧沙漠石灰岩台地边缘",
+      "original": false
     }
   ],
   "relatedIds": [],
-  "updatedAt": "2026-11-26"
+  "updatedAt": "2026-11-26",
+  "realElevationMeters": 86,
+  "z12RealLocation": "埃及开罗西南吉萨金字塔群西侧沙漠石灰岩台地边缘",
+  "coordSource": "洛夫克拉夫特《奈亚拉托提普》开罗吉萨高台 + 破碎之神教会沙漠遗迹区域延伸"
 }

@@ -17,11 +17,11 @@
   "provenanceLabel": "SCP-610 原典衍生",
   "badge": "badge-crimson",
   "geo": {
-    "lat": 53.5,
-    "lon": 108,
+    "lat": 53.24,
+    "lon": 107.42,
     "precision": "region"
   },
-  "coordsText": "53°30'N · 108°00'E · 西伯利亚深裂谷",
+  "coordsText": "53.24°N · 107.42°E · 实测高程 449 m",
   "motto": "“大裂谷湖水深不见底，三道钢铁高墙将血肉狂潮锁死于冰原。”",
   "summary": "大陆最深裂谷湖泊与两侧高耸山岭构成剧烈地形起伏，安加拉河穿峡而出；三重重型隔离城墙与净化高塔拱卫着中央麦卡恩齿轮大穹顶，巡逻装甲队沿城墙昼夜川流不息。",
   "terrain": "大陆深水裂谷湖 · 两侧陡峭山岭 · 峡谷急流瀑布",
@@ -50,26 +50,29 @@
   },
   "infobox": [
     {
-      "label": "来源归属",
-      "value": "SCP-610 原典衍生",
+      "label": "文献出处",
+      "value": "SCP-610 原典（NekoChris）：南西伯利亚贝加尔湖周边无人荒野区域级坐标",
       "original": false
     },
     {
-      "label": "坐标纪要",
-      "value": "53°30'N · 108°00'E · 西伯利亚深裂谷",
+      "label": "实测高程/水深",
+      "value": "实测高程 449 m",
       "original": false
     },
     {
-      "label": "休谟基准",
-      "value": "0.88 Hm",
-      "original": true
+      "label": "定位精度",
+      "value": "region",
+      "original": false
     },
     {
-      "label": "驻防编制",
-      "value": "MTF Eta-5 × 发条圣骑士",
-      "original": true
+      "label": "z12 实地地貌",
+      "value": "俄罗斯西伯利亚贝加尔湖奥尔洪岛东岸湖湾无人山地",
+      "original": false
     }
   ],
   "relatedIds": [],
-  "updatedAt": "2026-11-26"
+  "updatedAt": "2026-11-26",
+  "realElevationMeters": 449,
+  "z12RealLocation": "俄罗斯西伯利亚贝加尔湖奥尔洪岛东岸湖湾无人山地",
+  "coordSource": "SCP-610 原典（NekoChris）：南西伯利亚贝加尔湖周边无人荒野区域级坐标"
 }

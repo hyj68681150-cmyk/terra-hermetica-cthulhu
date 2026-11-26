@@ -1,10 +1,14 @@
 Creative Commons Attribution-ShareAlike 3.0 Unported (CC BY-SA 3.0)
 ====================================================================
 
+Fiction Disclaimer / 虚构作品声明:
 This repository ("Theologia Caerulea · 蓝色神学档案馆") is a work of fiction.
-All fictional sites, anomalies, and organizations depicted on real-world maps have
-no affiliation with any real-world institution, school, hospital, or residence.
+All fictional sites, containment zones, anomalies, and organizations depicted on
+real-world maps have no affiliation with any real-world institution, school,
+hospital, government agency, or private residence.
 
+1. Archive Text & Worldbuilding License (CC BY-SA 3.0)
+------------------------------------------------------
 All SCP-derived text and composite worldbuilding in this project are licensed under
 the Creative Commons Attribution-ShareAlike 3.0 Unported License (CC BY-SA 3.0):
 https://creativecommons.org/licenses/by-sa/3.0/
@@ -18,9 +22,9 @@ Verified SCP Foundation Wiki Canon Works & Original Authors (verified via Crom A
 - SCP-2317 ("A Door to Another World") — by DrClef (https://scp-wiki.wikidot.com/scp-2317)
 - SCP-2662 ("cthulhu f'UCK OFF!") — by SoullessSingularity (https://scp-wiki.wikidot.com/scp-2662)
 - SCP-3000 ("Anantashesha") — by A Random Day, djkaktus, and Joreth (https://scp-wiki.wikidot.com/scp-3000)
-- Church of the Broken God Hub — created by HammerMaiden & collaborative contributors (https://scp-wiki.wikidot.com/church-of-the-broken-god-hub)
-- Sarkicism Hub — created by Metaphysician & collaborative contributors (https://scp-wiki.wikidot.com/sarkicism-hub)
-- Serpent's Hand Hub — created by thedeadlymoose & collaborative contributors (https://scp-wiki.wikidot.com/serpent-s-hand-hub)
+- Church of the Broken God Hub — created by HammerMaiden & contributors (https://scp-wiki.wikidot.com/church-of-the-broken-god-hub)
+- Sarkicism Hub — created by Metaphysician & contributors (https://scp-wiki.wikidot.com/sarkicism-hub)
+- Serpent's Hand Hub — created by thedeadlymoose & contributors (https://scp-wiki.wikidot.com/serpent-s-hand-hub)
 
 Public Domain Mythos Sources:
 - Cthulhu, R'lyeh, Yog-Sothoth, Azathoth, Nyarlathotep, Arkham, Innsmouth, Leng, and the
@@ -29,4 +33,20 @@ Public Domain Mythos Sources:
 Original Extensions ("本站原创设定"):
 - "Theologia Caerulea / 赫尔墨斯蓝色神学" cross-canon synthesis, Site-01 Alexandria Pharos
   setting, Site-CN-01 Penglai synthesis, original infobox telemetry fields, original fiction
-  chapters, and visualization code are released under CC BY-SA 3.0.
+  chapters, and source code are released under CC BY-SA 3.0.
+
+2. Map Engine & Geospatial Data Attributions
+--------------------------------------------
+- Map Engine: MapLibre GL JS v6.18.0 — BSD-3-Clause License (vendor/maplibre-gl@6.18.0/LICENSE.txt)
+- Satellite Imagery (2016 CC BY 4.0 edition):
+  Sentinel-2 cloudless - https://s2maps.eu by EOX IT Services GmbH (Contains modified
+  Copernicus Sentinel data 2016 & 2017), licensed under CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/).
+- Vector Basemap, Roads, Buildings & Place Names:
+  OpenFreeMap (https://openfreemap.org) © OpenMapTiles (https://www.openmaptiles.org/)
+  Data from OpenStreetMap contributors (https://www.openstreetmap.org/copyright, ODbL).
+- 3D Terrain & Hillshade DEM:
+  © Mapterhorn (https://mapterhorn.com/attribution); fallback DEM via Mapzen / AWS Terrain
+  Tiles Open Data (https://registry.opendata.aws/terrain-tiles/).
+- Nighttime Lights & Offline Globe Fallback Imagery:
+  Imagery: NASA Black Marble / VIIRS City Lights & NASA Blue Marble Next Generation,
+  courtesy of NASA EOSDIS GIBS / NASA Earth Observatory (Public Domain).

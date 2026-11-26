@@ -17,11 +17,11 @@
   "provenanceLabel": "本站原创设定",
   "badge": "badge-gold",
   "geo": {
-    "lat": 31.2,
-    "lon": 29.92,
-    "precision": "region"
+    "lat": 31.214,
+    "lon": 29.8856,
+    "precision": "exact"
   },
-  "coordsText": "31°12'N · 29°55'E · 尼罗河入海口",
+  "coordsText": "31.21°N · 29.89°E · 实测海拔 3 m（港外岬角）",
   "motto": "“Quod superius est sicut quod inferius — 如其在上，如其在下。”",
   "summary": "尼罗河三角洲主航道穿城入海，两岸石砌河堤帆影穿梭。高台之上耸立三层法罗斯大灯塔、十二肋拱秘仪大穹顶与古典柱廊，桥面与神道阶梯上学者与信使人流如织。",
   "terrain": "尼罗河宽阔水道 · 河口冲积洲 · 卫城石砌高台",
@@ -50,26 +50,29 @@
   },
   "infobox": [
     {
-      "label": "来源归属",
-      "value": "本站原创设定",
+      "label": "文献出处",
+      "value": "古亚历山大法罗斯大灯塔历史遗址坐标 31°12′50″N 29°53′08″E（本站原创圣座设定）",
       "original": true
     },
     {
-      "label": "坐标纪要",
-      "value": "31°12'N · 29°55'E · 尼罗河入海口",
+      "label": "实测高程/水深",
+      "value": "实测海拔 3 m（港外岬角）",
       "original": false
     },
     {
-      "label": "休谟基准",
-      "value": "1.48 Hm",
-      "original": true
+      "label": "定位精度",
+      "value": "exact",
+      "original": false
     },
     {
-      "label": "驻防编制",
-      "value": "MTF Alpha-1 红右手",
-      "original": true
+      "label": "z12 实地地貌",
+      "value": "埃及亚历山大东港外侧法罗斯岛古灯塔遗址海岬尖端礁石区",
+      "original": false
     }
   ],
   "relatedIds": [],
-  "updatedAt": "2026-11-26"
+  "updatedAt": "2026-11-26",
+  "realElevationMeters": 3,
+  "z12RealLocation": "埃及亚历山大东港外侧法罗斯岛古灯塔遗址海岬尖端礁石区",
+  "coordSource": "古亚历山大法罗斯大灯塔历史遗址坐标 31°12′50″N 29°53′08″E（本站原创圣座设定）"
 }

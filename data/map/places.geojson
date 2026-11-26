@@ -1,0 +1,397 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -126.7167,
+          -47.15
+        ]
+      },
+      "properties": {
+        "id": "site-rlyeh",
+        "entryId": "site-rlyeh",
+        "name_zh": "拉莱耶",
+        "name_en": "R'lyeh",
+        "code": "R'LYEH · 47°09'S",
+        "layer": "mythos",
+        "clearance": 1,
+        "provenance": "cthulhu-canon",
+        "coordSource": "洛夫克拉夫特《克苏鲁的呼唤》原文坐标 47°9′S 126°43′W",
+        "precision": "exact",
+        "realElevationM": -4048,
+        "elevDisplay": "实测水深 4,048 m",
+        "z12RealDesc": "南太平洋东太平洋海隆西侧深海海面（无岛屿陆地）",
+        "defaultZoom": 5,
+        "summary": "南太平洋深海异常坐标点。Terrarium 地形实测此处海床水深 4,048 米；原典记载沉眠着非欧几何巨石城拉莱耶。",
+        "labelWithDepth": "拉莱耶\n水深 4048m"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          29.8856,
+          31.214
+        ]
+      },
+      "properties": {
+        "id": "site-alexandria",
+        "entryId": "site-alexandria",
+        "name_zh": "亚历山大·法罗斯圣座",
+        "name_en": "Site-01 Alexandria Pharos",
+        "code": "SITE-01 · PHAROS",
+        "layer": "theology",
+        "clearance": 1,
+        "provenance": "original",
+        "coordSource": "古亚历山大法罗斯大灯塔历史遗址坐标 31°12′50″N 29°53′08″E（本站原创圣座设定）",
+        "precision": "exact",
+        "realElevationM": 3,
+        "elevDisplay": "实测海拔 3 m（港外岬角）",
+        "z12RealDesc": "埃及亚历山大东港外侧法罗斯岛古灯塔遗址海岬尖端礁石区",
+        "defaultZoom": 12,
+        "summary": "位于埃及亚历山大东港入口法罗斯岛古灯塔遗址海岬。在本站原创蓝色神学设定中为翠玉录文献总库与基准锚点。",
+        "labelWithDepth": "亚历山大·法罗斯圣座"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -110.498,
+          44.462
+        ]
+      },
+      "properties": {
+        "id": "site-2000",
+        "entryId": "site-2000",
+        "name_zh": "SCP-2000 机械降神",
+        "name_en": "SCP-2000 Deus Ex Machina",
+        "code": "SCP-2000 · THAUMIEL",
+        "layer": "scp",
+        "clearance": 1,
+        "provenance": "scp-canon",
+        "coordSource": "SCP-2000 原典（HammerMaiden）：美国黄石国家公园破火山口区域级坐标",
+        "precision": "region",
+        "realElevationM": 2403,
+        "elevDisplay": "实测海拔 2,403 m",
+        "z12RealDesc": "美国怀俄明州黄石国家公园破火山口中央荒野台地（黄石湖以北无人火山穹丘）",
+        "defaultZoom": 10,
+        "summary": "位于黄石破火山口无人荒野地下的 Thaumiel 级文明重启设施，配备斯克兰顿现实稳定锚与大规模人类克隆阵列。",
+        "labelWithDepth": "SCP-2000 机械降神"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          47.4395,
+          31.0044
+        ]
+      },
+      "properties": {
+        "id": "site-001",
+        "entryId": "site-001",
+        "name_zh": "SCP-001 伊甸守门人",
+        "name_en": "SCP-001 The Gate Guardian",
+        "code": "SCP-001 · CLEF",
+        "layer": "scp",
+        "clearance": 1,
+        "provenance": "scp-canon",
+        "coordSource": "Dr. Clef 提案原典：底格里斯河与幼发拉底河交汇处区域坐标",
+        "precision": "region",
+        "realElevationM": 4,
+        "elevDisplay": "实测海拔 4 m",
+        "z12RealDesc": "伊拉克古尔奈（Al-Qurnah）底格里斯河与幼发拉底河交汇处河道沙洲水面",
+        "defaultZoom": 12,
+        "summary": "伫立于两河交汇河谷的四翼持剑高大发光实体，外围由远古观测站 Site-0 沿河岸保持远距监测。",
+        "labelWithDepth": "SCP-001 伊甸守门人"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          14.3965,
+          50.0933
+        ]
+      },
+      "properties": {
+        "id": "site-prague",
+        "entryId": "site-prague",
+        "name_zh": "布拉格炼金秘门·阿拉卡达",
+        "name_en": "Prague Alagadda Threshold",
+        "code": "SCP-2264 · ARCHON",
+        "layer": "scp",
+        "clearance": 1,
+        "provenance": "original",
+        "coordSource": "SCP-2264 原典遮蔽具体城市；本站设定映射于布拉格城堡北侧林谷（城市级精度）",
+        "precision": "city",
+        "realElevationM": 256,
+        "elevDisplay": "实测海拔 256 m",
+        "z12RealDesc": "捷克布拉格伏尔塔瓦河西岸城堡山北侧鹿护城河林谷绿地",
+        "defaultZoom": 13,
+        "summary": "连接多维狂欢城邦“阿拉卡达”的炼金秘门映射点，关联吊王与黑衣无面大使记录。",
+        "labelWithDepth": "布拉格炼金秘门·阿拉卡达"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -150.85,
+          62.94
+        ]
+      },
+      "properties": {
+        "id": "site-13",
+        "entryId": "site-13",
+        "name_zh": "SCP-1730 第十三号站点",
+        "name_en": "SCP-1730 Site-13",
+        "code": "SCP-1730 · KETER",
+        "layer": "scp",
+        "clearance": 1,
+        "provenance": "scp-canon",
+        "coordSource": "SCP-1730 原典（djkaktus）：阿拉斯加荒野冰原区域级坐标",
+        "precision": "region",
+        "realElevationM": 1774,
+        "elevDisplay": "实测海拔 1,774 m",
+        "z12RealDesc": "美国阿拉斯加州德纳里山脉南麓卡希尔特纳冰川无人雪原",
+        "defaultZoom": 10,
+        "summary": "自平行宇宙滑入阿拉斯加无人冰川谷的超巨型收容与奇术焚化设施遗址，曾由 MTF Tau-5 轮回小队突入勘察。",
+        "labelWithDepth": "SCP-1730 第十三号站点"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          31.1308,
+          29.976
+        ]
+      },
+      "properties": {
+        "id": "site-cairo",
+        "entryId": "site-cairo",
+        "name_zh": "吉萨高台与机械神殿秘道",
+        "name_en": "Giza Plateau & Mekhanite Vault",
+        "code": "CAIRO · GOI-004",
+        "layer": "goi",
+        "clearance": 1,
+        "provenance": "cthulhu-canon",
+        "coordSource": "洛夫克拉夫特《奈亚拉托提普》开罗吉萨高台 + 破碎之神教会沙漠遗迹区域延伸",
+        "precision": "city",
+        "realElevationM": 86,
+        "elevDisplay": "实测海拔 86 m",
+        "z12RealDesc": "埃及开罗西南吉萨金字塔群西侧沙漠石灰岩台地边缘",
+        "defaultZoom": 13,
+        "summary": "尼罗河西岸吉萨沙漠石灰岩高台，并置奈亚拉托提普古埃及传说与破碎之神教会发条遗迹考据。",
+        "labelWithDepth": "吉萨高台与机械神殿秘道"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          113.1667,
+          -76.25
+        ]
+      },
+      "properties": {
+        "id": "site-antarctica",
+        "entryId": "site-antarctica",
+        "name_zh": "疯狂山脉·莱克营地",
+        "name_en": "Mountains of Madness (Lake's Camp)",
+        "code": "MISKATONIC-1931",
+        "layer": "mythos",
+        "clearance": 1,
+        "provenance": "cthulhu-canon",
+        "coordSource": "洛夫克拉夫特《疯狂山脉》莱克营地原文坐标 76°15′S 113°10′E",
+        "precision": "exact",
+        "realElevationM": -185,
+        "elevDisplay": "冰盖约 3,450 m / 冰下基岩 -185 m",
+        "z12RealDesc": "东南极洲内陆冰盖高原无人区（近沃斯托克冰下高地）",
+        "defaultZoom": 5,
+        "summary": "1930–1931 年密斯卡托尼克大学南极考察队莱克营地原典坐标，冰盖深处封存古老者五芒星石城遗址。",
+        "labelWithDepth": "疯狂山脉·莱克营地\n水深 185m"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          120.7522,
+          37.8283
+        ]
+      },
+      "properties": {
+        "id": "site-penglai",
+        "entryId": "site-penglai",
+        "name_zh": "Site-CN-01 蓬莱镇海塔",
+        "name_en": "Site-CN-01 Penglai Bastion",
+        "code": "SITE-CN-01 · 异学会",
+        "layer": "goi",
+        "clearance": 1,
+        "provenance": "original",
+        "coordSource": "山东蓬莱丹崖山外海黄渤海交汇处 37°49′42″N 120°45′08″E（本站原创设定）",
+        "precision": "city",
+        "realElevationM": 0,
+        "elevDisplay": "实测海岬礁盘 0–32 m",
+        "z12RealDesc": "中国山东省烟台市蓬莱区丹崖山-田横山外侧黄渤海分界海域礁盘",
+        "defaultZoom": 12,
+        "summary": "位于山东蓬莱黄渤海分界岬角外海礁盘的奇术监测站，融合中华异学会古籍馆藏与基金会东海海眼监测网。",
+        "labelWithDepth": "Site-CN-01 蓬莱镇海塔"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          107.42,
+          53.24
+        ]
+      },
+      "properties": {
+        "id": "site-baikal",
+        "entryId": "site-baikal",
+        "name_zh": "贝加尔湖 SCP-610 封锁区",
+        "name_en": "Lake Baikal SCP-610 Quarantine",
+        "code": "SCP-610 · KETER",
+        "layer": "scp",
+        "clearance": 1,
+        "provenance": "scp-canon",
+        "coordSource": "SCP-610 原典（NekoChris）：南西伯利亚贝加尔湖周边无人荒野区域级坐标",
+        "precision": "region",
+        "realElevationM": 449,
+        "elevDisplay": "实测高程 449 m",
+        "z12RealDesc": "俄罗斯西伯利亚贝加尔湖奥尔洪岛东岸湖湾无人山地",
+        "defaultZoom": 9,
+        "summary": "南西伯利亚贝加尔湖裂谷外围的 SCP-610 血肉畸变隔离封锁区，由防疫特遣队与破碎之神教会协防（协防部分为本站设定）。",
+        "labelWithDepth": "贝加尔湖 SCP-610 封锁区"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -70.865,
+          42.548
+        ]
+      },
+      "properties": {
+        "id": "site-arkham",
+        "entryId": "site-arkham",
+        "name_zh": "阿卡姆·密斯卡托尼克河湾",
+        "name_en": "Arkham (Miskatonic Estuary)",
+        "code": "ARKHAM · MISKATONIC",
+        "layer": "mythos",
+        "clearance": 1,
+        "provenance": "cthulhu-canon",
+        "coordSource": "洛夫克拉夫特阿卡姆原型地：马萨诸塞州北岸塞勒姆-贝弗利河口海域",
+        "precision": "region",
+        "realElevationM": 0,
+        "elevDisplay": "实测河口海湾 0 m",
+        "z12RealDesc": "美国马萨诸塞州北岸塞勒姆湾与贝弗利港交汇海岬水域",
+        "defaultZoom": 11,
+        "summary": "马萨诸塞州北岸虚构学城阿卡姆的海岸河口映射点，馆藏《死灵之书》拉丁文刻本并监控近海异常。",
+        "labelWithDepth": "阿卡姆·密斯卡托尼克河湾"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -70.768,
+          42.682
+        ]
+      },
+      "properties": {
+        "id": "site-innsmouth",
+        "entryId": "site-innsmouth",
+        "name_zh": "印斯茅斯与魔鬼礁",
+        "name_en": "Innsmouth & Devil's Reef",
+        "code": "INNSMOUTH · 1928",
+        "layer": "mythos",
+        "clearance": 1,
+        "provenance": "cthulhu-canon",
+        "coordSource": "洛夫克拉夫特《印斯茅斯之影》伊普斯维奇湾-鹤滩入海口外海原型坐标",
+        "precision": "region",
+        "realElevationM": 0,
+        "elevDisplay": "实测近海暗礁 0 m",
+        "z12RealDesc": "美国马萨诸塞州伊普斯维奇湾（Ipswich Bay）与梅花岛南水道入海口外海暗礁",
+        "defaultZoom": 11,
+        "summary": "1928 年美国财政部与早期异常机构联合清剿的衰败海港印斯茅斯及外海深潜者栖息地“魔鬼礁”海域。",
+        "labelWithDepth": "印斯茅斯与魔鬼礁"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          73.535,
+          39.035
+        ]
+      },
+      "properties": {
+        "id": "site-leng",
+        "entryId": "site-leng",
+        "name_zh": "帕米尔高原盐漠·SCP-2317 映射门",
+        "name_en": "Pamir Basin / SCP-2317 Threshold",
+        "code": "SCP-2317 · APOLLYON",
+        "layer": "scp",
+        "clearance": 1,
+        "provenance": "original",
+        "coordSource": "SCP-2317 异界盐漠（DrClef）之本站原创地球高寒咸水盆地映射点",
+        "precision": "region",
+        "realElevationM": 3915,
+        "elevDisplay": "实测海拔 3,915 m",
+        "z12RealDesc": "帕米尔高原喀拉库勒高寒封闭咸水湖心岛北端无人盐碱荒滩",
+        "defaultZoom": 9,
+        "summary": "帕米尔高原海拔 3,915 米的封闭咸水盆地无人荒滩，在本站设定中映射冷原星门与 SCP-2317 异界七柱盐漠。",
+        "labelWithDepth": "帕米尔高原盐漠·SCP-2317 映射门"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          88.5,
+          11.5
+        ]
+      },
+      "properties": {
+        "id": "site-3000-bengal",
+        "entryId": "site-3000-bengal",
+        "name_zh": "孟加拉湾海沟·SCP-3000",
+        "name_en": "SCP-3000 Anantashesha Zone",
+        "code": "SCP-3000 · THAUMIEL",
+        "layer": "scp",
+        "clearance": 1,
+        "provenance": "scp-canon",
+        "coordSource": "SCP-3000 原典（A Random Day, djkaktus, Joreth）：孟加拉湾深海封锁区",
+        "precision": "region",
+        "realElevationM": -3236,
+        "elevDisplay": "实测水深 3,236 m",
+        "z12RealDesc": "印度洋孟加拉湾中部深海扇海面（无陆地，划设直径 300km 禁航区）",
+        "defaultZoom": 5,
+        "summary": "孟加拉湾深海扇水深 3,236 米禁航海域，盘踞体长数百公里的认知危害实体阿难陀舍沙（SCP-3000），由潜艇站点 Atzak 监控。",
+        "labelWithDepth": "孟加拉湾海沟·SCP-3000\n水深 3236m"
+      }
+    }
+  ]
+}

@@ -18,10 +18,10 @@
   "badge": "badge-crimson",
   "geo": {
     "lat": -47.15,
-    "lon": -126.72,
+    "lon": -126.7167,
     "precision": "exact"
   },
-  "coordsText": "47°09'S · 126°43'W · 落差 1420m",
+  "coordsText": "47.15°S · 126.72°W · 实测水深 4,048 m",
   "motto": "“Ph'nglui mglw'nafh Cthulhu R'lyeh wgah'nagl fhtagn.”",
   "summary": "拔起于万米深渊海沟陡崖之上的三级错落巨石卫城，深海暗河穿城而过；外围矗立四座基金会-赫尔墨斯现实稳定锚星塔，石阶与拱桥上可见络绎不绝的深海朝圣队列与潜航巡逻艇。",
   "terrain": "海底断层绝壁 · 穿城发光暗河 · 三级卫城高台",
@@ -50,26 +50,29 @@
   },
   "infobox": [
     {
-      "label": "来源归属",
-      "value": "克苏鲁原典+原创",
+      "label": "文献出处",
+      "value": "洛夫克拉夫特《克苏鲁的呼唤》原文坐标 47°9′S 126°43′W",
       "original": false
     },
     {
-      "label": "坐标纪要",
-      "value": "47°09'S · 126°43'W · 落差 1420m",
+      "label": "实测高程/水深",
+      "value": "实测水深 4,048 m",
       "original": false
     },
     {
-      "label": "休谟基准",
-      "value": "0.41 Hm",
-      "original": true
+      "label": "定位精度",
+      "value": "exact",
+      "original": false
     },
     {
-      "label": "驻防编制",
-      "value": "MTF Gamma-6 深海喂食者",
-      "original": true
+      "label": "z12 实地地貌",
+      "value": "南太平洋东太平洋海隆西侧深海海面（无岛屿陆地）",
+      "original": false
     }
   ],
   "relatedIds": [],
-  "updatedAt": "2026-11-26"
+  "updatedAt": "2026-11-26",
+  "realElevationMeters": -4048,
+  "z12RealLocation": "南太平洋东太平洋海隆西侧深海海面（无岛屿陆地）",
+  "coordSource": "洛夫克拉夫特《克苏鲁的呼唤》原文坐标 47°9′S 126°43′W"
 }

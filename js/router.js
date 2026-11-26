@@ -1,29 +1,40 @@
 /**
  * js/router.js
  * Lightweight zero-dependency Hash Router supporting browser Back/Forward,
- * direct deep-linking, and route parameters (e.g. #/map/@31.2,29.9,12z, #/entry/scp-2000).
+ * direct deep-linking, and route parameters (e.g. #/map/@31.2,29.9,12z, #/entry/site-rlyeh, #/gallery).
  */
-const VALID_CHAPTERS = new Set([
+const VALID_VIEWS = new Set([
   "prologus",
-  "terra",
   "map",
   "pantheon",
   "scp",
   "architectura",
   "oraculum",
-  "colophon",
   "gallery",
+  "colophon",
+  "entry",
 ]);
 
 export function parseHashRoute(hashStr = window.location.hash) {
   const raw = String(hashStr || "").replace(/^#\/?/, "").trim();
-  if (!raw) return { view: "terra", rest: "" };
+  if (!raw) return { view: "map", rest: "" };
+  const qIdx = raw.indexOf("?");
   const slashIdx = raw.indexOf("/");
-  const head = (slashIdx < 0 ? raw : raw.slice(0, slashIdx)).split("?")[0].toLowerCase();
-  const rest = slashIdx < 0 ? "" : raw.slice(slashIdx + 1);
-  if (head === "map") return { view: "map", rest };
-  if (VALID_CHAPTERS.has(head)) return { view: head, rest };
-  return { view: "terra", rest: "" };
+  let splitAt = -1;
+  if (slashIdx >= 0 && (qIdx < 0 || slashIdx < qIdx)) splitAt = slashIdx;
+  else if (qIdx >= 0) splitAt = qIdx;
+
+  const head = (splitAt < 0 ? raw : raw.slice(0, splitAt)).toLowerCase();
+  const rest =
+    splitAt < 0
+      ? ""
+      : raw[splitAt] === "?"
+        ? raw.slice(splitAt)
+        : raw.slice(splitAt + 1);
+
+  if (head === "terra") return { view: "gallery", rest };
+  if (VALID_VIEWS.has(head)) return { view: head, rest };
+  return { view: "map", rest: "" };
 }
 
 export function initRouter(onRoute) {
