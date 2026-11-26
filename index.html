@@ -182,8 +182,10 @@
       0% { transform: translateX(0); }
       100% { transform: translateX(-50%); }
     }
-    @media (max-width: 1360px) {
+    @media (max-width: 1580px) {
       #top-left-brand, #top-right-pill { display: none !important; }
+    }
+    @media (max-width: 1360px) {
       #live-ticker { left: 28px; right: 28px; bottom: 18px; }
       #bottom-roman-pill { display: none !important; }
     }
@@ -428,7 +430,7 @@
   </div>
 
   <!-- Bottom-Center Live Telemetry & Roman Plate -->
-  <div id="bottom-roman-pill" class="margin-pill" style="bottom: 24px; left: 50%; transform: translateX(-50%); pointer-events:none;">
+  <div id="bottom-roman-pill" class="margin-pill" style="bottom: 24px; left: 50%; transform: translateX(-50%); pointer-events:none; display:none;">
     — I · HUME 1.04 · SRA ONLINE —
   </div>
 
@@ -712,7 +714,7 @@
         TWELVE SITES &amp; SANCTUARIES OF TERRA
       </div>
       <p style="font-size:12px; color:#dce6ff; max-width:740px; margin:0 auto; line-height:1.7;">
-        每座圣城与基金会收容巨构均附有<b>实测地形高差剖面图、水系水文参数、驻防特遣队/修会编制</b>，支持一键切入 `5.2x` 卫城全景或 `8.8x` 街道朝圣人流视角。
+        每座圣城与基金会收容巨构均附有<b>实测地形高差剖面图、水系水文参数、驻防特遣队/修会编制</b>，支持一键切入 <b>5.2x</b> 卫城全景或 <b>8.8x</b> 街道朝圣人流视角。
       </p>
     </div>
 
@@ -729,7 +731,7 @@
         ORACULUM &amp; COSMOLOGIA CAERULEA
       </div>
       <p style="font-size:12px; color:#dce6ff; max-width:760px; margin:0 auto; line-height:1.68;">
-        基金会战术神学部人工智能圣谕台（`TRISMEGISTUS-O5.AIC`）与九重群青宇宙论星图。可检索任意旧日支配者、SCP项目、同行组织（GOI），或直接下达全球奇术收容仪轨指令。
+        基金会战术神学部人工智能圣谕台（<b>TRISMEGISTUS-O5.AIC</b>）与九重群青宇宙论星图。可检索任意旧日支配者、SCP项目、同行组织（GOI），或直接下达全球奇术收容仪轨指令。
       </p>
     </div>
 
@@ -3308,6 +3310,8 @@
       document.getElementById('globe-stage-wrap').style.pointerEvents = inTerra ? 'auto' : 'none';
       camBar.style.display = inTerra ? 'flex' : 'none';
       if (liveTicker) liveTicker.style.display = (inTerra && !IS_MOBILE) ? 'flex' : 'none';
+      const botPill = document.getElementById('bottom-roman-pill');
+      if (botPill) botPill.style.display = inTerra ? 'none' : 'block';
       if (!inTerra) leftPanel.classList.remove('mobile-sheet-open');
       leftPanel.classList.toggle('panel-hidden-left', !inTerra || state.uiHidden);
       rightPanel.classList.toggle('panel-hidden-right', !inTerra || state.uiHidden);
