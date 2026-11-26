@@ -1,0 +1,50 @@
+{
+  "id": "dossier-scp-001-guardian",
+  "order": 1,
+  "category": "scp",
+  "subCat": "scp",
+  "badge": "badge-gold",
+  "code": "SCP-001 · YESOD / KETER",
+  "title": "守门人 · 两河流域伊甸四翼炽天使巨像",
+  "aliases": [
+    "SCP-001 · YESOD / KETER",
+    "守门人 · 两河流域伊甸四翼炽天使巨像",
+    "gate001",
+    "SCP-001"
+  ],
+  "clearance": 1,
+  "provenance": "scp-canon",
+  "authorCredit": "DrClef (Dr. Clef's Proposal, CC BY-SA 3.0)",
+  "hume": "8.90 Hm · 奇术饱和",
+  "legacyCityId": "gate001",
+  "mapSiteId": "site-001",
+  "summary": "立于底格里斯与幼发拉底两河交汇高崖之上，高约三百肘尺，生有四翼并持炽白火焰剑。任何进入半径 1 公里河谷禁区的敌对人员均收到心灵指令 {{redact:1:“遗忘，或归于原初群青”}} 并瞬间原子化。",
+  "proc": "远古站点 Site-0 沿外围双河石堤呈半月形布防，仅允许无人观测船在下游河道巡航。",
+  "log": "【紧急遥测 001-伊甸】当印度洋海沟发生 8.9 级异常震动时，SCP-001 曾短暂将火焰巨剑转向东南深海方向达 14 秒，阿基瓦辐射峰值突破 6,400 Ak。",
+  "infobox": [
+    {
+      "label": "档案编号",
+      "value": "SCP-001 · YESOD / KETER",
+      "original": false
+    },
+    {
+      "label": "原典署名",
+      "value": "DrClef (Dr. Clef's Proposal, CC BY-SA 3.0)",
+      "original": false
+    },
+    {
+      "label": "休谟场读数",
+      "value": "8.90 Hm · 奇术饱和",
+      "original": true
+    },
+    {
+      "label": "驻防与收容",
+      "value": "Site-0 远古守望哨",
+      "original": true
+    }
+  ],
+  "relatedIds": [
+    "site-001"
+  ],
+  "updatedAt": "2026-11-26"
+}

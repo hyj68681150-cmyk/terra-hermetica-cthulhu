@@ -1,17 +1,15 @@
 Creative Commons Attribution-ShareAlike 3.0 Unported (CC BY-SA 3.0)
 ====================================================================
 
-This repository ("Theologia Caerulea · 蓝色神学档案馆") contains derivative and
-reference works based on entries from the SCP Foundation Wiki (https://scp-wiki.wikidot.com/
-and https://scp-wiki-cn.wikidot.com/), alongside public-domain Cthulhu Mythos /
-Hermetic references and original ("原创") lore and source code.
+This repository ("Theologia Caerulea · 蓝色神学档案馆") is a work of fiction.
+All fictional sites, anomalies, and organizations depicted on real-world maps have
+no affiliation with any real-world institution, school, hospital, or residence.
 
-In accordance with the SCP Foundation licensing policy, all SCP-derived text and
-composite worldbuilding in this project are licensed under the Creative Commons
-Attribution-ShareAlike 3.0 Unported License (CC BY-SA 3.0):
+All SCP-derived text and composite worldbuilding in this project are licensed under
+the Creative Commons Attribution-ShareAlike 3.0 Unported License (CC BY-SA 3.0):
 https://creativecommons.org/licenses/by-sa/3.0/
 
-Referenced SCP Canon Works & Original Authors:
+Verified SCP Foundation Wiki Canon Works & Original Authors (verified via Crom API):
 - SCP-001 (Dr. Clef's Proposal: "The Gate Guardian") — by DrClef (https://scp-wiki.wikidot.com/dr-clef-s-proposal)
 - SCP-610 ("The Flesh that Hates") — by NekoChris (https://scp-wiki.wikidot.com/scp-610)
 - SCP-1730 ("What Happened to Site-13?") — by djkaktus (https://scp-wiki.wikidot.com/scp-1730)
@@ -19,10 +17,16 @@ Referenced SCP Canon Works & Original Authors:
 - SCP-2264 ("In the Court of Alagadda") — by Metaphysician (https://scp-wiki.wikidot.com/scp-2264)
 - SCP-2317 ("A Door to Another World") — by DrClef (https://scp-wiki.wikidot.com/scp-2317)
 - SCP-2662 ("cthulhu f'UCK OFF!") — by SoullessSingularity (https://scp-wiki.wikidot.com/scp-2662)
-- SCP-3000 ("Anantashesha") — by djkaktus, Joreth, and A Random Day (https://scp-wiki.wikidot.com/scp-3000)
-- Church of the Broken God / Mekhane & Sarkicism — SCP Wiki Collaborative Canon
+- SCP-3000 ("Anantashesha") — by A Random Day, djkaktus, and Joreth (https://scp-wiki.wikidot.com/scp-3000)
+- Church of the Broken God Hub — created by HammerMaiden & collaborative contributors (https://scp-wiki.wikidot.com/church-of-the-broken-god-hub)
+- Sarkicism Hub — created by Metaphysician & collaborative contributors (https://scp-wiki.wikidot.com/sarkicism-hub)
+- Serpent's Hand Hub — created by thedeadlymoose & collaborative contributors (https://scp-wiki.wikidot.com/serpent-s-hand-hub)
 
-Original Extensions ("原创设定"):
+Public Domain Mythos Sources:
+- Cthulhu, R'lyeh, Yog-Sothoth, Azathoth, Nyarlathotep, Arkham, Innsmouth, Leng, and the
+  Antarctic Elder City derive from public-domain works by H. P. Lovecraft (1920–1936).
+
+Original Extensions ("本站原创设定"):
 - "Theologia Caerulea / 赫尔墨斯蓝色神学" cross-canon synthesis, Site-01 Alexandria Pharos
-  setting, Site-CN-01 Penglai synthesis, and interactive visualization source code are
-  original works created for this archive and released under CC BY-SA 3.0.
+  setting, Site-CN-01 Penglai synthesis, original infobox telemetry fields, original fiction
+  chapters, and visualization code are released under CC BY-SA 3.0.

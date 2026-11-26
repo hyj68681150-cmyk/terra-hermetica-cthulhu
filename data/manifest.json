@@ -1,0 +1,858 @@
+{
+  "generatedBy": "tools/build-manifest.mjs",
+  "updatedAt": "2026-11-26",
+  "counts": {
+    "entries": 41,
+    "novels": 1,
+    "mapFiles": 0
+  },
+  "entries": [
+    {
+      "id": "codex-hume-theory",
+      "category": "codices",
+      "code": "CODEX-TOPIC",
+      "title": "蓝色神学与休谟场论（本站原创设定）",
+      "aliases": [
+        "蓝色神学",
+        "休谟",
+        "斯克兰顿",
+        "群青",
+        "原理",
+        "hume",
+        "sra"
+      ],
+      "clearance": 1,
+      "provenance": "original",
+      "summary": "在本站跨世界观设定中，斯克兰顿现实稳定锚（SRA，源自 SCP 维基原典）的谐振腔与亚历山大《翠玉录》几何频率结合，维持 1.00–1.80 Hm 基准现实场。",
+      "geo": null,
+      "mapSiteId": null,
+      "path": "data/entries/codices/codex-hume-theory.json",
+      "updatedAt": "2026-11-26"
+    },
+    {
+      "id": "codex-six-orders",
+      "category": "codices",
+      "code": "CODEX-TOPIC",
+      "title": "六大秘教与同行组织概览",
+      "aliases": [
+        "六大秘教",
+        "同行组织",
+        "goi"
+      ],
+      "clearance": 1,
+      "provenance": "scp-canon",
+      "summary": "当前收录：SCP 基金会战术神学部、破碎之神教会（GOI-004）、欲肉教团、蛇之手（被放逐者之图书馆）、密斯卡托尼克大学、中华异学会（CN分部原典）及本站原创之赫尔墨斯蓝色修会。",
+      "geo": null,
+      "mapSiteId": null,
+      "path": "data/entries/codices/codex-six-orders.json",
+      "updatedAt": "2026-11-26"
+    },
+    {
+      "id": "codex-taxonomy-matrix",
+      "category": "codices",
+      "code": "CODEX-TOPIC",
+      "title": "外神/旧日与基金会分级对照",
+      "aliases": [
+        "旧日支配者与基金会分级",
+        "分级对照",
+        "谱系"
+      ],
+      "clearance": 1,
+      "provenance": "original",
+      "summary": "馆藏将克苏鲁原典中的旧日支配者/外神与 SCP 原典项目（如 Apollyon 级 SCP-2317、Thaumiel 级 SCP-3000、Archon 级 SCP-2264）分卷收录，并在各词条标明“原典”或“本站原创”。",
+      "geo": null,
+      "mapSiteId": null,
+      "path": "data/entries/codices/codex-taxonomy-matrix.json",
+      "updatedAt": "2026-11-26"
+    },
+    {
+      "id": "entity-azathoth-scarlet",
+      "category": "entities",
+      "code": "VII",
+      "title": "VII · 阿撒托斯与深红之王（跨体系对照） · 盲目原核与七印逆王",
+      "aliases": [
+        "VII · 阿撒托斯与深红之王（跨体系对照）",
+        "盲目原核与七印逆王",
+        "克苏鲁外神之首阿撒托斯 & SCP 体系旧神深红之王"
+      ],
+      "clearance": 1,
+      "provenance": "cthulhu-canon",
+      "summary": "分别源自洛夫克拉夫特原典中的宇宙盲目痴愚之核“阿撒托斯”，以及 SCP 基金会维基设定中的多线程旧神“深红之王（Scarlet King）”（CC BY-SA 3.0）。本站将其并列展示作为两大宇宙观的终极威胁对照。",
+      "geo": null,
+      "mapSiteId": "site-13",
+      "path": "data/entries/entities/entity-azathoth-scarlet.json",
+      "updatedAt": "2026-11-26"
+    },
+    {
+      "id": "entity-cthulhu",
+      "category": "entities",
+      "code": "I",
+      "title": "I · 克苏鲁（原典 + 跨体系衍生） · 渊海沉眠大主教",
+      "aliases": [
+        "I · 克苏鲁（原典 + 跨体系衍生）",
+        "渊海沉眠大主教",
+        "南太平洋海底非欧巨石城拉莱耶之沉眠祭司"
+      ],
+      "clearance": 1,
+      "provenance": "cthulhu-canon",
+      "summary": "原典出自洛夫克拉夫特《克苏鲁的呼唤》（1928）。在本站原创“蓝色神学”合流设定中，拉莱耶外围由四座斯克兰顿现实稳定锚维持休谟场稳定。（注：基金会原典 SCP-2662 为反教团喜剧性质相关条目，此处深渊主祭为克苏鲁原典与本站原创神学合流。）",
+      "geo": null,
+      "mapSiteId": "site-rlyeh",
+      "path": "data/entries/entities/entity-cthulhu.json",
+      "updatedAt": "2026-11-26"
+    },
+    {
+      "id": "entity-gate-guardian",
+      "category": "entities",
+      "code": "III",
+      "title": "III · SCP-001 守门人（DrClef 提案） · 伊甸四翼守门人",
+      "aliases": [
+        "III · SCP-001 守门人（DrClef 提案）",
+        "伊甸四翼守门人",
+        "两河交汇处的四翼持剑发光实体 · 远古站点 Site-0 监测对象",
+        "SCP-001"
+      ],
+      "clearance": 1,
+      "provenance": "scp-canon",
+      "summary": "原典出自 SCP 基金会维基 DrClef 提案《守门人》（CC BY-SA 3.0）：伫立于底格里斯河与幼发拉底河交汇处的四翼高大发光实体，手持高温火焰剑，任何靠近警戒半径的入侵者均被瞬间抹除并收到心灵指令。",
+      "geo": null,
+      "mapSiteId": "site-001",
+      "path": "data/entries/entities/entity-gate-guardian.json",
+      "updatedAt": "2026-11-26"
+    },
+    {
+      "id": "entity-mekhane",
+      "category": "entities",
+      "code": "V",
+      "title": "V · 麦卡恩与亚大伯斯（SCP教会原典） · 破碎之神与血肉母神",
+      "aliases": [
+        "V · 麦卡恩与亚大伯斯（SCP教会原典）",
+        "破碎之神与血肉母神",
+        "机械理性与原初血肉的远古对立神明"
+      ],
+      "clearance": 1,
+      "provenance": "scp-canon",
+      "summary": "原典出自 SCP 基金会“破碎之神教会（GOI-004）”与“欲肉教”设定集（CC BY-SA 3.0）：麦卡恩赋予人类理性与技术，并碎裂自身神躯化作牢笼以囚禁血肉母神亚大伯斯。",
+      "geo": null,
+      "mapSiteId": "site-baikal",
+      "path": "data/entries/entities/entity-mekhane.json",
+      "updatedAt": "2026-11-26"
+    },
+    {
+      "id": "entity-nyarlathotep-alagadda",
+      "category": "entities",
+      "code": "VIII",
+      "title": "VIII · 奈亚拉托提普与阿拉卡达（跨体系对照） · 千面信使与吊王宫廷",
+      "aliases": [
+        "VIII · 奈亚拉托提普与阿拉卡达（跨体系对照）",
+        "千面信使与吊王宫廷",
+        "伏行之混沌奈亚拉托提普 & SCP-2264 阿拉卡达黑衣大使"
+      ],
+      "clearance": 1,
+      "provenance": "cthulhu-canon",
+      "summary": "并置洛夫克拉夫特原典中的千面外神信使“奈亚拉托提普”，以及 SCP-2264《在阿拉卡达的宫廷》（作者 Metaphysician，CC BY-SA 3.0）中的吊王与无面大使；跨维度共鸣为本站原创桥接演绎。",
+      "geo": null,
+      "mapSiteId": "site-prague",
+      "path": "data/entries/entities/entity-nyarlathotep-alagadda.json",
+      "updatedAt": "2026-11-26"
+    },
+    {
+      "id": "entity-scp-2317",
+      "category": "entities",
+      "code": "VI",
+      "title": "VI · SCP-2317 异界吞世者（SCP原典） · 七柱祭坛与末日残链",
+      "aliases": [
+        "VI · SCP-2317 异界吞世者（SCP原典）",
+        "七柱祭坛与末日残链",
+        "异界盐漠地下七柱圆阵内仅余最后一根锁链的巨型实体",
+        "SCP-2317"
+      ],
+      "clearance": 1,
+      "provenance": "scp-canon",
+      "summary": "原典出自 DrClef 撰写的 SCP-2317（CC BY-SA 3.0）：秘门通往异界盐湖地下玄武岩七柱阵，七根封印锁链已断裂六根；基金会通过虚构仪轨“程序 220-Calabasas”维持人员士气，实则尚无永久收容手段。",
+      "geo": null,
+      "mapSiteId": "site-leng",
+      "path": "data/entries/entities/entity-scp-2317.json",
+      "updatedAt": "2026-11-26"
+    },
+    {
+      "id": "entity-scp-3000",
+      "category": "entities",
+      "code": "IV",
+      "title": "IV · SCP-3000 阿难陀舍沙（SCP原典） · 孟加拉湾遗忘巨鳗",
+      "aliases": [
+        "IV · SCP-3000 阿难陀舍沙（SCP原典）",
+        "孟加拉湾遗忘巨鳗",
+        "盘踞孟加拉湾深海海沟的 Thaumiel 级巨型海鳗实体",
+        "SCP-3000"
+      ],
+      "clearance": 1,
+      "provenance": "scp-canon",
+      "summary": "原典出自 SCP-3000（作者 djkaktus、Joreth、A Random Day，CC BY-SA 3.0）：体长约 600–900 公里，带有强烈认知危害与记忆抹除效应，其分泌物 Y-909 是基金会现代记忆删除药剂的关键原料。",
+      "geo": null,
+      "mapSiteId": "site-rlyeh",
+      "path": "data/entries/entities/entity-scp-3000.json",
+      "updatedAt": "2026-11-26"
+    },
+    {
+      "id": "entity-yog-sothoth",
+      "category": "entities",
+      "code": "II",
+      "title": "II · 犹格·索托斯（克苏鲁原典） · 万物归一之门钥",
+      "aliases": [
+        "II · 犹格·索托斯（克苏鲁原典）",
+        "万物归一之门钥",
+        "超越时空维度的门户与门钥 · 关联被放逐者之图书馆门径"
+      ],
+      "clearance": 1,
+      "provenance": "cthulhu-canon",
+      "summary": "原典出自《敦威治恐怖事件》与《穿越银匙之门》。在本站跨体系设定中，帕米尔冷原的双环星门与“蛇之手”所依托的跨维度门径（Ways）同受其几何法则映射。",
+      "geo": null,
+      "mapSiteId": "site-leng",
+      "path": "data/entries/entities/entity-yog-sothoth.json",
+      "updatedAt": "2026-11-26"
+    },
+    {
+      "id": "goi-broken-god",
+      "category": "goi",
+      "code": "GOI-004 · HammerMaiden 等",
+      "title": "破碎之神教会",
+      "aliases": [
+        "破碎之神教会",
+        "GOI-004 · HammerMaiden 等",
+        "破碎之神教会"
+      ],
+      "clearance": 1,
+      "provenance": "scp-canon",
+      "summary": "崇奉麦卡恩理性与精密发条，在开罗阿蒙尼-拉姆与贝加尔湖遏制血肉畸变。",
+      "geo": null,
+      "mapSiteId": "site-baikal",
+      "path": "data/entries/goi/goi-broken-god.json",
+      "updatedAt": "2026-11-26"
+    },
+    {
+      "id": "goi-miskatonic-yixuehui",
+      "category": "goi",
+      "code": "洛氏原典 + SCP-CN 原典",
+      "title": "密斯卡托尼克大学 & 异学会",
+      "aliases": [
+        "密斯卡托尼克大学 & 异学会",
+        "洛氏原典 + SCP-CN 原典",
+        "密斯卡托尼克大学",
+        "异学会"
+      ],
+      "clearance": 1,
+      "provenance": "cthulhu-canon",
+      "summary": "东西方古籍与异常研究机构，分别关联阿卡姆馆藏与中华古典志怪竹简。",
+      "geo": null,
+      "mapSiteId": "site-penglai",
+      "path": "data/entries/goi/goi-miskatonic-yixuehui.json",
+      "updatedAt": "2026-11-26"
+    },
+    {
+      "id": "goi-ordo-caeruleus",
+      "category": "goi",
+      "code": "本站原创组织",
+      "title": "赫尔墨斯蓝色修会",
+      "aliases": [
+        "赫尔墨斯蓝色修会",
+        "本站原创组织",
+        "赫尔墨斯蓝色修会"
+      ],
+      "clearance": 1,
+      "provenance": "original",
+      "summary": "本站原创设定：研习《翠玉录》几何圣律，与亚历山大圣座联合维护地脉星盘。",
+      "geo": null,
+      "mapSiteId": "site-alexandria",
+      "path": "data/entries/goi/goi-ordo-caeruleus.json",
+      "updatedAt": "2026-11-26"
+    },
+    {
+      "id": "goi-sarkic-dagon",
+      "category": "goi",
+      "code": "Metaphysician & 洛氏原典",
+      "title": "欲肉教与深海秘教",
+      "aliases": [
+        "欲肉教与深海秘教",
+        "Metaphysician & 洛氏原典",
+        "欲肉教与深海秘教"
+      ],
+      "clearance": 1,
+      "provenance": "scp-canon",
+      "summary": "分别源自欲肉教团（亚大伯斯崇拜）与印斯茅斯大衮密教，企图唤醒沉眠古神。",
+      "geo": null,
+      "mapSiteId": "site-rlyeh",
+      "path": "data/entries/goi/goi-sarkic-dagon.json",
+      "updatedAt": "2026-11-26"
+    },
+    {
+      "id": "goi-serpents-hand",
+      "category": "goi",
+      "code": "GOI-019 · thedeadlymoose 等",
+      "title": "蛇之手 · 放逐者之图书馆",
+      "aliases": [
+        "蛇之手 · 放逐者之图书馆",
+        "GOI-019 · thedeadlymoose 等",
+        "蛇之手",
+        "放逐者之图书馆"
+      ],
+      "clearance": 1,
+      "provenance": "scp-canon",
+      "summary": "穿行于连接多元维度的门径（Ways）与三波特兰，主张超自然知识公开。",
+      "geo": null,
+      "mapSiteId": "site-leng",
+      "path": "data/entries/goi/goi-serpents-hand.json",
+      "updatedAt": "2026-11-26"
+    },
+    {
+      "id": "goi-tactical-theology",
+      "category": "goi",
+      "code": "SCP原典 / DoTT",
+      "title": "SCP 基金会 · 战术神学部",
+      "aliases": [
+        "SCP 基金会 · 战术神学部",
+        "SCP原典 / DoTT",
+        "SCP",
+        "基金会",
+        "战术神学部"
+      ],
+      "clearance": 1,
+      "provenance": "scp-canon",
+      "summary": "统辖斯克兰顿现实稳定锚（SRA）与阿基瓦辐射监测阵列，以量化仪轨应对神性异常。",
+      "geo": null,
+      "mapSiteId": "site-2000",
+      "path": "data/entries/goi/goi-tactical-theology.json",
+      "updatedAt": "2026-11-26"
+    },
+    {
+      "id": "dossier-antarctica-1931",
+      "category": "scp",
+      "code": "MISKATONIC-1931 · ELDER ARCHIVE",
+      "title": "南极疯狂山脉五芒星古城 · 戴尔教授与第72哨站实录",
+      "aliases": [
+        "MISKATONIC-1931 · ELDER ARCHIVE",
+        "南极疯狂山脉五芒星古城 · 戴尔教授与第72哨站实录",
+        "antarctica"
+      ],
+      "clearance": 1,
+      "provenance": "cthulhu-canon",
+      "summary": "越过海拔万尺的锯齿黑山脉，冰封盆地内保存着五亿年前“古老者”建造的五角星截面摩天石塔群与十道悬空石桥。地底深渊仍封存着能够模拟一切器官与文字的 {{redact:1:[失控原生质巨兽“修格斯（Shoggoth）”]}}。",
+      "geo": null,
+      "mapSiteId": "site-antarctica",
+      "path": "data/entries/scp/dossier-antarctica-1931.json",
+      "updatedAt": "2026-11-26"
+    },
+    {
+      "id": "dossier-baikal-610",
+      "category": "scp",
+      "code": "GOI-004 × SCP-610 · CONCORDAT",
+      "title": "贝加尔湖断层封锁墙与破碎之神青铜圣柜盟约",
+      "aliases": [
+        "GOI-004 × SCP-610 · CONCORDAT",
+        "贝加尔湖断层封锁墙与破碎之神青铜圣柜盟约",
+        "baikal",
+        "SCP-610"
+      ],
+      "clearance": 1,
+      "provenance": "scp-canon",
+      "summary": "西伯利亚大裂谷沿岸爆发的 SCP-610 欲肉教血肉瘟疫区被三道六角形火焰高墙封锁。根据《群青秘约》，基金会允许破碎之神教会齿轮正教在隔离区中心运转 {{redact:1:[麦卡恩发条心脏谐振穹顶]}}，以纯机械几何场抑制血肉增殖。",
+      "geo": null,
+      "mapSiteId": "site-baikal",
+      "path": "data/entries/scp/dossier-baikal-610.json",
+      "updatedAt": "2026-11-26"
+    },
+    {
+      "id": "dossier-codex-al-azif",
+      "category": "scp",
+      "code": "CODEX-730 · AL-AZIF / NECRONOMICON",
+      "title": "《阿尔·阿吉夫（死灵之书）》大马士革群青铜版校勘本",
+      "aliases": [
+        "CODEX-730 · AL-AZIF / NECRONOMICON",
+        "《阿尔·阿吉夫（死灵之书）》大马士革群青铜版校勘本",
+        "cairo"
+      ],
+      "clearance": 1,
+      "provenance": "original",
+      "summary": "公元八世纪萨那狂人阿卜杜勒·阿尔哈兹莱德游历鲁卜哈利沙漠无名古柱城与开罗地宫后撰写的禁忌巨著。本馆藏本为 1586 年布拉格约翰·迪伊博士以 {{redact:1:[青金石粉与异常抗模因墨水]}} 镌刻的唯一安全校勘版。",
+      "geo": null,
+      "mapSiteId": "site-cairo",
+      "path": "data/entries/scp/dossier-codex-al-azif.json",
+      "updatedAt": "2026-11-26"
+    },
+    {
+      "id": "dossier-innsmouth-1928",
+      "category": "scp",
+      "code": "UIU-1928 × DAGON · KETER",
+      "title": "印斯茅斯礁港清剿行动与三波特兰秘仪通道",
+      "aliases": [
+        "UIU-1928 × DAGON · KETER",
+        "印斯茅斯礁港清剿行动与三波特兰秘仪通道",
+        "arkham"
+      ],
+      "clearance": 1,
+      "provenance": "cthulhu-canon",
+      "summary": "1928 年美国政府与早期基金会前身对马萨诸塞州印斯茅斯港实施水雷封锁后，残余大衮秘教徒退入外海魔鬼礁海底都市；而上游阿卡姆密斯卡托尼克河谷则隐藏着通往 {{redact:1:[口袋城邦“三波特兰”与被放逐者之图书馆]}} 的水下拱门。",
+      "geo": null,
+      "mapSiteId": "site-arkham",
+      "path": "data/entries/scp/dossier-innsmouth-1928.json",
+      "updatedAt": "2026-11-26"
+    },
+    {
+      "id": "dossier-penglai-cn01",
+      "category": "scp",
+      "code": "SITE-CN-01 × 异学会 · THAUMIEL",
+      "title": "东海蓬莱七重镇海宝塔与太平洋海眼封印大阵",
+      "aliases": [
+        "SITE-CN-01 × 异学会 · THAUMIEL",
+        "东海蓬莱七重镇海宝塔与太平洋海眼封印大阵",
+        "penglai"
+      ],
+      "clearance": 1,
+      "provenance": "scp-canon",
+      "summary": "传承自先秦方士与中华异学会的东海海山奇术枢纽，后改组为基金会中国分部核心圣座 Site-CN-01。山巅七层翘角飞檐宝塔实为巨型 {{redact:1:[洛书-斯克兰顿复合海眼镇压锚]}}，压制西太平洋深海旧日支脉。",
+      "geo": null,
+      "mapSiteId": "site-penglai",
+      "path": "data/entries/scp/dossier-penglai-cn01.json",
+      "updatedAt": "2026-11-26"
+    },
+    {
+      "id": "dossier-rlyeh-2662",
+      "category": "scp",
+      "code": "SCP-2662-Ω × R'LYEH · APOLLYON",
+      "title": "拉莱耶海渊卫城与阿难陀舍沙地幔共鸣带",
+      "aliases": [
+        "SCP-2662-Ω × R'LYEH · APOLLYON",
+        "拉莱耶海渊卫城与阿难陀舍沙地幔共鸣带",
+        "rlyeh",
+        "SCP-2662"
+      ],
+      "clearance": 1,
+      "provenance": "cthulhu-canon",
+      "summary": "深海声呐测绘证实南太平洋 47°09'S 矗立着违背欧几里得几何学的玄武岩三级巨城，并与孟加拉湾 SCP-3000 通过地幔暗河相连。每逢太阳黑子极值，海崖便涌现 {{redact:1:[数以万计的深潜者朝圣人流与心灵低语]}}。",
+      "geo": null,
+      "mapSiteId": "site-rlyeh",
+      "path": "data/entries/scp/dossier-rlyeh-2662.json",
+      "updatedAt": "2026-11-26"
+    },
+    {
+      "id": "dossier-scp-001-guardian",
+      "category": "scp",
+      "code": "SCP-001 · YESOD / KETER",
+      "title": "守门人 · 两河流域伊甸四翼炽天使巨像",
+      "aliases": [
+        "SCP-001 · YESOD / KETER",
+        "守门人 · 两河流域伊甸四翼炽天使巨像",
+        "gate001",
+        "SCP-001"
+      ],
+      "clearance": 1,
+      "provenance": "scp-canon",
+      "summary": "立于底格里斯与幼发拉底两河交汇高崖之上，高约三百肘尺，生有四翼并持炽白火焰剑。任何进入半径 1 公里河谷禁区的敌对人员均收到心灵指令 {{redact:1:“遗忘，或归于原初群青”}} 并瞬间原子化。",
+      "geo": null,
+      "mapSiteId": "site-001",
+      "path": "data/entries/scp/dossier-scp-001-guardian.json",
+      "updatedAt": "2026-11-26"
+    },
+    {
+      "id": "dossier-scp-1730",
+      "category": "scp",
+      "code": "SCP-1730 · KETER / NEUTRALIZED",
+      "title": "第十三号站点 · 跨宇宙奇术焚化巨塔群",
+      "aliases": [
+        "SCP-1730 · KETER / NEUTRALIZED",
+        "第十三号站点 · 跨宇宙奇术焚化巨塔群",
+        "site13",
+        "SCP-1730"
+      ],
+      "clearance": 1,
+      "provenance": "scp-canon",
+      "summary": "自平行宇宙（GOC 与基金会合并时间线）滑入本位面的超巨型阶梯式收容综合体，曾同时关押并焚化包括鹿神、水蛭男孩与 {{redact:1:[至高多臂神性实体 MALIDRAMAGIUAN]}} 在内的数百个灭世级异常。",
+      "geo": null,
+      "mapSiteId": "site-13",
+      "path": "data/entries/scp/dossier-scp-1730.json",
+      "updatedAt": "2026-11-26"
+    },
+    {
+      "id": "dossier-scp-2000",
+      "category": "scp",
+      "code": "SCP-2000 · THAUMIEL",
+      "title": "机械降神 · 黄石火山口地下文明重启巨构",
+      "aliases": [
+        "SCP-2000 · THAUMIEL",
+        "机械降神 · 黄石火山口地下文明重启巨构",
+        "site2000",
+        "SCP-2000"
+      ],
+      "clearance": 1,
+      "provenance": "scp-canon",
+      "summary": "位于怀俄明州黄石破火山口深层花岗岩地幔上方，配备 8 座斯克兰顿现实稳定锚冷却塔与 50 万台布莱特/扎尔茨曼人类克隆舱。已知至少在 {{redact:1:[旧日苏醒导致的 2 次 K 级纪元重置]}} 后重新播种并建造了现代人类文明。",
+      "geo": null,
+      "mapSiteId": "site-2000",
+      "path": "data/entries/scp/dossier-scp-2000.json",
+      "updatedAt": "2026-11-26"
+    },
+    {
+      "id": "dossier-scp-2264",
+      "category": "scp",
+      "code": "SCP-2264 · ARCHON / ALAGADDA",
+      "title": "阿拉卡达宫廷门扉 · 布拉格炼金星堡地宫",
+      "aliases": [
+        "SCP-2264 · ARCHON / ALAGADDA",
+        "阿拉卡达宫廷门扉 · 布拉格炼金星堡地宫",
+        "prague",
+        "SCP-2264"
+      ],
+      "clearance": 1,
+      "provenance": "scp-canon",
+      "summary": "隐藏于布拉格哥特大教堂与炼金术士黄金巷地底的铅制秘门，仅可通过特定炼金密语开启，通往与所有维度接壤的狂欢城邦“阿拉卡达”。门内耸立着 {{redact:1:[被锁于王座的吊王与黑衣无面大使]}}。",
+      "geo": null,
+      "mapSiteId": "site-prague",
+      "path": "data/entries/scp/dossier-scp-2264.json",
+      "updatedAt": "2026-11-26"
+    },
+    {
+      "id": "dossier-scp-2317",
+      "category": "scp",
+      "code": "SCP-2317-K · APOLLYON",
+      "title": "异界之门与吞世者 · 帕米尔冷原七柱盐漠祭坛",
+      "aliases": [
+        "SCP-2317-K · APOLLYON",
+        "异界之门与吞世者 · 帕米尔冷原七柱盐漠祭坛",
+        "leng",
+        "SCP-2317"
+      ],
+      "clearance": 1,
+      "provenance": "scp-canon",
+      "summary": "通过秘门连接异界盐湖盆地，地下玄武岩圆阵内囚禁着身高逾两百公里的有角巨魔“诸界吞噬者”。埃里克什秘教铸造的七根神圣锁链已断裂六根，仅余 {{redact:1:[预计将在三十年内崩断的第七锁链]}}。",
+      "geo": null,
+      "mapSiteId": "site-leng",
+      "path": "data/entries/scp/dossier-scp-2317.json",
+      "updatedAt": "2026-11-26"
+    },
+    {
+      "id": "dossier-tabula-caerulea",
+      "category": "scp",
+      "code": "TABULA-VIII · THEOLOGIA CAERULEA",
+      "title": "《翠玉录·第八重神圣群青补遗》与战术神学宪章",
+      "aliases": [
+        "TABULA-VIII · THEOLOGIA CAERULEA",
+        "《翠玉录·第八重神圣群青补遗》与战术神学宪章",
+        "alexandria"
+      ],
+      "clearance": 1,
+      "provenance": "original",
+      "summary": "出土于亚历山大法罗斯大灯塔地基下的绿松石-青金石合铸碑板，揭示宇宙并非善恶二元，而是由“盲目熵增的旧日深渊”与“赋予秩序的第八重天球群青圣律”构成；这正是现代 {{redact:1:[斯克兰顿现实稳定锚与战术神学部]}} 的真正理论源头。",
+      "geo": null,
+      "mapSiteId": "site-alexandria",
+      "path": "data/entries/scp/dossier-tabula-caerulea.json",
+      "updatedAt": "2026-11-26"
+    },
+    {
+      "id": "site-001",
+      "category": "sites",
+      "code": "SCP-001 EDEN GATE",
+      "title": "两河交汇·伊甸四翼守门人圣域 (SCP-001)",
+      "aliases": [
+        "gate001",
+        "SCP-001 EDEN GATE",
+        "两河交汇·伊甸四翼守门人圣域 (SCP-001)",
+        "IV · SCP-001 伊甸守门人",
+        "SCP-001 守门人 (乌列尔)"
+      ],
+      "clearance": 1,
+      "provenance": "scp-canon",
+      "summary": "底格里斯河与幼发拉底河在此交汇环绕阶梯圣山，山巅大门前矗立着展开四翼、手擎通天白炽巨剑的守门人（SCP-001）；外围河岸分布着 Site-0 观测堡垒群与顶礼膜拜的朝圣人群。",
+      "geo": {
+        "lat": 31,
+        "lon": 47.43,
+        "precision": "region"
+      },
+      "mapSiteId": null,
+      "path": "data/entries/sites/site-001.json",
+      "updatedAt": "2026-11-26"
+    },
+    {
+      "id": "site-13",
+      "category": "sites",
+      "code": "SCP-1730 SITE-13",
+      "title": "第十三号站点·跨维焚化巨构 (SCP-1730)",
+      "aliases": [
+        "site13",
+        "SCP-1730 SITE-13",
+        "第十三号站点·跨维焚化巨构 (SCP-1730)",
+        "VI · Site-13 第十三号站点",
+        "鹿神 / 水蛭巨兽 / 至高神性残响"
+      ],
+      "clearance": 1,
+      "provenance": "scp-canon",
+      "summary": "镶嵌在阿拉斯加雪山冰河裂谷中的超巨型粗野主义收容要塞，拥有下沉式隔离深坑、六座奇术焚化高塔与纵横交错的高空武装连廊，轮回特遣队正沿连廊突入核心。",
+      "geo": {
+        "lat": 63.8,
+        "lon": -145.7,
+        "precision": "region"
+      },
+      "mapSiteId": null,
+      "path": "data/entries/sites/site-13.json",
+      "updatedAt": "2026-11-26"
+    },
+    {
+      "id": "site-2000",
+      "category": "sites",
+      "code": "SCP-2000 YELLOWSTONE",
+      "title": "黄石破火山口·机械降神地下巨构 (SCP-2000)",
+      "aliases": [
+        "site2000",
+        "SCP-2000 YELLOWSTONE",
+        "黄石破火山口·机械降神地下巨构 (SCP-2000)",
+        "III · SCP-2000 黄石巨构",
+        "SCP基金会 · 文明重启火种"
+      ],
+      "clearance": 1,
+      "provenance": "scp-canon",
+      "summary": "群山环抱的黄石破火山口盆地内，黄石河自高山飞瀑直泻峡谷。盆地中央耸立着重型装甲穹顶、八座斯克兰顿现实稳定锚冷却高塔与地下克隆库竖井，大批科研与D级人员正沿栈桥有序入井。",
+      "geo": {
+        "lat": 44.6,
+        "lon": -110.5,
+        "precision": "region"
+      },
+      "mapSiteId": null,
+      "path": "data/entries/sites/site-2000.json",
+      "updatedAt": "2026-11-26"
+    },
+    {
+      "id": "site-alexandria",
+      "category": "sites",
+      "code": "SITE-01 ALEXANDRIA",
+      "title": "亚历山大·O5圣座与翠玉大灯塔 (Alexandria)",
+      "aliases": [
+        "alexandria",
+        "SITE-01 ALEXANDRIA",
+        "亚历山大·O5圣座与翠玉大灯塔 (Alexandria)",
+        "II · Alexandria 亚历山大",
+        "三重伟大者赫尔墨斯 · O5 议会"
+      ],
+      "clearance": 1,
+      "provenance": "original",
+      "summary": "尼罗河三角洲主航道穿城入海，两岸石砌河堤帆影穿梭。高台之上耸立三层法罗斯大灯塔、十二肋拱秘仪大穹顶与古典柱廊，桥面与神道阶梯上学者与信使人流如织。",
+      "geo": {
+        "lat": 31.2,
+        "lon": 29.92,
+        "precision": "region"
+      },
+      "mapSiteId": null,
+      "path": "data/entries/sites/site-alexandria.json",
+      "updatedAt": "2026-11-26"
+    },
+    {
+      "id": "site-antarctica",
+      "category": "sites",
+      "code": "MONS INSANIAE",
+      "title": "疯狂山脉·古老者五芒星极地巨城 (Antarctica)",
+      "aliases": [
+        "antarctica",
+        "MONS INSANIAE",
+        "疯狂山脉·古老者五芒星极地巨城 (Antarctica)",
+        "VIII · Madness 疯狂山脉",
+        "古老者 · 修格斯原生质"
+      ],
+      "clearance": 1,
+      "provenance": "cthulhu-canon",
+      "summary": "四周环绕高耸险峻的南极锯齿状黑岩山峰，盆地内矗立七座五角星截面摩天石塔与十道半空悬空连廊；基金会极地考察队正沿冰川栈道深入古城区。",
+      "geo": {
+        "lat": -76.5,
+        "lon": 72,
+        "precision": "region"
+      },
+      "mapSiteId": null,
+      "path": "data/entries/sites/site-antarctica.json",
+      "updatedAt": "2026-11-26"
+    },
+    {
+      "id": "site-arkham",
+      "category": "sites",
+      "code": "ARKHAM & PORTLANDS",
+      "title": "阿卡姆河谷学城与印斯茅斯礁港 (Arkham)",
+      "aliases": [
+        "arkham",
+        "ARKHAM & PORTLANDS",
+        "阿卡姆河谷学城与印斯茅斯礁港 (Arkham)",
+        "XI · Arkham 阿卡姆/三波特兰",
+        "父神达贡 · 三波特兰秘仪通道"
+      ],
+      "clearance": 1,
+      "provenance": "cthulhu-canon",
+      "summary": "密斯卡托尼克河自内陆丘陵蜿蜒穿过阿卡姆学城石拱桥注入海湾，北岸高坡耸立大学哥特钟楼与藏书馆，南岸低地遍布折顶街屋与码头，外海矗立魔鬼礁珊瑚尖塔。",
+      "geo": {
+        "lat": 42.62,
+        "lon": -70.75,
+        "precision": "region"
+      },
+      "mapSiteId": null,
+      "path": "data/entries/sites/site-arkham.json",
+      "updatedAt": "2026-11-26"
+    },
+    {
+      "id": "site-baikal",
+      "category": "sites",
+      "code": "LAKE BAIKAL ZONE-610",
+      "title": "贝加尔裂谷·血肉封锁墙与发条圣殿 (SCP-610)",
+      "aliases": [
+        "baikal",
+        "LAKE BAIKAL ZONE-610",
+        "贝加尔裂谷·血肉封锁墙与发条圣殿 (SCP-610)",
+        "X · Baikal 贝加尔封锁区",
+        "破碎之神麦卡恩 vs 亚大伯斯 (SCP-610)"
+      ],
+      "clearance": 1,
+      "provenance": "scp-canon",
+      "summary": "大陆最深裂谷湖泊与两侧高耸山岭构成剧烈地形起伏，安加拉河穿峡而出；三重重型隔离城墙与净化高塔拱卫着中央麦卡恩齿轮大穹顶，巡逻装甲队沿城墙昼夜川流不息。",
+      "geo": {
+        "lat": 53.5,
+        "lon": 108,
+        "precision": "region"
+      },
+      "mapSiteId": null,
+      "path": "data/entries/sites/site-baikal.json",
+      "updatedAt": "2026-11-26"
+    },
+    {
+      "id": "site-cairo",
+      "category": "sites",
+      "code": "CAIRO & AMONI-RAM",
+      "title": "开罗金字塔群与破碎神城阿蒙尼-拉姆 (Cairo)",
+      "aliases": [
+        "cairo",
+        "CAIRO & AMONI-RAM",
+        "开罗金字塔群与破碎神城阿蒙尼-拉姆 (Cairo)",
+        "VII · Cairo 开罗/机械神城",
+        "奈亚拉托提普 & 破碎之神麦卡恩"
+      ],
+      "clearance": 1,
+      "provenance": "scp-canon",
+      "summary": "尼罗河绿洲低地与吉萨石灰岩高台形成鲜明高低差，三座七阶大金字塔、方尖碑大道与阿蒙尼-拉姆青铜发条穹顶并立，天顶倒悬着奈亚拉托提普的逆黑金字塔。",
+      "geo": {
+        "lat": 29.98,
+        "lon": 31.13,
+        "precision": "region"
+      },
+      "mapSiteId": null,
+      "path": "data/entries/sites/site-cairo.json",
+      "updatedAt": "2026-11-26"
+    },
+    {
+      "id": "site-leng",
+      "category": "sites",
+      "code": "LENG & SCP-2317",
+      "title": "冷原星门与七重锁链吞世者祭坛 (SCP-2317)",
+      "aliases": [
+        "leng",
+        "LENG & SCP-2317",
+        "冷原星门与七重锁链吞世者祭坛 (SCP-2317)",
+        "XII · Leng 冷原/七柱锁链",
+        "犹格·索托斯 & SCP-2317-K 吞世者"
+      ],
+      "clearance": 1,
+      "provenance": "scp-canon",
+      "summary": "昆仑与喜马拉雅万仞雪峰环绕的高原绝境，上层高台直立着犹格·索托斯双环星门与独石修道院，前侧下沉祭坛围立着 SCP-2317 的七根玄武岩锁链石柱（仅最后一根银白锁链依然紧绷发光）！",
+      "geo": {
+        "lat": 35.8,
+        "lon": 84.5,
+        "precision": "region"
+      },
+      "mapSiteId": null,
+      "path": "data/entries/sites/site-leng.json",
+      "updatedAt": "2026-11-26"
+    },
+    {
+      "id": "site-penglai",
+      "category": "sites",
+      "code": "SITE-CN-01 PENGLAI",
+      "title": "东海蓬莱·太乙镇海宝塔与异学会总坛 (Penglai)",
+      "aliases": [
+        "penglai",
+        "SITE-CN-01 PENGLAI",
+        "东海蓬莱·太乙镇海宝塔与异学会总坛 (Penglai)",
+        "IX · Site-CN-01 东海蓬莱",
+        "中华异学会 · 镇海奇术大阵"
+      ],
+      "clearance": 1,
+      "provenance": "original",
+      "summary": "奇峰耸峙的仙山高台飞流直下汇入穿城玉带河，山巅矗立七层翘角飞檐镇海宝塔，山腰与海湾层叠分布重檐钟鼓楼、四孔石拱长桥与来往如梭的方士及特工行旅。",
+      "geo": {
+        "lat": 33.8,
+        "lon": 136.5,
+        "precision": "region"
+      },
+      "mapSiteId": null,
+      "path": "data/entries/sites/site-penglai.json",
+      "updatedAt": "2026-11-26"
+    },
+    {
+      "id": "site-prague",
+      "category": "sites",
+      "code": "PRAGUE & ALAGADDA",
+      "title": "布拉格炼金星堡与阿拉卡达门扉 (SCP-2264)",
+      "aliases": [
+        "prague",
+        "PRAGUE & ALAGADDA",
+        "布拉格炼金星堡与阿拉卡达门扉 (SCP-2264)",
+        "V · Prague 布拉格/阿拉卡达",
+        "蔷薇十字学派 vs 阿拉卡达吊王"
+      ],
+      "clearance": 1,
+      "provenance": "scp-canon",
+      "summary": "伏尔塔瓦河蜿蜒穿过波希米亚丘陵，七孔查理石拱大桥上游人如织；高坡城堡区耸立着飞扶壁哥特双尖塔大教堂、玫瑰花窗与扭曲高耸的阿拉卡达大使尖塔。",
+      "geo": {
+        "lat": 50.08,
+        "lon": 14.43,
+        "precision": "region"
+      },
+      "mapSiteId": null,
+      "path": "data/entries/sites/site-prague.json",
+      "updatedAt": "2026-11-26"
+    },
+    {
+      "id": "site-rlyeh",
+      "category": "sites",
+      "code": "SANCTUM R'LYEH",
+      "title": "拉莱耶·渊海卫城与稳定锚阵 (R'lyeh)",
+      "aliases": [
+        "rlyeh",
+        "SANCTUM R'LYEH",
+        "拉莱耶·渊海卫城与稳定锚阵 (R'lyeh)",
+        "I · R'lyeh 拉莱耶海渊",
+        "克苏鲁 & SCP-3000 共鸣带"
+      ],
+      "clearance": 1,
+      "provenance": "cthulhu-canon",
+      "summary": "拔起于万米深渊海沟陡崖之上的三级错落巨石卫城，深海暗河穿城而过；外围矗立四座基金会-赫尔墨斯现实稳定锚星塔，石阶与拱桥上可见络绎不绝的深海朝圣队列与潜航巡逻艇。",
+      "geo": {
+        "lat": -47.15,
+        "lon": -126.72,
+        "precision": "exact"
+      },
+      "mapSiteId": null,
+      "path": "data/entries/sites/site-rlyeh.json",
+      "updatedAt": "2026-11-26"
+    }
+  ],
+  "novels": [
+    {
+      "bookId": "azure-tide-dossier",
+      "title": "群青潮汐备忘录",
+      "provenance": "original",
+      "summary": "战术神学部声呐调查员林砚在密斯卡托尼克河口截获 17Hz 反相谐波后的跨洋调查手记。",
+      "chapters": [
+        {
+          "id": "novel-azure-tide-ch01",
+          "chapterNumber": 1,
+          "title": "第一章 · 声呐里的第十七赫兹",
+          "provenance": "original",
+          "charCount": 366,
+          "path": "data/novels/azure-tide-dossier/ch-01.md"
+        }
+      ],
+      "updatedAt": "2026-11-26"
+    }
+  ]
+}

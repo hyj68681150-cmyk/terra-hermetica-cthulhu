@@ -1,0 +1,75 @@
+{
+  "id": "site-001",
+  "legacyCityId": "gate001",
+  "category": "sites",
+  "code": "SCP-001 EDEN GATE",
+  "title": "两河交汇·伊甸四翼守门人圣域 (SCP-001)",
+  "short": "IV · SCP-001 伊甸守门人",
+  "aliases": [
+    "gate001",
+    "SCP-001 EDEN GATE",
+    "两河交汇·伊甸四翼守门人圣域 (SCP-001)",
+    "IV · SCP-001 伊甸守门人",
+    "SCP-001 守门人 (乌列尔)"
+  ],
+  "clearance": 1,
+  "provenance": "scp-canon",
+  "provenanceLabel": "SCP原典 Clef提案",
+  "badge": "badge-gold",
+  "geo": {
+    "lat": 31,
+    "lon": 47.43,
+    "precision": "region"
+  },
+  "coordsText": "31°00'N · 47°26'E · 两河交汇圣台",
+  "motto": "“四翼掩面，烈剑指东；凡血肉之躯不得擅越雷池。”",
+  "summary": "底格里斯河与幼发拉底河在此交汇环绕阶梯圣山，山巅大门前矗立着展开四翼、手擎通天白炽巨剑的守门人（SCP-001）；外围河岸分布着 Site-0 观测堡垒群与顶礼膜拜的朝圣人群。",
+  "terrain": "双河交汇三角洲 · 阶梯圣山绝壁 · 悬崖飞瀑",
+  "arch": "伊甸巨石拱门 · 四翼持剑炽天使神像 · Site-0 环形哨堡",
+  "crowd": "河畔止步朝拜者人流 · 基金会河道无人监测艇",
+  "god": "SCP-001 守门人 (乌列尔)",
+  "style": "gate001",
+  "type": "hybrid",
+  "hasRiver": true,
+  "hasWaterfall": true,
+  "mountainRing": "mesa_cliffs",
+  "elevationProfile": {
+    "prof": [
+      38,
+      22,
+      14,
+      56,
+      96,
+      58,
+      14,
+      24,
+      42,
+      48
+    ],
+    "riverAt": 2
+  },
+  "infobox": [
+    {
+      "label": "来源归属",
+      "value": "SCP原典 Clef提案",
+      "original": false
+    },
+    {
+      "label": "坐标纪要",
+      "value": "31°00'N · 47°26'E · 两河交汇圣台",
+      "original": false
+    },
+    {
+      "label": "休谟基准",
+      "value": "8.90 Hm",
+      "original": true
+    },
+    {
+      "label": "驻防编制",
+      "value": "Site-0 远古守望哨",
+      "original": true
+    }
+  ],
+  "relatedIds": [],
+  "updatedAt": "2026-11-26"
+}

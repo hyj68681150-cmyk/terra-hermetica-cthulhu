@@ -1,0 +1,50 @@
+{
+  "id": "dossier-scp-2000",
+  "order": 0,
+  "category": "scp",
+  "subCat": "scp",
+  "badge": "badge-gold",
+  "code": "SCP-2000 · THAUMIEL",
+  "title": "机械降神 · 黄石火山口地下文明重启巨构",
+  "aliases": [
+    "SCP-2000 · THAUMIEL",
+    "机械降神 · 黄石火山口地下文明重启巨构",
+    "site2000",
+    "SCP-2000"
+  ],
+  "clearance": 1,
+  "provenance": "scp-canon",
+  "authorCredit": "HammerMaiden (SCP-2000, CC BY-SA 3.0)",
+  "hume": "1.35 Hm · SRA×8",
+  "legacyCityId": "site2000",
+  "mapSiteId": "site-2000",
+  "summary": "位于怀俄明州黄石破火山口深层花岗岩地幔上方，配备 8 座斯克兰顿现实稳定锚冷却塔与 50 万台布莱特/扎尔茨曼人类克隆舱。已知至少在 {{redact:1:[旧日苏醒导致的 2 次 K 级纪元重置]}} 后重新播种并建造了现代人类文明。",
+  "proc": "全天候由 MTF Alpha-1 与赫尔墨斯工程团驻守火山口台地，严禁非 O5 人员接近中央升降竖井。",
+  "log": "【工程日志 2000-Ω】地下 B-14 层发现早于现代基金会的古典拉丁铜版铭文：“此井已重启人类第七次，切勿唤醒黄石地幔下的原初蠕行者。”——首席奇术师 C. 扎尔茨曼博士",
+  "infobox": [
+    {
+      "label": "档案编号",
+      "value": "SCP-2000 · THAUMIEL",
+      "original": false
+    },
+    {
+      "label": "原典署名",
+      "value": "HammerMaiden (SCP-2000, CC BY-SA 3.0)",
+      "original": false
+    },
+    {
+      "label": "休谟场读数",
+      "value": "1.35 Hm · SRA×8",
+      "original": true
+    },
+    {
+      "label": "驻防与收容",
+      "value": "SRA 工程团 × Alpha-1",
+      "original": true
+    }
+  ],
+  "relatedIds": [
+    "site-2000"
+  ],
+  "updatedAt": "2026-11-26"
+}

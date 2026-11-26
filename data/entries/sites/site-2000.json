@@ -1,0 +1,75 @@
+{
+  "id": "site-2000",
+  "legacyCityId": "site2000",
+  "category": "sites",
+  "code": "SCP-2000 YELLOWSTONE",
+  "title": "黄石破火山口·机械降神地下巨构 (SCP-2000)",
+  "short": "III · SCP-2000 黄石巨构",
+  "aliases": [
+    "site2000",
+    "SCP-2000 YELLOWSTONE",
+    "黄石破火山口·机械降神地下巨构 (SCP-2000)",
+    "III · SCP-2000 黄石巨构",
+    "SCP基金会 · 文明重启火种"
+  ],
+  "clearance": 1,
+  "provenance": "scp-canon",
+  "provenanceLabel": "SCP原典 CC-BY-SA",
+  "badge": "badge-gold",
+  "geo": {
+    "lat": 44.6,
+    "lon": -110.5,
+    "precision": "region"
+  },
+  "coordsText": "44°36'N · 110°30'W · 海拔 2450m",
+  "motto": "“纵使群星归位、世界倾覆，人类文明亦将于此重铸。”",
+  "summary": "群山环抱的黄石破火山口盆地内，黄石河自高山飞瀑直泻峡谷。盆地中央耸立着重型装甲穹顶、八座斯克兰顿现实稳定锚冷却高塔与地下克隆库竖井，大批科研与D级人员正沿栈桥有序入井。",
+  "terrain": "环形火山口群峰 · 峡谷大瀑布 · 三层装甲地台",
+  "arch": "重型主反应穹顶 · 八座SRA冷却高塔 · 跨谷钢石拱桥",
+  "crowd": "基金会研究员与D级人员队列 · 河谷补给艇",
+  "god": "SCP基金会 · 文明重启火种",
+  "style": "site2000",
+  "type": "hermetic",
+  "hasRiver": true,
+  "hasWaterfall": true,
+  "mountainRing": "caldera_peaks",
+  "elevationProfile": {
+    "prof": [
+      92,
+      74,
+      42,
+      64,
+      58,
+      18,
+      52,
+      68,
+      88,
+      95
+    ],
+    "riverAt": 5
+  },
+  "infobox": [
+    {
+      "label": "来源归属",
+      "value": "SCP原典 CC-BY-SA",
+      "original": false
+    },
+    {
+      "label": "坐标纪要",
+      "value": "44°36'N · 110°30'W · 海拔 2450m",
+      "original": false
+    },
+    {
+      "label": "休谟基准",
+      "value": "1.35 Hm",
+      "original": true
+    },
+    {
+      "label": "驻防编制",
+      "value": "SRA 工程团 × Alpha-1",
+      "original": true
+    }
+  ],
+  "relatedIds": [],
+  "updatedAt": "2026-11-26"
+}

@@ -1,0 +1,49 @@
+{
+  "id": "dossier-antarctica-1931",
+  "order": 6,
+  "category": "scp",
+  "subCat": "mythos",
+  "badge": "badge-cyan",
+  "code": "MISKATONIC-1931 · ELDER ARCHIVE",
+  "title": "南极疯狂山脉五芒星古城 · 戴尔教授与第72哨站实录",
+  "aliases": [
+    "MISKATONIC-1931 · ELDER ARCHIVE",
+    "南极疯狂山脉五芒星古城 · 戴尔教授与第72哨站实录",
+    "antarctica"
+  ],
+  "clearance": 1,
+  "provenance": "cthulhu-canon",
+  "authorCredit": "H. P. Lovecraft《疯狂山脉》(公有领域) + 本站原创哨站记录",
+  "hume": "0.79 Hm · 太古遗存",
+  "legacyCityId": "antarctica",
+  "mapSiteId": "site-antarctica",
+  "summary": "越过海拔万尺的锯齿黑山脉，冰封盆地内保存着五亿年前“古老者”建造的五角星截面摩天石塔群与十道悬空石桥。地底深渊仍封存着能够模拟一切器官与文字的 {{redact:1:[失控原生质巨兽“修格斯（Shoggoth）”]}}。",
+  "proc": "基金会 Outpost-72 与密斯卡托尼克大学极地遗产组联合封锁全部地下冰裂入口。",
+  "log": "【勘探录音 72-B】“Tekeli-li! Tekeli-li! ——冰道下方传来类似地铁全速驶过的气压呼啸声，请求立即封闭三号五芒星竖井！”",
+  "infobox": [
+    {
+      "label": "档案编号",
+      "value": "MISKATONIC-1931 · ELDER ARCHIVE",
+      "original": false
+    },
+    {
+      "label": "原典署名",
+      "value": "H. P. Lovecraft《疯狂山脉》(公有领域) + 本站原创哨站记录",
+      "original": false
+    },
+    {
+      "label": "休谟场读数",
+      "value": "0.79 Hm · 太古遗存",
+      "original": true
+    },
+    {
+      "label": "驻防与收容",
+      "value": "Outpost-72 × 密大科考",
+      "original": true
+    }
+  ],
+  "relatedIds": [
+    "site-antarctica"
+  ],
+  "updatedAt": "2026-11-26"
+}

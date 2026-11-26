@@ -1,0 +1,75 @@
+{
+  "id": "site-penglai",
+  "legacyCityId": "penglai",
+  "category": "sites",
+  "code": "SITE-CN-01 PENGLAI",
+  "title": "东海蓬莱·太乙镇海宝塔与异学会总坛 (Penglai)",
+  "short": "IX · Site-CN-01 东海蓬莱",
+  "aliases": [
+    "penglai",
+    "SITE-CN-01 PENGLAI",
+    "东海蓬莱·太乙镇海宝塔与异学会总坛 (Penglai)",
+    "IX · Site-CN-01 东海蓬莱",
+    "中华异学会 · 镇海奇术大阵"
+  ],
+  "clearance": 1,
+  "provenance": "original",
+  "provenanceLabel": "CN分部衍生+原创",
+  "badge": "badge-gold",
+  "geo": {
+    "lat": 33.8,
+    "lon": 136.5,
+    "precision": "region"
+  },
+  "coordsText": "33°48'N · 136°30'E · 仙山悬瀑海湾",
+  "motto": "“山海有高下，飞瀑入沧溟；七重飞檐塔，永镇太平洋海眼。”",
+  "summary": "奇峰耸峙的仙山高台飞流直下汇入穿城玉带河，山巅矗立七层翘角飞檐镇海宝塔，山腰与海湾层叠分布重檐钟鼓楼、四孔石拱长桥与来往如梭的方士及特工行旅。",
+  "terrain": "海上奇峰高台 · 悬崖百丈飞瀑 · 玉带河入海湾",
+  "arch": "七层翘角飞檐宝塔 · 山腰重檐楼阁 · 跨湾石拱长桥",
+  "crowd": "异学会方士与特工巡礼人流 · 海湾楼船",
+  "god": "中华异学会 · 镇海奇术大阵",
+  "style": "pagoda",
+  "type": "hermetic",
+  "hasRiver": true,
+  "hasWaterfall": true,
+  "mountainRing": "island_peaks",
+  "elevationProfile": {
+    "prof": [
+      16,
+      48,
+      86,
+      96,
+      64,
+      16,
+      44,
+      62,
+      28,
+      12
+    ],
+    "riverAt": 5
+  },
+  "infobox": [
+    {
+      "label": "来源归属",
+      "value": "CN分部衍生+原创",
+      "original": true
+    },
+    {
+      "label": "坐标纪要",
+      "value": "33°48'N · 136°30'E · 仙山悬瀑海湾",
+      "original": false
+    },
+    {
+      "label": "休谟基准",
+      "value": "1.42 Hm",
+      "original": true
+    },
+    {
+      "label": "驻防编制",
+      "value": "Site-CN-01 × 中华异学会",
+      "original": true
+    }
+  ],
+  "relatedIds": [],
+  "updatedAt": "2026-11-26"
+}

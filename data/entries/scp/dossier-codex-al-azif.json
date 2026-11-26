@@ -1,0 +1,49 @@
+{
+  "id": "dossier-codex-al-azif",
+  "order": 10,
+  "category": "scp",
+  "subCat": "codex",
+  "badge": "badge-crimson",
+  "code": "CODEX-730 · AL-AZIF / NECRONOMICON",
+  "title": "《阿尔·阿吉夫（死灵之书）》大马士革群青铜版校勘本",
+  "aliases": [
+    "CODEX-730 · AL-AZIF / NECRONOMICON",
+    "《阿尔·阿吉夫（死灵之书）》大马士革群青铜版校勘本",
+    "cairo"
+  ],
+  "clearance": 1,
+  "provenance": "original",
+  "authorCredit": "H. P. Lovecraft (公有领域) + 本站原创铜版校勘设定",
+  "hume": "COGNITOHAZARD · V级",
+  "legacyCityId": "cairo",
+  "mapSiteId": "site-cairo",
+  "summary": "公元八世纪萨那狂人阿卜杜勒·阿尔哈兹莱德游历鲁卜哈利沙漠无名古柱城与开罗地宫后撰写的禁忌巨著。本馆藏本为 1586 年布拉格约翰·迪伊博士以 {{redact:1:[青金石粉与异常抗模因墨水]}} 镌刻的唯一安全校勘版。",
+  "proc": "原卷封存于亚历山大 Site-01 地下穹顶，阅读超过三页须提前注射 W 级记忆加固剂。",
+  "log": "【校勘批注】迪伊博士手记：“凡直接注视旧日真名者必疯；唯有借赫尔墨斯之铜版扫描栅格折射其形，方能直视深渊而不堕。”",
+  "infobox": [
+    {
+      "label": "档案编号",
+      "value": "CODEX-730 · AL-AZIF / NECRONOMICON",
+      "original": true
+    },
+    {
+      "label": "原典署名",
+      "value": "H. P. Lovecraft (公有领域) + 本站原创铜版校勘设定",
+      "original": false
+    },
+    {
+      "label": "休谟场读数",
+      "value": "COGNITOHAZARD · V级",
+      "original": true
+    },
+    {
+      "label": "驻防与收容",
+      "value": "齿轮正教 × 埃及站点",
+      "original": true
+    }
+  ],
+  "relatedIds": [
+    "site-cairo"
+  ],
+  "updatedAt": "2026-11-26"
+}

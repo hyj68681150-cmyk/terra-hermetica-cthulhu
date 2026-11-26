@@ -1,0 +1,34 @@
+{
+  "id": "goi-broken-god",
+  "order": 2,
+  "category": "goi",
+  "code": "GOI-004 · HammerMaiden 等",
+  "title": "破碎之神教会",
+  "aliases": [
+    "破碎之神教会",
+    "GOI-004 · HammerMaiden 等",
+    "破碎之神教会"
+  ],
+  "clearance": 1,
+  "provenance": "scp-canon",
+  "badge": "badge-gold",
+  "legacyCityId": "baikal",
+  "mapSiteId": "site-baikal",
+  "summary": "崇奉麦卡恩理性与精密发条，在开罗阿蒙尼-拉姆与贝加尔湖遏制血肉畸变。",
+  "infobox": [
+    {
+      "label": "组织代号",
+      "value": "GOI-004 · HammerMaiden 等",
+      "original": false
+    },
+    {
+      "label": "关联驻地",
+      "value": "BAIKAL",
+      "original": true
+    }
+  ],
+  "relatedIds": [
+    "site-baikal"
+  ],
+  "updatedAt": "2026-11-26"
+}

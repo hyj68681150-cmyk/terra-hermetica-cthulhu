@@ -1,0 +1,58 @@
+{
+  "id": "entity-yog-sothoth",
+  "order": 1,
+  "category": "entities",
+  "code": "II",
+  "title": "II · 犹格·索托斯（克苏鲁原典） · 万物归一之门钥",
+  "latin": "II · 犹格·索托斯（克苏鲁原典）",
+  "condensed": "万物归一之门钥",
+  "fig": "图版二 · 犹格·索托斯全知球阵",
+  "sub": "超越时空维度的门户与门钥 · 关联被放逐者之图书馆门径",
+  "aliases": [
+    "II · 犹格·索托斯（克苏鲁原典）",
+    "万物归一之门钥",
+    "超越时空维度的门户与门钥 · 关联被放逐者之图书馆门径"
+  ],
+  "clearance": 1,
+  "provenance": "cthulhu-canon",
+  "summary": "原典出自《敦威治恐怖事件》与《穿越银匙之门》。在本站跨体系设定中，帕米尔冷原的双环星门与“蛇之手”所依托的跨维度门径（Ways）同受其几何法则映射。",
+  "scripture": "“过去、现在、未来合而为一；彼乃门户，彼乃门钥。”",
+  "metrics": [
+    "克苏鲁原典",
+    "外神谱系",
+    "全维门径"
+  ],
+  "stats": [
+    100,
+    100,
+    88,
+    82,
+    85,
+    100
+  ],
+  "artType": "yogsothoth",
+  "legacyCityId": "leng",
+  "mapSiteId": "site-leng",
+  "cam": "street",
+  "infobox": [
+    {
+      "label": "谱系编号",
+      "value": "II",
+      "original": false
+    },
+    {
+      "label": "文献标签",
+      "value": "克苏鲁原典 / 外神谱系 / 全维门径",
+      "original": false
+    },
+    {
+      "label": "关联圣城",
+      "value": "LENG",
+      "original": true
+    }
+  ],
+  "relatedIds": [
+    "site-leng"
+  ],
+  "updatedAt": "2026-11-26"
+}

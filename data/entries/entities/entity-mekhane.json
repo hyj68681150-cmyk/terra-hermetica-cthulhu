@@ -1,0 +1,58 @@
+{
+  "id": "entity-mekhane",
+  "order": 4,
+  "category": "entities",
+  "code": "V",
+  "title": "V · 麦卡恩与亚大伯斯（SCP教会原典） · 破碎之神与血肉母神",
+  "latin": "V · 麦卡恩与亚大伯斯（SCP教会原典）",
+  "condensed": "破碎之神与血肉母神",
+  "fig": "图版五 · 破碎之神齿轮圣徽（CC BY-SA 3.0）",
+  "sub": "机械理性与原初血肉的远古对立神明",
+  "aliases": [
+    "V · 麦卡恩与亚大伯斯（SCP教会原典）",
+    "破碎之神与血肉母神",
+    "机械理性与原初血肉的远古对立神明"
+  ],
+  "clearance": 1,
+  "provenance": "scp-canon",
+  "summary": "原典出自 SCP 基金会“破碎之神教会（GOI-004）”与“欲肉教”设定集（CC BY-SA 3.0）：麦卡恩赋予人类理性与技术，并碎裂自身神躯化作牢笼以囚禁血肉母神亚大伯斯。",
+  "scripture": "“我神曾自碎神躯，铸为囚禁盲目血肉的黄铜牢笼。”",
+  "metrics": [
+    "SCP原典",
+    "GOI-004",
+    "CC BY-SA 3.0"
+  ],
+  "stats": [
+    88,
+    96,
+    70,
+    92,
+    94,
+    85
+  ],
+  "artType": "mekhane",
+  "legacyCityId": "baikal",
+  "mapSiteId": "site-baikal",
+  "cam": "street",
+  "infobox": [
+    {
+      "label": "谱系编号",
+      "value": "V",
+      "original": false
+    },
+    {
+      "label": "文献标签",
+      "value": "SCP原典 / GOI-004 / CC BY-SA 3.0",
+      "original": false
+    },
+    {
+      "label": "关联圣城",
+      "value": "BAIKAL",
+      "original": true
+    }
+  ],
+  "relatedIds": [
+    "site-baikal"
+  ],
+  "updatedAt": "2026-11-26"
+}

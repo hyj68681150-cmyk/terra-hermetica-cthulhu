@@ -1,0 +1,75 @@
+{
+  "id": "site-prague",
+  "legacyCityId": "prague",
+  "category": "sites",
+  "code": "PRAGUE & ALAGADDA",
+  "title": "布拉格炼金星堡与阿拉卡达门扉 (SCP-2264)",
+  "short": "V · Prague 布拉格/阿拉卡达",
+  "aliases": [
+    "prague",
+    "PRAGUE & ALAGADDA",
+    "布拉格炼金星堡与阿拉卡达门扉 (SCP-2264)",
+    "V · Prague 布拉格/阿拉卡达",
+    "蔷薇十字学派 vs 阿拉卡达吊王"
+  ],
+  "clearance": 1,
+  "provenance": "scp-canon",
+  "provenanceLabel": "SCP-2264+原创",
+  "badge": "badge-cyan",
+  "geo": {
+    "lat": 50.08,
+    "lon": 14.43,
+    "precision": "region"
+  },
+  "coordsText": "50°05'N · 14°26'E · 伏尔塔瓦河谷",
+  "motto": "“查理大桥下河水潺潺，城堡高处通往吊王与无面大使的宫廷。”",
+  "summary": "伏尔塔瓦河蜿蜒穿过波希米亚丘陵，七孔查理石拱大桥上游人如织；高坡城堡区耸立着飞扶壁哥特双尖塔大教堂、玫瑰花窗与扭曲高耸的阿拉卡达大使尖塔。",
+  "terrain": "伏尔塔瓦河弯曲河谷 · 城堡山高差陡坡 · 星堡台地",
+  "arch": "哥特飞扶壁大教堂 · 七孔石拱大桥 · 天文钟塔 · 吊王尖塔",
+  "crowd": "查理大桥密集市民与炼金术士人流 · 河面游船",
+  "god": "蔷薇十字学派 vs 阿拉卡达吊王",
+  "style": "gothic_cathedral",
+  "type": "hermetic",
+  "hasRiver": true,
+  "hasWaterfall": false,
+  "mountainRing": "bohemian_hills",
+  "elevationProfile": {
+    "prof": [
+      54,
+      78,
+      88,
+      62,
+      15,
+      36,
+      72,
+      92,
+      64,
+      44
+    ],
+    "riverAt": 4
+  },
+  "infobox": [
+    {
+      "label": "来源归属",
+      "value": "SCP-2264+原创",
+      "original": false
+    },
+    {
+      "label": "坐标纪要",
+      "value": "50°05'N · 14°26'E · 伏尔塔瓦河谷",
+      "original": false
+    },
+    {
+      "label": "休谟基准",
+      "value": "0.62 Hm",
+      "original": true
+    },
+    {
+      "label": "驻防编制",
+      "value": "蔷薇十字 × 秘传学分部",
+      "original": true
+    }
+  ],
+  "relatedIds": [],
+  "updatedAt": "2026-11-26"
+}

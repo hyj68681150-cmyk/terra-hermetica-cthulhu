@@ -1,0 +1,59 @@
+{
+  "id": "entity-scp-2317",
+  "order": 5,
+  "category": "entities",
+  "code": "VI",
+  "title": "VI · SCP-2317 异界吞世者（SCP原典） · 七柱祭坛与末日残链",
+  "latin": "VI · SCP-2317 异界吞世者（SCP原典）",
+  "condensed": "七柱祭坛与末日残链",
+  "fig": "图版六 · SCP-2317 七重锁链（CC BY-SA 3.0）",
+  "sub": "异界盐漠地下七柱圆阵内仅余最后一根锁链的巨型实体",
+  "aliases": [
+    "VI · SCP-2317 异界吞世者（SCP原典）",
+    "七柱祭坛与末日残链",
+    "异界盐漠地下七柱圆阵内仅余最后一根锁链的巨型实体",
+    "SCP-2317"
+  ],
+  "clearance": 1,
+  "provenance": "scp-canon",
+  "summary": "原典出自 DrClef 撰写的 SCP-2317（CC BY-SA 3.0）：秘门通往异界盐湖地下玄武岩七柱阵，七根封印锁链已断裂六根；基金会通过虚构仪轨“程序 220-Calabasas”维持人员士气，实则尚无永久收容手段。",
+  "scripture": "“七链已断其六；程序 220-Calabasas 仅为安抚性仪轨。”",
+  "metrics": [
+    "SCP原典",
+    "Apollyon级",
+    "CC BY-SA 3.0"
+  ],
+  "stats": [
+    95,
+    92,
+    84,
+    100,
+    88,
+    100
+  ],
+  "artType": "scp2317",
+  "legacyCityId": "leng",
+  "mapSiteId": "site-leng",
+  "cam": "skyline",
+  "infobox": [
+    {
+      "label": "谱系编号",
+      "value": "VI",
+      "original": false
+    },
+    {
+      "label": "文献标签",
+      "value": "SCP原典 / Apollyon级 / CC BY-SA 3.0",
+      "original": false
+    },
+    {
+      "label": "关联圣城",
+      "value": "LENG",
+      "original": true
+    }
+  ],
+  "relatedIds": [
+    "site-leng"
+  ],
+  "updatedAt": "2026-11-26"
+}

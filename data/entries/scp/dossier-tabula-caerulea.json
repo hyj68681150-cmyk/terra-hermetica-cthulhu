@@ -1,0 +1,49 @@
+{
+  "id": "dossier-tabula-caerulea",
+  "order": 11,
+  "category": "scp",
+  "subCat": "codex",
+  "badge": "badge-cyan",
+  "code": "TABULA-VIII · THEOLOGIA CAERULEA",
+  "title": "《翠玉录·第八重神圣群青补遗》与战术神学宪章",
+  "aliases": [
+    "TABULA-VIII · THEOLOGIA CAERULEA",
+    "《翠玉录·第八重神圣群青补遗》与战术神学宪章",
+    "alexandria"
+  ],
+  "clearance": 1,
+  "provenance": "original",
+  "authorCredit": "古典《翠玉录》公有领域传说 + 本站原创蓝色神学设定",
+  "hume": "1.80 Hm · 基准圣律",
+  "legacyCityId": "alexandria",
+  "mapSiteId": "site-alexandria",
+  "summary": "出土于亚历山大法罗斯大灯塔地基下的绿松石-青金石合铸碑板，揭示宇宙并非善恶二元，而是由“盲目熵增的旧日深渊”与“赋予秩序的第八重天球群青圣律”构成；这正是现代 {{redact:1:[斯克兰顿现实稳定锚与战术神学部]}} 的真正理论源头。",
+  "proc": "全文铭刻于 Site-01 十二肋大穹顶内壁，作为全球休谟基准场的频率校准母本。",
+  "log": "【碑文首句】“Verum sine mendacio, certum et verissimum: 如其在上之星盘，如其在下之海渊；执群青之规尺者，可丈量不可名状之神。”",
+  "infobox": [
+    {
+      "label": "档案编号",
+      "value": "TABULA-VIII · THEOLOGIA CAERULEA",
+      "original": true
+    },
+    {
+      "label": "原典署名",
+      "value": "古典《翠玉录》公有领域传说 + 本站原创蓝色神学设定",
+      "original": false
+    },
+    {
+      "label": "休谟场读数",
+      "value": "1.80 Hm · 基准圣律",
+      "original": true
+    },
+    {
+      "label": "驻防与收容",
+      "value": "MTF Alpha-1 红右手",
+      "original": true
+    }
+  ],
+  "relatedIds": [
+    "site-alexandria"
+  ],
+  "updatedAt": "2026-11-26"
+}

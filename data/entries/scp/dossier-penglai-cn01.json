@@ -1,0 +1,49 @@
+{
+  "id": "dossier-penglai-cn01",
+  "order": 9,
+  "category": "scp",
+  "subCat": "goi",
+  "badge": "badge-gold",
+  "code": "SITE-CN-01 × 异学会 · THAUMIEL",
+  "title": "东海蓬莱七重镇海宝塔与太平洋海眼封印大阵",
+  "aliases": [
+    "SITE-CN-01 × 异学会 · THAUMIEL",
+    "东海蓬莱七重镇海宝塔与太平洋海眼封印大阵",
+    "penglai"
+  ],
+  "clearance": 1,
+  "provenance": "scp-canon",
+  "authorCredit": "中华异学会设定 (SCP-CN, CC BY-SA 3.0) + 本站原创蓬莱镇海塔设定",
+  "hume": "1.42 Hm · 奇术稳固",
+  "legacyCityId": "penglai",
+  "mapSiteId": "site-penglai",
+  "summary": "传承自先秦方士与中华异学会的东海海山奇术枢纽，后改组为基金会中国分部核心圣座 Site-CN-01。山巅七层翘角飞檐宝塔实为巨型 {{redact:1:[洛书-斯克兰顿复合海眼镇压锚]}}，压制西太平洋深海旧日支脉。",
+  "proc": "异学会竹简阁与基金会奇术师每日卯酉二时沿玉带河石桥巡检三十六座镇水兽。",
+  "log": "【竹简卷四·沧溟志】“东海之东有归墟焉，八纮九野之水莫不注之；立太乙青金七级浮屠，可令渊海大妖千年不寤。”",
+  "infobox": [
+    {
+      "label": "档案编号",
+      "value": "SITE-CN-01 × 异学会 · THAUMIEL",
+      "original": false
+    },
+    {
+      "label": "原典署名",
+      "value": "中华异学会设定 (SCP-CN, CC BY-SA 3.0) + 本站原创蓬莱镇海塔设定",
+      "original": false
+    },
+    {
+      "label": "休谟场读数",
+      "value": "1.42 Hm · 奇术稳固",
+      "original": true
+    },
+    {
+      "label": "驻防与收容",
+      "value": "Site-CN-01 × 中华异学会",
+      "original": true
+    }
+  ],
+  "relatedIds": [
+    "site-penglai"
+  ],
+  "updatedAt": "2026-11-26"
+}

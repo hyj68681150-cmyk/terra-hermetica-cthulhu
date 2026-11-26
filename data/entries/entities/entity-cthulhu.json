@@ -1,0 +1,58 @@
+{
+  "id": "entity-cthulhu",
+  "order": 0,
+  "category": "entities",
+  "code": "I",
+  "title": "I · 克苏鲁（原典 + 跨体系衍生） · 渊海沉眠大主教",
+  "latin": "I · 克苏鲁（原典 + 跨体系衍生）",
+  "condensed": "渊海沉眠大主教",
+  "fig": "图版一 · 克苏鲁铜版蚀刻像（公有领域原典衍生）",
+  "sub": "南太平洋海底非欧巨石城拉莱耶之沉眠祭司",
+  "aliases": [
+    "I · 克苏鲁（原典 + 跨体系衍生）",
+    "渊海沉眠大主教",
+    "南太平洋海底非欧巨石城拉莱耶之沉眠祭司"
+  ],
+  "clearance": 1,
+  "provenance": "cthulhu-canon",
+  "summary": "原典出自洛夫克拉夫特《克苏鲁的呼唤》（1928）。在本站原创“蓝色神学”合流设定中，拉莱耶外围由四座斯克兰顿现实稳定锚维持休谟场稳定。（注：基金会原典 SCP-2662 为反教团喜剧性质相关条目，此处深渊主祭为克苏鲁原典与本站原创神学合流。）",
+  "scripture": "“在永恒的拉莱耶宅邸中，死去的克苏鲁候汝入梦。”——《克苏鲁的呼唤》",
+  "metrics": [
+    "克苏鲁原典",
+    "深渊旧日",
+    "原创合流设定"
+  ],
+  "stats": [
+    92,
+    95,
+    98,
+    94,
+    96,
+    90
+  ],
+  "artType": "cthulhu",
+  "legacyCityId": "rlyeh",
+  "mapSiteId": "site-rlyeh",
+  "cam": "skyline",
+  "infobox": [
+    {
+      "label": "谱系编号",
+      "value": "I",
+      "original": false
+    },
+    {
+      "label": "文献标签",
+      "value": "克苏鲁原典 / 深渊旧日 / 原创合流设定",
+      "original": true
+    },
+    {
+      "label": "关联圣城",
+      "value": "RLYEH",
+      "original": true
+    }
+  ],
+  "relatedIds": [
+    "site-rlyeh"
+  ],
+  "updatedAt": "2026-11-26"
+}

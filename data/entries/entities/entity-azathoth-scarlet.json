@@ -1,0 +1,58 @@
+{
+  "id": "entity-azathoth-scarlet",
+  "order": 6,
+  "category": "entities",
+  "code": "VII",
+  "title": "VII · 阿撒托斯与深红之王（跨体系对照） · 盲目原核与七印逆王",
+  "latin": "VII · 阿撒托斯与深红之王（跨体系对照）",
+  "condensed": "盲目原核与七印逆王",
+  "fig": "图版七 · 原初混沌双环蚀刻像",
+  "sub": "克苏鲁外神之首阿撒托斯 & SCP 体系旧神深红之王",
+  "aliases": [
+    "VII · 阿撒托斯与深红之王（跨体系对照）",
+    "盲目原核与七印逆王",
+    "克苏鲁外神之首阿撒托斯 & SCP 体系旧神深红之王"
+  ],
+  "clearance": 1,
+  "provenance": "cthulhu-canon",
+  "summary": "分别源自洛夫克拉夫特原典中的宇宙盲目痴愚之核“阿撒托斯”，以及 SCP 基金会维基设定中的多线程旧神“深红之王（Scarlet King）”（CC BY-SA 3.0）。本站将其并列展示作为两大宇宙观的终极威胁对照。",
+  "scripture": "“在时间之外的无光王座上，盲目痴愚之核伴随单调笛声旋转。”",
+  "metrics": [
+    "原典对照",
+    "外神/旧神",
+    "原创合流评注"
+  ],
+  "stats": [
+    100,
+    100,
+    100,
+    100,
+    95,
+    100
+  ],
+  "artType": "azathoth",
+  "legacyCityId": "site13",
+  "mapSiteId": "site-13",
+  "cam": "cosmos",
+  "infobox": [
+    {
+      "label": "谱系编号",
+      "value": "VII",
+      "original": false
+    },
+    {
+      "label": "文献标签",
+      "value": "原典对照 / 外神/旧神 / 原创合流评注",
+      "original": true
+    },
+    {
+      "label": "关联圣城",
+      "value": "SITE13",
+      "original": true
+    }
+  ],
+  "relatedIds": [
+    "site-13"
+  ],
+  "updatedAt": "2026-11-26"
+}

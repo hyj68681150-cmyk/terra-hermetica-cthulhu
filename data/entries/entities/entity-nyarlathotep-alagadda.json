@@ -1,0 +1,58 @@
+{
+  "id": "entity-nyarlathotep-alagadda",
+  "order": 7,
+  "category": "entities",
+  "code": "VIII",
+  "title": "VIII · 奈亚拉托提普与阿拉卡达（跨体系对照） · 千面信使与吊王宫廷",
+  "latin": "VIII · 奈亚拉托提普与阿拉卡达（跨体系对照）",
+  "condensed": "千面信使与吊王宫廷",
+  "fig": "图版八 · 逆金字塔与假面宫廷",
+  "sub": "伏行之混沌奈亚拉托提普 & SCP-2264 阿拉卡达黑衣大使",
+  "aliases": [
+    "VIII · 奈亚拉托提普与阿拉卡达（跨体系对照）",
+    "千面信使与吊王宫廷",
+    "伏行之混沌奈亚拉托提普 & SCP-2264 阿拉卡达黑衣大使"
+  ],
+  "clearance": 1,
+  "provenance": "cthulhu-canon",
+  "summary": "并置洛夫克拉夫特原典中的千面外神信使“奈亚拉托提普”，以及 SCP-2264《在阿拉卡达的宫廷》（作者 Metaphysician，CC BY-SA 3.0）中的吊王与无面大使；跨维度共鸣为本站原创桥接演绎。",
+  "scripture": "“绝不可在阿拉卡达的假面舞会上摘下面具。”——SCP-2264",
+  "metrics": [
+    "原典+SCP",
+    "SCP-2264",
+    "原创桥接"
+  ],
+  "stats": [
+    94,
+    90,
+    97,
+    85,
+    100,
+    93
+  ],
+  "artType": "nyarlathotep",
+  "legacyCityId": "prague",
+  "mapSiteId": "site-prague",
+  "cam": "street",
+  "infobox": [
+    {
+      "label": "谱系编号",
+      "value": "VIII",
+      "original": false
+    },
+    {
+      "label": "文献标签",
+      "value": "原典+SCP / SCP-2264 / 原创桥接",
+      "original": true
+    },
+    {
+      "label": "关联圣城",
+      "value": "PRAGUE",
+      "original": true
+    }
+  ],
+  "relatedIds": [
+    "site-prague"
+  ],
+  "updatedAt": "2026-11-26"
+}

@@ -1,0 +1,50 @@
+{
+  "id": "dossier-rlyeh-2662",
+  "order": 5,
+  "category": "scp",
+  "subCat": "mythos",
+  "badge": "badge-crimson",
+  "code": "SCP-2662-Ω × R'LYEH · APOLLYON",
+  "title": "拉莱耶海渊卫城与阿难陀舍沙地幔共鸣带",
+  "aliases": [
+    "SCP-2662-Ω × R'LYEH · APOLLYON",
+    "拉莱耶海渊卫城与阿难陀舍沙地幔共鸣带",
+    "rlyeh",
+    "SCP-2662"
+  ],
+  "clearance": 1,
+  "provenance": "cthulhu-canon",
+  "authorCredit": "H. P. Lovecraft (公有领域) & SoullessSingularity (SCP-2662) + 本站原创合流",
+  "hume": "0.41 Hm · 梦境潮汐",
+  "legacyCityId": "rlyeh",
+  "mapSiteId": "site-rlyeh",
+  "summary": "深海声呐测绘证实南太平洋 47°09'S 矗立着违背欧几里得几何学的玄武岩三级巨城，并与孟加拉湾 SCP-3000 通过地幔暗河相连。每逢太阳黑子极值，海崖便涌现 {{redact:1:[数以万计的深潜者朝圣人流与心灵低语]}}。",
+  "proc": "MTF Gamma-6“深海喂食者”四艘核动力潜航舰与四座海底 SRA 稳定塔全天候运转。",
+  "log": "【声呐截获记录】水听器阵列记录到 17Hz 极低频包络波，经赫尔墨斯语料库转译后与公元 730 年《阿尔·阿吉夫》抄本第四章逐字吻合。",
+  "infobox": [
+    {
+      "label": "档案编号",
+      "value": "SCP-2662-Ω × R'LYEH · APOLLYON",
+      "original": true
+    },
+    {
+      "label": "原典署名",
+      "value": "H. P. Lovecraft (公有领域) & SoullessSingularity (SCP-2662) + 本站原创合流",
+      "original": false
+    },
+    {
+      "label": "休谟场读数",
+      "value": "0.41 Hm · 梦境潮汐",
+      "original": true
+    },
+    {
+      "label": "驻防与收容",
+      "value": "MTF Gamma-6 深海喂食者",
+      "original": true
+    }
+  ],
+  "relatedIds": [
+    "site-rlyeh"
+  ],
+  "updatedAt": "2026-11-26"
+}

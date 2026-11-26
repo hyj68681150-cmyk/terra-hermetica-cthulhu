@@ -1,0 +1,35 @@
+{
+  "id": "goi-miskatonic-yixuehui",
+  "order": 5,
+  "category": "goi",
+  "code": "洛氏原典 + SCP-CN 原典",
+  "title": "密斯卡托尼克大学 & 异学会",
+  "aliases": [
+    "密斯卡托尼克大学 & 异学会",
+    "洛氏原典 + SCP-CN 原典",
+    "密斯卡托尼克大学",
+    "异学会"
+  ],
+  "clearance": 1,
+  "provenance": "cthulhu-canon",
+  "badge": "badge-gold",
+  "legacyCityId": "penglai",
+  "mapSiteId": "site-penglai",
+  "summary": "东西方古籍与异常研究机构，分别关联阿卡姆馆藏与中华古典志怪竹简。",
+  "infobox": [
+    {
+      "label": "组织代号",
+      "value": "洛氏原典 + SCP-CN 原典",
+      "original": false
+    },
+    {
+      "label": "关联驻地",
+      "value": "PENGLAI",
+      "original": true
+    }
+  ],
+  "relatedIds": [
+    "site-penglai"
+  ],
+  "updatedAt": "2026-11-26"
+}

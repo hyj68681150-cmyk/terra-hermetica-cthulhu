@@ -1,0 +1,50 @@
+{
+  "id": "dossier-baikal-610",
+  "order": 8,
+  "category": "scp",
+  "subCat": "goi",
+  "badge": "badge-gold",
+  "code": "GOI-004 × SCP-610 · CONCORDAT",
+  "title": "贝加尔湖断层封锁墙与破碎之神青铜圣柜盟约",
+  "aliases": [
+    "GOI-004 × SCP-610 · CONCORDAT",
+    "贝加尔湖断层封锁墙与破碎之神青铜圣柜盟约",
+    "baikal",
+    "SCP-610"
+  ],
+  "clearance": 1,
+  "provenance": "scp-canon",
+  "authorCredit": "NekoChris (SCP-610) & HammerMaiden (破碎之神教会中心页, CC BY-SA 3.0) + 本站原创盟约",
+  "hume": "0.88 Hm · 机械镇压",
+  "legacyCityId": "baikal",
+  "mapSiteId": "site-baikal",
+  "summary": "西伯利亚大裂谷沿岸爆发的 SCP-610 欲肉教血肉瘟疫区被三道六角形火焰高墙封锁。根据《群青秘约》，基金会允许破碎之神教会齿轮正教在隔离区中心运转 {{redact:1:[麦卡恩发条心脏谐振穹顶]}}，以纯机械几何场抑制血肉增殖。",
+  "proc": "MTF Eta-5 与齿轮正教圣骑士团沿环湖高墙分区巡逻，严防卡르基斯特残党渗透。",
+  "log": "【联席会议纪要】大牧首罗伯特·布麻罗代表发函：“血肉盲目生长，唯发条与圣蓝星盘可定乾坤；若阿蒙尼-拉姆重启，610 将在三日内灰飞烟灭。”",
+  "infobox": [
+    {
+      "label": "档案编号",
+      "value": "GOI-004 × SCP-610 · CONCORDAT",
+      "original": false
+    },
+    {
+      "label": "原典署名",
+      "value": "NekoChris (SCP-610) & HammerMaiden (破碎之神教会中心页, CC BY-SA 3.0) + 本站原创盟约",
+      "original": false
+    },
+    {
+      "label": "休谟场读数",
+      "value": "0.88 Hm · 机械镇压",
+      "original": true
+    },
+    {
+      "label": "驻防与收容",
+      "value": "MTF Eta-5 × 发条圣骑士",
+      "original": true
+    }
+  ],
+  "relatedIds": [
+    "site-baikal"
+  ],
+  "updatedAt": "2026-11-26"
+}

@@ -1,0 +1,25 @@
+{
+  "id": "codex-taxonomy-matrix",
+  "category": "codices",
+  "code": "CODEX-TOPIC",
+  "title": "外神/旧日与基金会分级对照",
+  "aliases": [
+    "旧日支配者与基金会分级",
+    "分级对照",
+    "谱系"
+  ],
+  "clearance": 1,
+  "provenance": "original",
+  "summary": "馆藏将克苏鲁原典中的旧日支配者/外神与 SCP 原典项目（如 Apollyon 级 SCP-2317、Thaumiel 级 SCP-3000、Archon 级 SCP-2264）分卷收录，并在各词条标明“原典”或“本站原创”。",
+  "infobox": [
+    {
+      "label": "文献性质",
+      "value": "本站原创跨体系设定",
+      "original": true
+    }
+  ],
+  "relatedIds": [
+    "site-alexandria"
+  ],
+  "updatedAt": "2026-11-26"
+}

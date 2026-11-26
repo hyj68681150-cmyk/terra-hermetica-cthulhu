@@ -1,0 +1,75 @@
+{
+  "id": "site-cairo",
+  "legacyCityId": "cairo",
+  "category": "sites",
+  "code": "CAIRO & AMONI-RAM",
+  "title": "开罗金字塔群与破碎神城阿蒙尼-拉姆 (Cairo)",
+  "short": "VII · Cairo 开罗/机械神城",
+  "aliases": [
+    "cairo",
+    "CAIRO & AMONI-RAM",
+    "开罗金字塔群与破碎神城阿蒙尼-拉姆 (Cairo)",
+    "VII · Cairo 开罗/机械神城",
+    "奈亚拉托提普 & 破碎之神麦卡恩"
+  ],
+  "clearance": 1,
+  "provenance": "scp-canon",
+  "provenanceLabel": "原典+破碎之神",
+  "badge": "badge-cyan",
+  "geo": {
+    "lat": 29.98,
+    "lon": 31.13,
+    "precision": "region"
+  },
+  "coordsText": "29°59'N · 31°08'E · 尼罗河西岸高台",
+  "motto": "“尼罗河东岸帆樯林立，西岸砂岩高台耸立着太阳金字塔与发条神殿。”",
+  "summary": "尼罗河绿洲低地与吉萨石灰岩高台形成鲜明高低差，三座七阶大金字塔、方尖碑大道与阿蒙尼-拉姆青铜发条穹顶并立，天顶倒悬着奈亚拉托提普的逆黑金字塔。",
+  "terrain": "尼罗河冲积绿洲 · 吉萨断层石质高台 · 沙漠陡崖",
+  "arch": "三座阶梯大金字塔 · 塔门神道 · 发条穹顶 · 倒悬黑塔",
+  "crowd": "攀登金字塔神道的商旅与祭司人流 · 尼罗河太阳船",
+  "god": "奈亚拉托提普 & 破碎之神麦卡恩",
+  "style": "cairo",
+  "type": "hybrid",
+  "hasRiver": true,
+  "hasWaterfall": false,
+  "mountainRing": "desert_escarpment",
+  "elevationProfile": {
+    "prof": [
+      46,
+      64,
+      92,
+      82,
+      56,
+      14,
+      18,
+      58,
+      44,
+      32
+    ],
+    "riverAt": 5
+  },
+  "infobox": [
+    {
+      "label": "来源归属",
+      "value": "原典+破碎之神",
+      "original": false
+    },
+    {
+      "label": "坐标纪要",
+      "value": "29°59'N · 31°08'E · 尼罗河西岸高台",
+      "original": false
+    },
+    {
+      "label": "休谟基准",
+      "value": "0.92 Hm",
+      "original": true
+    },
+    {
+      "label": "驻防编制",
+      "value": "齿轮正教 × 埃及站点",
+      "original": true
+    }
+  ],
+  "relatedIds": [],
+  "updatedAt": "2026-11-26"
+}

@@ -1,0 +1,50 @@
+{
+  "id": "dossier-scp-1730",
+  "order": 2,
+  "category": "scp",
+  "subCat": "scp",
+  "badge": "badge-crimson",
+  "code": "SCP-1730 · KETER / NEUTRALIZED",
+  "title": "第十三号站点 · 跨宇宙奇术焚化巨塔群",
+  "aliases": [
+    "SCP-1730 · KETER / NEUTRALIZED",
+    "第十三号站点 · 跨宇宙奇术焚化巨塔群",
+    "site13",
+    "SCP-1730"
+  ],
+  "clearance": 1,
+  "provenance": "scp-canon",
+  "authorCredit": "djkaktus (SCP-1730, CC BY-SA 3.0)",
+  "hume": "0.24 Hm · 现实扭曲",
+  "legacyCityId": "site13",
+  "mapSiteId": "site-13",
+  "summary": "自平行宇宙（GOC 与基金会合并时间线）滑入本位面的超巨型阶梯式收容综合体，曾同时关押并焚化包括鹿神、水蛭男孩与 {{redact:1:[至高多臂神性实体 MALIDRAMAGIUAN]}} 在内的数百个灭世级异常。",
+  "proc": "由 MTF Tau-5 “轮回（Samsara）”半神义体小队沿高空连廊与外围隔离壕沟执行常态化清剿。",
+  "log": "【MTF Tau-5 行动记录】队长 Nanku：“地下第 28 层墙壁全是活体认知危害铭文，奥林匹斯级奇术焚化炉仍在喷射群青色死光，休谟读数正在崩溃！”",
+  "infobox": [
+    {
+      "label": "档案编号",
+      "value": "SCP-1730 · KETER / NEUTRALIZED",
+      "original": false
+    },
+    {
+      "label": "原典署名",
+      "value": "djkaktus (SCP-1730, CC BY-SA 3.0)",
+      "original": false
+    },
+    {
+      "label": "休谟场读数",
+      "value": "0.24 Hm · 现实扭曲",
+      "original": true
+    },
+    {
+      "label": "驻防与收容",
+      "value": "MTF Tau-5 轮回小队",
+      "original": true
+    }
+  ],
+  "relatedIds": [
+    "site-13"
+  ],
+  "updatedAt": "2026-11-26"
+}

@@ -1,0 +1,36 @@
+{
+  "id": "goi-tactical-theology",
+  "order": 0,
+  "category": "goi",
+  "code": "SCP原典 / DoTT",
+  "title": "SCP 基金会 · 战术神学部",
+  "aliases": [
+    "SCP 基金会 · 战术神学部",
+    "SCP原典 / DoTT",
+    "SCP",
+    "基金会",
+    "战术神学部"
+  ],
+  "clearance": 1,
+  "provenance": "scp-canon",
+  "badge": "badge-gold",
+  "legacyCityId": "site2000",
+  "mapSiteId": "site-2000",
+  "summary": "统辖斯克兰顿现实稳定锚（SRA）与阿基瓦辐射监测阵列，以量化仪轨应对神性异常。",
+  "infobox": [
+    {
+      "label": "组织代号",
+      "value": "SCP原典 / DoTT",
+      "original": false
+    },
+    {
+      "label": "关联驻地",
+      "value": "SITE2000",
+      "original": true
+    }
+  ],
+  "relatedIds": [
+    "site-2000"
+  ],
+  "updatedAt": "2026-11-26"
+}

@@ -1,0 +1,59 @@
+{
+  "id": "entity-gate-guardian",
+  "order": 2,
+  "category": "entities",
+  "code": "III",
+  "title": "III · SCP-001 守门人（DrClef 提案） · 伊甸四翼守门人",
+  "latin": "III · SCP-001 守门人（DrClef 提案）",
+  "condensed": "伊甸四翼守门人",
+  "fig": "图版三 · SCP-001 守门人（CC BY-SA 3.0）",
+  "sub": "两河交汇处的四翼持剑发光实体 · 远古站点 Site-0 监测对象",
+  "aliases": [
+    "III · SCP-001 守门人（DrClef 提案）",
+    "伊甸四翼守门人",
+    "两河交汇处的四翼持剑发光实体 · 远古站点 Site-0 监测对象",
+    "SCP-001"
+  ],
+  "clearance": 1,
+  "provenance": "scp-canon",
+  "summary": "原典出自 SCP 基金会维基 DrClef 提案《守门人》（CC BY-SA 3.0）：伫立于底格里斯河与幼发拉底河交汇处的四翼高大发光实体，手持高温火焰剑，任何靠近警戒半径的入侵者均被瞬间抹除并收到心灵指令。",
+  "scripture": "“遗忘（FORGET）……预备（PREPARE）。”——SCP-001 原典记录",
+  "metrics": [
+    "SCP原典",
+    "DrClef提案",
+    "CC BY-SA 3.0"
+  ],
+  "stats": [
+    86,
+    100,
+    76,
+    99,
+    72,
+    84
+  ],
+  "artType": "guardian",
+  "legacyCityId": "gate001",
+  "mapSiteId": "site-001",
+  "cam": "street",
+  "infobox": [
+    {
+      "label": "谱系编号",
+      "value": "III",
+      "original": false
+    },
+    {
+      "label": "文献标签",
+      "value": "SCP原典 / DrClef提案 / CC BY-SA 3.0",
+      "original": false
+    },
+    {
+      "label": "关联圣城",
+      "value": "GATE001",
+      "original": true
+    }
+  ],
+  "relatedIds": [
+    "site-001"
+  ],
+  "updatedAt": "2026-11-26"
+}

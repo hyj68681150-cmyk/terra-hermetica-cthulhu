@@ -1,0 +1,25 @@
+{
+  "id": "codex-six-orders",
+  "category": "codices",
+  "code": "CODEX-TOPIC",
+  "title": "六大秘教与同行组织概览",
+  "aliases": [
+    "六大秘教",
+    "同行组织",
+    "goi"
+  ],
+  "clearance": 1,
+  "provenance": "scp-canon",
+  "summary": "当前收录：SCP 基金会战术神学部、破碎之神教会（GOI-004）、欲肉教团、蛇之手（被放逐者之图书馆）、密斯卡托尼克大学、中华异学会（CN分部原典）及本站原创之赫尔墨斯蓝色修会。",
+  "infobox": [
+    {
+      "label": "文献性质",
+      "value": "跨体系综述",
+      "original": true
+    }
+  ],
+  "relatedIds": [
+    "site-alexandria"
+  ],
+  "updatedAt": "2026-11-26"
+}

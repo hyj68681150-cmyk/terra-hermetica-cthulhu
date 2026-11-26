@@ -1,0 +1,75 @@
+{
+  "id": "site-alexandria",
+  "legacyCityId": "alexandria",
+  "category": "sites",
+  "code": "SITE-01 ALEXANDRIA",
+  "title": "亚历山大·O5圣座与翠玉大灯塔 (Alexandria)",
+  "short": "II · Alexandria 亚历山大",
+  "aliases": [
+    "alexandria",
+    "SITE-01 ALEXANDRIA",
+    "亚历山大·O5圣座与翠玉大灯塔 (Alexandria)",
+    "II · Alexandria 亚历山大",
+    "三重伟大者赫尔墨斯 · O5 议会"
+  ],
+  "clearance": 1,
+  "provenance": "original",
+  "provenanceLabel": "本站原创设定",
+  "badge": "badge-gold",
+  "geo": {
+    "lat": 31.2,
+    "lon": 29.92,
+    "precision": "region"
+  },
+  "coordsText": "31°12'N · 29°55'E · 尼罗河入海口",
+  "motto": "“Quod superius est sicut quod inferius — 如其在上，如其在下。”",
+  "summary": "尼罗河三角洲主航道穿城入海，两岸石砌河堤帆影穿梭。高台之上耸立三层法罗斯大灯塔、十二肋拱秘仪大穹顶与古典柱廊，桥面与神道阶梯上学者与信使人流如织。",
+  "terrain": "尼罗河宽阔水道 · 河口冲积洲 · 卫城石砌高台",
+  "arch": "三层八角大灯塔 · 肋拱双穹顶 · 引水拱桥 · 港湾栈桥",
+  "crowd": "赫尔墨斯学者行旅 · 尼罗河白帆商船队",
+  "god": "三重伟大者赫尔墨斯 · O5 议会",
+  "style": "alexandria",
+  "type": "hermetic",
+  "hasRiver": true,
+  "hasWaterfall": false,
+  "mountainRing": "coastal_bluffs",
+  "elevationProfile": {
+    "prof": [
+      22,
+      34,
+      58,
+      92,
+      66,
+      14,
+      16,
+      48,
+      36,
+      20
+    ],
+    "riverAt": 5
+  },
+  "infobox": [
+    {
+      "label": "来源归属",
+      "value": "本站原创设定",
+      "original": true
+    },
+    {
+      "label": "坐标纪要",
+      "value": "31°12'N · 29°55'E · 尼罗河入海口",
+      "original": false
+    },
+    {
+      "label": "休谟基准",
+      "value": "1.48 Hm",
+      "original": true
+    },
+    {
+      "label": "驻防编制",
+      "value": "MTF Alpha-1 红右手",
+      "original": true
+    }
+  ],
+  "relatedIds": [],
+  "updatedAt": "2026-11-26"
+}

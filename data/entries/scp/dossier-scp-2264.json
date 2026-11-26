@@ -1,0 +1,50 @@
+{
+  "id": "dossier-scp-2264",
+  "order": 4,
+  "category": "scp",
+  "subCat": "scp",
+  "badge": "badge-cyan",
+  "code": "SCP-2264 · ARCHON / ALAGADDA",
+  "title": "阿拉卡达宫廷门扉 · 布拉格炼金星堡地宫",
+  "aliases": [
+    "SCP-2264 · ARCHON / ALAGADDA",
+    "阿拉卡达宫廷门扉 · 布拉格炼金星堡地宫",
+    "prague",
+    "SCP-2264"
+  ],
+  "clearance": 1,
+  "provenance": "scp-canon",
+  "authorCredit": "Metaphysician (SCP-2264, CC BY-SA 3.0)",
+  "hume": "0.62 Hm · 多维折叠",
+  "legacyCityId": "prague",
+  "mapSiteId": "site-prague",
+  "summary": "隐藏于布拉格哥特大教堂与炼金术士黄金巷地底的铅制秘门，仅可通过特定炼金密语开启，通往与所有维度接壤的狂欢城邦“阿拉卡达”。门内耸立着 {{redact:1:[被锁于王座的吊王与黑衣无面大使]}}。",
+  "proc": "蔷薇十字圣殿骑士与基金会秘传学分部联合驻守查理大桥与十二角星芒城垣。",
+  "log": "【探索日志 2264-4】温克勒博士：“温莎宫廷学者告诉我，吊王的王座下压着通往卡美洛与幻梦境卡达斯的裂缝，而黑衣大使正是伏行混沌的投影。”",
+  "infobox": [
+    {
+      "label": "档案编号",
+      "value": "SCP-2264 · ARCHON / ALAGADDA",
+      "original": false
+    },
+    {
+      "label": "原典署名",
+      "value": "Metaphysician (SCP-2264, CC BY-SA 3.0)",
+      "original": false
+    },
+    {
+      "label": "休谟场读数",
+      "value": "0.62 Hm · 多维折叠",
+      "original": true
+    },
+    {
+      "label": "驻防与收容",
+      "value": "蔷薇十字 × 秘传学分部",
+      "original": true
+    }
+  ],
+  "relatedIds": [
+    "site-prague"
+  ],
+  "updatedAt": "2026-11-26"
+}

@@ -1,0 +1,29 @@
+{
+  "id": "codex-hume-theory",
+  "category": "codices",
+  "code": "CODEX-TOPIC",
+  "title": "蓝色神学与休谟场论（本站原创设定）",
+  "aliases": [
+    "蓝色神学",
+    "休谟",
+    "斯克兰顿",
+    "群青",
+    "原理",
+    "hume",
+    "sra"
+  ],
+  "clearance": 1,
+  "provenance": "original",
+  "summary": "在本站跨世界观设定中，斯克兰顿现实稳定锚（SRA，源自 SCP 维基原典）的谐振腔与亚历山大《翠玉录》几何频率结合，维持 1.00–1.80 Hm 基准现实场。",
+  "infobox": [
+    {
+      "label": "文献性质",
+      "value": "本站原创跨体系设定",
+      "original": true
+    }
+  ],
+  "relatedIds": [
+    "site-alexandria"
+  ],
+  "updatedAt": "2026-11-26"
+}

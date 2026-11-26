@@ -1,0 +1,49 @@
+{
+  "id": "dossier-innsmouth-1928",
+  "order": 7,
+  "category": "scp",
+  "subCat": "mythos",
+  "badge": "badge-cyan",
+  "code": "UIU-1928 × DAGON · KETER",
+  "title": "印斯茅斯礁港清剿行动与三波特兰秘仪通道",
+  "aliases": [
+    "UIU-1928 × DAGON · KETER",
+    "印斯茅斯礁港清剿行动与三波特兰秘仪通道",
+    "arkham"
+  ],
+  "clearance": 1,
+  "provenance": "cthulhu-canon",
+  "authorCredit": "H. P. Lovecraft《印斯茅斯之影》(公有领域) + Three Portlands / Serpent's Hand (CC BY-SA 3.0)",
+  "hume": "0.84 Hm · 混血群落",
+  "legacyCityId": "arkham",
+  "mapSiteId": "site-arkham",
+  "summary": "1928 年美国政府与早期基金会前身对马萨诸塞州印斯茅斯港实施水雷封锁后，残余大衮秘教徒退入外海魔鬼礁海底都市；而上游阿卡姆密斯卡托尼克河谷则隐藏着通往 {{redact:1:[口袋城邦“三波特兰”与被放逐者之图书馆]}} 的水下拱门。",
+  "proc": "UIU 特工与基金会潜航艇监控密斯卡托尼克河口，严格审查密大珍本馆借阅名单。",
+  "log": "【馆藏借阅警报】拉丁文版《死灵之书》（Olaus Wormius 1623 刻本）在锁入铅盒状态下自行翻至第 751 页，纸面析出深海水盐结晶。",
+  "infobox": [
+    {
+      "label": "档案编号",
+      "value": "UIU-1928 × DAGON · KETER",
+      "original": false
+    },
+    {
+      "label": "原典署名",
+      "value": "H. P. Lovecraft《印斯茅斯之影》(公有领域) + Three Portlands / Serpent's Hand (CC BY-SA 3.0)",
+      "original": false
+    },
+    {
+      "label": "休谟场读数",
+      "value": "0.84 Hm · 混血群落",
+      "original": true
+    },
+    {
+      "label": "驻防与收容",
+      "value": "UIU × 密大秘仪馆藏组",
+      "original": true
+    }
+  ],
+  "relatedIds": [
+    "site-arkham"
+  ],
+  "updatedAt": "2026-11-26"
+}

@@ -1,0 +1,34 @@
+{
+  "id": "goi-sarkic-dagon",
+  "order": 3,
+  "category": "goi",
+  "code": "Metaphysician & 洛氏原典",
+  "title": "欲肉教与深海秘教",
+  "aliases": [
+    "欲肉教与深海秘教",
+    "Metaphysician & 洛氏原典",
+    "欲肉教与深海秘教"
+  ],
+  "clearance": 1,
+  "provenance": "scp-canon",
+  "badge": "badge-crimson",
+  "legacyCityId": "rlyeh",
+  "mapSiteId": "site-rlyeh",
+  "summary": "分别源自欲肉教团（亚大伯斯崇拜）与印斯茅斯大衮密教，企图唤醒沉眠古神。",
+  "infobox": [
+    {
+      "label": "组织代号",
+      "value": "Metaphysician & 洛氏原典",
+      "original": false
+    },
+    {
+      "label": "关联驻地",
+      "value": "RLYEH",
+      "original": true
+    }
+  ],
+  "relatedIds": [
+    "site-rlyeh"
+  ],
+  "updatedAt": "2026-11-26"
+}

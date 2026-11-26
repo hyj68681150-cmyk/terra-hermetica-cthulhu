@@ -1,0 +1,75 @@
+{
+  "id": "site-antarctica",
+  "legacyCityId": "antarctica",
+  "category": "sites",
+  "code": "MONS INSANIAE",
+  "title": "疯狂山脉·古老者五芒星极地巨城 (Antarctica)",
+  "short": "VIII · Madness 疯狂山脉",
+  "aliases": [
+    "antarctica",
+    "MONS INSANIAE",
+    "疯狂山脉·古老者五芒星极地巨城 (Antarctica)",
+    "VIII · Madness 疯狂山脉",
+    "古老者 · 修格斯原生质"
+  ],
+  "clearance": 1,
+  "provenance": "cthulhu-canon",
+  "provenanceLabel": "洛氏原典+原创",
+  "badge": "badge-crimson",
+  "geo": {
+    "lat": -76.5,
+    "lon": 72,
+    "precision": "region"
+  },
+  "coordsText": "76°30'S · 72°00'E · 海拔 3800m 极地山隘",
+  "motto": "“越过海拔万尺的锯齿黑山脉，五角星摩天石城横亘于冰渊之上。”",
+  "summary": "四周环绕高耸险峻的南极锯齿状黑岩山峰，盆地内矗立七座五角星截面摩天石塔与十道半空悬空连廊；基金会极地考察队正沿冰川栈道深入古城区。",
+  "terrain": "万尺锯齿环山 · 冰封下沉盆地 · 冰裂深渊",
+  "arch": "五角星截面摩天石塔 · 十道半空悬空石桥 · 极地科考站",
+  "crowd": "基金会极地勘探队 · 地底修格斯涌动流",
+  "god": "古老者 · 修格斯原生质",
+  "style": "elder",
+  "type": "abyss",
+  "hasRiver": false,
+  "hasWaterfall": false,
+  "mountainRing": "antarctic_spires",
+  "elevationProfile": {
+    "prof": [
+      96,
+      82,
+      44,
+      88,
+      94,
+      84,
+      42,
+      78,
+      92,
+      98
+    ],
+    "riverAt": -1
+  },
+  "infobox": [
+    {
+      "label": "来源归属",
+      "value": "洛氏原典+原创",
+      "original": false
+    },
+    {
+      "label": "坐标纪要",
+      "value": "76°30'S · 72°00'E · 海拔 3800m 极地山隘",
+      "original": false
+    },
+    {
+      "label": "休谟基准",
+      "value": "0.79 Hm",
+      "original": true
+    },
+    {
+      "label": "驻防编制",
+      "value": "Outpost-72 × 密大科考",
+      "original": true
+    }
+  ],
+  "relatedIds": [],
+  "updatedAt": "2026-11-26"
+}

@@ -1,0 +1,75 @@
+{
+  "id": "site-13",
+  "legacyCityId": "site13",
+  "category": "sites",
+  "code": "SCP-1730 SITE-13",
+  "title": "第十三号站点·跨维焚化巨构 (SCP-1730)",
+  "short": "VI · Site-13 第十三号站点",
+  "aliases": [
+    "site13",
+    "SCP-1730 SITE-13",
+    "第十三号站点·跨维焚化巨构 (SCP-1730)",
+    "VI · Site-13 第十三号站点",
+    "鹿神 / 水蛭巨兽 / 至高神性残响"
+  ],
+  "clearance": 1,
+  "provenance": "scp-canon",
+  "provenanceLabel": "SCP-1730 原典",
+  "badge": "badge-crimson",
+  "geo": {
+    "lat": 63.8,
+    "lon": -145.7,
+    "precision": "region"
+  },
+  "coordsText": "63°48'N · 145°42'W · 阿拉斯加冰川谷",
+  "motto": "“站点到底发生了什么？——神明曾在地下三十层被投入奇术焚化炉。”",
+  "summary": "镶嵌在阿拉斯加雪山冰河裂谷中的超巨型粗野主义收容要塞，拥有下沉式隔离深坑、六座奇术焚化高塔与纵横交错的高空武装连廊，轮回特遣队正沿连廊突入核心。",
+  "terrain": "雪山冰川深谷 · 下沉式巨型基坑 · 冰融急流",
+  "arch": "重型阶梯收容主堡 · 六座奇术焚化高炉 · 武装高空连廊",
+  "crowd": "MTF Tau-5 轮回小队行军队列 · 撤离人员流",
+  "god": "鹿神 / 水蛭巨兽 / 至高神性残响",
+  "style": "site13",
+  "type": "abyss",
+  "hasRiver": true,
+  "hasWaterfall": false,
+  "mountainRing": "alaska_peaks",
+  "elevationProfile": {
+    "prof": [
+      90,
+      68,
+      22,
+      76,
+      94,
+      76,
+      18,
+      28,
+      74,
+      92
+    ],
+    "riverAt": 6
+  },
+  "infobox": [
+    {
+      "label": "来源归属",
+      "value": "SCP-1730 原典",
+      "original": false
+    },
+    {
+      "label": "坐标纪要",
+      "value": "63°48'N · 145°42'W · 阿拉斯加冰川谷",
+      "original": false
+    },
+    {
+      "label": "休谟基准",
+      "value": "0.24 Hm",
+      "original": true
+    },
+    {
+      "label": "驻防编制",
+      "value": "MTF Tau-5 轮回小队",
+      "original": true
+    }
+  ],
+  "relatedIds": [],
+  "updatedAt": "2026-11-26"
+}

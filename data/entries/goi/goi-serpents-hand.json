@@ -1,0 +1,35 @@
+{
+  "id": "goi-serpents-hand",
+  "order": 4,
+  "category": "goi",
+  "code": "GOI-019 · thedeadlymoose 等",
+  "title": "蛇之手 · 放逐者之图书馆",
+  "aliases": [
+    "蛇之手 · 放逐者之图书馆",
+    "GOI-019 · thedeadlymoose 等",
+    "蛇之手",
+    "放逐者之图书馆"
+  ],
+  "clearance": 1,
+  "provenance": "scp-canon",
+  "badge": "badge-cyan",
+  "legacyCityId": "leng",
+  "mapSiteId": "site-leng",
+  "summary": "穿行于连接多元维度的门径（Ways）与三波特兰，主张超自然知识公开。",
+  "infobox": [
+    {
+      "label": "组织代号",
+      "value": "GOI-019 · thedeadlymoose 等",
+      "original": false
+    },
+    {
+      "label": "关联驻地",
+      "value": "LENG",
+      "original": true
+    }
+  ],
+  "relatedIds": [
+    "site-leng"
+  ],
+  "updatedAt": "2026-11-26"
+}

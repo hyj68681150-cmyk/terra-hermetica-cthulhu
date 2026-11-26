@@ -1,0 +1,75 @@
+{
+  "id": "site-baikal",
+  "legacyCityId": "baikal",
+  "category": "sites",
+  "code": "LAKE BAIKAL ZONE-610",
+  "title": "贝加尔裂谷·血肉封锁墙与发条圣殿 (SCP-610)",
+  "short": "X · Baikal 贝加尔封锁区",
+  "aliases": [
+    "baikal",
+    "LAKE BAIKAL ZONE-610",
+    "贝加尔裂谷·血肉封锁墙与发条圣殿 (SCP-610)",
+    "X · Baikal 贝加尔封锁区",
+    "破碎之神麦卡恩 vs 亚大伯斯 (SCP-610)"
+  ],
+  "clearance": 1,
+  "provenance": "scp-canon",
+  "provenanceLabel": "SCP-610 原典衍生",
+  "badge": "badge-crimson",
+  "geo": {
+    "lat": 53.5,
+    "lon": 108,
+    "precision": "region"
+  },
+  "coordsText": "53°30'N · 108°00'E · 西伯利亚深裂谷",
+  "motto": "“大裂谷湖水深不见底，三道钢铁高墙将血肉狂潮锁死于冰原。”",
+  "summary": "大陆最深裂谷湖泊与两侧高耸山岭构成剧烈地形起伏，安加拉河穿峡而出；三重重型隔离城墙与净化高塔拱卫着中央麦卡恩齿轮大穹顶，巡逻装甲队沿城墙昼夜川流不息。",
+  "terrain": "大陆深水裂谷湖 · 两侧陡峭山岭 · 峡谷急流瀑布",
+  "arch": "三重重型隔离高墙 · 麦卡恩齿轮大穹顶 · 火焰净化哨塔",
+  "crowd": "重装防疫特遣队巡逻流 · 裂谷冰湖破冰船",
+  "god": "破碎之神麦卡恩 vs 亚大伯斯 (SCP-610)",
+  "style": "baikal",
+  "type": "hybrid",
+  "hasRiver": true,
+  "hasWaterfall": true,
+  "mountainRing": "rift_mountains",
+  "elevationProfile": {
+    "prof": [
+      88,
+      66,
+      48,
+      78,
+      48,
+      10,
+      12,
+      52,
+      76,
+      90
+    ],
+    "riverAt": 5
+  },
+  "infobox": [
+    {
+      "label": "来源归属",
+      "value": "SCP-610 原典衍生",
+      "original": false
+    },
+    {
+      "label": "坐标纪要",
+      "value": "53°30'N · 108°00'E · 西伯利亚深裂谷",
+      "original": false
+    },
+    {
+      "label": "休谟基准",
+      "value": "0.88 Hm",
+      "original": true
+    },
+    {
+      "label": "驻防编制",
+      "value": "MTF Eta-5 × 发条圣骑士",
+      "original": true
+    }
+  ],
+  "relatedIds": [],
+  "updatedAt": "2026-11-26"
+}

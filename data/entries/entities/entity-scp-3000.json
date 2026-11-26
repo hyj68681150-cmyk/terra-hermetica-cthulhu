@@ -1,0 +1,59 @@
+{
+  "id": "entity-scp-3000",
+  "order": 3,
+  "category": "entities",
+  "code": "IV",
+  "title": "IV · SCP-3000 阿难陀舍沙（SCP原典） · 孟加拉湾遗忘巨鳗",
+  "latin": "IV · SCP-3000 阿难陀舍沙（SCP原典）",
+  "condensed": "孟加拉湾遗忘巨鳗",
+  "fig": "图版四 · SCP-3000 阿难陀舍沙（CC BY-SA 3.0）",
+  "sub": "盘踞孟加拉湾深海海沟的 Thaumiel 级巨型海鳗实体",
+  "aliases": [
+    "IV · SCP-3000 阿难陀舍沙（SCP原典）",
+    "孟加拉湾遗忘巨鳗",
+    "盘踞孟加拉湾深海海沟的 Thaumiel 级巨型海鳗实体",
+    "SCP-3000"
+  ],
+  "clearance": 1,
+  "provenance": "scp-canon",
+  "summary": "原典出自 SCP-3000（作者 djkaktus、Joreth、A Random Day，CC BY-SA 3.0）：体长约 600–900 公里，带有强烈认知危害与记忆抹除效应，其分泌物 Y-909 是基金会现代记忆删除药剂的关键原料。",
+  "scripture": "“唯有阿难陀舍沙在深渊尽头永恒盘绕。”——SCP-3000 原典",
+  "metrics": [
+    "SCP原典",
+    "Thaumiel级",
+    "CC BY-SA 3.0"
+  ],
+  "stats": [
+    78,
+    88,
+    100,
+    86,
+    65,
+    82
+  ],
+  "artType": "scp3000",
+  "legacyCityId": "rlyeh",
+  "mapSiteId": "site-rlyeh",
+  "cam": "street",
+  "infobox": [
+    {
+      "label": "谱系编号",
+      "value": "IV",
+      "original": false
+    },
+    {
+      "label": "文献标签",
+      "value": "SCP原典 / Thaumiel级 / CC BY-SA 3.0",
+      "original": false
+    },
+    {
+      "label": "关联圣城",
+      "value": "RLYEH",
+      "original": true
+    }
+  ],
+  "relatedIds": [
+    "site-rlyeh"
+  ],
+  "updatedAt": "2026-11-26"
+}

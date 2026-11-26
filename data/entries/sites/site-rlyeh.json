@@ -1,0 +1,75 @@
+{
+  "id": "site-rlyeh",
+  "legacyCityId": "rlyeh",
+  "category": "sites",
+  "code": "SANCTUM R'LYEH",
+  "title": "拉莱耶·渊海卫城与稳定锚阵 (R'lyeh)",
+  "short": "I · R'lyeh 拉莱耶海渊",
+  "aliases": [
+    "rlyeh",
+    "SANCTUM R'LYEH",
+    "拉莱耶·渊海卫城与稳定锚阵 (R'lyeh)",
+    "I · R'lyeh 拉莱耶海渊",
+    "克苏鲁 & SCP-3000 共鸣带"
+  ],
+  "clearance": 1,
+  "provenance": "cthulhu-canon",
+  "provenanceLabel": "克苏鲁原典+原创",
+  "badge": "badge-crimson",
+  "geo": {
+    "lat": -47.15,
+    "lon": -126.72,
+    "precision": "exact"
+  },
+  "coordsText": "47°09'S · 126°43'W · 落差 1420m",
+  "motto": "“Ph'nglui mglw'nafh Cthulhu R'lyeh wgah'nagl fhtagn.”",
+  "summary": "拔起于万米深渊海沟陡崖之上的三级错落巨石卫城，深海暗河穿城而过；外围矗立四座基金会-赫尔墨斯现实稳定锚星塔，石阶与拱桥上可见络绎不绝的深海朝圣队列与潜航巡逻艇。",
+  "terrain": "海底断层绝壁 · 穿城发光暗河 · 三级卫城高台",
+  "arch": "非欧倾斜柱廊 · 阶梯主神殿 · 四座SRA现实稳定塔",
+  "crowd": "深渊秘教朝圣人流 · 基金会潜航监测船队",
+  "god": "克苏鲁 & SCP-3000 共鸣带",
+  "style": "rlyeh",
+  "type": "abyss",
+  "hasRiver": true,
+  "hasWaterfall": false,
+  "mountainRing": "trench_peaks",
+  "elevationProfile": {
+    "prof": [
+      18,
+      42,
+      24,
+      68,
+      86,
+      62,
+      12,
+      54,
+      38,
+      14
+    ],
+    "riverAt": 6
+  },
+  "infobox": [
+    {
+      "label": "来源归属",
+      "value": "克苏鲁原典+原创",
+      "original": false
+    },
+    {
+      "label": "坐标纪要",
+      "value": "47°09'S · 126°43'W · 落差 1420m",
+      "original": false
+    },
+    {
+      "label": "休谟基准",
+      "value": "0.41 Hm",
+      "original": true
+    },
+    {
+      "label": "驻防编制",
+      "value": "MTF Gamma-6 深海喂食者",
+      "original": true
+    }
+  ],
+  "relatedIds": [],
+  "updatedAt": "2026-11-26"
+}

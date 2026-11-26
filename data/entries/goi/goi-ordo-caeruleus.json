@@ -1,0 +1,34 @@
+{
+  "id": "goi-ordo-caeruleus",
+  "order": 1,
+  "category": "goi",
+  "code": "本站原创组织",
+  "title": "赫尔墨斯蓝色修会",
+  "aliases": [
+    "赫尔墨斯蓝色修会",
+    "本站原创组织",
+    "赫尔墨斯蓝色修会"
+  ],
+  "clearance": 1,
+  "provenance": "original",
+  "badge": "badge-cyan",
+  "legacyCityId": "alexandria",
+  "mapSiteId": "site-alexandria",
+  "summary": "本站原创设定：研习《翠玉录》几何圣律，与亚历山大圣座联合维护地脉星盘。",
+  "infobox": [
+    {
+      "label": "组织代号",
+      "value": "本站原创组织",
+      "original": true
+    },
+    {
+      "label": "关联驻地",
+      "value": "ALEXANDRIA",
+      "original": true
+    }
+  ],
+  "relatedIds": [
+    "site-alexandria"
+  ],
+  "updatedAt": "2026-11-26"
+}
