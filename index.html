@@ -1,0 +1,2362 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Terra Hermetica Abyssalis — 建筑级微距 × 克苏鲁外神 × 赫尔墨斯神学地球</title>
+  <style>
+    * { box-sizing: border-box; }
+    html, body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background: #020306;
+      color: #ebe0c9;
+      font-family: "Georgia", "Noto Serif SC", "Songti SC", "Times New Roman", serif;
+      user-select: none;
+    }
+    .canvas-stack {
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+    }
+    .canvas-stack canvas {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+    #canvas-back { z-index: 1; }
+    #canvas-webgl { z-index: 2; pointer-events: none; }
+    #canvas-front { z-index: 3; cursor: grab; }
+    #canvas-front:active { cursor: grabbing; }
+
+    .glass-panel {
+      background: linear-gradient(165deg, rgba(7, 11, 17, 0.84), rgba(3, 6, 10, 0.90));
+      border: 1px solid rgba(212, 175, 55, 0.34);
+      box-shadow: 0 14px 44px rgba(0, 0, 0, 0.78), inset 0 1px 0 rgba(248, 222, 150, 0.16);
+      backdrop-filter: blur(12px);
+      transition: transform 0.32s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.25s ease;
+    }
+    .panel-hidden-left {
+      transform: translateX(calc(-100% - 24px));
+      opacity: 0;
+      pointer-events: none;
+    }
+    .panel-hidden-right {
+      transform: translateX(calc(100% + 24px));
+      opacity: 0;
+      pointer-events: none;
+    }
+    .gold-text {
+      color: #ebd082;
+      text-shadow: 0 0 18px rgba(218, 178, 68, 0.45);
+    }
+    .emerald-text {
+      color: #2ef2c3;
+      text-shadow: 0 0 14px rgba(46, 242, 195, 0.45);
+    }
+    .hermetic-divider {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.5), transparent);
+    }
+    input[type="range"] {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 100%;
+      height: 4px;
+      border-radius: 999px;
+      background: rgba(212, 175, 55, 0.22);
+      outline: none;
+    }
+    input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 13px;
+      height: 13px;
+      border-radius: 50%;
+      background: #ebd082;
+      border: 2px solid #070d14;
+      box-shadow: 0 0 10px rgba(235, 208, 130, 0.8);
+      cursor: pointer;
+    }
+    input[type="range"].abyss-slider { background: rgba(46, 242, 195, 0.22); }
+    input[type="range"].abyss-slider::-webkit-slider-thumb {
+      background: #2ef2c3;
+      box-shadow: 0 0 10px rgba(46, 242, 195, 0.85);
+    }
+    input[type="range"].outer-slider { background: rgba(185, 92, 255, 0.25); }
+    input[type="range"].outer-slider::-webkit-slider-thumb {
+      background: #c57aff;
+      box-shadow: 0 0 10px rgba(197, 122, 255, 0.85);
+    }
+    .btn-arcane {
+      transition: all 0.2s ease;
+      border: 1px solid rgba(212, 175, 55, 0.26);
+      background: rgba(12, 18, 26, 0.72);
+    }
+    .btn-arcane:hover {
+      border-color: rgba(235, 208, 130, 0.75);
+      background: rgba(212, 175, 55, 0.16);
+    }
+    .btn-arcane.active {
+      border-color: #ebd082;
+      background: rgba(212, 175, 55, 0.26);
+      color: #fff0be;
+      box-shadow: 0 0 14px rgba(212, 175, 55, 0.3);
+    }
+    .node-item {
+      transition: all 0.18s ease;
+      border: 1px solid transparent;
+    }
+    .node-item:hover {
+      background: rgba(212, 175, 55, 0.1);
+      border-color: rgba(212, 175, 55, 0.28);
+    }
+    .node-item.selected {
+      background: rgba(46, 242, 195, 0.14);
+      border-color: rgba(46, 242, 195, 0.55);
+    }
+    .custom-scroll::-webkit-scrollbar { width: 4px; }
+    .custom-scroll::-webkit-scrollbar-track { background: transparent; }
+    .custom-scroll::-webkit-scrollbar-thumb { background: rgba(212, 175, 55, 0.35); border-radius: 4px; }
+  
+    /* Standalone Zero-Dependency Utility Styles */
+    button { font: inherit; color: inherit; cursor: pointer; background: none; border: none; }
+    blockquote, h1, h2, p { margin: 0; }
+    .fixed { position: fixed; }
+    .top-2\.5 { top: 0.625rem; }
+    .top-24 { top: 6rem; }
+    .bottom-3 { bottom: 0.75rem; }
+    .left-3 { left: 0.75rem; }
+    .right-3 { right: 0.75rem; }
+    .left-1\/2 { left: 50%; }
+    .-translate-x-1\/2 { transform: translateX(-50%); }
+    .z-20 { z-index: 20; }
+    .flex { display: flex; }
+    .flex-col { flex-direction: column; }
+    .flex-wrap { flex-wrap: wrap; }
+    .flex-1 { flex: 1 1 0%; }
+    .min-h-0 { min-height: 0; }
+    .items-center { align-items: center; }
+    .items-start { align-items: flex-start; }
+    .justify-center { justify-content: center; }
+    .justify-between { justify-content: space-between; }
+    .grid { display: grid; }
+    .grid-cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .grid-cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .w-full { width: 100%; }
+    .max-w-3xl { max-width: 48rem; }
+    .max-w-\[calc\(100vw-1\.5rem\)\] { max-width: calc(100vw - 1.5rem); }
+    .overflow-y-auto { overflow-y: auto; }
+    .pointer-events-none { pointer-events: none; }
+    .pointer-events-auto { pointer-events: auto; }
+    .truncate { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .gap-1 { gap: 0.25rem; }
+    .gap-1\.5 { gap: 0.375rem; }
+    .gap-2 { gap: 0.5rem; }
+    .gap-2\.5 { gap: 0.625rem; }
+    .space-y-0\.5 > * + * { margin-top: 0.125rem; }
+    .space-y-1 > * + * { margin-top: 0.25rem; }
+    .space-y-2 > * + * { margin-top: 0.5rem; }
+    .space-y-2\.5 > * + * { margin-top: 0.625rem; }
+    .p-2 { padding: 0.5rem; }
+    .p-3 { padding: 0.75rem; }
+    .p-3\.5 { padding: 0.875rem; }
+    .px-0\.5 { padding-left: 0.125rem; padding-right: 0.125rem; }
+    .px-1 { padding-left: 0.25rem; padding-right: 0.25rem; }
+    .px-2 { padding-left: 0.5rem; padding-right: 0.5rem; }
+    .px-2\.5 { padding-left: 0.625rem; padding-right: 0.625rem; }
+    .px-3 { padding-left: 0.75rem; padding-right: 0.75rem; }
+    .py-0\.5 { padding-top: 0.125rem; padding-bottom: 0.125rem; }
+    .py-1 { padding-top: 0.25rem; padding-bottom: 0.25rem; }
+    .py-1\.5 { padding-top: 0.375rem; padding-bottom: 0.375rem; }
+    .pr-1 { padding-right: 0.25rem; }
+    .pl-2 { padding-left: 0.5rem; }
+    .pt-0\.5 { padding-top: 0.125rem; }
+    .mt-0\.5 { margin-top: 0.125rem; }
+    .text-\[10px\] { font-size: 10px; }
+    .text-\[11px\] { font-size: 11px; }
+    .text-xs { font-size: 0.75rem; line-height: 1rem; }
+    .text-sm { font-size: 0.875rem; line-height: 1.25rem; }
+    .text-base { font-size: 1rem; line-height: 1.5rem; }
+    .text-2xl { font-size: 1.5rem; line-height: 2rem; }
+    @media (min-width: 640px) { .sm\:text-xl { font-size: 1.25rem; line-height: 1.75rem; } }
+    .font-bold { font-weight: 700; }
+    .font-semibold { font-weight: 600; }
+    .font-medium { font-weight: 500; }
+    .font-mono { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+    .italic { font-style: italic; }
+    .uppercase { text-transform: uppercase; }
+    .tracking-wider { letter-spacing: 0.05em; }
+    .tracking-\[0\.14em\] { letter-spacing: 0.14em; }
+    .tracking-\[0\.15em\] { letter-spacing: 0.15em; }
+    .tracking-\[0\.18em\] { letter-spacing: 0.18em; }
+    .tracking-\[0\.32em\] { letter-spacing: 0.32em; }
+    .leading-relaxed { line-height: 1.625; }
+    .text-center { text-align: center; }
+    .text-left { text-align: left; }
+    .text-\[\#d8b86a\]\/85 { color: rgba(216, 184, 106, 0.85); }
+    .text-\[\#788a92\] { color: #788a92; }
+    .text-\[\#ebd082\] { color: #ebd082; }
+    .text-\[\#2ef2c3\] { color: #2ef2c3; }
+    .text-\[\#c57aff\] { color: #c57aff; }
+    .text-\[\#baa675\] { color: #baa675; }
+    .text-\[\#8fa6ad\] { color: #8fa6ad; }
+    .text-\[\#e8cf8c\] { color: #e8cf8c; }
+    .text-\[\#d6e0dd\] { color: #d6e0dd; }
+    .text-\[\#b5a377\] { color: #b5a377; }
+    .text-\[\#f5dc96\] { color: #f5dc96; }
+    .text-\[\#b495d6\] { color: #b495d6; }
+    .text-\[\#d6a4ff\] { color: #d6a4ff; }
+    .rounded { border-radius: 0.25rem; }
+    .rounded-md { border-radius: 0.375rem; }
+    .rounded-lg { border-radius: 0.5rem; }
+    .rounded-xl { border-radius: 0.75rem; }
+    .rounded-full { border-radius: 9999px; }
+    .border { border-width: 1px; border-style: solid; }
+    .border-l-2 { border-left-width: 2px; border-left-style: solid; }
+    .border-\[\#ebd082\]\/30 { border-color: rgba(235, 208, 130, 0.3); }
+    .border-\[\#d4af37\]\/70 { border-color: rgba(212, 175, 55, 0.7); }
+    .border-\[\#d4af37\]\/25 { border-color: rgba(212, 175, 55, 0.25); }
+    .border-\[\#c57aff\]\/30 { border-color: rgba(197, 122, 255, 0.3); }
+    .bg-black\/50 { background-color: rgba(0, 0, 0, 0.5); }
+    .bg-black\/45 { background-color: rgba(0, 0, 0, 0.45); }
+    .drop-shadow { filter: drop-shadow(0 1px 2px rgba(0,0,0,0.8)); }
+
+  </style>
+</head>
+<body>
+  <!-- 3-Layer Synchronized Canvas Engine -->
+  <div class="canvas-stack">
+    <canvas id="canvas-back"></canvas>
+    <canvas id="canvas-webgl"></canvas>
+    <canvas id="canvas-front"></canvas>
+  </div>
+
+  <!-- Top Header & 4-Scale Camera Bar -->
+  <header class="fixed top-2.5 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center gap-1 pointer-events-none w-full max-w-3xl px-3">
+    <div class="text-[10px] tracking-[0.32em] uppercase text-[#d8b86a]/85 drop-shadow">
+      ☿ CORPUS HERMETICUM &times; GREAT CTHULHU &amp; OUTER GODS ARCHITECTURAL ATLAS ☿
+    </div>
+    <h1 class="text-base sm:text-xl font-bold tracking-[0.18em] gold-text text-center">
+      TERRA HERMETICA ABYSSALIS
+    </h1>
+    <div class="pointer-events-auto flex flex-wrap items-center justify-center gap-1.5 glass-panel px-2.5 py-1 rounded-full text-[11px]">
+      <button class="btn-arcane rounded-full px-2.5 py-0.5" data-cam="cosmos">🌌 外神宇宙全景 (0.7x)</button>
+      <button class="btn-arcane rounded-full px-2.5 py-0.5" data-cam="planet">🌍 巨构地球全景 (1.1x)</button>
+      <button class="btn-arcane active rounded-full px-2.5 py-0.5" data-cam="skyline">🦅 城市建筑天际线 (5.2x)</button>
+      <button class="btn-arcane rounded-full px-2.5 py-0.5" data-cam="street">🏛️ 柱廊花窗极微距 (8.8x)</button>
+      <span class="text-[#788a92] px-0.5">|</span>
+      <button id="btn-toggle-ui" class="btn-arcane rounded-full px-2.5 py-0.5 text-[#ebd082]">隐藏面板</button>
+    </div>
+  </header>
+
+  <!-- Left Drawer -->
+  <aside id="left-panel" class="fixed left-3 top-24 bottom-3 z-20 w-68 max-w-[calc(100vw-1.5rem)] glass-panel rounded-xl p-3 flex flex-col gap-2.5 text-xs overflow-y-auto custom-scroll" style="width: 268px;">
+    <div class="flex items-center justify-between">
+      <span class="tracking-[0.14em] uppercase gold-text font-semibold">☤ 神学结界与外神</span>
+      <span id="zoom-readout" class="font-mono text-[10px] px-2 py-0.5 rounded bg-black/50 border border-[#ebd082]/30 text-[#ebd082]">
+        ZOOM 5.2x
+      </span>
+    </div>
+
+    <div class="hermetic-divider"></div>
+
+    <!-- Sliders -->
+    <div class="space-y-2">
+      <div class="space-y-0.5">
+        <div class="flex justify-between text-[11px]">
+          <label for="seal-slider" class="text-[#ebd082]">赫尔墨斯封印 (Sigillum)</label>
+          <span id="seal-val" class="font-mono text-[#ebd082]">85%</span>
+        </div>
+        <input id="seal-slider" type="range" min="0" max="100" value="85" />
+      </div>
+
+      <div class="space-y-0.5">
+        <div class="flex justify-between text-[11px]">
+          <label for="abyss-slider" class="text-[#2ef2c3]">克苏鲁复苏 (R'lyeh)</label>
+          <span id="abyss-val" class="font-mono text-[#2ef2c3]">82%</span>
+        </div>
+        <input id="abyss-slider" type="range" min="0" max="100" value="82" class="abyss-slider" />
+      </div>
+
+      <div class="space-y-0.5">
+        <div class="flex justify-between text-[11px]">
+          <label for="outer-slider" class="text-[#c57aff]">外神显圣度 (Outer Gods)</label>
+          <span id="outer-val" class="font-mono text-[#c57aff]">85%</span>
+        </div>
+        <input id="outer-slider" type="range" min="0" max="100" value="85" class="outer-slider" />
+      </div>
+    </div>
+
+    <!-- Era Presets -->
+    <div class="grid grid-cols-3 gap-1">
+      <button class="btn-arcane active rounded-md py-1 px-1 text-[11px]" data-preset="clash">诸神角力</button>
+      <button class="btn-arcane rounded-md py-1 px-1 text-[11px]" data-preset="apocalypse">外神降临</button>
+      <button class="btn-arcane rounded-md py-1 px-1 text-[11px]" data-preset="golden">翠玉盛世</button>
+    </div>
+
+    <!-- Toggles -->
+    <div class="flex flex-wrap gap-1">
+      <button id="tog-cities" class="btn-arcane active rounded px-2 py-0.5 text-[11px]">🏛️ 精细建筑</button>
+      <button id="tog-rings" class="btn-arcane active rounded px-2 py-0.5 text-[11px]">☸️ 浑天仪</button>
+      <button id="tog-gods" class="btn-arcane active rounded px-2 py-0.5 text-[11px]">👁️ 外神触须</button>
+      <button id="tog-rotate" class="btn-arcane active rounded px-2 py-0.5 text-[11px]">🔄 环绕运镜</button>
+    </div>
+
+    <div class="hermetic-divider"></div>
+
+    <!-- 12 Megacities Selector -->
+    <div class="flex-1 min-h-0 flex flex-col gap-1">
+      <div class="flex items-center justify-between text-[10px] text-[#baa675] uppercase tracking-wider">
+        <span>点击切换 12 座立体建筑圣城</span>
+      </div>
+      <div id="node-list" class="space-y-1 overflow-y-auto custom-scroll pr-1 flex-1"></div>
+    </div>
+  </aside>
+
+  <!-- Right Architectural & Theological Inspector -->
+  <aside id="right-panel" class="fixed right-3 top-24 z-20 w-76 max-w-[calc(100vw-1.5rem)] glass-panel rounded-xl p-3.5 space-y-2.5 text-xs" style="width: 292px;">
+    <div class="flex items-start justify-between gap-2">
+      <div>
+        <div id="codex-tag" class="text-[10px] tracking-[0.15em] uppercase emerald-text">
+          SUNKEN ACROPOLIS · 非欧巨石神庙都城
+        </div>
+        <h2 id="codex-title" class="text-sm font-bold gold-text mt-0.5">
+          拉莱耶·克苏鲁王座巨城 (R'lyeh)
+        </h2>
+        <div id="codex-coords" class="font-mono text-[10px] text-[#8fa6ad] mt-0.5">
+          47°09'S, 126°43'W · 倾斜巨石柱廊 / 黄金镇压塔
+        </div>
+      </div>
+      <span id="codex-glyph" class="text-2xl gold-text">🐙</span>
+    </div>
+
+    <div class="hermetic-divider"></div>
+
+    <blockquote id="codex-motto" class="italic text-[11px] text-[#e8cf8c] border-l-2 border-[#d4af37]/70 pl-2 py-0.5">
+      “Ph'nglui mglw'nafh Cthulhu R'lyeh wgah'nagl fhtagn.”
+    </blockquote>
+
+    <p id="codex-desc" class="text-[#d6e0dd] leading-relaxed text-[11px]">
+      中央耸立着三层阶梯式玄武岩深渊卫城、反欧几里得倾斜方尖塔群与高架拱券神道；外围四座赫尔墨斯黄金封印塔正以旋转星盘锁死海床，而克苏鲁真身自神庙后方振翼升起，巨型触腕盘绕在石柱与拱门之上。
+    </p>
+
+    <div class="grid grid-cols-2 gap-1.5">
+      <div class="rounded-lg bg-black/45 border border-[#d4af37]/25 p-2">
+        <div class="text-[10px] text-[#b5a377]">可见精细建筑构件</div>
+        <div id="codex-arch" class="text-[#f5dc96] font-medium mt-0.5 text-[11px]">阶梯祭坛·倾斜巨柱·拱桥·封印星塔</div>
+      </div>
+      <div class="rounded-lg bg-black/45 border border-[#c57aff]/30 p-2">
+        <div class="text-[10px] text-[#b495d6]">镇守/显圣神明</div>
+        <div id="codex-god" class="text-[#d6a4ff] font-medium mt-0.5 text-[11px]">克苏鲁 vs 翠玉四柱</div>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-2 gap-1.5 pt-0.5">
+      <button id="btn-skyline" class="btn-arcane rounded-lg py-1.5 text-center text-[11px] text-[#ebd082]">
+        🦅 城市全景 (5.2x)
+      </button>
+      <button id="btn-street" class="btn-arcane rounded-lg py-1.5 text-center text-[11px] text-[#2ef2c3]">
+        🏛️ 极微距立面 (8.8x)
+      </button>
+    </div>
+  </aside>
+
+  <script>
+    // =========================================================================
+    // 1. CITY DEFINITIONS (12 Distinct Architectural Archetypes)
+    // =========================================================================
+    const CITIES = [
+      {
+        id: 'rlyeh',
+        name: "拉莱耶·克苏鲁王座巨城 (R'lyeh)",
+        short: "R'lyeh 拉莱耶巨城",
+        lat: -47.15, lon: -126.72,
+        type: 'abyss', glyph: '🐙', style: 'rlyeh',
+        tag: 'SUNKEN ACROPOLIS · 非欧巨石神庙群',
+        coords: "47°09'S, 126°43'W · 南太平洋深渊裂谷",
+        motto: '“Ph\'nglui mglw\'nafh Cthulhu R\'lyeh wgah\'nagl fhtagn.”',
+        desc: '中央耸立三层阶梯式玄武岩深渊卫城、倾斜巨石柱廊与高架拱桥；四周矗立四座赫尔墨斯黄金星盘封印塔，克苏鲁本体自卫城后方振开骨翼，带吸盘的触手死死缠绕着神殿廊柱。',
+        arch: '阶梯卫城·倾斜石柱·拱桥·黄金封印塔',
+        god: '克苏鲁 (Great Cthulhu)'
+      },
+      {
+        id: 'alexandria',
+        name: '亚历山大·赫尔墨斯灯塔圣城 (Alexandria)',
+        short: 'Alexandria 亚历山大',
+        lat: 31.20, lon: 29.92,
+        type: 'hermetic', glyph: '☿', style: 'alexandria',
+        tag: 'TABULA SMARAGDINA · 赫尔墨斯神学首都',
+        coords: "31°12'N, 29°55'E · 尼罗河三角洲圣港",
+        motto: '“Quod superius est sicut quod inferius.” — 如其在上，如其在下。',
+        desc: '三层递收的“翠玉法罗斯大灯塔”底层为拱窗石座、中层八角柱身、顶层八柱透空圆亭并悬浮旋转黄金八面体；两侧配有十二肋拱秘仪大穹顶、古典三角楣柱廊、四座圣书体方尖碑与双层高架引水拱桥。',
+        arch: '三层八角灯塔·肋拱穹顶·古典柱廊·拱桥',
+        god: '三重伟大者赫尔墨斯'
+      },
+      {
+        id: 'prague',
+        name: '布拉格·蔷薇十字哥特炼金城 (Prague)',
+        short: 'Prague 布拉格炼金城',
+        lat: 50.08, lon: 14.43,
+        type: 'hermetic', glyph: '🜂', style: 'gothic_cathedral',
+        tag: 'OPUS MAGNUM · 飞扶壁大教堂与星堡',
+        coords: "50°05'N, 14°26'E · 波希米亚十二宫星芒城",
+        motto: '“Solve et Coagula — 溶解万象，凝结哲人石。”',
+        desc: '主座大教堂拥有外露的双排哥特式飞扶壁、发光神圣几何玫瑰花窗与双尖塔钟楼；周围环绕天文钟塔、圆顶炼金高炉群、石拱查理大桥与十二角星芒棱堡城墙。',
+        arch: '哥特双尖塔·飞扶壁·玫瑰花窗·星芒城墙',
+        god: '蔷薇十字炼金学派'
+      },
+      {
+        id: 'cairo',
+        name: '赫利奥波利斯·金字塔与逆黑尖碑 (Cairo)',
+        short: 'Heliopolis 开罗圣城',
+        lat: 29.98, lon: 31.13,
+        type: 'hybrid', glyph: '👁️', style: 'cairo',
+        tag: 'SOLAR & CHAOS · 阶梯大金字塔与黑法老',
+        coords: "29°59'N, 31°08'E · 吉萨高原太阳轴线",
+        motto: '“自黑暗群星之间，无面之神披着法老金衣走下神道阶梯。”',
+        desc: '三座可见精细石阶层理与纯金奔奔石顶的大金字塔，前设塔门神庙与十座刻纹方尖碑神道；天顶倒悬着奈亚拉托提普的黑曜石逆金字塔，猩红闪电不断劈向黄金塔顶。',
+        arch: '层理金字塔·纯金顶石·塔门·方尖碑大道',
+        god: '托特-赫尔墨斯 vs 奈亚拉托提普'
+      },
+      {
+        id: 'antarctica',
+        name: '疯狂山脉·古老者五芒星巨城 (Antarctica)',
+        short: 'Madness 疯狂山脉巨城',
+        lat: -76.5, lon: 72.0,
+        type: 'abyss', glyph: '✡', style: 'elder',
+        tag: 'ELDER METROPOLIS · 五角星棱摩天石城',
+        coords: "76°30'S, 72°00'E · 南极极夜山脉",
+        motto: '“Tekeli-li! 冰渊下的五棱高塔与高空石桥比人类更为古老。”',
+        desc: '七座截面呈精确五角星形的漆黑摩天棱塔拔地而起，高空架设六道悬空石制连廊桥互相贯通；五芒星广场地面流淌着睁满诡异眼球的修格斯原生质黑潮。',
+        arch: '五角星截面高塔·高空连廊·圆锥观星台',
+        god: '古老者 · 修格斯狂潮'
+      },
+      {
+        id: 'penglai',
+        name: '东海蓬莱·九重飞檐浑天宝塔城 (Penglai)',
+        short: 'Penglai 东海浑天城',
+        lat: 33.8, lon: 136.5,
+        type: 'hermetic', glyph: '☯', style: 'pagoda',
+        tag: 'ASTRAL PAGODA · 飞檐楼阁与镇海金柱',
+        coords: "33°48'N, 136°30'E · 西太平洋海沟防线",
+        motto: '“内炼金丹以应七政天球，外筑九重宝塔以镇海眼。”',
+        desc: '中央矗立七层八角挑出式翘角飞檐宝塔，顶冠九轮青铜相轮浑天仪；四角配钟鼓重檐楼阁、白玉石拱桥与环海高密度丹道楼宇群，压制着太平洋深渊海震。',
+        arch: '七层翘角飞檐宝塔·重檐钟鼓楼·石拱桥',
+        god: '太乙浑天宗 · 镇海结界'
+      },
+      {
+        id: 'arkham',
+        name: '阿卡姆与印斯茅斯港 (Arkham & Innsmouth)',
+        short: 'Arkham 阿卡姆学城',
+        lat: 42.62, lon: -70.75,
+        type: 'abyss', glyph: '🏛️', style: 'arkham',
+        tag: 'MISKATONIC PORT · 新英格兰折顶街区与礁塔',
+        coords: "42°37'N, 70°45'W · 马萨诸塞魔鬼礁湾",
+        motto: '“密斯卡托尼克钟楼敲响十三下，海雾中升起达贡的珊瑚王冠。”',
+        desc: '密斯卡托尼克大学哥特钟楼、图书馆穹顶与成排带老虎窗及砖砌烟囱的新英格兰折线屋顶街屋；延伸入海的木石栈桥外，耸立着魔鬼礁扭曲多孔的深潜者海底尖塔。',
+        arch: '大学钟楼·老虎窗折顶街屋·港口栈桥·礁塔',
+        god: '父神达贡 · 犹格秘教'
+      },
+      {
+        id: 'london',
+        name: '伦敦·黄金黎明大穹顶都会 (London)',
+        short: 'London 伦敦秘仪城',
+        lat: 51.51, lon: -0.12,
+        type: 'hermetic', glyph: '☉', style: 'london',
+        tag: 'PRIME MERIDIAN · 圣保罗肋拱穹顶与大本钟',
+        coords: "51°30'N, 00°07'W · 本初子午线神圣锚点",
+        motto: '“本初子午线是将地球时间钉在第七重天球上的黄金长矛。”',
+        desc: '十二肋拱圣保罗式双层柱廊大穹顶、哥特复兴式大本钟高塔、双塔石拱桥与严整的维多利亚多层拱窗街坊，地面镌刻卡巴拉-赫尔墨斯生命之树金线。',
+        arch: '双层柱廊大穹顶·四面钟塔·双塔拱桥',
+        god: '黄金黎明赫尔墨斯学派'
+      },
+      {
+        id: 'tenochtitlan',
+        name: '特诺奇蒂特兰·双神殿阶梯巨城 (Tenochtitlan)',
+        short: 'Tenochtitlan 羽蛇星城',
+        lat: 19.43, lon: -99.13,
+        type: 'hybrid', glyph: '🐍', style: 'tenochtitlan',
+        tag: 'STAR SERPENT · 七层双顶阶梯大神庙',
+        coords: "19°26'N, 99°08'W · 高原火山湖心岛城",
+        motto: '“双生阶梯直通金星天球，祭坛圣火映照蛇父伊格的鳞影。”',
+        desc: '七级层叠石砌大神庙正面辟有双道陡峭通天石阶，顶端并列日星双圣殿与圣火盆；四周环绕圆形羽蛇观星台、十字水上长堤与阶梯副神庙群。',
+        arch: '双道石阶大神庙·双顶圣殿·圆形观星台',
+        god: '羽蛇金星历 · 蛇神伊格'
+      },
+      {
+        id: 'atlantis',
+        name: '亚特兰蒂斯·山铜三环水晶城 (Atlantis)',
+        short: 'Atlantis 亚特兰蒂斯',
+        lat: 28.5, lon: -42.5,
+        type: 'hybrid', glyph: '🔱', style: 'atlantis',
+        tag: 'ORICHALCUM RINGS · 同心三环城墙与水晶圣殿',
+        coords: "28°30'N, 42°30'W · 大西洋中脊沉没海山",
+        motto: '“三道山铜环墙锁住海渊泉眼，水晶柱廊折射太古星光。”',
+        desc: '三圈同心山铜金属城墙与跨海石拱桥层层拱卫中央波塞冬-赫尔墨斯古典柱廊高塔，塔顶悬浮巨型深海发光棱晶，城墙外已有克苏鲁深海触腕攀附。',
+        arch: '三环同心城墙·跨渠拱桥·山铜柱廊棱晶塔',
+        god: '神代遗民 · 深海星之眷族'
+      },
+      {
+        id: 'leng',
+        name: '冷原·黄衣修道院与土星星门 (Plateau of Leng)',
+        short: 'Leng 冷原星门巨堡',
+        lat: 35.8, lon: 84.5,
+        type: 'hybrid', glyph: '♄', style: 'leng',
+        tag: 'SATURNIAN PORTAL · 巨型星界圆环门与独石堡',
+        coords: "35°48'N, 84°30'E · 极高荒原禁忌隘口",
+        motto: '“越过冷原的土星巨环门，便是哈斯塔的卡寇莎双日残影。”',
+        desc: '倾斜厚重的史前无窗黑石修道院群拱卫着一座直立于大地之上的巨型双环星界门扉（Porta Saturni），环门内悬浮着犹格·索托斯的虹彩魔眼泡影。',
+        arch: '巨型直立双环星门·倾斜黑石修道院·方尖阵',
+        god: '犹格·索托斯 · 黄衣之王'
+      },
+      {
+        id: 'hyperborea',
+        name: '许珀耳玻瑞亚·极北黑冰尖塔都城 (Hyperborea)',
+        short: 'Hyperborea 极北冰城',
+        lat: 74.5, lon: -38.0,
+        type: 'abyss', glyph: '❄️', style: 'hyperborea',
+        tag: 'POLAR AXIS · 黑曜石哥特冰晶高塔群',
+        coords: "74°30'N, 38°00'W · 北极地球自转轴心",
+        motto: '“极北冰晶尖塔刺穿极光，地底黑泥供奉着无形之撒托古亚。”',
+        desc: '簇拥如剑林的八角黑曜石冰晶高塔、地下迷宫阶梯井与莎布·尼古拉丝盘根错节的黑色生物根脉交织在一起，企图冻结赫尔墨斯北极天球轴。',
+        arch: '八角黑冰剑塔林·下沉阶梯井·盘根拱门',
+        god: '撒托古亚 · 莎布·尼古拉丝'
+      }
+    ];
+
+    // =========================================================================
+    // 2. PROCEDURAL 3D ARCHITECTURAL MICRO-GEOMETRY GENERATOR
+    // =========================================================================
+    // Every city produces a rich list of typed 3D architectural structures:
+    // - 'prism': 4-wall or N-gon extruded building with multi-story window arcades, portals, cornices, pitched/flat/spire roofs
+    // - 'star_tower': 10-vertex 5-pointed concave star skyscraper (Antarctica)
+    // - 'stepped': Multi-tier stepped pyramid/ziggurat with front ceremonial staircase & balustrade
+    // - 'dome': Cylindrical colonnaded drum + 12-ribbed hemisphere dome + cupola lantern
+    // - 'buttress': Gothic flying buttress arch
+    // - 'arch_bridge': Multi-arch aqueduct / stone bridge
+    // - 'pagoda': Multi-story tower with sweeping upturned corner eaves (飞檐)
+    // - 'ring_gate': Giant vertical astral ring portal (Leng)
+    // - 'octahedron': Rotating floating 3D crystal/seal
+    // - 'tentacle_coil': Building-scale eldritch tentacle coiling around a tower!
+
+    function generateDetailedCity(style) {
+      const items = [];
+      const addPrism = (opts) => items.push({ kind: 'prism', ...opts });
+      const addStepped = (opts) => items.push({ kind: 'stepped', ...opts });
+      const addDome = (opts) => items.push({ kind: 'dome', ...opts });
+      const addArch = (opts) => items.push({ kind: 'arch_bridge', ...opts });
+
+      // Helper: Classical 3D Colonnade Portico (pillars + lintel + pediment)
+      const addPortico = (cx, cy, width, depth, zBase, colH, cols = 6, sacred = true) => {
+        for (let i = 0; i < cols; i++) {
+          const u = cols === 1 ? 0 : (i / (cols - 1) - 0.5);
+          addPrism({
+            x: cx + u * width, y: cy, z0: zBase,
+            w: 0.036, d: 0.036, h: colH, sides: 6, windows: 0, sacred
+          });
+        }
+        // Entablature lintel + Triangular Pediment roof
+        addPrism({
+          x: cx, y: cy, z0: zBase + colH,
+          w: width + 0.06, d: depth, h: 0.055, windows: 0, sacred,
+          roof: 'gable', roofH: 0.11
+        });
+      };
+
+      // Helper: Outer Bastion Star/Polygon City Walls & Gatehouse Towers
+      const addBastionRing = (radius, sides, wallH, sacred = true) => {
+        for (let i = 0; i < sides; i++) {
+          const a1 = (i / sides) * Math.PI * 2;
+          const a2 = ((i + 1) / sides) * Math.PI * 2;
+          const tx = Math.cos(a1) * radius, ty = Math.sin(a1) * radius;
+          // Corner watchtower with crenellated/pointed cap
+          addPrism({
+            x: tx, y: ty, z0: 0, w: 0.13, d: 0.13, h: wallH * 1.65,
+            windows: 2, roof: 'spire', roofH: 0.16, sacred, lod: 1
+          });
+          // Wall curtain segment (skip south gate i===sides*3/4 for grand entrance avenue!)
+          const midA = (a1 + a2) * 0.5;
+          if (Math.sin(midA) > -0.85) {
+            const mx = (Math.cos(a1) + Math.cos(a2)) * 0.5 * radius;
+            const my = (Math.sin(a1) + Math.sin(a2)) * 0.5 * radius;
+            const segLen = 2 * radius * Math.sin(Math.PI / sides);
+            addPrism({
+              x: mx, y: my, z0: 0, w: segLen * 0.86, d: 0.065, h: wallH,
+              rot: midA + Math.PI * 0.5, windows: 1, sacred, lod: 1
+            });
+          }
+        }
+      };
+
+      // Helper: Fill realistic urban street blocks with multi-story fenestrated buildings
+      const addUrbanDistricts = (innerR, outerR, count, styleMode) => {
+        for (let i = 0; i < count; i++) {
+          const ring = i % 3;
+          const r = innerR + (outerR - innerR) * ((ring + 0.35 * ((i * 7) % 3)) / 3.2);
+          const a = (i / count) * Math.PI * 2 + ring * 0.21;
+          // Leave clean cross boulevards!
+          if (Math.abs(Math.cos(a)) < 0.11 || Math.abs(Math.sin(a)) < 0.11) continue;
+          const x = Math.cos(a) * r, y = Math.sin(a) * r;
+          const floors = 2 + ((i * 5) % 4);
+          const h = 0.13 + floors * 0.065;
+          const w = 0.13 + (i % 3) * 0.045;
+          const d = 0.12 + ((i + 1) % 3) * 0.04;
+          const lean = styleMode === 'abyss' ? Math.sin(i * 1.9) * 0.09 : 0;
+          const roofType = styleMode === 'gothic' ? 'gable' : (i % 4 === 0 ? 'spire' : (i % 3 === 0 ? 'gable' : 'flat'));
+          addPrism({
+            x, y, z0: 0, w, d, h,
+            rot: a, tiltX: lean,
+            windows: floors, portal: true,
+            roof: roofType, roofH: roofType === 'flat' ? 0 : 0.11,
+            lod: i % 2 === 0 ? 0 : 1
+          });
+        }
+      };
+
+      if (style === 'rlyeh') {
+        // 1. Central 4-Tier Stepped Cyclopean Acropolis + Twin Abyssal Staircases
+        addStepped({ x: 0, y: 0, w: 0.92, d: 0.86, h: 0.62, tiers: 4, stairs: true, sacred: false });
+        // 2. Non-Euclidean Leaning Megalithic Temple Hall + Giant Portal + Crooked Spire
+        addPrism({
+          x: 0, y: 0.04, z0: 0.62, w: 0.42, d: 0.38, h: 0.72,
+          tiltX: 0.14, tiltY: -0.08, windows: 4, portal: true,
+          roof: 'spire', roofH: 0.48
+        });
+        // Leaning Cyclopean Colonnade Pillars around the summit
+        for (let i = -3; i <= 3; i++) {
+          if (i === 0) continue;
+          addPrism({
+            x: i * 0.11, y: -0.34, z0: 0.62, w: 0.042, d: 0.042, h: 0.44,
+            tiltX: i * 0.03, windows: 0, lod: 1
+          });
+        }
+        // 3. Eight Non-Euclidean Tilted Basalt Obelisks & Trapezoidal Pylons with Coiling Tentacles!
+        for (let i = 0; i < 8; i++) {
+          const a = (i / 8) * Math.PI * 2 + 0.38;
+          const r = 0.88 + (i % 2) * 0.22;
+          const bx = Math.cos(a) * r, by = Math.sin(a) * r;
+          const bh = 0.68 + (i % 3) * 0.28;
+          const tx = Math.sin(i * 2.4) * 0.22, ty = Math.cos(i * 1.7) * 0.18;
+          addPrism({
+            x: bx, y: by, z0: 0, w: 0.20, d: 0.18, h: bh,
+            tiltX: tx, tiltY: ty, windows: 4, portal: true, roof: 'spire', roofH: 0.26
+          });
+          if (i % 2 === 0) {
+            items.push({ kind: 'tentacle_coil', x: bx, y: by, r: 0.13, h: bh + 0.18, phase: i * 1.5 });
+          }
+        }
+        // 4. Four Towering HERMETIC GOLDEN SEAL PYLONS trying to chain down R'lyeh!
+        for (let k = 0; k < 4; k++) {
+          const a = (k / 4) * Math.PI * 2 + Math.PI * 0.25;
+          const px = Math.cos(a) * 1.48, py = Math.sin(a) * 1.48;
+          addStepped({ x: px, y: py, w: 0.32, d: 0.32, h: 0.24, tiers: 2, stairs: true, sacred: true });
+          addPrism({
+            x: px, y: py, z0: 0.24, w: 0.16, d: 0.16, h: 0.82, sides: 8,
+            windows: 4, sacred: true, roof: 'spire', roofH: 0.24, forceGold: true
+          });
+          items.push({ kind: 'octahedron', x: px, y: py, z0: 1.42, r: 0.11, forceGold: true });
+        }
+        // 5. Sunken Arched Viaducts & Cyclopean City Blocks
+        addArch({ x1: -1.05, y1: -1.05, x2: -0.35, y2: -0.35, h: 0.34, arches: 4, lod: 1 });
+        addArch({ x1: 1.05, y1: -1.05, x2: 0.35, y2: -0.35, h: 0.34, arches: 4, lod: 1 });
+        addUrbanDistricts(0.68, 1.82, 42, 'abyss');
+
+      } else if (style === 'alexandria') {
+        // 1. Podium + Three-Tiered PHAROS LIGHTHOUSE OF HERMES!
+        addStepped({ x: 0, y: 0, w: 0.78, d: 0.78, h: 0.28, tiers: 3, stairs: true, sacred: true });
+        // Tier 1: Square Fenestrated Rusticated Tower
+        addPrism({ x: 0, y: 0, z0: 0.28, w: 0.38, d: 0.38, h: 0.68, windows: 5, portal: true, sacred: true });
+        // Tier 2: Octagonal Pilastered Tower
+        addPrism({ x: 0, y: 0, z0: 0.96, w: 0.25, d: 0.25, h: 0.52, sides: 8, windows: 3, sacred: true });
+        // Tier 3: Open 8-Column Circular Lantern + Ribbed Cupola + Rotating Golden Octahedron!
+        for (let c = 0; c < 8; c++) {
+          const ca = (c / 8) * Math.PI * 2;
+          addPrism({
+            x: Math.cos(ca) * 0.085, y: Math.sin(ca) * 0.085, z0: 1.48,
+            w: 0.026, d: 0.026, h: 0.26, windows: 0, sacred: true, lod: 1
+          });
+        }
+        addDome({ x: 0, y: 0, z0: 1.74, r: 0.11, drumH: 0.03, domeH: 0.16, sacred: true });
+        items.push({ kind: 'octahedron', x: 0, y: 0, z0: 2.15, r: 0.16, forceGold: true });
+
+        // 2. Flanking Great Ribbed Domes of the Mouseion & Serapeum + Classical Porticos!
+        for (const sx of [-0.78, 0.78]) {
+          addPrism({ x: sx, y: 0.08, z0: 0, w: 0.46, d: 0.38, h: 0.32, windows: 2, portal: true, sacred: true });
+          addDome({ x: sx, y: 0.08, z0: 0.32, r: 0.19, drumH: 0.14, domeH: 0.24, sacred: true });
+          addPortico(sx, -0.14, 0.36, 0.08, 0, 0.26, 6, true);
+        }
+        // 3. Four Tall Hieroglyphic Obelisks + Twin Arched Aqueducts + 12-Gon Star Ramparts
+        for (const [ox, oy] of [[-0.48, -0.52], [0.48, -0.52], [-0.48, 0.52], [0.48, 0.52]]) {
+          addPrism({ x: ox, y: oy, z0: 0, w: 0.08, d: 0.08, h: 0.68, windows: 3, roof: 'spire', roofH: 0.16, sacred: true });
+        }
+        addArch({ x1: -1.65, y1: 0.08, x2: -1.04, y2: 0.08, h: 0.32, arches: 5, sacred: true, lod: 1 });
+        addArch({ x1: 1.04, y1: 0.08, x2: 1.65, y2: 0.08, h: 0.32, arches: 5, sacred: true, lod: 1 });
+        addBastionRing(1.78, 12, 0.20, true);
+        addUrbanDistricts(0.65, 1.62, 46, 'hermetic');
+
+      } else if (style === 'gothic_cathedral' || style === 'london') {
+        // 1. Grand Gothic Cathedral with Nave, Transept, Rose Window, Twin Spires & 8 Flying Buttresses!
+        const cx0 = style === 'london' ? -0.45 : 0;
+        // Nave + Rose Window on south facade
+        addPrism({
+          x: cx0, y: 0.05, z0: 0, w: 0.34, d: 0.78, h: 0.58,
+          windows: 4, portal: true, roseWindow: true, roof: 'gable', roofH: 0.24, sacred: true
+        });
+        // Transept arms
+        addPrism({ x: cx0, y: 0.18, z0: 0, w: 0.68, d: 0.26, h: 0.54, windows: 3, roof: 'gable', roofH: 0.20, sacred: true });
+        // Crossing Flèche Spire
+        addPrism({ x: cx0, y: 0.18, z0: 0.74, w: 0.10, d: 0.10, h: 0.32, sides: 8, roof: 'spire', roofH: 0.38, sacred: true });
+        // Twin Westwork Bell-Towers + Crocketed Spires!
+        for (const dx of [-0.15, 0.15]) {
+          addPrism({ x: cx0 + dx, y: -0.34, z0: 0, w: 0.15, d: 0.15, h: 0.92, windows: 5, portal: true, sacred: true });
+          addPrism({ x: cx0 + dx, y: -0.34, z0: 0.92, w: 0.11, d: 0.11, h: 0.18, sides: 8, roof: 'spire', roofH: 0.56, sacred: true });
+        }
+        // 8 Exterior Gothic Flying Buttresses bracing the Nave!
+        for (let b = 0; b < 4; b++) {
+          const by = -0.14 + b * 0.18;
+          for (const dir of [-1, 1]) {
+            addPrism({ x: cx0 + dir * 0.28, y: by, z0: 0, w: 0.045, d: 0.045, h: 0.52, roof: 'spire', roofH: 0.12, sacred: true, lod: 1 });
+            items.push({ kind: 'buttress', x1: cx0 + dir * 0.28, y1: by, z1: 0.36, x2: cx0 + dir * 0.17, y2: by, z2: 0.54, lod: 1 });
+          }
+        }
+        if (style === 'london') {
+          // St. Paul's Grand Twin-Colonnade Ribbed Dome + Big Ben Clocktower + Tower Bridge!
+          addPrism({ x: 0.48, y: 0.1, z0: 0, w: 0.52, d: 0.52, h: 0.36, windows: 3, portal: true, sacred: true });
+          addPortico(0.48, -0.19, 0.38, 0.08, 0, 0.28, 6, true);
+          addDome({ x: 0.48, y: 0.1, z0: 0.36, r: 0.23, drumH: 0.22, domeH: 0.34, sacred: true });
+          // Big Ben Clocktower
+          addPrism({ x: -0.82, y: -0.45, z0: 0, w: 0.16, d: 0.16, h: 1.18, windows: 6, clockFace: true, roof: 'spire', roofH: 0.38, sacred: true });
+        } else {
+          // Prague Astronomical Clock Tower & Alchemical Furnace Domes
+          addPrism({ x: 0.62, y: -0.25, z0: 0, w: 0.18, d: 0.18, h: 0.96, windows: 5, clockFace: true, roof: 'spire', roofH: 0.34, sacred: true });
+          for (let f = 0; f < 4; f++) {
+            const fa = 0.6 + f * 1.4;
+            addDome({ x: Math.cos(fa) * 0.85, y: Math.sin(fa) * 0.85, z0: 0, r: 0.15, drumH: 0.22, domeH: 0.20, sacred: true });
+          }
+        }
+        // Arched Stone Bridge (Charles Bridge / Tower Bridge)
+        addArch({ x1: -1.25, y1: -0.72, x2: 1.25, y2: -0.72, h: 0.24, arches: 7, sacred: true, lod: 1 });
+        addBastionRing(1.76, 12, 0.19, true);
+        addUrbanDistricts(0.62, 1.62, 48, 'gothic');
+
+      } else if (style === 'cairo') {
+        // 1. Three Great Stepped Limestone Pyramids with Pure Gold Benben Capstones!
+        addStepped({ x: -0.42, y: 0.18, w: 0.86, d: 0.86, h: 0.92, tiers: 7, stairs: true, goldCap: true, sacred: true });
+        addStepped({ x: 0.38, y: 0.28, w: 0.72, d: 0.72, h: 0.78, tiers: 6, stairs: true, goldCap: true, sacred: true });
+        addStepped({ x: 0.86, y: -0.22, w: 0.44, d: 0.44, h: 0.48, tiers: 5, stairs: true, goldCap: true, sacred: true });
+        // 2. Twin Egyptian Pylon Gatehouse + Processional Avenue of 8 Obelisks!
+        addPrism({ x: -0.18, y: -0.68, z0: 0, w: 0.22, d: 0.12, h: 0.42, tiltX: 0.03, windows: 2, sacred: true });
+        addPrism({ x: 0.18, y: -0.68, z0: 0, w: 0.22, d: 0.12, h: 0.42, tiltX: -0.03, windows: 2, sacred: true });
+        for (let o = 0; o < 4; o++) {
+          const oy = -0.85 - o * 0.22;
+          addPrism({ x: -0.16, y: oy, z0: 0, w: 0.055, d: 0.055, h: 0.44, windows: 2, roof: 'spire', roofH: 0.12, sacred: true, lod: 1 });
+          addPrism({ x: 0.16, y: oy, z0: 0, w: 0.055, d: 0.055, h: 0.44, windows: 2, roof: 'spire', roofH: 0.12, sacred: true, lod: 1 });
+        }
+        addUrbanDistricts(0.85, 1.72, 38, 'hermetic');
+
+      } else if (style === 'elder') {
+        // Antarctica Mountains of Madness: 7 True 5-Pointed Star Skyscrapers + Mid-Air Sky-Bridges!
+        items.push({ kind: 'star_tower', x: 0, y: 0, z0: 0, r: 0.30, h: 1.65, tiers: 7 });
+        const ringTowers = [];
+        for (let i = 0; i < 5; i++) {
+          const a = (i / 5) * Math.PI * 2 - Math.PI * 0.5;
+          const tx = Math.cos(a) * 0.88, ty = Math.sin(a) * 0.88;
+          ringTowers.push({ x: tx, y: ty });
+          items.push({ kind: 'star_tower', x: tx, y: ty, z0: 0, r: 0.21, h: 1.18, tiers: 5 });
+          // High-altitude suspended stone sky-bridges connecting star towers to central spire & ring!
+          addArch({ x1: 0, y1: 0, x2: tx, y2: ty, zBase: 0.72, h: 0.08, arches: 3, lod: 1 });
+        }
+        for (let i = 0; i < 5; i++) {
+          const n = ringTowers[(i + 1) % 5];
+          addArch({ x1: ringTowers[i].x, y1: ringTowers[i].y, x2: n.x, y2: n.y, zBase: 0.48, h: 0.07, arches: 4, lod: 1 });
+        }
+        addUrbanDistricts(0.52, 1.68, 36, 'abyss');
+
+      } else if (style === 'pagoda') {
+        // Penglai: 7-Story Sweeping Upturned-Eave Pagoda + 4 Corner Pavilions + Jade Bridges!
+        addStepped({ x: 0, y: 0, w: 0.72, d: 0.72, h: 0.22, tiers: 2, stairs: true, sacred: true });
+        items.push({ kind: 'pagoda', x: 0, y: 0, z0: 0.22, w: 0.44, stories: 7, storyH: 0.19, sacred: true });
+        for (let k = 0; k < 4; k++) {
+          const a = (k / 4) * Math.PI * 2 + Math.PI * 0.25;
+          items.push({ kind: 'pagoda', x: Math.cos(a) * 0.86, y: Math.sin(a) * 0.86, z0: 0, w: 0.28, stories: 3, storyH: 0.17, sacred: true });
+        }
+        addArch({ x1: 0, y1: -0.42, x2: 0, y2: -1.25, h: 0.22, arches: 4, sacred: true, lod: 1 });
+        addBastionRing(1.72, 8, 0.18, true);
+        addUrbanDistricts(0.58, 1.56, 44, 'hermetic');
+
+      } else if (style === 'tenochtitlan') {
+        // 7-Tier Stepped Templo Mayor + Twin Summit Sanctums + Circular Quetzalcoatl Observatory
+        addStepped({ x: 0, y: 0.1, w: 0.96, d: 0.88, h: 0.96, tiers: 7, stairs: true, twinStairs: true, sacred: true });
+        addPrism({ x: -0.14, y: 0.12, z0: 0.96, w: 0.18, d: 0.18, h: 0.26, portal: true, roof: 'gable', roofH: 0.12, sacred: true });
+        addPrism({ x: 0.14, y: 0.12, z0: 0.96, w: 0.18, d: 0.18, h: 0.26, portal: true, roof: 'gable', roofH: 0.12, sacred: false });
+        addDome({ x: 0, y: -0.68, z0: 0, r: 0.22, drumH: 0.24, domeH: 0.16, sacred: true });
+        for (const sx of [-0.85, 0.85]) {
+          addStepped({ x: sx, y: -0.15, w: 0.46, d: 0.46, h: 0.48, tiers: 4, stairs: true, sacred: true });
+        }
+        addUrbanDistricts(0.65, 1.65, 40, 'hermetic');
+
+      } else if (style === 'atlantis') {
+        // Triple Concentric Orichalcum Ring Walls + Central Poseidon-Hermes Colonnade Crystal Spire
+        addStepped({ x: 0, y: 0, w: 0.68, d: 0.68, h: 0.26, tiers: 3, stairs: true, sacred: true });
+        addDome({ x: 0, y: 0, z0: 0.26, r: 0.24, drumH: 0.34, domeH: 0.28, sacred: true });
+        items.push({ kind: 'octahedron', x: 0, y: 0, z0: 1.25, r: 0.18, forceGold: false });
+        addBastionRing(0.82, 10, 0.16, true);
+        addBastionRing(1.32, 12, 0.18, true);
+        addBastionRing(1.78, 16, 0.20, false);
+        addArch({ x1: 0, y1: -0.45, x2: 0, y2: -1.82, h: 0.26, arches: 6, sacred: true, lod: 1 });
+        items.push({ kind: 'tentacle_coil', x: 0.82, y: -0.4, r: 0.14, h: 0.72, phase: 0.8 });
+        items.push({ kind: 'tentacle_coil', x: -0.82, y: 0.3, r: 0.14, h: 0.72, phase: 2.4 });
+
+      } else if (style === 'leng') {
+        // Giant Vertical Double-Ring Saturnian Portal + Windowless Cyclopean Monastery!
+        addStepped({ x: 0, y: 0, w: 0.92, d: 0.56, h: 0.24, tiers: 3, stairs: true, sacred: false });
+        items.push({ kind: 'ring_gate', x: 0, y: 0.05, z0: 0.24, r: 0.68 });
+        for (const sx of [-0.82, 0.82]) {
+          addPrism({ x: sx, y: 0.18, z0: 0, w: 0.38, d: 0.44, h: 0.68, tiltX: -sx * 0.08, windows: 1, portal: true });
+        }
+        addUrbanDistricts(0.68, 1.65, 32, 'abyss');
+
+      } else {
+        // Arkham & Innsmouth / Hyperborea: Steep Belfries, Gambrel Rowhouses, Piers & Reef Coral-Spires
+        addPrism({ x: 0, y: 0.1, z0: 0, w: 0.36, d: 0.52, h: 0.52, windows: 3, portal: true, roseWindow: true, roof: 'gable', roofH: 0.22 });
+        addPrism({ x: 0, y: -0.18, z0: 0, w: 0.16, d: 0.16, h: 1.08, windows: 5, clockFace: style === 'arkham', roof: 'spire', roofH: 0.48 });
+        addDome({ x: -0.58, y: 0.15, z0: 0, r: 0.20, drumH: 0.26, domeH: 0.22, sacred: style === 'arkham' });
+        for (let s = 0; s < 7; s++) {
+          const a = (s / 7) * Math.PI * 2 + 0.4;
+          const r = 0.92 + (s % 2) * 0.32;
+          const bx = Math.cos(a) * r, by = Math.sin(a) * r;
+          addPrism({ x: bx, y: by, z0: 0, w: 0.16, d: 0.16, h: 0.72 + (s % 3) * 0.26, sides: 6, tiltX: 0.11, windows: 4, roof: 'spire', roofH: 0.38 });
+          if (s % 3 === 0) items.push({ kind: 'tentacle_coil', x: bx, y: by, r: 0.12, h: 0.95, phase: s });
+        }
+        addUrbanDistricts(0.48, 1.65, 44, 'gothic');
+      }
+
+      return items;
+    }
+
+    CITIES.forEach(c => { c.structures = generateDetailedCity(c.style); });
+
+    // 70 Secondary Continental Towns for Planetary Overview
+    const MINOR_TOWNS = [
+      [41.9,12.5,'h'],[37.9,23.7,'h'],[48.8,2.3,'h'],[40.4,-3.7,'h'],[41.0,28.9,'h'],[52.5,13.4,'h'],
+      [59.9,30.3,'x'],[55.7,37.6,'x'],[33.3,44.4,'h'],[35.7,51.4,'h'],[31.7,35.2,'h'],[39.6,66.9,'h'],
+      [28.6,77.2,'h'],[19.0,72.8,'h'],[13.7,100.5,'h'],[39.9,116.4,'h'],[34.3,108.9,'h'],[31.2,121.5,'h'],
+      [23.1,113.2,'h'],[37.5,127.0,'h'],[35.0,135.7,'h'],[-6.2,106.8,'a'],[14.6,121.0,'a'],
+      [15.6,32.5,'h'],[9.0,38.7,'h'],[16.7,-3.0,'h'],[6.5,3.4,'x'],[-1.3,36.8,'h'],[-33.9,18.4,'x'],
+      [40.7,-74.0,'x'],[38.9,-77.0,'h'],[41.8,-87.6,'h'],[29.9,-90.0,'a'],[37.7,-122.4,'x'],
+      [4.7,-74.0,'h'],[-12.0,-77.0,'x'],[-13.5,-71.9,'h'],[-22.9,-43.1,'h'],[-34.6,-58.4,'h'],
+      [-33.8,151.2,'h'],[-37.8,144.9,'h'],[-41.3,174.7,'a'],[-17.5,-149.5,'a'],[-27.1,-109.3,'a'],
+      [21.3,-157.8,'a'],[-38.0,-135.0,'a'],[-52.0,-118.0,'a'],[64.1,-21.9,'a'],[-68.0,95.0,'a']
+    ];
+
+    // =========================================================================
+    // 3. STATE & SEAMLESS ORBITAL-TO-ARCHITECTURAL CAMERA
+    // =========================================================================
+    const TILT_OFFSET = 0.88; // ~50.4 deg oblique architectural bird's-eye angle!
+    const SIN_TILT = Math.sin(TILT_OFFSET); // 0.7707
+
+    const state = {
+      seal: 0.85,
+      abyss: 0.82,
+      outer: 0.85,
+      showCities: true,
+      showRings: true,
+      showGods: true,
+      autoRotate: true,
+      uiHidden: false,
+      // Start right in dramatic 5.2x Architectural Skyline View on R'lyeh!
+      rotY: -(-126.72 * Math.PI) / 180,
+      rotX: (-47.15 * Math.PI) / 180 - TILT_OFFSET,
+      baseFocusRotY: -(-126.72 * Math.PI) / 180,
+      targetRotY: null,
+      targetRotX: null,
+      velY: 0,
+      velX: 0,
+      zoom: 5.2,
+      targetZoom: 5.2,
+      dragging: false,
+      userDraggedAtHighZoom: false,
+      lastX: 0,
+      lastY: 0,
+      mouseX: window.innerWidth * 0.5,
+      mouseY: window.innerHeight * 0.5,
+      selectedId: 'rlyeh',
+      hoveredId: null,
+      time: 0
+    };
+
+    const cBack = document.getElementById('canvas-back');
+    const cWebgl = document.getElementById('canvas-webgl');
+    const cFront = document.getElementById('canvas-front');
+    const ctxBack = cBack.getContext('2d');
+    const ctxFront = cFront.getContext('2d');
+    const gl = cWebgl.getContext('webgl', { alpha: true, antialias: true, premultipliedAlpha: false });
+
+    let W = window.innerWidth, H = window.innerHeight;
+    let DPR = Math.min(window.devicePixelRatio || 1, 2);
+
+    function resize() {
+      W = window.innerWidth; H = window.innerHeight;
+      DPR = Math.min(window.devicePixelRatio || 1, 2);
+      [cBack, cWebgl, cFront].forEach(c => {
+        c.width = Math.floor(W * DPR);
+        c.height = Math.floor(H * DPR);
+      });
+      if (gl) gl.viewport(0, 0, cWebgl.width, cWebgl.height);
+    }
+    window.addEventListener('resize', resize);
+    resize();
+
+    function smoothstepJS(e0, e1, x) {
+      const t = Math.max(0, Math.min(1, (x - e0) / (e1 - e0)));
+      return t * t * (3 - 2 * t);
+    }
+
+    function getGlobeGeometry() {
+      const cx = W * 0.5;
+      const baseR = Math.min(W, H) * 0.375;
+      const radius = baseR * state.zoom;
+      // Seamless vertical pan: at zoom <= 1.35, globe is centered at H*0.53;
+      // as zoom -> 4.0+, focal surface point (0, +SIN_TILT * radius) smoothly settles at H * 0.68,
+      // keeping Earth's curved horizon visible across the upper sky behind the 3D city spires!
+      const pan = smoothstepJS(1.3, 3.6, state.zoom);
+      const cyPlanet = H * 0.53;
+      const cyMicro = H * 0.68 + SIN_TILT * radius;
+      const cy = cyPlanet * (1 - pan) + cyMicro * pan;
+      return { cx, cy, radius, pan };
+    }
+
+    // =========================================================================
+    // 4. 3D MATH & OBJECT-SPACE TANGENT FRAMES
+    // =========================================================================
+    function latLonToVec3(latDeg, lonDeg) {
+      const lat = (latDeg * Math.PI) / 180;
+      const lon = (lonDeg * Math.PI) / 180;
+      const cl = Math.cos(lat);
+      return [cl * Math.sin(lon), Math.sin(lat), cl * Math.cos(lon)];
+    }
+
+    function rotateToCamera(v, rotY, rotX) {
+      const cy = Math.cos(rotY), sy = Math.sin(rotY);
+      const x1 = v[0] * cy + v[2] * sy;
+      const y1 = v[1];
+      const z1 = -v[0] * sy + v[2] * cy;
+      const cx = Math.cos(rotX), sx = Math.sin(rotX);
+      return [x1, y1 * cx - z1 * sx, y1 * sx + z1 * cx];
+    }
+
+    function normalize3(v) {
+      const l = Math.hypot(v[0], v[1], v[2]) || 1;
+      return [v[0] / l, v[1] / l, v[2] / l];
+    }
+
+    function cross3(a, b) {
+      return [
+        a[1] * b[2] - a[2] * b[1],
+        a[2] * b[0] - a[0] * b[2],
+        a[0] * b[1] - a[1] * b[0]
+      ];
+    }
+
+    function dot3(a, b) {
+      return a[0] * b[0] + a[1] * b[1] + a[2] * b[2];
+    }
+
+    function lerp2(a, b, t) {
+      return { x: a.x + (b.x - a.x) * t, y: a.y + (b.y - a.y) * t };
+    }
+
+    function bilerpQuad(b0, b1, t1, t0, u, v) {
+      const bot = lerp2(b0, b1, u);
+      const top = lerp2(t0, t1, u);
+      return lerp2(bot, top, v);
+    }
+
+    // =========================================================================
+    // 5. WEBGL1 PLANET SHADER (Continents + Normal Relief + Urban Grids + Eyes)
+    // =========================================================================
+    let glProg = null;
+    let glUni = {};
+
+    const VERT_SRC = `
+      attribute vec2 a_pos;
+      void main() { gl_Position = vec4(a_pos, 0.0, 1.0); }
+    `;
+
+    const FRAG_SRC = `
+      precision highp float;
+      uniform vec2 u_res;
+      uniform vec2 u_center;
+      uniform float u_radius;
+      uniform float u_rotY;
+      uniform float u_rotX;
+      uniform float u_time;
+      uniform float u_seal;
+      uniform float u_abyss;
+      uniform float u_outer;
+
+      float hash(vec3 p) {
+        p = fract(p * 0.3183099 + vec3(0.11, 0.23, 0.37));
+        p *= 17.0;
+        return fract(p.x * p.y * p.z * (p.x + p.y + p.z));
+      }
+      float noise(vec3 x) {
+        vec3 i = floor(x);
+        vec3 f = fract(x);
+        f = f * f * (3.0 - 2.0 * f);
+        return mix(
+          mix(mix(hash(i + vec3(0.0,0.0,0.0)), hash(i + vec3(1.0,0.0,0.0)), f.x),
+              mix(hash(i + vec3(0.0,1.0,0.0)), hash(i + vec3(1.0,1.0,0.0)), f.x), f.y),
+          mix(mix(hash(i + vec3(0.0,0.0,1.0)), hash(i + vec3(1.0,0.0,1.0)), f.x),
+              mix(hash(i + vec3(0.0,1.0,1.0)), hash(i + vec3(1.0,1.0,1.0)), f.x), f.y),
+          f.z
+        );
+      }
+      float fbm(vec3 p) {
+        float v = 0.0; float a = 0.5;
+        for (int i = 0; i < 6; i++) {
+          v += a * noise(p);
+          p = p * 2.07 + vec3(11.3, 7.1, 5.9);
+          a *= 0.5;
+        }
+        return v;
+      }
+      float ridged(vec3 p) {
+        float v = 0.0; float a = 0.5;
+        for (int i = 0; i < 5; i++) {
+          float n = 1.0 - abs(noise(p) * 2.0 - 1.0);
+          v += a * n * n;
+          p = p * 2.15 + vec3(3.7, 9.2, 4.1);
+          a *= 0.5;
+        }
+        return v;
+      }
+      vec3 camToObj(vec3 p, float ry, float rx) {
+        float cx = cos(-rx), sx = sin(-rx);
+        vec3 p1 = vec3(p.x, p.y * cx - p.z * sx, p.y * sx + p.z * cx);
+        float cy = cos(-ry), sy = sin(-ry);
+        return vec3(p1.x * cy + p1.z * sy, p1.y, -p1.x * sy + p1.z * cy);
+      }
+      float blob(vec3 p, float latDeg, float lonDeg, float rad, float weight) {
+        float lat = latDeg * 0.01745329;
+        float lon = lonDeg * 0.01745329;
+        vec3 c = vec3(cos(lat) * sin(lon), sin(lat), cos(lat) * cos(lon));
+        float d = length(p - c);
+        return weight * exp(-(d * d) / (rad * rad));
+      }
+      float continentField(vec3 p) {
+        float m = 0.0;
+        m += blob(p, 50.0, 22.0, 0.36, 0.52) + blob(p, 54.0, 75.0, 0.48, 0.62);
+        m += blob(p, 35.0, 108.0, 0.40, 0.58) + blob(p, 22.0, 78.0, 0.24, 0.42);
+        m += blob(p, 18.0, 18.0, 0.38, 0.58) + blob(p, -12.0, 24.0, 0.30, 0.52) + blob(p, 24.0, 45.0, 0.22, 0.38);
+        m += blob(p, 46.0, -102.0, 0.42, 0.60) + blob(p, 22.0, -98.0, 0.20, 0.35);
+        m += blob(p, -14.0, -60.0, 0.36, 0.58) + blob(p, -38.0, -66.0, 0.22, 0.42);
+        m += blob(p, -25.0, 134.0, 0.26, 0.54) + blob(p, 73.0, -40.0, 0.22, 0.52);
+        m += smoothstep(-0.70, -0.88, p.y) * 0.68;
+        // R'lyeh acropolis island & Atlantis ridge
+        m += blob(p, -47.15, -126.72, 0.14, 0.34 + 0.14 * u_abyss);
+        m += blob(p, 28.5, -42.5, 0.13, 0.28);
+        m -= blob(p, 36.0, 18.0, 0.16, 0.36);
+        vec3 warp = vec3(fbm(p * 3.2), fbm(p * 3.2 + 5.1), fbm(p * 3.2 + 9.7));
+        return m * 0.62 + fbm(p * 5.8 + (warp - 0.5) * 1.15) * 0.48 + ridged(p * 16.0 + warp * 0.8) * 0.15;
+      }
+
+      void main() {
+        vec2 fragPx = vec2(gl_FragCoord.x, u_res.y - gl_FragCoord.y);
+        vec2 d = (fragPx - u_center) / u_radius;
+        float r2 = dot(d, d);
+
+        if (r2 > 1.0) {
+          float distPx = (sqrt(r2) - 1.0) * u_radius;
+          float innerGlow = exp(-distPx * 0.032);
+          float outerMist = exp(-distPx * 0.009) * 0.35;
+          vec3 goldAtm = vec3(0.95, 0.78, 0.35) * u_seal;
+          vec3 cthAtm = vec3(0.08, 0.92, 0.72) * u_abyss + vec3(0.55, 0.22, 0.92) * u_outer * 0.45;
+          vec3 col = mix(goldAtm, cthAtm, clamp(u_abyss * 0.68, 0.0, 1.0));
+          gl_FragColor = vec4(col, (innerGlow * 0.58 + outerMist * 0.4));
+          return;
+        }
+
+        float z = sqrt(max(0.0, 1.0 - r2));
+        vec3 N_cam = normalize(vec3(d.x, -d.y, z));
+        vec3 P = camToObj(N_cam, u_rotY, u_rotX);
+        float lat = asin(clamp(P.y, -1.0, 1.0));
+        float lon = atan(P.x, P.z);
+
+        float h0 = continentField(P);
+        float eps = 0.0055;
+        float hx = continentField(normalize(P + vec3(eps, 0.0, 0.0)));
+        float hy = continentField(normalize(P + vec3(0.0, eps, 0.0)));
+        vec3 N_bumped = normalize(N_cam - vec3(hx - h0, hy - h0, 0.0) / eps * 0.085);
+
+        float seaLevel = 0.495;
+        float landMask = smoothstep(seaLevel - 0.011, seaLevel + 0.015, h0);
+        float coastMask = smoothstep(0.05, 0.0, abs(h0 - seaLevel)) * landMask;
+
+        float shelf = smoothstep(0.26, seaLevel, h0);
+        vec3 oceanCol = mix(vec3(0.008, 0.022, 0.042), vec3(0.022, 0.11, 0.135), shelf);
+
+        float elev = clamp((h0 - seaLevel) / 0.36, 0.0, 1.0);
+        float mtn = ridged(P * 26.0);
+        vec3 lowland = vec3(0.05, 0.095, 0.08);
+        vec3 highland = mix(vec3(0.14, 0.15, 0.14), vec3(0.36, 0.29, 0.18), u_seal * 0.7);
+        vec3 landCol = mix(lowland, highland, smoothstep(0.18, 0.72, elev + mtn * 0.28));
+        landCol = mix(landCol, vec3(0.62, 0.68, 0.72), smoothstep(0.80, 0.98, elev + mtn * 0.22));
+
+        float polar = smoothstep(0.76, 0.92, abs(P.y) + (h0 - 0.5) * 0.14);
+        vec3 surface = mix(oceanCol, landCol, landMask);
+        surface = mix(surface, mix(vec3(0.32, 0.44, 0.50), vec3(0.36, 0.22, 0.52), u_abyss * 0.6), polar * 0.78);
+
+        vec3 lightDir = normalize(vec3(0.55, 0.52, 0.65));
+        float ndl = max(dot(N_bumped, lightDir), 0.0);
+        float nightMask = smoothstep(0.25, -0.22, dot(N_cam, lightDir));
+
+        vec3 col = surface * (0.24 + 0.92 * ndl);
+
+        // Fine Urban Street Grids on Surface
+        float hab = landMask * (1.0 - polar) * smoothstep(0.68, 0.15, elev);
+        float urbanMask = clamp(hab * (smoothstep(0.54, 0.75, fbm(P * 12.0)) * 1.2 + coastMask * 0.8), 0.0, 1.0);
+        float su = abs(fract(lon * 180.0) - 0.5);
+        float sv = abs(fract(lat * 180.0) - 0.5);
+        float sGrid = smoothstep(0.15, 0.025, min(su, sv));
+        vec3 cityCol = mix(vec3(1.0, 0.78, 0.34), vec3(0.18, 0.96, 0.76), smoothstep(0.45, 0.68, fbm(P * 4.0)) * u_abyss * 0.75);
+        col += cityCol * urbanMask * sGrid * (0.42 + 0.85 * nightMask) * 0.85;
+
+        // Abyssal Rifts & Sacred Leylines
+        float rift = pow(ridged(P * 9.5 + vec3(0.0, u_time * 0.03, 0.0)), 4.2) * (1.0 - landMask * 0.6);
+        col += mix(vec3(0.06, 0.95, 0.74), vec3(0.72, 0.22, 0.98), u_outer * 0.6) * rift * u_abyss;
+
+        float gLon = abs(fract(lon / (3.14159265 / 9.0) + 0.5) - 0.5);
+        float gLat = abs(fract(lat / (3.14159265 / 9.0) + 0.5) - 0.5);
+        float ley = smoothstep(0.015, 0.002, min(gLon, gLat));
+        col += vec3(0.95, 0.78, 0.36) * ley * 0.22 * u_seal;
+
+        float fres = pow(1.0 - max(N_cam.z, 0.0), 3.4);
+        col += mix(vec3(0.96, 0.78, 0.36) * u_seal, vec3(0.16, 0.95, 0.78) * u_abyss, clamp(u_abyss * 0.68, 0.0, 1.0)) * fres * 0.88;
+
+        float edgeAA = smoothstep(1.0, 1.0 - 1.8 / u_radius, sqrt(r2));
+        gl_FragColor = vec4(col, edgeAA);
+      }
+    `;
+
+    function initWebGL() {
+      if (!gl) return;
+      const compile = (type, src) => {
+        const s = gl.createShader(type);
+        gl.shaderSource(s, src);
+        gl.compileShader(s);
+        if (!gl.getShaderParameter(s, gl.COMPILE_STATUS)) { console.error(gl.getShaderInfoLog(s)); return null; }
+        return s;
+      };
+      const vs = compile(gl.VERTEX_SHADER, VERT_SRC);
+      const fs = compile(gl.FRAGMENT_SHADER, FRAG_SRC);
+      if (!vs || !fs) return;
+      glProg = gl.createProgram();
+      gl.attachShader(glProg, vs);
+      gl.attachShader(glProg, fs);
+      gl.linkProgram(glProg);
+      gl.useProgram(glProg);
+
+      const buf = gl.createBuffer();
+      gl.bindBuffer(gl.ARRAY_BUFFER, buf);
+      gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1,-1, 1,-1, -1,1, -1,1, 1,-1, 1,1]), gl.STATIC_DRAW);
+      const loc = gl.getAttribLocation(glProg, 'a_pos');
+      gl.enableVertexAttribArray(loc);
+      gl.vertexAttribPointer(loc, 2, gl.FLOAT, false, 0, 0);
+
+      ['u_res','u_center','u_radius','u_rotY','u_rotX','u_time','u_seal','u_abyss','u_outer'].forEach(k => {
+        glUni[k] = gl.getUniformLocation(glProg, k);
+      });
+    }
+    initWebGL();
+
+    // =========================================================================
+    // 6. OUTER GODS PANTHEON IN THE COSMIC SKY (Azathoth, Yog-Sothoth, Shub, Nyarlathotep)
+    // =========================================================================
+    const STARS = Array.from({ length: 300 }, () => ({
+      x: Math.random(), y: Math.random(),
+      r: 0.4 + Math.random() * 1.5,
+      ph: Math.random() * 6.28, sp: 0.5 + Math.random() * 1.8,
+      col: Math.random() < 0.26 ? '#ebd082' : (Math.random() < 0.24 ? '#2ef2c3' : '#dce8f2')
+    }));
+
+    const YOG_ORBS = [
+      { dx: 0, dy: 0, r: 30, eye: true }, { dx: -34, dy: -18, r: 21, eye: true },
+      { dx: 36, dy: -16, r: 20, eye: true }, { dx: -24, dy: 26, r: 18, eye: false },
+      { dx: 28, dy: 24, r: 22, eye: true }, { dx: -58, dy: 6, r: 14, eye: true },
+      { dx: 60, dy: 8, r: 14, eye: false }, { dx: 0, dy: -42, r: 16, eye: true }
+    ];
+
+    function drawEldritchEye(ctx, x, y, rx, ry, irisCol) {
+      ctx.save();
+      ctx.translate(x, y);
+      ctx.fillStyle = 'rgba(8, 4, 14, 0.94)';
+      ctx.strokeStyle = irisCol;
+      ctx.lineWidth = 1.3;
+      ctx.beginPath();
+      ctx.moveTo(-rx, 0);
+      ctx.quadraticCurveTo(0, -ry * 1.25, rx, 0);
+      ctx.quadraticCurveTo(0, ry * 1.25, -rx, 0);
+      ctx.closePath();
+      ctx.fill(); ctx.stroke();
+
+      const dx = state.mouseX - x, dy = state.mouseY - y;
+      const d = Math.hypot(dx, dy) || 1;
+      const gx = (dx / d) * Math.min(rx * 0.26, d * 0.02);
+      const gy = (dy / d) * Math.min(ry * 0.22, d * 0.02);
+
+      const grad = ctx.createRadialGradient(gx, gy, 1, gx, gy, ry * 0.85);
+      grad.addColorStop(0, '#fff3c4');
+      grad.addColorStop(0.4, irisCol);
+      grad.addColorStop(1, 'rgba(15, 5, 25, 0.9)');
+      ctx.fillStyle = grad;
+      ctx.beginPath(); ctx.arc(gx, gy, ry * 0.72, 0, Math.PI * 2); ctx.fill();
+
+      ctx.fillStyle = '#030106';
+      ctx.beginPath(); ctx.ellipse(gx, gy, Math.max(1.5, ry * 0.16), ry * 0.62, 0, 0, Math.PI * 2); ctx.fill();
+      ctx.restore();
+    }
+
+    function drawCosmicBackdrop(ctx, cx, cy, radius, pan, t) {
+      ctx.save();
+      ctx.scale(DPR, DPR);
+
+      const bg = ctx.createLinearGradient(0, 0, 0, H);
+      bg.addColorStop(0, '#02040a');
+      bg.addColorStop(0.45, '#050b14');
+      bg.addColorStop(1, '#020306');
+      ctx.fillStyle = bg;
+      ctx.fillRect(0, 0, W, H);
+
+      for (const s of STARS) {
+        ctx.globalAlpha = 0.22 + 0.68 * (0.5 + 0.5 * Math.sin(t * s.sp + s.ph));
+        ctx.fillStyle = s.col;
+        ctx.beginPath(); ctx.arc(s.x * W, s.y * H, s.r, 0, Math.PI * 2); ctx.fill();
+      }
+      ctx.globalAlpha = 1;
+
+      const og = state.outer;
+      if (state.showGods && og > 0.05) {
+        // Position Azathoth & Yog-Sothoth in the upper sky so they loom BOTH in cosmic view AND right over the curved horizon in city micro-view!
+        const skyLift = pan * H * 0.06;
+        const azX = W * 0.22, azY = H * 0.17 - skyLift * 0.3;
+        const ygX = W * 0.78, ygY = H * 0.17 - skyLift * 0.3;
+
+        // I. AZATHOTH (Blind Idiot Chaos Vortex)
+        ctx.save();
+        ctx.translate(azX, azY);
+        const azAura = ctx.createRadialGradient(0, 0, 6, 0, 0, 155 * og);
+        azAura.addColorStop(0, `rgba(244, 72, 104, ${0.42 * og})`);
+        azAura.addColorStop(0.5, `rgba(110, 24, 165, ${0.22 * og})`);
+        azAura.addColorStop(1, 'rgba(0,0,0,0)');
+        ctx.fillStyle = azAura;
+        ctx.beginPath(); ctx.arc(0, 0, 160, 0, Math.PI * 2); ctx.fill();
+        for (let k = 1; k <= 3; k++) {
+          ctx.save();
+          ctx.rotate(t * (k % 2 ? 0.35 : -0.45));
+          ctx.strokeStyle = `rgba(244, 100, 122, ${(0.46 - k * 0.09) * og})`;
+          ctx.beginPath();
+          for (let i = 0; i <= 32; i++) {
+            const a = (i / 32) * Math.PI * 2;
+            const jag = (i % 2 === 0 ? 1 : 0.78) * (20 + k * 20);
+            if (i === 0) ctx.moveTo(Math.cos(a) * jag, Math.sin(a) * jag);
+            else ctx.lineTo(Math.cos(a) * jag, Math.sin(a) * jag);
+          }
+          ctx.stroke();
+          ctx.restore();
+        }
+        ctx.fillStyle = '#020004';
+        ctx.beginPath(); ctx.arc(0, 0, 18 * og, 0, Math.PI * 2); ctx.fill();
+        ctx.restore();
+        for (let e = 0; e < 4; e++) {
+          const ea = t * 0.5 + (e / 4) * Math.PI * 2;
+          drawEldritchEye(ctx, azX + Math.cos(ea) * 44, azY + Math.sin(ea) * 44, 10 * og, 5.5 * og, '#f4647a');
+        }
+
+        // II. YOG-SOTHOTH (Iridescent Conjoined Orbs & Tracking Eyes)
+        const ygAura = ctx.createRadialGradient(ygX, ygY, 8, ygX, ygY, 155 * og);
+        ygAura.addColorStop(0, `rgba(197, 122, 255, ${0.38 * og})`);
+        ygAura.addColorStop(1, 'rgba(0,0,0,0)');
+        ctx.fillStyle = ygAura;
+        ctx.beginPath(); ctx.arc(ygX, ygY, 160, 0, Math.PI * 2); ctx.fill();
+        YOG_ORBS.forEach((o, idx) => {
+          const wx = ygX + o.dx + Math.sin(t * 1.4 + idx) * 3.5;
+          const wy = ygY + o.dy + Math.cos(t * 1.2 + idx) * 3.5;
+          const rr = o.r * (0.65 + 0.35 * og);
+          const g = ctx.createRadialGradient(wx - rr * 0.3, wy - rr * 0.3, 2, wx, wy, rr);
+          g.addColorStop(0, `rgba(255, 240, 195, ${0.85 * og})`);
+          g.addColorStop(0.5, `rgba(182, 104, 255, ${0.55 * og})`);
+          g.addColorStop(1, `rgba(20, 8, 38, ${0.82 * og})`);
+          ctx.fillStyle = g;
+          ctx.strokeStyle = `rgba(235, 208, 130, ${0.6 * og})`;
+          ctx.beginPath(); ctx.arc(wx, wy, rr, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
+          if (o.eye) drawEldritchEye(ctx, wx, wy, rr * 0.65, rr * 0.40, '#c57aff');
+        });
+
+        // III & IV. SHUB-NIGGURATH & NYARLATHOTEP (visible in cosmic/planet view)
+        if (pan < 0.85) {
+          const fade = 1 - pan;
+          ctx.save();
+          ctx.globalAlpha = fade;
+          const shX = W * 0.16, shY = H * 0.82;
+          drawEldritchEye(ctx, shX - 10, shY - 4, 8, 5, '#2ef2c3');
+          drawEldritchEye(ctx, shX + 10, shY - 4, 8, 5, '#2ef2c3');
+          drawEldritchEye(ctx, shX, shY + 10, 9, 5.5, '#ebd082');
+
+          const nyX = W * 0.84, nyY = H * 0.81;
+          ctx.fillStyle = 'rgba(8, 5, 12, 0.92)';
+          ctx.strokeStyle = `rgba(235, 190, 82, ${0.8 * og})`;
+          ctx.lineWidth = 1.8;
+          ctx.beginPath();
+          ctx.moveTo(nyX - 42, nyY - 28); ctx.lineTo(nyX + 42, nyY - 28); ctx.lineTo(nyX, nyY + 42);
+          ctx.closePath(); ctx.fill(); ctx.stroke();
+          drawEldritchEye(ctx, nyX, nyY - 4, 12, 7.5, '#ff6842');
+          ctx.restore();
+        }
+      }
+
+      // Grand Hermetic Celestial Astrolabe Halo in Sky
+      if (state.seal > 0.03) {
+        ctx.save();
+        ctx.translate(cx, cy);
+        const rVault = radius * 1.16;
+        const a = (0.16 + 0.28 * state.seal);
+        ctx.strokeStyle = `rgba(232, 196, 98, ${a})`;
+        ctx.lineWidth = 1.3;
+        ctx.beginPath(); ctx.arc(0, 0, rVault, 0, Math.PI * 2); ctx.stroke();
+        ctx.setLineDash([6, 8]);
+        ctx.beginPath(); ctx.arc(0, 0, rVault * 1.03, 0, Math.PI * 2); ctx.stroke();
+        ctx.setLineDash([]);
+        ctx.restore();
+      }
+
+      ctx.restore();
+    }
+
+    // =========================================================================
+    // 7. SUCKER-LINED TENTACLES & TRIPLE 3D ARMILLARY RINGS
+    // =========================================================================
+    const RINGS = [
+      { mult: 1.09, tiltX: 0.36, tiltZ: -0.22, speed: 0.09, width: 2.6, glyphs: ['☉','☽','☿','♀','♂','♃','♄','☤','🜂','🜁','🜄','🜃'] },
+      { mult: 1.18, tiltX: -0.52, tiltZ: 0.42, speed: -0.065, width: 1.9, glyphs: ['✡','🜍','🜔','🜓','⚶','❖','✦','⟁'] }
+    ];
+
+    function ringPoint3D(ang, r, ring, t) {
+      const a = ang + t * ring.speed;
+      let x = Math.cos(a) * r, y = 0, z = Math.sin(a) * r;
+      const cx1 = Math.cos(ring.tiltX), sx1 = Math.sin(ring.tiltX);
+      let y1 = y * cx1 - z * sx1, z1 = y * sx1 + z * cx1;
+      const cz1 = Math.cos(ring.tiltZ), sz1 = Math.sin(ring.tiltZ);
+      let x2 = x * cz1 - y1 * sz1, y2 = x * sz1 + y1 * cz1;
+      return rotateToCamera([x2, y2, z1], state.rotY * 0.25, state.rotX * 0.35);
+    }
+
+    function drawArmillaryHalf(ctx, cx, cy, radius, t, isFront) {
+      if (!state.showRings || state.seal < 0.03) return;
+      ctx.save();
+      ctx.scale(DPR, DPR);
+      const segs = 144;
+      for (const ring of RINGS) {
+        const rr = radius * ring.mult;
+        const pts = [];
+        for (let i = 0; i <= segs; i++) {
+          const p = ringPoint3D((i / segs) * Math.PI * 2, rr, ring, t);
+          pts.push({ x: cx + p[0], y: cy - p[1], z: p[2] });
+        }
+        for (let i = 0; i < segs; i++) {
+          const a = pts[i], b = pts[i + 1];
+          const mz = (a.z + b.z) * 0.5;
+          if (isFront ? mz < 0 : mz >= 0) continue;
+          if ((a.x < -80 && b.x < -80) || (a.x > W + 80 && b.x > W + 80) || (a.y < -80 && b.y < -80) || (a.y > H + 80 && b.y > H + 80)) continue;
+          const depth = (mz / rr + 1) * 0.5;
+          const alpha = (0.18 + 0.72 * depth) * state.seal;
+          ctx.strokeStyle = `rgba(238, 204, 110, ${alpha})`;
+          ctx.lineWidth = ring.width * (0.7 + 0.45 * depth);
+          ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y); ctx.stroke();
+        }
+        ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+        ring.glyphs.forEach((g, idx) => {
+          const p = ringPoint3D((idx / ring.glyphs.length) * Math.PI * 2, rr, ring, t);
+          if (isFront ? p[2] < 0 : p[2] >= 0) return;
+          const px = cx + p[0], py = cy - p[1];
+          if (px < -40 || px > W + 40 || py < -40 || py > H + 40) return;
+          const depth = (p[2] / rr + 1) * 0.5;
+          const alpha = (0.3 + 0.7 * depth) * state.seal;
+          ctx.fillStyle = `rgba(8, 12, 18, ${0.9 * alpha})`;
+          ctx.strokeStyle = `rgba(242, 208, 112, ${alpha})`;
+          ctx.lineWidth = 1.2;
+          ctx.beginPath(); ctx.arc(px, py, 10, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
+          ctx.fillStyle = `rgba(255, 236, 172, ${alpha})`;
+          ctx.font = '12px Georgia, serif';
+          ctx.fillText(g, px, py + 0.5);
+        });
+      }
+      ctx.restore();
+    }
+
+    const HORIZON_TENTACLES = Array.from({ length: 14 }, (_, i) => ({
+      ang: (i / 14) * Math.PI * 2 + 0.14,
+      len: 0.16 + (i % 4) * 0.06,
+      sp: 1.3 + (i % 3) * 0.35,
+      ph: i * 1.9,
+      pal: i % 2 === 0 ? ['#062c28', '#2ef2c3', '#9cfce4'] : ['#1a082c', '#b468ff', '#e8c4ff']
+    }));
+
+    function drawHorizonTentacles(ctx, cx, cy, radius, t) {
+      if (!state.showGods || state.abyss < 0.08) return;
+      ctx.save();
+      ctx.scale(DPR, DPR);
+      const pw = state.abyss;
+      for (const tc of HORIZON_TENTACLES) {
+        const rootA = tc.ang + state.rotY * 0.15;
+        const bx = cx + Math.cos(rootA) * radius * 0.985;
+        const by = cy + Math.sin(rootA) * radius * 0.985;
+        if (bx < -220 || bx > W + 220 || by < -220 || by > H + 220) continue;
+
+        const reach = Math.min(260, radius * tc.len * (0.4 + 0.85 * pw));
+        const baseThick = Math.min(22, Math.max(7, radius * 0.016)) * (0.55 + 0.55 * pw);
+        const segs = 18;
+        const spine = [];
+        for (let s = 0; s <= segs; s++) {
+          const u = s / segs;
+          const r = radius * 0.985 + reach * u;
+          const wv = Math.sin(u * 5.6 - t * tc.sp + tc.ph) * (reach * 0.22 * u);
+          const x = cx + Math.cos(rootA) * r - Math.sin(rootA) * wv;
+          const y = cy + Math.sin(rootA) * r + Math.cos(rootA) * wv;
+          spine.push({ x, y, w: baseThick * (1 - u * 0.88) });
+        }
+        const left = [], right = [], suckers = [];
+        for (let s = 0; s <= segs; s++) {
+          const p = spine[s];
+          const pn = spine[Math.min(segs, s + 1)], pp = spine[Math.max(0, s - 1)];
+          const dx = pn.x - pp.x, dy = pn.y - pp.y, l = Math.hypot(dx, dy) || 1;
+          const nx = -dy / l, ny = dx / l;
+          left.push({ x: p.x + nx * p.w, y: p.y + ny * p.w });
+          right.push({ x: p.x - nx * p.w, y: p.y - ny * p.w });
+          if (s > 2 && s < segs - 2 && s % 2 === 0) {
+            suckers.push({ x: p.x + nx * p.w * 0.92, y: p.y + ny * p.w * 0.92, r: Math.max(1.5, p.w * 0.42) });
+          }
+        }
+        ctx.fillStyle = tc.pal[0]; ctx.strokeStyle = tc.pal[1]; ctx.lineWidth = 1.3;
+        ctx.beginPath();
+        ctx.moveTo(left[0].x, left[0].y);
+        for (let s = 1; s <= segs; s++) ctx.lineTo(left[s].x, left[s].y);
+        for (let s = segs; s >= 0; s--) ctx.lineTo(right[s].x, right[s].y);
+        ctx.closePath(); ctx.fill(); ctx.stroke();
+
+        ctx.fillStyle = tc.pal[2]; ctx.strokeStyle = tc.pal[0]; ctx.lineWidth = 0.8;
+        for (const sk of suckers) {
+          ctx.beginPath(); ctx.arc(sk.x, sk.y, sk.r, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
+        }
+      }
+      ctx.restore();
+    }
+
+    // =========================================================================
+    // 8. ULTRA-FINE 3D ARCHITECTURAL RENDERING ENGINE!
+    // =========================================================================
+    let clickablePins = [];
+    const SUN_CAM = normalize3([0.55, 0.52, 0.65]);
+
+    function shadeRGB(rgb, k, alpha = 1) {
+      return `rgba(${Math.min(255, Math.round(rgb[0] * k))}, ${Math.min(255, Math.round(rgb[1] * k))}, ${Math.min(255, Math.round(rgb[2] * k))}, ${alpha})`;
+    }
+
+    // Backface-culled 2D screen cross product (< 0 is front-facing for CCW 3D quads!)
+    function isFrontQuad(p0, p1, p2) {
+      return ((p1.x - p0.x) * (p2.y - p0.y) - (p1.y - p0.y) * (p2.x - p0.x)) < 0;
+    }
+
+    function fillPoly(ctx, pts, fill, stroke, lw = 0.85) {
+      ctx.fillStyle = fill;
+      ctx.beginPath();
+      ctx.moveTo(pts[0].x, pts[0].y);
+      for (let i = 1; i < pts.length; i++) ctx.lineTo(pts[i].x, pts[i].y);
+      ctx.closePath();
+      ctx.fill();
+      if (stroke) {
+        ctx.strokeStyle = stroke;
+        ctx.lineWidth = lw;
+        ctx.stroke();
+      }
+    }
+
+    // Draw an architectural wall face with cornice moldings, arched window arcades, grand portal & rose window!
+    function drawArchitecturalWall(ctx, b0, b1, t1, t0, shade, stoneRGB, trimRGB, windowRGB, vis, opts) {
+      if (!isFrontQuad(b0, b1, t1)) return;
+      const wallW = Math.hypot(b1.x - b0.x, b1.y - b0.y);
+      const wallH = Math.hypot(t0.x - b0.x, t0.y - b0.y);
+
+      fillPoly(ctx, [b0, b1, t1, t0], shadeRGB(stoneRGB, shade, 0.96 * vis), shadeRGB(trimRGB, 0.85, 0.68 * vis), 0.85);
+
+      // Only draw rich facade micro-details when wall is >= 9px on screen!
+      if (wallW < 8 || wallH < 8) return;
+
+      const floors = opts.windows || 0;
+      // 1. Horizontal Stone Cornice Moldings between stories
+      if (floors >= 2 && wallH >= 16) {
+        ctx.strokeStyle = shadeRGB(trimRGB, 0.95, 0.45 * vis);
+        ctx.lineWidth = 0.7;
+        for (let f = 1; f <= floors; f++) {
+          const v = f / (floors + 0.4);
+          const pL = lerp2(b0, t0, v), pR = lerp2(b1, t1, v);
+          ctx.beginPath(); ctx.moveTo(pL.x, pL.y); ctx.lineTo(pR.x, pR.y); ctx.stroke();
+        }
+      }
+
+      // 2. Multi-Story Illuminated Window Arcades (UV-mapped onto the 3D wall!)
+      if (floors >= 1 && wallW >= 10 && wallH >= 12) {
+        const cols = Math.max(1, Math.min(6, Math.round(wallW / 11)));
+        ctx.fillStyle = shadeRGB(windowRGB, 1.15, 0.88 * vis);
+        for (let f = 0; f < floors; f++) {
+          // Leave ground center open if grand portal is drawn
+          const vBot = (f + 0.25) / (floors + 0.35);
+          const vTop = (f + 0.75) / (floors + 0.35);
+          for (let c = 0; c < cols; c++) {
+            if (f === 0 && opts.portal && Math.abs((c + 0.5) / cols - 0.5) < 0.22) continue;
+            const uL = (c + 0.28) / cols;
+            const uR = (c + 0.72) / cols;
+            const w0 = bilerpQuad(b0, b1, t1, t0, uL, vBot);
+            const w1 = bilerpQuad(b0, b1, t1, t0, uR, vBot);
+            const w2 = bilerpQuad(b0, b1, t1, t0, uR, vTop);
+            const w3 = bilerpQuad(b0, b1, t1, t0, uL, vTop);
+            ctx.beginPath();
+            ctx.moveTo(w0.x, w0.y); ctx.lineTo(w1.x, w1.y); ctx.lineTo(w2.x, w2.y); ctx.lineTo(w3.x, w3.y);
+            ctx.closePath(); ctx.fill();
+          }
+        }
+      }
+
+      // 3. Grand Arched Entrance Portal at Ground Level
+      if (opts.portal && wallW >= 16 && wallH >= 18) {
+        const p0 = bilerpQuad(b0, b1, t1, t0, 0.38, 0);
+        const p1 = bilerpQuad(b0, b1, t1, t0, 0.62, 0);
+        const p2 = bilerpQuad(b0, b1, t1, t0, 0.62, 0.26);
+        const p3 = bilerpQuad(b0, b1, t1, t0, 0.38, 0.26);
+        const archPeak = bilerpQuad(b0, b1, t1, t0, 0.50, 0.34);
+        ctx.fillStyle = `rgba(6, 8, 12, ${0.95 * vis})`;
+        ctx.strokeStyle = shadeRGB(trimRGB, 1.2, 0.92 * vis);
+        ctx.lineWidth = 1.1;
+        ctx.beginPath();
+        ctx.moveTo(p0.x, p0.y); ctx.lineTo(p1.x, p1.y); ctx.lineTo(p2.x, p2.y);
+        ctx.quadraticCurveTo(archPeak.x, archPeak.y, p3.x, p3.y);
+        ctx.closePath(); ctx.fill(); ctx.stroke();
+      }
+
+      // 4. Gothic Sacred Geometry Rose Window / Astronomical Clock Dial!
+      if ((opts.roseWindow || opts.clockFace) && wallW >= 18 && wallH >= 24) {
+        const rc = bilerpQuad(b0, b1, t1, t0, 0.5, opts.clockFace ? 0.78 : 0.62);
+        const rr = Math.min(wallW, wallH) * (opts.clockFace ? 0.24 : 0.20);
+        ctx.fillStyle = opts.clockFace ? `rgba(14, 18, 26, ${0.95 * vis})` : `rgba(185, 92, 255, ${0.45 * vis})`;
+        ctx.strokeStyle = shadeRGB([250, 218, 120], 1.1, 0.95 * vis);
+        ctx.lineWidth = 1.2;
+        ctx.beginPath(); ctx.arc(rc.x, rc.y, rr, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
+        for (let sp = 0; sp < 8; sp++) {
+          const sa = (sp / 8) * Math.PI * 2;
+          ctx.beginPath();
+          ctx.moveTo(rc.x, rc.y);
+          ctx.lineTo(rc.x + Math.cos(sa) * rr, rc.y + Math.sin(sa) * rr);
+          ctx.stroke();
+        }
+      }
+    }
+
+    function draw3DCitiesAndEntities(ctx, cx, cy, radius, t) {
+      clickablePins = [];
+      ctx.save();
+      ctx.scale(DPR, DPR);
+
+      const archUnit = radius * 0.052;
+      const highLOD = state.zoom >= 1.95;
+
+      // 1. Secondary Continental Towns (fast 3D silhouettes when looking at wide planet)
+      if (state.showCities && state.zoom < 4.2) {
+        const mUnit = archUnit * 0.42;
+        for (const [lat, lon, tp] of MINOR_TOWNS) {
+          const upObj = latLonToVec3(lat, lon);
+          const upCam = rotateToCamera(upObj, state.rotY, state.rotX);
+          if (upCam[2] < -0.05) continue;
+          const sx = cx + upCam[0] * radius, sy = cy - upCam[1] * radius;
+          if (sx < -30 || sx > W + 30 || sy < -30 || sy > H + 30) continue;
+          const col = tp === 'h' ? '#ebd082' : (tp === 'a' ? '#2ef2c3' : '#c57aff');
+          ctx.fillStyle = 'rgba(20, 24, 30, 0.9)';
+          ctx.strokeStyle = col;
+          ctx.lineWidth = 0.8;
+          const th = mUnit * 0.85, tw = Math.max(2.5, mUnit * 0.25);
+          ctx.beginPath();
+          ctx.rect(sx - tw * 0.5, sy - th, tw, th);
+          ctx.fill(); ctx.stroke();
+        }
+      }
+
+      // 2. Sort & Render the 12 Major Architectural Megacities!
+      const sortedCities = CITIES.map(c => {
+        const upObj = latLonToVec3(c.lat, c.lon);
+        const upCam = rotateToCamera(upObj, state.rotY, state.rotX);
+        return { c, upObj, upCam };
+      }).sort((a, b) => a.upCam[2] - b.upCam[2]);
+
+      for (const { c, upObj, upCam } of sortedCities) {
+        if (upCam[2] < -0.22) continue;
+        const baseX = cx + upCam[0] * radius;
+        const baseY = cy - upCam[1] * radius;
+
+        // Viewport frustum cull with generous margin for tall spires!
+        const citySpanPx = archUnit * 2.6;
+        if (baseX < -citySpanPx || baseX > W + citySpanPx || baseY < -citySpanPx || baseY > H + citySpanPx * 1.4) {
+          continue;
+        }
+
+        const vis = Math.min(1, Math.max(0, (upCam[2] + 0.22) / 0.28));
+        const isSel = state.selectedId === c.id;
+        const isHov = state.hoveredId === c.id;
+
+        // Object-space orthonormal tangent frame -> rotated cleanly into camera space (zero polar singularity!)
+        let eastObj = cross3([0, 1, 0], upObj);
+        if (Math.hypot(...eastObj) < 0.001) eastObj = [1, 0, 0];
+        eastObj = normalize3(eastObj);
+        const northObj = normalize3(cross3(upObj, eastObj));
+
+        const eastCam = rotateToCamera(eastObj, state.rotY, state.rotX);
+        const northCam = rotateToCamera(northObj, state.rotY, state.rotX);
+
+        const proj = (lx, ly, lz) => {
+          const vx = upCam[0] * radius + (eastCam[0] * lx + northCam[0] * ly + upCam[0] * lz) * archUnit;
+          const vy = upCam[1] * radius + (eastCam[1] * lx + northCam[1] * ly + upCam[1] * lz) * archUnit;
+          const vz = upCam[2] * radius + (eastCam[2] * lx + northCam[2] * ly + upCam[2] * lz) * archUnit;
+          return { x: cx + vx, y: cy - vy, z: vz };
+        };
+
+        const normalShade = (nx, ny, nz) => {
+          const nc = normalize3([
+            eastCam[0] * nx + northCam[0] * ny + upCam[0] * nz,
+            eastCam[1] * nx + northCam[1] * ny + upCam[1] * nz,
+            eastCam[2] * nx + northCam[2] * ny + upCam[2] * nz
+          ]);
+          return 0.42 + 0.92 * Math.max(0, dot3(nc, SUN_CAM));
+        };
+
+        const isHerm = c.type === 'hermetic';
+        const baseStone = isHerm ? [96, 78, 48] : (c.type === 'abyss' ? [22, 58, 54] : [62, 44, 82]);
+        const baseTrim  = isHerm ? [242, 206, 112] : (c.type === 'abyss' ? [46, 242, 195] : [206, 142, 255]);
+        const winGlow   = isHerm ? [255, 214, 102] : (c.type === 'abyss' ? [64, 255, 212] : [235, 175, 255]);
+
+        if (state.showCities) {
+          // A. SACRED / ELDRITCH PAVED PLAZA, RADIAL AVENUES & SEAL OF SOLOMON / PENTAGRAM!
+          ctx.save();
+          // Dark stone paved foundation disc
+          ctx.fillStyle = isHerm ? `rgba(22, 18, 12, ${0.72 * vis})` : `rgba(8, 18, 20, ${0.76 * vis})`;
+          ctx.strokeStyle = shadeRGB(baseTrim, 1.0, (isSel ? 0.88 : 0.5) * vis);
+          ctx.lineWidth = 1.3;
+          ctx.beginPath();
+          for (let s = 0; s <= 36; s++) {
+            const a = (s / 36) * Math.PI * 2;
+            const p = proj(Math.cos(a) * 1.82, Math.sin(a) * 1.82, 0.005);
+            if (s === 0) ctx.moveTo(p.x, p.y); else ctx.lineTo(p.x, p.y);
+          }
+          ctx.closePath(); ctx.fill(); ctx.stroke();
+
+          if (archUnit > 28) {
+            // Inlaid Sacred Hexagram (Hermetic) or Pentagram (Elder/Abyss) + Radial Avenues!
+            ctx.strokeStyle = shadeRGB(baseTrim, 1.0, 0.36 * vis);
+            ctx.lineWidth = 1.0;
+            for (let av = 0; av < 8; av++) {
+              const a = (av / 8) * Math.PI * 2;
+              const p0 = proj(Math.cos(a) * 0.35, Math.sin(a) * 0.35, 0.008);
+              const p1 = proj(Math.cos(a) * 1.78, Math.sin(a) * 1.78, 0.008);
+              ctx.beginPath(); ctx.moveTo(p0.x, p0.y); ctx.lineTo(p1.x, p1.y); ctx.stroke();
+            }
+            // Interlocking Seal Triangles on the Plaza Pavement!
+            for (let tri = 0; tri < 2; tri++) {
+              ctx.beginPath();
+              for (let k = 0; k <= 3; k++) {
+                const a = tri * (Math.PI / 3) + (k / 3) * Math.PI * 2 + t * 0.04;
+                const p = proj(Math.cos(a) * 1.45, Math.sin(a) * 1.45, 0.01);
+                if (k === 0) ctx.moveTo(p.x, p.y); else ctx.lineTo(p.x, p.y);
+              }
+              ctx.stroke();
+            }
+          }
+          ctx.restore();
+
+          // B. PAINTER-SORT ALL 3D ARCHITECTURAL STRUCTURES IN THIS CITY!
+          const activeList = c.structures.filter(st => highLOD || !st.lod);
+          const sortedSt = activeList.map(st => {
+            const cxLocal = st.x !== undefined ? st.x : (st.x1 + st.x2) * 0.5;
+            const cyLocal = st.y !== undefined ? st.y : (st.y1 + st.y2) * 0.5;
+            const czLocal = (st.z0 || 0) + (st.h || 0.3) * 0.5;
+            return { st, zCam: proj(cxLocal, cyLocal, czLocal).z };
+          }).sort((a, b) => a.zCam - b.zCam);
+
+          for (const { st } of sortedSt) {
+            const stStone = st.forceGold ? [125, 96, 38] : baseStone;
+            const stTrim  = st.forceGold ? [255, 222, 118] : baseTrim;
+
+            // ---------------------------------------------------------------
+            // 1) PRISM / N-GON TOWER / GABLED BUILDING / CATHEDRAL
+            // ---------------------------------------------------------------
+            if (st.kind === 'prism') {
+              const sides = st.sides || 4;
+              const z0 = st.z0 || 0, z1 = z0 + st.h;
+              const tx = st.tiltX || 0, ty = st.tiltY || 0;
+              const rot = st.rot || (sides === 4 ? Math.PI * 0.25 : 0);
+              const rx = st.w * (sides === 4 ? 0.7071 : 0.5);
+              const ry = st.d * (sides === 4 ? 0.7071 : 0.5);
+
+              const bot = [], top = [], norms = [];
+              for (let s = 0; s < sides; s++) {
+                const a = rot + (s / sides) * Math.PI * 2 - (sides === 4 ? Math.PI * 0.5 : 0);
+                const ca = Math.cos(a), sa = Math.sin(a);
+                // Exact axis-aligned rectangle if sides===4 & no custom rot
+                let dx, dy;
+                if (sides === 4 && !st.rot) {
+                  dx = (s === 1 || s === 2 ? 0.5 : -0.5) * st.w;
+                  dy = (s === 2 || s === 3 ? 0.5 : -0.5) * st.d;
+                } else {
+                  const localA = (s / sides) * Math.PI * 2 + (sides === 4 ? -Math.PI * 0.75 : 0);
+                  const lx0 = Math.cos(localA) * rx, ly0 = Math.sin(localA) * ry;
+                  const cr = Math.cos(st.rot || 0), sr = Math.sin(st.rot || 0);
+                  dx = lx0 * cr - ly0 * sr;
+                  dy = lx0 * sr + ly0 * cr;
+                }
+                bot.push(proj(st.x + dx, st.y + dy, z0));
+                top.push(proj(st.x + dx + tx, st.y + dy + ty, z1));
+                const midA = (st.rot || 0) + ((s + 0.5) / sides) * Math.PI * 2 - (sides === 4 ? Math.PI * 0.75 : 0);
+                norms.push([Math.cos(midA), Math.sin(midA), 0]);
+              }
+
+              for (let s = 0; s < sides; s++) {
+                const sn = (s + 1) % sides;
+                const sh = normalShade(norms[s][0], norms[s][1], 0);
+                const isFrontFacade = s === 0;
+                drawArchitecturalWall(ctx, bot[s], bot[sn], top[sn], top[s], sh, stStone, stTrim, winGlow, vis, {
+                  windows: highLOD ? st.windows : 0,
+                  portal: isFrontFacade && st.portal,
+                  roseWindow: isFrontFacade && st.roseWindow,
+                  clockFace: st.clockFace && (s === 0 || s === 1)
+                });
+              }
+
+              // Roof: Flat, Pitched Gable, or Spire!
+              if (st.roof === 'spire' && st.roofH) {
+                const apex = proj(st.x + tx * 1.35, st.y + ty * 1.35, z1 + st.roofH);
+                for (let s = 0; s < sides; s++) {
+                  const sn = (s + 1) % sides;
+                  if (isFrontQuad(top[s], top[sn], apex)) {
+                    const sh = normalShade(norms[s][0], norms[s][1], 0.45) * 1.12;
+                    fillPoly(ctx, [top[s], top[sn], apex], shadeRGB(stStone, sh, 0.96 * vis), shadeRGB(stTrim, 1.05, 0.8 * vis));
+                  }
+                }
+              } else if (st.roof === 'gable' && sides === 4 && st.roofH) {
+                const rFront = lerp2(top[0], top[1], 0.5);
+                const rBack  = lerp2(top[3], top[2], 0.5);
+                const g0 = proj(st.x + tx, st.y - st.d * 0.5 + ty, z1 + st.roofH);
+                const g1 = proj(st.x + tx, st.y + st.d * 0.5 + ty, z1 + st.roofH);
+                if (isFrontQuad(top[0], top[1], g0)) fillPoly(ctx, [top[0], top[1], g0], shadeRGB(stStone, normalShade(0, -1, 0.3), 0.96 * vis), shadeRGB(stTrim, 1, 0.75 * vis));
+                if (isFrontQuad(top[1], top[2], g1)) fillPoly(ctx, [top[1], top[2], g1, g0], shadeRGB(stStone, normalShade(1, 0, 0.6) * 1.1, 0.96 * vis), shadeRGB(stTrim, 1, 0.75 * vis));
+                if (isFrontQuad(top[2], top[3], g1)) fillPoly(ctx, [top[2], top[3], g1], shadeRGB(stStone, normalShade(0, 1, 0.3), 0.96 * vis), shadeRGB(stTrim, 1, 0.75 * vis));
+                if (isFrontQuad(top[3], top[0], g0)) fillPoly(ctx, [top[3], top[0], g0, g1], shadeRGB(stStone, normalShade(-1, 0, 0.6) * 1.1, 0.96 * vis), shadeRGB(stTrim, 1, 0.75 * vis));
+              } else if (isFrontQuad(top[0], top[1], top[2])) {
+                fillPoly(ctx, top, shadeRGB(stStone, normalShade(0, 0, 1) * 1.15, 0.96 * vis), shadeRGB(stTrim, 1.0, 0.75 * vis));
+              }
+            }
+
+            // ---------------------------------------------------------------
+            // 2) STEPPED PYRAMID / ZIGGURAT WITH MONUMENTAL STAIRCASE!
+            // ---------------------------------------------------------------
+            else if (st.kind === 'stepped') {
+              const tiers = st.tiers || 4;
+              const tierH = st.h / tiers;
+              for (let k = 0; k < tiers; k++) {
+                const frac = 1 - (k / tiers) * 0.76;
+                const hw = st.w * 0.5 * frac, hd = st.d * 0.5 * frac;
+                const zA = k * tierH, zB = (k + 1) * tierH;
+                const isGold = st.goldCap && k === tiers - 1;
+                const tStone = isGold ? [238, 192, 68] : stStone;
+                const tTrim  = isGold ? [255, 242, 168] : stTrim;
+
+                const b = [proj(st.x - hw, st.y - hd, zA), proj(st.x + hw, st.y - hd, zA), proj(st.x + hw, st.y + hd, zA), proj(st.x - hw, st.y + hd, zA)];
+                const tp = [proj(st.x - hw * 0.92, st.y - hd * 0.92, zB), proj(st.x + hw * 0.92, st.y - hd * 0.92, zB), proj(st.x + hw * 0.92, st.y + hd * 0.92, zB), proj(st.x - hw * 0.92, st.y + hd * 0.92, zB)];
+                const fNorms = [[0,-1,0.3],[1,0,0.3],[0,1,0.3],[-1,0,0.3]];
+                for (let s = 0; s < 4; s++) {
+                  const sn = (s + 1) % 4;
+                  if (isFrontQuad(b[s], b[sn], tp[sn])) {
+                    fillPoly(ctx, [b[s], b[sn], tp[sn], tp[s]], shadeRGB(tStone, normalShade(...fNorms[s]), 0.96 * vis), shadeRGB(tTrim, 1.0, 0.72 * vis));
+                  }
+                }
+                if (isFrontQuad(tp[0], tp[1], tp[2])) {
+                  fillPoly(ctx, tp, shadeRGB(tStone, normalShade(0, 0, 1) * 1.18, 0.96 * vis), shadeRGB(tTrim, 1.1, 0.8 * vis));
+                }
+              }
+              // Monumental Front Ceremonial Staircase with Step Treads!
+              if (st.stairs && highLOD) {
+                const offsets = st.twinStairs ? [-st.w * 0.14, st.w * 0.14] : [0];
+                const sw = st.w * 0.085;
+                for (const ox of offsets) {
+                  const s0 = proj(st.x + ox - sw, st.y - st.d * 0.56, 0);
+                  const s1 = proj(st.x + ox + sw, st.y - st.d * 0.56, 0);
+                  const s2 = proj(st.x + ox + sw * 0.7, st.y - st.d * 0.14, st.h);
+                  const s3 = proj(st.x + ox - sw * 0.7, st.y - st.d * 0.14, st.h);
+                  fillPoly(ctx, [s0, s1, s2, s3], shadeRGB(stTrim, 0.82, 0.95 * vis), shadeRGB(stTrim, 1.25, 0.95 * vis), 1.0);
+                  ctx.strokeStyle = `rgba(15, 12, 8, ${0.65 * vis})`;
+                  ctx.lineWidth = 0.7;
+                  for (let step = 1; step < 9; step++) {
+                    const u = step / 9;
+                    const lP = lerp2(s0, s3, u), rP = lerp2(s1, s2, u);
+                    ctx.beginPath(); ctx.moveTo(lP.x, lP.y); ctx.lineTo(rP.x, rP.y); ctx.stroke();
+                  }
+                }
+              }
+            }
+
+            // ---------------------------------------------------------------
+            // 3) 12-RIBBED HEMISPHERICAL DOME + DRUM COLONNADE + LANTERN!
+            // ---------------------------------------------------------------
+            else if (st.kind === 'dome') {
+              const segs = 12;
+              const z0 = st.z0 || 0, zDrum = z0 + st.drumH;
+              // Cylindrical Drum with Clerestory Windows
+              for (let s = 0; s < segs; s++) {
+                const a1 = (s / segs) * Math.PI * 2, a2 = ((s + 1) / segs) * Math.PI * 2;
+                const b0 = proj(st.x + Math.cos(a1) * st.r, st.y + Math.sin(a1) * st.r, z0);
+                const b1 = proj(st.x + Math.cos(a2) * st.r, st.y + Math.sin(a2) * st.r, z0);
+                const t1 = proj(st.x + Math.cos(a2) * st.r, st.y + Math.sin(a2) * st.r, zDrum);
+                const t0 = proj(st.x + Math.cos(a1) * st.r, st.y + Math.sin(a1) * st.r, zDrum);
+                const ma = (a1 + a2) * 0.5;
+                drawArchitecturalWall(ctx, b0, b1, t1, t0, normalShade(Math.cos(ma), Math.sin(ma), 0), stStone, stTrim, winGlow, vis, { windows: highLOD ? 1 : 0 });
+              }
+              // 3 Latitude Bands x 12 Meridian Ribs forming a True Curved 3D Dome!
+              const rings = 3;
+              for (let r = 0; r < rings; r++) {
+                const pA = (r / rings) * (Math.PI * 0.46);
+                const pB = ((r + 1) / rings) * (Math.PI * 0.46);
+                const rA = Math.cos(pA) * st.r, zA = zDrum + Math.sin(pA) * st.domeH;
+                const rB = Math.cos(pB) * st.r, zB = zDrum + Math.sin(pB) * st.domeH;
+                for (let s = 0; s < segs; s++) {
+                  const a1 = (s / segs) * Math.PI * 2, a2 = ((s + 1) / segs) * Math.PI * 2;
+                  const q0 = proj(st.x + Math.cos(a1) * rA, st.y + Math.sin(a1) * rA, zA);
+                  const q1 = proj(st.x + Math.cos(a2) * rA, st.y + Math.sin(a2) * rA, zA);
+                  const q2 = proj(st.x + Math.cos(a2) * rB, st.y + Math.sin(a2) * rB, zB);
+                  const q3 = proj(st.x + Math.cos(a1) * rB, st.y + Math.sin(a1) * rB, zB);
+                  if (isFrontQuad(q0, q1, q2)) {
+                    const ma = (a1 + a2) * 0.5;
+                    const sh = normalShade(Math.cos(ma) * Math.cos(pA), Math.sin(ma) * Math.cos(pA), Math.sin(pB)) * 1.15;
+                    fillPoly(ctx, [q0, q1, q2, q3], shadeRGB([128, 98, 44], sh, 0.96 * vis), shadeRGB([252, 222, 128], 1.1, 0.85 * vis), 0.9);
+                  }
+                }
+              }
+              // Lantern Finial Spire on top of Dome
+              const lBase = proj(st.x, st.y, zDrum + st.domeH);
+              const lTip  = proj(st.x, st.y, zDrum + st.domeH + st.r * 0.65);
+              ctx.strokeStyle = shadeRGB([255, 228, 132], 1.2, vis);
+              ctx.lineWidth = 1.6;
+              ctx.beginPath(); ctx.moveTo(lBase.x, lBase.y); ctx.lineTo(lTip.x, lTip.y); ctx.stroke();
+            }
+
+            // ---------------------------------------------------------------
+            // 4) ANTARCTICA 10-VERTEX 5-POINTED STAR SKYSCRAPER!
+            // ---------------------------------------------------------------
+            else if (st.kind === 'star_tower') {
+              const ptsCount = 10;
+              const bot = [], top = [];
+              for (let i = 0; i < ptsCount; i++) {
+                const a = (i / ptsCount) * Math.PI * 2 - Math.PI * 0.5;
+                const rr = (i % 2 === 0 ? 1.0 : 0.46) * st.r;
+                bot.push(proj(st.x + Math.cos(a) * rr, st.y + Math.sin(a) * rr, st.z0));
+                top.push(proj(st.x + Math.cos(a) * rr * 0.78, st.y + Math.sin(a) * rr * 0.78, st.z0 + st.h));
+              }
+              for (let i = 0; i < ptsCount; i++) {
+                const inext = (i + 1) % ptsCount;
+                const ma = ((i + 0.5) / ptsCount) * Math.PI * 2;
+                drawArchitecturalWall(ctx, bot[i], bot[inext], top[inext], top[i], normalShade(Math.cos(ma), Math.sin(ma), 0), [18, 22, 34], [175, 118, 255], [46, 242, 195], vis, { windows: highLOD ? st.tiers : 0 });
+              }
+              fillPoly(ctx, top, `rgba(42, 28, 68, ${0.95 * vis})`, `rgba(197, 122, 255, ${0.9 * vis})`);
+            }
+
+            // ---------------------------------------------------------------
+            // 5) SWEEPING UPTURNED-EAVE PAGODA (飞檐重檐宝塔)
+            // ---------------------------------------------------------------
+            else if (st.kind === 'pagoda') {
+              let curZ = st.z0 || 0;
+              for (let lv = 0; lv < st.stories; lv++) {
+                const scale = 1 - lv * (0.52 / st.stories);
+                const hw = st.w * 0.5 * scale;
+                const nextZ = curZ + st.storyH;
+                // Story core walls
+                const b = [proj(st.x - hw, st.y - hw, curZ), proj(st.x + hw, st.y - hw, curZ), proj(st.x + hw, st.y + hw, curZ), proj(st.x - hw, st.y + hw, curZ)];
+                const tp = [proj(st.x - hw, st.y - hw, nextZ), proj(st.x + hw, st.y - hw, nextZ), proj(st.x + hw, st.y + hw, nextZ), proj(st.x - hw, st.y + hw, nextZ)];
+                for (let s = 0; s < 4; s++) {
+                  const sn = (s + 1) % 4;
+                  drawArchitecturalWall(ctx, b[s], b[sn], tp[sn], tp[s], 0.9 + (s % 2) * 0.3, [98, 42, 34], stTrim, winGlow, vis, { windows: highLOD ? 1 : 0, portal: lv === 0 && s === 0 });
+                }
+                // Sweeping Overhanging Pagoda Roof Slope + Upturned Corner Eaves (飞檐)!
+                const ew = hw * 1.48, iw = hw * 0.88;
+                const eaveLowZ = nextZ - st.storyH * 0.05;
+                const ridgeHighZ = nextZ + st.storyH * 0.22;
+                const ev = [proj(st.x - ew, st.y - ew, eaveLowZ), proj(st.x + ew, st.y - ew, eaveLowZ), proj(st.x + ew, st.y + ew, eaveLowZ), proj(st.x - ew, st.y + ew, eaveLowZ)];
+                const rt = [proj(st.x - iw, st.y - iw, ridgeHighZ), proj(st.x + iw, st.y - iw, ridgeHighZ), proj(st.x + iw, st.y + iw, ridgeHighZ), proj(st.x - iw, st.y + iw, ridgeHighZ)];
+                for (let s = 0; s < 4; s++) {
+                  const sn = (s + 1) % 4;
+                  if (isFrontQuad(ev[s], ev[sn], rt[sn])) {
+                    fillPoly(ctx, [ev[s], ev[sn], rt[sn], rt[s]], shadeRGB([38, 56, 54], 1.1 + (s % 2) * 0.25, 0.96 * vis), shadeRGB(stTrim, 1.15, 0.92 * vis), 1.0);
+                  }
+                  // Upturned corner eave spur!
+                  const tipSpur = proj(st.x + (s === 1 || s === 2 ? 1.62 : -1.62) * hw, st.y + (s >= 2 ? 1.62 : -1.62) * hw, nextZ + st.storyH * 0.12);
+                  ctx.strokeStyle = shadeRGB(stTrim, 1.2, 0.9 * vis);
+                  ctx.lineWidth = 1.1;
+                  ctx.beginPath(); ctx.moveTo(ev[s].x, ev[s].y); ctx.lineTo(tipSpur.x, tipSpur.y); ctx.stroke();
+                }
+                curZ = nextZ + st.storyH * 0.14;
+              }
+              // Bronze Sorin Spire
+              const pBase = proj(st.x, st.y, curZ), pTip = proj(st.x, st.y, curZ + 0.42);
+              ctx.strokeStyle = shadeRGB([255, 224, 122], 1.2, vis);
+              ctx.lineWidth = 1.8;
+              ctx.beginPath(); ctx.moveTo(pBase.x, pBase.y); ctx.lineTo(pTip.x, pTip.y); ctx.stroke();
+            }
+
+            // ---------------------------------------------------------------
+            // 6) MULTI-ARCH AQUEDUCT / STONE BRIDGE & GOTHIC FLYING BUTTRESS
+            // ---------------------------------------------------------------
+            else if (st.kind === 'arch_bridge') {
+              const zb = st.zBase || 0, zTop = zb + st.h;
+              const nA = st.arches || 4;
+              // Top roadway deck
+              const d0 = proj(st.x1, st.y1, zTop), d1 = proj(st.x2, st.y2, zTop);
+              ctx.strokeStyle = shadeRGB(stTrim, 1.05, 0.92 * vis);
+              ctx.lineWidth = Math.max(2, archUnit * 0.045);
+              ctx.beginPath(); ctx.moveTo(d0.x, d0.y); ctx.lineTo(d1.x, d1.y); ctx.stroke();
+              // Piers + Arched Vaults
+              ctx.lineWidth = Math.max(1.2, archUnit * 0.026);
+              for (let i = 0; i <= nA; i++) {
+                const u = i / nA;
+                const px = st.x1 + (st.x2 - st.x1) * u, py = st.y1 + (st.y2 - st.y1) * u;
+                const pBot = proj(px, py, zb), pTop = proj(px, py, zTop);
+                ctx.beginPath(); ctx.moveTo(pBot.x, pBot.y); ctx.lineTo(pTop.x, pTop.y); ctx.stroke();
+                if (i < nA) {
+                  const uMid = (i + 0.5) / nA, uNext = (i + 1) / nA;
+                  const aL = proj(px, py, zb + st.h * 0.45);
+                  const aM = proj(st.x1 + (st.x2 - st.x1) * uMid, st.y1 + (st.y2 - st.y1) * uMid, zTop * 0.98);
+                  const aR = proj(st.x1 + (st.x2 - st.x1) * uNext, st.y1 + (st.y2 - st.y1) * uNext, zb + st.h * 0.45);
+                  ctx.beginPath(); ctx.moveTo(aL.x, aL.y); ctx.quadraticCurveTo(aM.x, aM.y, aR.x, aR.y); ctx.stroke();
+                }
+              }
+            }
+            else if (st.kind === 'buttress') {
+              const p1 = proj(st.x1, st.y1, st.z1);
+              const pMid = proj((st.x1 + st.x2) * 0.5, (st.y1 + st.y2) * 0.5, st.z2 + 0.05);
+              const p2 = proj(st.x2, st.y2, st.z2);
+              ctx.strokeStyle = shadeRGB(stTrim, 1.1, 0.9 * vis);
+              ctx.lineWidth = Math.max(1.2, archUnit * 0.022);
+              ctx.beginPath(); ctx.moveTo(p1.x, p1.y); ctx.quadraticCurveTo(pMid.x, pMid.y, p2.x, p2.y); ctx.stroke();
+            }
+
+            // ---------------------------------------------------------------
+            // 7) ROTATING 3D GOLDEN OCTAHEDRON, SATURN RING-GATE & TENTACLE COILS!
+            // ---------------------------------------------------------------
+            else if (st.kind === 'octahedron') {
+              const spin = t * 1.4;
+              const cz = st.z0 + Math.sin(t * 2.2) * 0.06;
+              const topP = proj(st.x, st.y, cz + st.r * 1.35);
+              const botP = proj(st.x, st.y, cz - st.r * 1.35);
+              const eq = [0, 1, 2, 3].map(i => {
+                const a = spin + (i / 4) * Math.PI * 2;
+                return proj(st.x + Math.cos(a) * st.r, st.y + Math.sin(a) * st.r, cz);
+              });
+              const oCol = st.forceGold ? [255, 224, 108] : [46, 242, 195];
+              for (let i = 0; i < 4; i++) {
+                const inx = (i + 1) % 4;
+                if (isFrontQuad(eq[i], eq[inx], topP)) fillPoly(ctx, [eq[i], eq[inx], topP], shadeRGB(oCol, 0.85 + (i % 2) * 0.3, 0.88 * vis), '#fff5cc', 1.1);
+                if (isFrontQuad(eq[inx], eq[i], botP)) fillPoly(ctx, [eq[inx], eq[i], botP], shadeRGB(oCol, 0.65, 0.88 * vis), '#fff5cc', 1.1);
+              }
+            }
+            else if (st.kind === 'ring_gate') {
+              ctx.strokeStyle = `rgba(242, 206, 112, ${0.92 * vis})`;
+              ctx.lineWidth = Math.max(2.5, archUnit * 0.055);
+              for (const rr of [st.r, st.r * 0.82]) {
+                ctx.beginPath();
+                for (let s = 0; s <= 32; s++) {
+                  const a = (s / 32) * Math.PI * 2;
+                  const p = proj(st.x + Math.cos(a) * rr, st.y, st.z0 + rr + Math.sin(a) * rr);
+                  if (s === 0) ctx.moveTo(p.x, p.y); else ctx.lineTo(p.x, p.y);
+                }
+                ctx.stroke();
+              }
+              const gateCenter = proj(st.x, st.y, st.z0 + st.r);
+              drawEldritchEye(ctx, gateCenter.x, gateCenter.y, Math.max(8, archUnit * 0.24), Math.max(5, archUnit * 0.14), '#c57aff');
+            }
+            else if (st.kind === 'tentacle_coil' && state.showGods && state.abyss > 0.12) {
+              ctx.strokeStyle = '#07362f';
+              const wMain = Math.max(2.5, archUnit * 0.065 * state.abyss);
+              ctx.lineCap = 'round';
+              const pts = [];
+              for (let s = 0; s <= 22; s++) {
+                const u = s / 22;
+                const a = u * Math.PI * 5.2 - t * 2.0 + st.phase;
+                const rr = st.r * (1.25 - u * 0.45);
+                pts.push(proj(st.x + Math.cos(a) * rr, st.y + Math.sin(a) * rr, u * st.h * (0.5 + 0.55 * state.abyss)));
+              }
+              ctx.lineWidth = wMain;
+              ctx.beginPath(); pts.forEach((p, idx) => idx === 0 ? ctx.moveTo(p.x, p.y) : ctx.lineTo(p.x, p.y)); ctx.stroke();
+              ctx.strokeStyle = '#2ef2c3';
+              ctx.lineWidth = wMain * 0.45;
+              ctx.beginPath(); pts.forEach((p, idx) => idx === 0 ? ctx.moveTo(p.x, p.y) : ctx.lineTo(p.x, p.y)); ctx.stroke();
+            }
+          }
+
+          // Special Cairo Nyarlathotep Inverted Black Pyramid + Lightning Bolts Striking the Pyramids!
+          if (c.id === 'cairo' && state.showGods && state.outer > 0.2) {
+            const hz = 1.68 + Math.sin(t * 2.2) * 0.10;
+            const tip = proj(0, 0.15, hz - 0.56);
+            const u = [proj(-0.34, -0.19, hz), proj(0.34, -0.19, hz), proj(0.34, 0.49, hz), proj(-0.34, 0.49, hz)];
+            for (let s = 0; s < 4; s++) {
+              const sn = (s + 1) % 4;
+              if (isFrontQuad(u[sn], u[s], tip)) fillPoly(ctx, [u[sn], u[s], tip], `rgba(8, 3, 15, ${0.95 * vis})`, `rgba(244, 92, 118, ${0.95 * vis})`, 1.4);
+            }
+            const pyrPeak = proj(-0.42, 0.18, 0.92);
+            ctx.strokeStyle = `rgba(255, 92, 112, ${0.85 * state.outer * vis})`;
+            ctx.lineWidth = 1.6;
+            ctx.beginPath(); ctx.moveTo(tip.x, tip.y);
+            ctx.lineTo((tip.x + pyrPeak.x) * 0.5 + Math.sin(t * 32) * 12, (tip.y + pyrPeak.y) * 0.5);
+            ctx.lineTo(pyrPeak.x, pyrPeak.y); ctx.stroke();
+          }
+        }
+
+        // C. GREAT CTHULHU COLOSSAL WINGED TITAN BEHIND R'LYEH'S ACROPOLIS!
+        if (c.id === 'rlyeh' && state.showGods && state.abyss > 0.15) {
+          const sc = (0.55 + 0.65 * state.abyss) * archUnit * 1.35;
+          const rise = proj(0, 0.55, 1.65 + Math.sin(t * 1.5) * 0.10);
+          ctx.save();
+          ctx.translate(rise.x, rise.y);
+          ctx.globalAlpha = vis * Math.min(1, state.abyss * 1.3);
+
+          const beat = Math.sin(t * 1.8) * 0.16;
+          for (const dir of [-1, 1]) {
+            const sh = { x: dir * sc * 0.35, y: -sc * 0.1 };
+            const elb = { x: dir * sc * (1.18 + beat), y: -sc * (1.15 + beat * 0.4) };
+            const tips = [
+              { x: dir * sc * (2.35 + beat), y: -sc * 0.92 },
+              { x: dir * sc * (2.15 + beat), y: -sc * 0.28 },
+              { x: dir * sc * (1.68 + beat * 0.5), y: sc * 0.28 },
+              { x: dir * sc * 1.02, y: sc * 0.56 }
+            ];
+            ctx.fillStyle = 'rgba(7, 38, 34, 0.92)';
+            ctx.strokeStyle = '#2ef2c3';
+            ctx.lineWidth = 1.3;
+            ctx.beginPath();
+            ctx.moveTo(sh.x, sh.y); ctx.lineTo(elb.x, elb.y); ctx.lineTo(tips[0].x, tips[0].y);
+            for (let k = 0; k < tips.length - 1; k++) {
+              ctx.quadraticCurveTo((tips[k].x + tips[k + 1].x) * 0.43, (tips[k].y + tips[k + 1].y) * 0.43, tips[k + 1].x, tips[k + 1].y);
+            }
+            ctx.quadraticCurveTo(dir * sc * 0.45, sc * 0.2, sh.x, sc * 0.35);
+            ctx.closePath(); ctx.fill(); ctx.stroke();
+
+            ctx.strokeStyle = '#8efce0'; ctx.lineWidth = 1.4;
+            for (const tp of tips) { ctx.beginPath(); ctx.moveTo(elb.x, elb.y); ctx.lineTo(tp.x, tp.y); ctx.stroke(); }
+          }
+
+          const hGrad = ctx.createRadialGradient(-sc * 0.12, -sc * 0.48, 2, 0, -sc * 0.36, sc * 0.68);
+          hGrad.addColorStop(0, '#22b092'); hGrad.addColorStop(0.6, '#083a32'); hGrad.addColorStop(1, '#031816');
+          ctx.fillStyle = hGrad; ctx.strokeStyle = '#2ef2c3';
+          ctx.beginPath(); ctx.ellipse(0, -sc * 0.38, sc * 0.50, sc * 0.65, 0, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
+
+          for (const [dx, dy, rx, col] of [[0.19, -0.30, 0.11, '#ff3b5c'], [0.30, -0.44, 0.065, '#ffb84d']]) {
+            for (const dir of [-1, 1]) {
+              ctx.fillStyle = col;
+              ctx.beginPath(); ctx.ellipse(dir * sc * dx, sc * dy, sc * rx, sc * rx * 0.5, dir * -0.25, 0, Math.PI * 2); ctx.fill();
+            }
+          }
+
+          for (let f = -4.5; f <= 4.5; f += 1) {
+            const nf = f / 4.5;
+            const w1 = Math.sin(t * 3.1 + f) * sc * 0.32;
+            const x0 = nf * sc * 0.32, y0 = -sc * 0.05;
+            const x1 = nf * sc * 0.62 + w1, y1 = sc * 0.45;
+            const x2 = nf * sc * 0.78 - w1 * 0.6, y2 = sc * (0.98 + (1 - Math.abs(nf)) * 0.28);
+            ctx.strokeStyle = '#083a32'; ctx.lineWidth = Math.max(2.4, sc * 0.11); ctx.lineCap = 'round';
+            ctx.beginPath(); ctx.moveTo(x0, y0); ctx.quadraticCurveTo(x1, y1, x2, y2); ctx.stroke();
+            ctx.strokeStyle = '#2ef2c3'; ctx.lineWidth = Math.max(1.1, sc * 0.05);
+            ctx.beginPath(); ctx.moveTo(x0, y0); ctx.quadraticCurveTo(x1, y1, x2, y2); ctx.stroke();
+          }
+          ctx.restore();
+        }
+
+        // D. Clickable City Pin & Floating Nameplate
+        if (upCam[2] > -0.02) {
+          clickablePins.push({ id: c.id, x: baseX, y: baseY, r: Math.max(22, archUnit * 1.1) });
+          if ((isSel && state.zoom < 3.6) || isHov || (state.zoom < 2.2 && upCam[2] > 0.32)) {
+            const label = `${c.glyph} ${c.short}`;
+            ctx.font = `${isSel ? 'bold ' : ''}11px Georgia, serif`;
+            ctx.textAlign = 'left'; ctx.textBaseline = 'middle';
+            const tw = ctx.measureText(label).width;
+            const lx = baseX + 14, ly = baseY - 14;
+            ctx.fillStyle = `rgba(4, 8, 14, ${0.86 * vis})`;
+            ctx.strokeStyle = shadeRGB(baseTrim, 1.0, (isSel ? 0.95 : 0.55) * vis);
+            ctx.lineWidth = 1.2;
+            ctx.beginPath(); ctx.roundRect(lx, ly - 9, tw + 12, 18, 4); ctx.fill(); ctx.stroke();
+            ctx.fillStyle = shadeRGB(baseTrim, 1.05, vis);
+            ctx.fillText(label, lx + 6, ly + 0.5);
+          }
+        }
+      }
+
+      ctx.restore();
+    }
+
+    // =========================================================================
+    // 9. ANIMATION LOOP
+    // =========================================================================
+    let prevTs = performance.now();
+    const zoomReadout = document.getElementById('zoom-readout');
+
+    function animate(ts) {
+      const dt = Math.min(0.05, (ts - prevTs) / 1000);
+      prevTs = ts;
+      state.time += dt;
+
+      if (state.targetRotY !== null) {
+        let dy = state.targetRotY - state.rotY;
+        while (dy > Math.PI) dy -= Math.PI * 2;
+        while (dy < -Math.PI) dy += Math.PI * 2;
+        state.rotY += dy * 0.095;
+        state.rotX += (state.targetRotX - state.rotX) * 0.095;
+        if (Math.abs(dy) < 0.002 && Math.abs(state.targetRotX - state.rotX) < 0.002) {
+          state.baseFocusRotY = state.targetRotY;
+          state.targetRotY = null;
+          state.targetRotX = null;
+          state.userDraggedAtHighZoom = false;
+        }
+      } else if (!state.dragging) {
+        state.rotY += state.velY;
+        state.rotX = Math.max(-2.35, Math.min(1.35, state.rotX + state.velX));
+        state.velY *= 0.92;
+        state.velX *= 0.92;
+
+        if (state.autoRotate) {
+          if (state.zoom < 1.85) {
+            state.rotY += dt * 0.11;
+          } else if (!state.userDraggedAtHighZoom) {
+            // Cinematic gentle 3D drone sway around the city so parallax brings every column, buttress & spire to life!
+            const targetSway = state.baseFocusRotY + Math.sin(state.time * 0.42) * 0.09;
+            state.rotY += (targetSway - state.rotY) * 0.04;
+          }
+        }
+      }
+
+      state.zoom += (state.targetZoom - state.zoom) * 0.11;
+      zoomReadout.textContent = `ZOOM ${state.zoom.toFixed(1)}x`;
+
+      const { cx, cy, radius, pan } = getGlobeGeometry();
+
+      // Layer 1: Cosmic Sky + Outer Gods + Back Armillary Rings + Horizon Tentacles
+      ctxBack.clearRect(0, 0, cBack.width, cBack.height);
+      drawCosmicBackdrop(ctxBack, cx, cy, radius, pan, state.time);
+      drawHorizonTentacles(ctxBack, cx, cy, radius, state.time);
+      drawArmillaryHalf(ctxBack, cx, cy, radius, state.time, false);
+
+      // Layer 2: WebGL Earth Sphere & Curved Horizon
+      if (gl && glProg) {
+        gl.clearColor(0, 0, 0, 0);
+        gl.clear(gl.COLOR_BUFFER_BIT);
+        gl.useProgram(glProg);
+        gl.uniform2f(glUni.u_res, cWebgl.width, cWebgl.height);
+        gl.uniform2f(glUni.u_center, cx * DPR, cy * DPR);
+        gl.uniform1f(glUni.u_radius, radius * DPR);
+        gl.uniform1f(glUni.u_rotY, state.rotY);
+        gl.uniform1f(glUni.u_rotX, state.rotX);
+        gl.uniform1f(glUni.u_time, state.time);
+        gl.uniform1f(glUni.u_seal, state.seal);
+        gl.uniform1f(glUni.u_abyss, state.abyss);
+        gl.uniform1f(glUni.u_outer, state.outer);
+        gl.drawArrays(gl.TRIANGLES, 0, 6);
+      }
+
+      // Layer 3: Ultra-Fine 3D City Architecture + Cthulhu + Front Armillary Rings
+      ctxFront.clearRect(0, 0, cFront.width, cFront.height);
+      draw3DCitiesAndEntities(ctxFront, cx, cy, radius, state.time);
+      drawArmillaryHalf(ctxFront, cx, cy, radius, state.time, true);
+
+      requestAnimationFrame(animate);
+    }
+    requestAnimationFrame(animate);
+
+    // =========================================================================
+    // 10. CONTROLS, CAMERA MODES & INSPECTOR UI
+    // =========================================================================
+    let downPt = { x: 0, y: 0 };
+
+    cFront.addEventListener('pointerdown', (e) => {
+      state.dragging = true;
+      state.targetRotY = null;
+      state.targetRotX = null;
+      if (state.zoom >= 1.85) state.userDraggedAtHighZoom = true;
+      state.lastX = e.clientX; state.lastY = e.clientY;
+      downPt = { x: e.clientX, y: e.clientY };
+      cFront.setPointerCapture(e.pointerId);
+    });
+
+    cFront.addEventListener('pointermove', (e) => {
+      state.mouseX = e.clientX; state.mouseY = e.clientY;
+      if (state.dragging) {
+        const dx = e.clientX - state.lastX, dy = e.clientY - state.lastY;
+        state.lastX = e.clientX; state.lastY = e.clientY;
+        const sens = 0.0055 / Math.pow(state.zoom, 0.88);
+        state.rotY += dx * sens;
+        state.rotX = Math.max(-2.35, Math.min(1.35, state.rotX + dy * sens));
+        state.velY = dx * sens * 0.42;
+        state.velX = dy * sens * 0.42;
+      } else {
+        let hit = null;
+        for (const p of clickablePins) {
+          if (Math.hypot(e.clientX - p.x, e.clientY - p.y) <= p.r) { hit = p.id; break; }
+        }
+        state.hoveredId = hit;
+        cFront.style.cursor = hit ? 'pointer' : 'grab';
+      }
+    });
+
+    cFront.addEventListener('pointerup', (e) => {
+      state.dragging = false;
+      if (Math.hypot(e.clientX - downPt.x, e.clientY - downPt.y) < 6) {
+        for (const p of clickablePins) {
+          if (Math.hypot(e.clientX - p.x, e.clientY - p.y) <= p.r + 4) {
+            selectCity(p.id, true);
+            break;
+          }
+        }
+      }
+    });
+
+    cFront.addEventListener('wheel', (e) => {
+      e.preventDefault();
+      const factor = Math.exp(-e.deltaY * 0.0012);
+      state.targetZoom = Math.max(0.65, Math.min(10.5, state.targetZoom * factor));
+      document.querySelectorAll('[data-cam]').forEach(b => b.classList.remove('active'));
+    }, { passive: false });
+
+    const sSeal = document.getElementById('seal-slider');
+    const sAbyss = document.getElementById('abyss-slider');
+    const sOuter = document.getElementById('outer-slider');
+    function applySliders() {
+      state.seal = sSeal.value / 100;
+      state.abyss = sAbyss.value / 100;
+      state.outer = sOuter.value / 100;
+      document.getElementById('seal-val').textContent = `${sSeal.value}%`;
+      document.getElementById('abyss-val').textContent = `${sAbyss.value}%`;
+      document.getElementById('outer-val').textContent = `${sOuter.value}%`;
+    }
+    [sSeal, sAbyss, sOuter].forEach(el => el.addEventListener('input', () => {
+      document.querySelectorAll('[data-preset]').forEach(b => b.classList.remove('active'));
+      applySliders();
+    }));
+
+    const PRESETS = {
+      clash:      { seal: 85, abyss: 82, outer: 85 },
+      apocalypse: { seal: 20, abyss: 100, outer: 100 },
+      golden:     { seal: 100, abyss: 12, outer: 10 }
+    };
+    document.querySelectorAll('[data-preset]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const p = PRESETS[btn.dataset.preset];
+        document.querySelectorAll('[data-preset]').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        sSeal.value = p.seal; sAbyss.value = p.abyss; sOuter.value = p.outer;
+        applySliders();
+      });
+    });
+
+    const CAM_MODES = { cosmos: 0.72, planet: 1.12, skyline: 5.2, street: 8.8 };
+    function setCamMode(mode) {
+      document.querySelectorAll('[data-cam]').forEach(b => b.classList.toggle('active', b.dataset.cam === mode));
+      state.targetZoom = CAM_MODES[mode];
+      selectCity(state.selectedId, true, CAM_MODES[mode]);
+    }
+    document.querySelectorAll('[data-cam]').forEach(btn => {
+      btn.addEventListener('click', () => setCamMode(btn.dataset.cam));
+    });
+    document.getElementById('btn-skyline').addEventListener('click', () => setCamMode('skyline'));
+    document.getElementById('btn-street').addEventListener('click', () => setCamMode('street'));
+
+    const leftPanel = document.getElementById('left-panel');
+    const rightPanel = document.getElementById('right-panel');
+    const btnToggleUI = document.getElementById('btn-toggle-ui');
+    btnToggleUI.addEventListener('click', () => {
+      state.uiHidden = !state.uiHidden;
+      leftPanel.classList.toggle('panel-hidden-left', state.uiHidden);
+      rightPanel.classList.toggle('panel-hidden-right', state.uiHidden);
+      btnToggleUI.textContent = state.uiHidden ? '显示面板' : '隐藏面板';
+    });
+
+    function bindTog(id, key) {
+      const el = document.getElementById(id);
+      el.addEventListener('click', () => {
+        state[key] = !state[key];
+        el.classList.toggle('active', state[key]);
+      });
+    }
+    bindTog('tog-cities', 'showCities');
+    bindTog('tog-rings', 'showRings');
+    bindTog('tog-gods', 'showGods');
+    bindTog('tog-rotate', 'autoRotate');
+
+    const nodeListEl = document.getElementById('node-list');
+    function renderCityList() {
+      nodeListEl.innerHTML = CITIES.map(c => {
+        const col = c.type === 'hermetic' ? '#ebd082' : (c.type === 'abyss' ? '#2ef2c3' : '#c57aff');
+        const sel = c.id === state.selectedId ? 'selected' : '';
+        return `
+          <button class="node-item ${sel} w-full text-left rounded-lg px-2 py-1.5 flex items-center justify-between gap-1.5" data-id="${c.id}">
+            <span class="flex items-center gap-1.5 truncate">
+              <span>${c.glyph}</span>
+              <span class="truncate" style="color:${sel ? '#fff' : '#e4dac4'}">${c.short}</span>
+            </span>
+            <span class="text-[10px]" style="color:${col}">●</span>
+          </button>
+        `;
+      }).join('');
+      nodeListEl.querySelectorAll('.node-item').forEach(b => {
+        b.addEventListener('click', () => {
+          // Automatically swoop into architectural view if currently zoomed far out!
+          if (state.targetZoom < 3.5) {
+            state.targetZoom = 5.2;
+            document.querySelectorAll('[data-cam]').forEach(btn => btn.classList.toggle('active', btn.dataset.cam === 'skyline'));
+          }
+          selectCity(b.dataset.id, true, state.targetZoom);
+        });
+      });
+    }
+
+    function selectCity(id, focus, upcomingZoom = state.targetZoom) {
+      const c = CITIES.find(x => x.id === id);
+      if (!c) return;
+      state.selectedId = id;
+      document.getElementById('codex-tag').textContent = c.tag;
+      document.getElementById('codex-title').textContent = c.name;
+      document.getElementById('codex-coords').textContent = c.coords;
+      document.getElementById('codex-glyph').textContent = c.glyph;
+      document.getElementById('codex-motto').textContent = c.motto;
+      document.getElementById('codex-desc').textContent = c.desc;
+      document.getElementById('codex-arch').textContent = c.arch;
+      document.getElementById('codex-god').textContent = c.god;
+
+      if (focus) {
+        state.targetRotY = -(c.lon * Math.PI) / 180;
+        const panAmt = smoothstepJS(1.3, 3.6, upcomingZoom);
+        const tilt = TILT_OFFSET * panAmt;
+        state.targetRotX = (c.lat * Math.PI) / 180 - tilt;
+      }
+      renderCityList();
+    }
+
+    renderCityList();
+    selectCity('rlyeh', false);
+  </script>
+</body>
+</html>
