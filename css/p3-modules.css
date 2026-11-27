@@ -87,6 +87,14 @@
   background: var(--bg-sub);
 }
 
+#stage-novel .fiction-notice,
+#stage-play .fiction-notice {
+  font-size: 15.5px;
+  line-height: 1.78;
+  max-width: none;
+  color: var(--ink-sec);
+}
+
 /* Locked redaction chip styling (monochrome Klein-Blue & White) */
 .scp-redact.scp-redact-locked {
   background: var(--bg-sub);
@@ -124,7 +132,7 @@
 }
 
 .novel-resume-sub {
-  font-size: 14px;
+  font-size: 15.5px;
   color: var(--ink-sec);
 }
 
@@ -379,9 +387,9 @@
 }
 
 .novel-chapter-subnote {
-  font-size: 13px;
+  font-size: 15.5px;
   color: var(--ink-sec);
-  line-height: 1.65;
+  line-height: 1.72;
 }
 
 .novel-prose-body {
@@ -509,7 +517,8 @@
 }
 
 .novel-clue-desc {
-  font-size: 14.5px;
+  font-size: 15.5px;
+  line-height: 1.78;
   color: var(--ink-sec);
 }
 
@@ -630,7 +639,7 @@
 }
 
 .play-xp-caption {
-  font-size: 14px;
+  font-size: 15.5px;
   color: var(--ink-sec);
   margin-top: 4px;
 }
@@ -739,7 +748,7 @@
 }
 
 .play-tier-summary {
-  font-size: 15px;
+  font-size: 15.5px;
   font-weight: 700;
   color: var(--klein);
 }
@@ -747,8 +756,8 @@
 .play-tier-list {
   margin: 0;
   padding-left: 20px;
-  font-size: 15px;
-  line-height: 1.75;
+  font-size: 15.5px;
+  line-height: 1.78;
   color: var(--ink);
 }
 
@@ -812,7 +821,7 @@
 
 .play-empty-clues {
   padding: 14px 16px;
-  font-size: 15px;
+  font-size: 15.5px;
   color: var(--ink-sec);
 }
 
@@ -866,7 +875,7 @@
 }
 
 .play-case-subtitle {
-  font-size: 13.5px;
+  font-size: 15.5px;
   color: var(--ink-sec);
   margin-top: 3px;
 }
@@ -1394,12 +1403,16 @@ body[data-gallery-active="1"] #stage-gallery-custom {
 }
 
 .pantheon-plate-summary {
-  font-size: 15px;
-  line-height: 1.72;
+  font-size: 15.5px;
+  line-height: 1.76;
   display: -webkit-box;
   -webkit-line-clamp: 4;
   -webkit-box-orient: vertical;
   overflow: hidden;
+}
+
+#stage-pantheon #pan-sub {
+  font-size: 15.5px !important;
 }
 
 .pantheon-plate-actions {
@@ -1757,6 +1770,13 @@ body[data-gallery-active="1"] #stage-gallery-custom {
 
   .gallery-subnav-link,
   .novel-ctrl-btn,
+  .novel-chap-title-link,
+  #stage-novel .fiction-notice a,
+  #stage-play .fiction-notice a,
+  #stage-novel .scp-redact,
+  #stage-play .scp-redact,
+  #stage-gallery .scp-redact,
+  #stage-gallery-custom .scp-redact,
   .p3-breadcrumb a,
   .timeline-era-chip,
   .cinema-chapter-btn,
@@ -1764,6 +1784,44 @@ body[data-gallery-active="1"] #stage-gallery-custom {
   .play-choice-btn {
     min-height: 44px !important;
     min-width: 44px !important;
+  }
+
+  .novel-chap-title-link,
+  #stage-novel .fiction-notice a,
+  #stage-play .fiction-notice a,
+  #stage-novel .scp-redact,
+  #stage-play .scp-redact,
+  #stage-gallery .scp-redact,
+  #stage-gallery-custom .scp-redact {
+    display: inline-flex !important;
+    align-items: center !important;
+    vertical-align: middle;
+  }
+
+  /* Enforce >= 16px body/summary/prose copy across all P3 mobile views */
+  #stage-novel .fiction-notice,
+  #stage-play .fiction-notice,
+  .p3-page-lead,
+  .novel-resume-sub,
+  .novel-book-summary,
+  .novel-chapter-subnote,
+  .novel-clue-desc,
+  .novel-drawer-summary,
+  .play-xp-caption,
+  .play-tier-summary,
+  .play-tier-list,
+  .play-empty-clues,
+  .play-case-subtitle,
+  .play-case-summary,
+  .play-scene-para,
+  .play-low-san-copy,
+  .play-ending-desc,
+  .pantheon-plate-summary,
+  .timeline-card-summary,
+  .cinema-mov-desc,
+  #stage-pantheon #pan-sub,
+  #stage-pantheon #pan-lore {
+    font-size: 16px !important;
   }
 
   /* Keep inline prose term buttons readable at the user's chosen novel font size while meeting 44px touch height */

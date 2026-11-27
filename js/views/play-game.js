@@ -442,6 +442,7 @@ export async function renderPlayView(rootEl, subRoute, ctx) {
 
     // Active Investigation Engine HTML
     let activeEngineHtml = "";
+    let activeBreadcrumbNodeLabel = "";
     if (activeCaseData) {
       const cProg = ensureCaseProgress(playState, activeCaseData);
       processNodeArrival(activeCaseData, cProg);
@@ -456,6 +457,7 @@ export async function renderPlayView(rootEl, subRoute, ctx) {
             activeCaseData.nodes?.[activeCaseData.startNode];
 
       if (node) {
+        activeBreadcrumbNodeLabel = `${activeCaseData.title} · 节点 #${cProg.history.length}（${node.title}）`;
         const lowThresh = Number(node.lowSanThreshold) || 55;
         const isLowSan = cProg.san <= lowThresh;
         const humeVal = Number(cProg.hume).toFixed(2);
@@ -650,7 +652,7 @@ export async function renderPlayView(rootEl, subRoute, ctx) {
           <a href="#/">档案馆大厅</a>
           <span>/</span>
           <span>权限晋升与分支调查终端</span>
-          ${activeCaseData ? `<span>/</span><span>${escapeHtml(activeCaseData.title)}</span>` : ""}
+          ${activeCaseData ? `<span>/</span><span>${escapeHtml(activeBreadcrumbNodeLabel || activeCaseData.title)}</span>` : ""}
         </nav>
 
         <!-- Clearance Lv.1 - Lv.5 Progression Dashboard -->
