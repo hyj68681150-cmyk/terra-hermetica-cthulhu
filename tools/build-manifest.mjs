@@ -4,11 +4,15 @@
  * Zero-dependency manifest builder & validator for Theologia Caerulea Archive.
  * Validates:
  *  1. Unique `id` across all JSON entries, Markdown chapters, and Play cases
- *  2. Required fields (`id`, `category`, `title`, `provenance`, `summary`) & timeline fields (`eraLabel`, `yearSort`)
- *  3. Valid `geo` bounds (-90 <= lat <= 90, -180 <= lon <= 180) when present
- *  4. Every ID in `relatedIds`, `relatedEntries`, and explicit `[[entryId|...]]` links exists in entries
- *  5. Branching SAN play scripts in `data/play/index.json` & `data/play/case-*.json` (`startNode`, `choice.next`, `ID_RE`)
- *  6. GeoJSON features in `data/map/*.geojson` reference valid `entryId` (when present)
+ *  2. Required fields (`id`, `category`, `title`, `provenance`, `summary`), `category` in 7-shelf taxonomy (incl. `guides`),
+ *     and timeline fields (`eraLabel`, `yearSort`)
+ *  3. Optional `bodyPath` Markdown dossiers/guides: file exists, front matter matches `id`,
+ *     every `[[id]]` resolves, `::: doc` `type`/`origin`/`clearance` valid, `::: figure` `src` pattern valid,
+ *     missing figure `.webp` = warning (or error under `--strict`), outputs `bodyChars` and `readingMinutes`
+ *  4. Valid `geo` bounds (-90 <= lat <= 90, -180 <= lon <= 180) when present
+ *  5. Every ID in `relatedIds`, `relatedEntries`, and explicit `[[entryId|...]]` links exists in entries
+ *  6. Branching SAN play scripts in `data/play/index.json` & `data/play/case-*.json`
+ *  7. GeoJSON features in `data/map/*.geojson` reference valid `entryId` (when present)
  * Outputs: `data/manifest.json`
  */
 import fs from "node:fs";
@@ -20,8 +24,41 @@ const ROOT = path.resolve(__dirname, "..");
 const DATA_DIR = path.join(ROOT, "data");
 const ENTRIES_DIR = path.join(DATA_DIR, "entries");
 const NOVELS_DIR = path.join(DATA_DIR, "novels");
-const PLAY_DIR = path.join(DATA_DIR, "play");
+const PLAY_DIR = path.join(PLAY_DIR_PATH());
 const MAP_DIR = path.join(DATA_DIR, "map");
+
+function PLAY_DIR_PATH() {
+  return path.join(DATA_DIR, "play");
+}
+
+const STRICT_MODE = process.argv.includes("--strict");
+
+const ID_RE = /^[a-z0-9][a-z0-9-]*$/;
+const VALID_CATEGORIES = new Set([
+  "guides",
+  "entities",
+  "scp",
+  "sites",
+  "goi",
+  "timeline",
+  "codices",
+]);
+const VALID_DOC_TYPES = new Set([
+  "report",
+  "interview",
+  "test-log",
+  "exploration",
+  "notes",
+  "letter",
+  "clipping",
+  "incident",
+  "memo",
+  "transcript",
+]);
+const VALID_DOC_ORIGINS = new Set(["canon", "original"]);
+const VALID_FIGURE_SRC_RE = /^assets\/plates\/[a-z0-9][a-z0-9-]*-\d{2,3}\.webp$/;
+const BODY_CHAR_RE = /[\u3400-\u4dbf\u4e00-\u9fff\uf900-\ufaffA-Za-z0-9]/g;
+const ATTR_RE = /(\w+)=(?:"([^"]*)"|(\S+))/g;
 
 function walkFiles(dir, ext) {
   if (!fs.existsSync(dir)) return [];
@@ -35,7 +72,7 @@ function walkFiles(dir, ext) {
 }
 
 function parseFrontMatter(mdText, filePath) {
-  const m = mdText.match(/^---\r?\n([\s\S]*?)\r?\n---\r?\n([\s\S]*)$/);
+  const m = mdText.match(/^---\r?\n([\s\S]*?)\r?\n---\r?\n?([\s\S]*)$/);
   if (!m) throw new Error(`Missing front matter in ${filePath}`);
   const meta = {};
   for (const line of m[1].split(/\r?\n/)) {
@@ -57,6 +94,16 @@ function parseFrontMatter(mdText, filePath) {
   return { meta, body: m[2].trim() };
 }
 
+function parseAttrs(str) {
+  const attrs = {};
+  let m;
+  ATTR_RE.lastIndex = 0;
+  while ((m = ATTR_RE.exec(str)) !== null) {
+    attrs[m[1]] = m[2] !== undefined ? m[2] : m[3];
+  }
+  return attrs;
+}
+
 function checkExplicitWikiLinks(text, relPath, entryIds, errors) {
   if (typeof text !== "string") return;
   const re = /\[\[([^\|\]]+)(?:\|[^\]]+)?\]\]/g;
@@ -71,13 +118,119 @@ function checkExplicitWikiLinks(text, relPath, entryIds, errors) {
   }
 }
 
-const ID_RE = /^[a-z0-9][a-z0-9-]*$/;
+function validateAndMeasureBodyMarkdown(bodyRelPath, expectedId, entryIds, errors, warnings) {
+  const normRel = String(bodyRelPath || "").replace(/\\/g, "/").replace(/^\.?\//, "");
+  if (!normRel.startsWith("data/") || normRel.includes("..") || !normRel.endsWith(".md")) {
+    errors.push(`[${expectedId}] invalid bodyPath '${bodyRelPath}' (must be data/.../*.md)`);
+    return { bodyChars: 0 };
+  }
+  const absPath = path.join(ROOT, normRel);
+  if (!fs.existsSync(absPath)) {
+    errors.push(`[${expectedId}] bodyPath file does not exist: '${normRel}'`);
+    return { bodyChars: 0 };
+  }
+
+  let meta;
+  let body;
+  try {
+    const raw = fs.readFileSync(absPath, "utf8");
+    ({ meta, body } = parseFrontMatter(raw, normRel));
+  } catch (err) {
+    errors.push(`[${normRel}] ${err.message}`);
+    return { bodyChars: 0 };
+  }
+
+  if (meta.id && String(meta.id) !== expectedId) {
+    errors.push(`[${normRel}] front matter id '${meta.id}' does not match entry id '${expectedId}'`);
+  }
+
+  const lines = body.replace(/\r\n/g, "\n").split("\n");
+  let inBlock = null;
+  let bodyChars = 0;
+  const nonMarkerLines = [];
+
+  for (let idx = 0; idx < lines.length; idx++) {
+    const line = lines[idx];
+    const s = line.trim();
+
+    if (inBlock === null && s.startsWith(":::") && s.length > 3) {
+      const parts = s.slice(3).trim();
+      const spIdx = parts.search(/\s/);
+      const kind = spIdx < 0 ? parts : parts.slice(0, spIdx);
+      const attrPart = spIdx < 0 ? "" : parts.slice(spIdx + 1);
+      const attrs = parseAttrs(attrPart);
+      inBlock = kind;
+
+      if (kind === "doc") {
+        if (!attrs.type || !VALID_DOC_TYPES.has(attrs.type)) {
+          errors.push(
+            `[${normRel}:${idx + 1}] invalid doc type '${attrs.type || ""}' (allowed: ${[...VALID_DOC_TYPES].join(", ")})`
+          );
+        }
+        if (!attrs.origin || !VALID_DOC_ORIGINS.has(attrs.origin)) {
+          errors.push(
+            `[${normRel}:${idx + 1}] invalid doc origin '${attrs.origin || ""}' (allowed: canon, original)`
+          );
+        }
+        if (attrs.clearance !== undefined) {
+          const cl = Number(attrs.clearance);
+          if (!Number.isInteger(cl) || cl < 1 || cl > 5) {
+            errors.push(`[${normRel}:${idx + 1}] invalid doc clearance '${attrs.clearance}' (must be 1..5)`);
+          }
+        }
+      } else if (kind === "figure") {
+        if (!attrs.src || !VALID_FIGURE_SRC_RE.test(attrs.src)) {
+          errors.push(
+            `[${normRel}:${idx + 1}] invalid figure src '${attrs.src || ""}' (must match assets/plates/<entry-id>-NN.webp)`
+          );
+        } else {
+          const plateAbs = path.join(ROOT, attrs.src);
+          if (!fs.existsSync(plateAbs)) {
+            const msg = `[${normRel}:${idx + 1}] missing figure plate image '${attrs.src}'`;
+            if (STRICT_MODE) errors.push(msg);
+            else warnings.push(msg);
+          }
+        }
+      } else {
+        errors.push(`[${normRel}:${idx + 1}] unsupported directive '::: ${kind}'`);
+      }
+      continue;
+    }
+
+    if (s === ":::") {
+      if (inBlock === null) {
+        errors.push(`[${normRel}:${idx + 1}] stray closing ':::' without open block`);
+      }
+      inBlock = null;
+      continue;
+    }
+
+    if (inBlock !== null && s.startsWith(":::") && s.length > 3) {
+      errors.push(`[${normRel}:${idx + 1}] nested '${s}' inside unclosed '::: ${inBlock}' block`);
+      continue;
+    }
+
+    const matches = line.match(BODY_CHAR_RE);
+    if (matches) bodyChars += matches.length;
+    nonMarkerLines.push(line);
+  }
+
+  if (inBlock !== null) {
+    errors.push(`[${normRel}] unclosed '::: ${inBlock}' block at end of file`);
+  }
+
+  checkExplicitWikiLinks(nonMarkerLines.join("\n"), normRel, entryIds, errors);
+  return { bodyChars, normRel };
+}
+
 const errors = [];
+const warnings = [];
 const seenIds = new Map();
 const entryIds = new Set();
 const entries = [];
 const rawEntries = [];
 
+// Pass 1: Read all entry JSON files and register all entryIds
 for (const file of walkFiles(ENTRIES_DIR, ".json")) {
   const relPath = path.relative(ROOT, file).replace(/\\/g, "/");
   const data = JSON.parse(fs.readFileSync(file, "utf8"));
@@ -86,6 +239,11 @@ for (const file of walkFiles(ENTRIES_DIR, ".json")) {
   }
   if (data.id && !ID_RE.test(data.id)) {
     errors.push(`[${relPath}] invalid id format '${data.id}' (must match ^[a-z0-9][a-z0-9-]*$)`);
+  }
+  if (data.category && !VALID_CATEGORIES.has(data.category)) {
+    errors.push(
+      `[${relPath}] invalid category '${data.category}' (allowed: ${[...VALID_CATEGORIES].join(", ")})`
+    );
   }
   if (data.mapSiteId && !ID_RE.test(data.mapSiteId)) {
     errors.push(`[${relPath}] invalid mapSiteId format '${data.mapSiteId}'`);
@@ -127,6 +285,61 @@ for (const file of walkFiles(ENTRIES_DIR, ".json")) {
     errors.push(`[${relPath}] infobox must be an array of { label, value, original? }`);
   }
   rawEntries.push({ relPath, data });
+}
+
+// Pass 2: Validate cross-references, inline [[entryId]] links, and optional bodyPath Markdown files
+for (const { relPath, data } of rawEntries) {
+  for (const rid of data.relatedIds || []) {
+    if (!entryIds.has(rid)) {
+      errors.push(`[${relPath}] relatedId '${rid}' does not exist in entries`);
+    }
+  }
+  if (data.mapSiteId && !entryIds.has(data.mapSiteId)) {
+    errors.push(`[${relPath}] mapSiteId '${data.mapSiteId}' does not exist in entries`);
+  }
+  checkExplicitWikiLinks(data.summary, relPath, entryIds, errors);
+  if (data.overview) {
+    checkExplicitWikiLinks(data.overview, relPath, entryIds, errors);
+  }
+  for (const sec of data.sections || []) {
+    for (const p of sec.paragraphs || []) {
+      checkExplicitWikiLinks(p, relPath, entryIds, errors);
+    }
+  }
+  for (const lg of data.logs || []) {
+    checkExplicitWikiLinks(lg.content, relPath, entryIds, errors);
+  }
+
+  let bodyChars = 0;
+  let normBodyPath = null;
+  if (data.bodyPath) {
+    const res = validateAndMeasureBodyMarkdown(
+      data.bodyPath,
+      data.id,
+      entryIds,
+      errors,
+      warnings
+    );
+    bodyChars = res.bodyChars || 0;
+    normBodyPath = res.normRel || String(data.bodyPath);
+  } else {
+    // Measure inline JSON prose character count for entries without external bodyPath
+    const inlineBlob = [
+      data.summary || "",
+      data.overview || "",
+      data.proc || "",
+      data.log || "",
+      ...(data.sections || []).flatMap((s) => s.paragraphs || []),
+      ...(data.logs || []).map((l) => l.content || ""),
+    ].join("\n");
+    const m = inlineBlob.match(BODY_CHAR_RE);
+    bodyChars = m ? m.length : 0;
+  }
+
+  const readingMinutes =
+    typeof data.readingMinutes === "number" && data.readingMinutes > 0
+      ? Math.round(data.readingMinutes)
+      : Math.max(1, Math.round(bodyChars / 420));
 
   const entryManifestObj = {
     id: data.id,
@@ -138,6 +351,9 @@ for (const file of walkFiles(ENTRIES_DIR, ".json")) {
     provenance: data.provenance,
     ...(data.provenanceLabel ? { provenanceLabel: data.provenanceLabel } : {}),
     summary: data.summary,
+    ...(normBodyPath ? { bodyPath: normBodyPath } : {}),
+    bodyChars,
+    readingMinutes,
     geo: data.geo || null,
     mapSiteId: data.mapSiteId || null,
     ...(data.eraLabel ? { eraLabel: data.eraLabel } : {}),
@@ -146,27 +362,6 @@ for (const file of walkFiles(ENTRIES_DIR, ".json")) {
     updatedAt: data.updatedAt || "2026-11-26",
   };
   entries.push(entryManifestObj);
-}
-
-// Validate relatedIds & inline [[entryId|...]] links inside entries
-for (const { relPath, data } of rawEntries) {
-  for (const rid of data.relatedIds || []) {
-    if (!entryIds.has(rid)) {
-      errors.push(`[${relPath}] relatedId '${rid}' does not exist in entries`);
-    }
-  }
-  if (data.mapSiteId && !entryIds.has(data.mapSiteId)) {
-    errors.push(`[${relPath}] mapSiteId '${data.mapSiteId}' does not exist in entries`);
-  }
-  checkExplicitWikiLinks(data.summary, relPath, entryIds, errors);
-  for (const sec of data.sections || []) {
-    for (const p of sec.paragraphs || []) {
-      checkExplicitWikiLinks(p, relPath, entryIds, errors);
-    }
-  }
-  for (const lg of data.logs || []) {
-    checkExplicitWikiLinks(lg.content, relPath, entryIds, errors);
-  }
 }
 
 // Scan novels (book.json + ch-*.md)
@@ -388,6 +583,11 @@ for (const mf of mapFiles) {
       }
     }
   }
+}
+
+if (warnings.length > 0) {
+  console.warn(`Manifest warnings (${warnings.length}):`);
+  for (const w of warnings) console.warn("  [warn]", w);
 }
 
 if (errors.length > 0) {

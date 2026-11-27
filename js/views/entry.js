@@ -1,23 +1,29 @@
 /**
  * js/views/entry.js
- * Full Archival Entry Reader (#/entry/<id>)
- * Desktop 2-column layout (minmax(0, 1fr) 310px), mobile Infobox right below title,
- * per-section once-only autolinking, Clearance-gated logs, clue collection,
- * related back-links, and provenance/CC BY-SA 3.0 colophon.
+ * Full Archival Entry & Flagship Dossier / Guide Reader (#/entry/<id>)
+ * Supports:
+ *  - Top "前情提要" (overview) box
+ *  - Long-form `bodyPath` Markdown rendering (`js/markdown.js`) with sticky desktop ToC in right rail,
+ *    collapsible mobile `<details>` ToC, Clearance-gated attachment cards (`::: doc`), and lazy 3:2
+ *    copperplate `<figure>` frames with zero-inline-handler 404 hairline placeholders
+ *  - Full backwards-compatible summary / sections / proc / logs rendering when `bodyPath` is absent
  */
 
 import { escapeHtml } from "../sanitize.js";
 import { PANTHEON_SIGILS, CITY_SIGILS } from "../sigils.js";
+import { parseArchivalMarkdown, renderMarkdownBlocks } from "../markdown.js";
 import { ARCHIVE_CATEGORIES } from "./home.js";
 import { buildEntryMapHref } from "./category.js";
 
 const VALID_ID_RE = /^[a-z0-9][a-z0-9-]*$/;
+const SAFE_BODY_PATH_RE = /^data\/(?:dossiers|guides)\/[a-z0-9][a-z0-9-]*\.md$/;
 
 const CAT_TITLE_MAP = Object.fromEntries(
   ARCHIVE_CATEGORIES.map((c) => [c.slug, c.title])
 );
 
 const GENERIC_CATEGORY_SIGILS = {
+  guides: `<svg class="sigil-lg" viewBox="0 0 48 48"><circle cx="24" cy="24" r="19"/><polygon points="24,7 29,21 41,24 29,27 24,41 19,27 7,24 19,21"/><circle cx="24" cy="24" r="3"/></svg>`,
   sites: `<svg class="sigil-lg" viewBox="0 0 48 48"><circle cx="24" cy="24" r="19"/><circle cx="24" cy="24" r="9"/><line x1="24" y1="3" x2="24" y2="11"/><line x1="24" y1="37" x2="24" y2="45"/><line x1="3" y1="24" x2="11" y2="24"/><line x1="37" y1="24" x2="45" y2="24"/><circle cx="24" cy="24" r="2.2"/></svg>`,
   scp: `<svg class="sigil-lg" viewBox="0 0 48 48"><circle cx="24" cy="24" r="19"/><polygon points="24,8 38,33 10,33"/><circle cx="24" cy="25" r="5"/></svg>`,
   goi: `<svg class="sigil-lg" viewBox="0 0 48 48"><polygon points="24,5 41,15 41,33 24,43 7,33 7,15"/><circle cx="24" cy="24" r="7"/><line x1="24" y1="5" x2="24" y2="17"/><line x1="24" y1="31" x2="24" y2="43"/></svg>`,
@@ -81,19 +87,16 @@ function resolveRelatedEntries(item, manifestEntries) {
     picked.push(found);
   };
 
-  // 1. Explicit item.relatedIds
   if (Array.isArray(item.relatedIds)) {
     for (const rid of item.relatedIds) {
       addById(rid);
     }
   }
 
-  // 2. Direct mapSiteId counterpart
   if (item.mapSiteId) {
     addById(item.mapSiteId);
   }
 
-  // 3. Back-links from other entries if relatedIds has < 3 items
   if (picked.length < 3) {
     const cleanShortTitle = String(item.title || "")
       .replace(/（[^）]*）/g, "")
@@ -121,7 +124,6 @@ function resolveRelatedEntries(item, manifestEntries) {
     }
   }
 
-  // 4. Same-category neighbors fallback if still < 3
   if (picked.length < 3) {
     for (const cand of manifestEntries) {
       if (!cand || seen.has(cand.id)) continue;
@@ -141,6 +143,56 @@ function normalizeCluesList(item) {
     ? item.cluesGranted
     : [item.cluesGranted];
   return raw.filter((c) => c && VALID_ID_RE.test(String(c.id || "")));
+}
+
+function renderTocListHtml(toc, entryId, currentClearance) {
+  if (!Array.isArray(toc) || toc.length === 0) return "";
+  return `
+    <ol class="wiki-toc-list">
+      ${toc
+        .map((t) => {
+          const locked = t.kind === "doc" && t.clearance && currentClearance < t.clearance;
+          const subCls = t.level === 3 ? "wiki-toc-sub" : "";
+          const lockTag = locked ? ` [Lv.${t.clearance}]` : "";
+          return `
+            <li class="wiki-toc-item ${subCls}">
+              <a
+                href="#/entry/${encodeURIComponent(entryId)}"
+                class="wiki-toc-link ${locked ? "is-locked" : ""}"
+                data-toc-target="${escapeHtml(t.id)}"
+              >${escapeHtml(t.text)}${escapeHtml(lockTag)}</a>
+            </li>
+          `;
+        })
+        .join("")}
+    </ol>
+  `;
+}
+
+function bindFigureImageStates(containerEl) {
+  if (!containerEl || typeof containerEl.querySelectorAll !== "function") return;
+  const imgs = containerEl.querySelectorAll(".wiki-figure-img");
+  for (const img of imgs) {
+    const frame = img.closest?.("[data-figure-frame]");
+    if (!frame) continue;
+
+    const markLoaded = () => {
+      frame.classList.remove("is-missing");
+      frame.classList.add("is-loaded");
+    };
+    const markMissing = () => {
+      frame.classList.remove("is-loaded");
+      frame.classList.add("is-missing");
+    };
+
+    if (img.complete) {
+      if (img.naturalWidth > 0) markLoaded();
+      else markMissing();
+    } else {
+      img.addEventListener("load", markLoaded, { once: true });
+      img.addEventListener("error", markMissing, { once: true });
+    }
+  }
 }
 
 export async function renderEntryView(rootEl, entryId, ctx) {
@@ -193,6 +245,24 @@ export async function renderEntryView(rootEl, entryId, ctx) {
     return;
   }
 
+  // Fetch optional long-form Markdown body if bodyPath is valid
+  let parsedMarkdown = null;
+  const cleanBodyPath = String(item.bodyPath || "").replace(/^\.?\//, "").trim();
+  if (cleanBodyPath && SAFE_BODY_PATH_RE.test(cleanBodyPath) && typeof ctx.fetchText === "function") {
+    try {
+      const mdRaw = await ctx.fetchText(cleanBodyPath);
+      if (mdRaw && typeof mdRaw === "string") {
+        parsedMarkdown = parseArchivalMarkdown(mdRaw);
+      }
+    } catch (_) {
+      parsedMarkdown = null;
+    }
+  }
+
+  const manifestMeta = manifestEntries.find((m) => m.id === item.id) || null;
+  const readingMinutes =
+    Number(item.readingMinutes) || Number(manifestMeta?.readingMinutes) || 0;
+
   // Record entry read (+10 XP on first read, idempotent)
   ctx.clearance.recordEntryRead(item.id, item.title);
 
@@ -207,7 +277,6 @@ export async function renderEntryView(rootEl, entryId, ctx) {
     const itemClearance = Math.max(1, Number(item.clearance) || 1);
     const codeLabel = item.code || item.id.toUpperCase();
 
-    // Coordinate & Map / Gallery links (strictly guarded on geo / mapSiteId and artType / legacyCityId)
     const coordStr = formatEntryCoord(item.geo);
     const precisionStr = item.geo ? formatPrecisionLabel(item.geo.precision) : "";
     const mapHref = buildEntryMapHref(item);
@@ -220,7 +289,6 @@ export async function renderEntryView(rootEl, entryId, ctx) {
       ? "前往视觉展厅查看圣像 →"
       : "前往视觉展厅查看星象仪 →";
 
-    // Infobox rows
     const infoboxRows = Array.isArray(item.infobox) ? [...item.infobox] : [];
     if (
       item.eraLabel &&
@@ -270,14 +338,28 @@ export async function renderEntryView(rootEl, entryId, ctx) {
         </div>`
         : "";
 
-    // Overview paragraph (fresh Set for overview)
-    const overviewHtml = ctx.autolink.renderProseWithLinks(item.summary || "", {
-      autolinkIndex,
-      excludeId: item.id,
-      currentClearance: clState.level,
-      redactPrefix: `${item.id}-sum`,
-      linkedSet: new Set(),
-    });
+    // Overview ("前情提要") box at top when item.overview exists
+    const hasOverviewBox = typeof item.overview === "string" && item.overview.trim().length > 0;
+    const overviewBoxHtml = hasOverviewBox
+      ? `
+        <section class="wiki-overview-box" aria-label="前情提要">
+          <div class="wiki-overview-head">
+            <span class="lapidary-serif">PRAEFATIO · 前情提要</span>
+            ${readingMinutes > 0 ? `<span class="wiki-lv-pill">预计阅读 ${readingMinutes} 分钟</span>` : ""}
+          </div>
+          <p class="prose-read wiki-overview-prose">${ctx.autolink.renderProseWithLinks(
+            item.overview,
+            {
+              autolinkIndex,
+              excludeId: item.id,
+              currentClearance: clState.level,
+              redactPrefix: `${item.id}-ov`,
+              linkedSet: new Set(),
+            }
+          )}</p>
+        </section>
+      `
+      : "";
 
     // Epigraph (scripture or motto)
     const epigraphRaw = item.scripture || item.motto || "";
@@ -285,194 +367,259 @@ export async function renderEntryView(rootEl, entryId, ctx) {
       ? `<blockquote class="wiki-entry-epigraph">${escapeHtml(epigraphRaw)}</blockquote>`
       : "";
 
-    // Structured sections (each section gets its OWN fresh Set() so each term autolinks once per section!)
-    const sectionsArr = Array.isArray(item.sections) ? item.sections : [];
-    const allSectionText = sectionsArr
-      .map((s) =>
-        [
-          s.heading || "",
-          ...(Array.isArray(s.paragraphs) ? s.paragraphs : [s.content || ""]),
-        ].join(" ")
-      )
-      .join(" ");
+    let mainBodyHtml = "";
+    let tocItems = [];
 
-    const sectionsHtml = sectionsArr
-      .map((sec, sIdx) => {
-        const secLinkedSet = new Set();
-        const paras = Array.isArray(sec.paragraphs)
-          ? sec.paragraphs
-          : String(sec.content || "")
-              .split(/\n{2,}/)
-              .filter(Boolean);
-        return `
-          <section class="wiki-article-section">
-            <h2 class="wiki-section-h2">${escapeHtml(sec.heading || `卷宗章节 ${sIdx + 1}`)}</h2>
-            <div class="wiki-section-prose">
-              ${paras
-                .map(
-                  (p, pIdx) =>
-                    `<p class="prose-read">${ctx.autolink.renderProseWithLinks(p, {
-                      autolinkIndex,
-                      excludeId: item.id,
-                      currentClearance: clState.level,
-                      redactPrefix: `${item.id}-s${sIdx}-p${pIdx}`,
-                      linkedSet: secLinkedSet,
-                    })}</p>`
-                )
-                .join("")}
-            </div>
-          </section>
-        `;
-      })
-      .join("");
+    if (parsedMarkdown && parsedMarkdown.blocks.length > 0) {
+      // Flagship Dossier / Guide Markdown mode
+      tocItems = parsedMarkdown.toc || [];
+      const mdHtml = renderMarkdownBlocks(parsedMarkdown.blocks, {
+        autolinkIndex,
+        excludeId: item.id,
+        currentClearance: clState.level,
+        entryId: item.id,
+      });
+      mainBodyHtml = `<div class="wiki-md-body">${mdHtml}</div>`;
+    } else {
+      // Classic JSON entry mode (entries without bodyPath)
+      const leadSummaryHtml = ctx.autolink.renderProseWithLinks(item.summary || "", {
+        autolinkIndex,
+        excludeId: item.id,
+        currentClearance: clState.level,
+        redactPrefix: `${item.id}-sum`,
+        linkedSet: new Set(),
+      });
 
-    // Containment / Garrison procedures (item.proc) if present and not duplicated
-    const hasProc =
-      item.proc && !allSectionText.includes(String(item.proc).slice(0, 18));
-    const procHtml = hasProc
-      ? (() => {
-          const procSet = new Set();
+      const sectionsArr = Array.isArray(item.sections) ? item.sections : [];
+      tocItems = sectionsArr.map((s, idx) => ({
+        id: `json-sec-${idx}`,
+        level: 2,
+        kind: "heading",
+        text: s.heading || `卷宗章节 ${idx + 1}`,
+      }));
+
+      const allSectionText = sectionsArr
+        .map((s) =>
+          [
+            s.heading || "",
+            ...(Array.isArray(s.paragraphs) ? s.paragraphs : [s.content || ""]),
+          ].join(" ")
+        )
+        .join(" ");
+
+      const sectionsHtml = sectionsArr
+        .map((sec, sIdx) => {
+          const secLinkedSet = new Set();
+          const paras = Array.isArray(sec.paragraphs)
+            ? sec.paragraphs
+            : String(sec.content || "")
+                .split(/\n{2,}/)
+                .filter(Boolean);
           return `
-            <section class="wiki-article-section">
-              <h2 class="wiki-section-h2">
-                特殊收容与驻防规程
-                <span class="orig-field-tag">本站设定</span>
-              </h2>
+            <section id="json-sec-${sIdx}" class="wiki-article-section">
+              <h2 class="wiki-section-h2">${escapeHtml(sec.heading || `卷宗章节 ${sIdx + 1}`)}</h2>
               <div class="wiki-section-prose">
-                <p class="prose-read">${ctx.autolink.renderProseWithLinks(item.proc, {
-                  autolinkIndex,
-                  excludeId: item.id,
-                  currentClearance: clState.level,
-                  redactPrefix: `${item.id}-proc`,
-                  linkedSet: procSet,
-                })}</p>
-              </div>
-            </section>
-          `;
-        })()
-      : "";
-
-    // Terrain / Architecture / Crowd details if present and not duplicated
-    const hasSiteGeoNotes =
-      (item.terrain || item.arch || item.crowd) &&
-      !allSectionText.includes(String(item.terrain || item.arch || "").slice(0, 12));
-    const siteGeoNotesHtml = hasSiteGeoNotes
-      ? (() => {
-          const geoSet = new Set();
-          const rows = [
-            item.terrain ? ["地势与水文", item.terrain] : null,
-            item.arch ? ["核心圣城建筑", item.arch] : null,
-            item.crowd ? ["驻防与行旅动态", item.crowd] : null,
-          ].filter(Boolean);
-          return `
-            <section class="wiki-article-section">
-              <h2 class="wiki-section-h2">地形剖面与城防形制</h2>
-              <div class="wiki-section-prose">
-                ${rows
+                ${paras
                   .map(
-                    ([k, v], idx) =>
-                      `<p class="prose-read"><strong>${escapeHtml(k)}：</strong>${ctx.autolink.renderProseWithLinks(
-                        v,
-                        {
-                          autolinkIndex,
-                          excludeId: item.id,
-                          currentClearance: clState.level,
-                          redactPrefix: `${item.id}-geo${idx}`,
-                          linkedSet: geoSet,
-                        }
-                      )}</p>`
+                    (p, pIdx) =>
+                      `<p class="prose-read">${ctx.autolink.renderProseWithLinks(p, {
+                        autolinkIndex,
+                        excludeId: item.id,
+                        currentClearance: clState.level,
+                        redactPrefix: `${item.id}-s${sIdx}-p${pIdx}`,
+                        linkedSet: secLinkedSet,
+                      })}</p>`
                   )
                   .join("")}
               </div>
             </section>
           `;
-        })()
-      : "";
+        })
+        .join("");
 
-    // Logs: item.log (single string) + item.logs (array of { title, minClearance, content })
-    const logBlocks = [];
-    if (item.log) {
-      logBlocks.push({
-        title: "附卷监理备忘录",
-        minClearance: 1,
-        content: item.log,
-      });
-    }
-    if (Array.isArray(item.logs)) {
-      for (const lg of item.logs) {
-        if (lg && (lg.content || Array.isArray(lg.paragraphs))) {
-          logBlocks.push(lg);
-        }
-      }
-    }
-
-    const logsSectionHtml =
-      logBlocks.length > 0
-        ? `
-        <section class="wiki-article-section">
-          <h2 class="wiki-section-h2">机密实验与调查附卷</h2>
-          <div class="wiki-logs-stack">
-            ${logBlocks
-              .map((lg, lIdx) => {
-                const minLv = Math.max(1, Number(lg.minClearance) || 1);
-                const lgTitle = lg.title || `档案附卷记录 #${lIdx + 1}`;
-                if (clState.level < minLv) {
-                  return `
-                    <div class="wiki-clearance-lock-panel">
-                      <div class="wiki-lock-top">
-                        <span class="wiki-lock-badge">[机密附录 · 需 Clearance Lv.${minLv} 解锁]</span>
-                        <span class="wiki-lv-pill">当前 Lv.${clState.level}</span>
-                      </div>
-                      <div class="wiki-lock-title">${escapeHtml(lgTitle)}</div>
-                      <p class="wiki-lock-desc">
-                        本段附卷受第 ${minLv} 级神学保密协议封存。通过调阅馆藏词条、收集现场线索或前往调查终端完成案件可提升权限等级。
-                      </p>
-                      <div class="wiki-lock-actions">
-                        <a class="bp-btn active" href="#/play">进入权限与调查终端 →</a>
-                      </div>
-                    </div>
-                  `;
-                }
-
-                const logLinkedSet = new Set();
-                const logParas = Array.isArray(lg.paragraphs)
-                  ? lg.paragraphs
-                  : String(lg.content || "")
-                      .split(/\n{2,}/)
-                      .filter(Boolean);
-                return `
-                  <details class="wiki-log-details" open>
-                    <summary class="wiki-log-summary">
-                      <span class="wiki-log-lv">[Lv.${minLv} 已解密]</span>
-                      <span>${escapeHtml(lgTitle)}</span>
-                    </summary>
-                    <div class="wiki-log-body">
-                      ${logParas
-                        .map(
-                          (lp, pIdx) =>
-                            `<p class="prose-read">${ctx.autolink.renderProseWithLinks(
-                              lp,
-                              {
-                                autolinkIndex,
-                                excludeId: item.id,
-                                currentClearance: clState.level,
-                                redactPrefix: `${item.id}-log${lIdx}-p${pIdx}`,
-                                linkedSet: logLinkedSet,
-                              }
-                            )}</p>`
-                        )
-                        .join("")}
-                    </div>
-                  </details>
-                `;
-              })
-              .join("")}
-          </div>
-        </section>
-      `
+      const hasProc =
+        item.proc && !allSectionText.includes(String(item.proc).slice(0, 18));
+      const procHtml = hasProc
+        ? (() => {
+            const procSet = new Set();
+            return `
+              <section class="wiki-article-section">
+                <h2 class="wiki-section-h2">
+                  特殊收容与驻防规程
+                  <span class="orig-field-tag">本站设定</span>
+                </h2>
+                <div class="wiki-section-prose">
+                  <p class="prose-read">${ctx.autolink.renderProseWithLinks(item.proc, {
+                    autolinkIndex,
+                    excludeId: item.id,
+                    currentClearance: clState.level,
+                    redactPrefix: `${item.id}-proc`,
+                    linkedSet: procSet,
+                  })}</p>
+                </div>
+              </section>
+            `;
+          })()
         : "";
 
-    // Related entries
+      const hasSiteGeoNotes =
+        (item.terrain || item.arch || item.crowd) &&
+        !allSectionText.includes(String(item.terrain || item.arch || "").slice(0, 12));
+      const siteGeoNotesHtml = hasSiteGeoNotes
+        ? (() => {
+            const geoSet = new Set();
+            const rows = [
+              item.terrain ? ["地势与水文", item.terrain] : null,
+              item.arch ? ["核心圣城建筑", item.arch] : null,
+              item.crowd ? ["驻防与行旅动态", item.crowd] : null,
+            ].filter(Boolean);
+            return `
+              <section class="wiki-article-section">
+                <h2 class="wiki-section-h2">地形剖面与城防形制</h2>
+                <div class="wiki-section-prose">
+                  ${rows
+                    .map(
+                      ([k, v], idx) =>
+                        `<p class="prose-read"><strong>${escapeHtml(k)}：</strong>${ctx.autolink.renderProseWithLinks(
+                          v,
+                          {
+                            autolinkIndex,
+                            excludeId: item.id,
+                            currentClearance: clState.level,
+                            redactPrefix: `${item.id}-geo${idx}`,
+                            linkedSet: geoSet,
+                          }
+                        )}</p>`
+                    )
+                    .join("")}
+                </div>
+              </section>
+            `;
+          })()
+        : "";
+
+      const logBlocks = [];
+      if (item.log) {
+        logBlocks.push({
+          title: "附卷监理备忘录",
+          minClearance: 1,
+          content: item.log,
+        });
+      }
+      if (Array.isArray(item.logs)) {
+        for (const lg of item.logs) {
+          if (lg && (lg.content || Array.isArray(lg.paragraphs))) {
+            logBlocks.push(lg);
+          }
+        }
+      }
+
+      const logsSectionHtml =
+        logBlocks.length > 0
+          ? `
+          <section class="wiki-article-section">
+            <h2 class="wiki-section-h2">机密实验与调查附卷</h2>
+            <div class="wiki-logs-stack">
+              ${logBlocks
+                .map((lg, lIdx) => {
+                  const minLv = Math.max(1, Number(lg.minClearance) || 1);
+                  const lgTitle = lg.title || `档案附卷记录 #${lIdx + 1}`;
+                  if (clState.level < minLv) {
+                    return `
+                      <div class="wiki-clearance-lock-panel">
+                        <div class="wiki-lock-top">
+                          <span class="wiki-lock-badge">[机密附录 · 需 Clearance Lv.${minLv} 解锁]</span>
+                          <span class="wiki-lv-pill">当前 Lv.${clState.level}</span>
+                        </div>
+                        <div class="wiki-lock-title">${escapeHtml(lgTitle)}</div>
+                        <p class="wiki-lock-desc">
+                          本段附卷受第 ${minLv} 级神学保密协议封存。通过调阅馆藏词条、收集现场线索或前往调查终端完成案件可提升权限等级。
+                        </p>
+                        <div class="wiki-lock-actions">
+                          <a class="bp-btn active" href="#/play">进入权限与调查终端 →</a>
+                        </div>
+                      </div>
+                    `;
+                  }
+
+                  const logLinkedSet = new Set();
+                  const logParas = Array.isArray(lg.paragraphs)
+                    ? lg.paragraphs
+                    : String(lg.content || "")
+                        .split(/\n{2,}/)
+                        .filter(Boolean);
+                  return `
+                    <details class="wiki-log-details" open>
+                      <summary class="wiki-log-summary">
+                        <span class="wiki-log-lv">[Lv.${minLv} 已解密]</span>
+                        <span>${escapeHtml(lgTitle)}</span>
+                      </summary>
+                      <div class="wiki-log-body">
+                        ${logParas
+                          .map(
+                            (lp, pIdx) =>
+                              `<p class="prose-read">${ctx.autolink.renderProseWithLinks(
+                                lp,
+                                {
+                                  autolinkIndex,
+                                  excludeId: item.id,
+                                  currentClearance: clState.level,
+                                  redactPrefix: `${item.id}-log${lIdx}-p${pIdx}`,
+                                  linkedSet: logLinkedSet,
+                                }
+                              )}</p>`
+                          )
+                          .join("")}
+                      </div>
+                    </details>
+                  `;
+                })
+                .join("")}
+            </div>
+          </section>
+        `
+          : "";
+
+      mainBodyHtml = `
+        <section class="wiki-entry-overview">
+          <p class="prose-read wiki-lead-prose">${leadSummaryHtml}</p>
+        </section>
+        ${sectionsHtml}
+        ${procHtml}
+        ${siteGeoNotesHtml}
+        ${logsSectionHtml}
+      `;
+    }
+
+    const tocInnerHtml =
+      tocItems.length >= 2
+        ? renderTocListHtml(tocItems, item.id, clState.level)
+        : "";
+
+    const desktopTocHtml = tocInnerHtml
+      ? `
+        <nav class="wiki-toc-sticky" aria-label="卷宗章节目录">
+          <div class="wiki-toc-head">
+            <span class="lapidary-serif">INDEX CAPITVM · 卷宗目录</span>
+          </div>
+          ${tocInnerHtml}
+        </nav>
+      `
+      : "";
+
+    const mobileTocHtml = tocInnerHtml
+      ? `
+        <details class="wiki-toc-mobile">
+          <summary class="wiki-toc-mobile-sum">
+            <span>展开卷宗章节与附件目录（${tocItems.length} 节）</span>
+          </summary>
+          <nav class="wiki-toc-mobile-body" aria-label="移动端章节目录">
+            ${tocInnerHtml}
+          </nav>
+        </details>
+      `
+      : "";
+
     const relatedItems = resolveRelatedEntries(item, manifestEntries);
     const relatedHtml =
       relatedItems.length > 0
@@ -499,7 +646,6 @@ export async function renderEntryView(rootEl, entryId, ctx) {
       `
         : "";
 
-    // Provenance & License Box
     const attributionLines = [];
     if (item.provenanceLabel) attributionLines.push(`文献属性：${item.provenanceLabel}`);
     else attributionLines.push(`文献属性：${badge.text}`);
@@ -522,6 +668,11 @@ export async function renderEntryView(rootEl, entryId, ctx) {
               <span class="wiki-entry-code">${escapeHtml(codeLabel)}</span>
               <span class="${badge.cls}">${escapeHtml(badge.text)}</span>
               <span class="wiki-lv-pill">Clearance Lv.${itemClearance}</span>
+              ${
+                readingMinutes > 0
+                  ? `<span class="wiki-lv-pill">阅读约 ${readingMinutes} 分钟</span>`
+                  : ""
+              }
             </div>
             <h1 class="wiki-entry-title">${escapeHtml(item.title)}</h1>
             ${
@@ -531,80 +682,78 @@ export async function renderEntryView(rootEl, entryId, ctx) {
             }
           </header>
 
-          <aside class="wiki-infobox-aside" aria-label="词条铜版图版与元数据">
-            <div class="wiki-ib-plate">
-              <div class="wiki-ib-plate-top">
-                <span class="lapidary-serif">FIGVRA ARCHIVI</span>
-                <span class="wiki-ib-plate-lv">LV.${itemClearance}</span>
+          <div class="wiki-right-rail">
+            <aside class="wiki-infobox-aside" aria-label="词条铜版图版与元数据">
+              <div class="wiki-ib-plate">
+                <div class="wiki-ib-plate-top">
+                  <span class="lapidary-serif">FIGVRA ARCHIVI</span>
+                  <span class="wiki-ib-plate-lv">LV.${itemClearance}</span>
+                </div>
+                <div class="wiki-ib-emblem" aria-hidden="true">
+                  ${pickEmblemSvg(item)}
+                </div>
+                <div class="wiki-ib-plate-code">${escapeHtml(codeLabel)}</div>
+                ${
+                  item.fig
+                    ? `<div class="wiki-ib-plate-caption">${escapeHtml(item.fig)}</div>`
+                    : ""
+                }
               </div>
-              <div class="wiki-ib-emblem" aria-hidden="true">
-                ${pickEmblemSvg(item)}
+
+              <div class="wiki-ib-badges-row">
+                <span class="${badge.cls}">${escapeHtml(badge.text)}</span>
+                <span class="wiki-lv-pill">保密等级 Lv.${itemClearance}</span>
               </div>
-              <div class="wiki-ib-plate-code">${escapeHtml(codeLabel)}</div>
+
               ${
-                item.fig
-                  ? `<div class="wiki-ib-plate-caption">${escapeHtml(item.fig)}</div>`
+                infoboxRowsHtml || coordStr
+                  ? `<dl class="wiki-ib-dl">
+                      ${infoboxRowsHtml}
+                      ${
+                        coordStr
+                          ? `<div class="wiki-ib-row">
+                              <dt class="wiki-ib-label">经纬坐标</dt>
+                              <dd class="wiki-ib-val">
+                                <span class="wiki-ib-coord">${escapeHtml(coordStr)}</span>
+                                ${
+                                  precisionStr
+                                    ? `<span class="wiki-ib-precision">${escapeHtml(precisionStr)}</span>`
+                                    : ""
+                                }
+                              </dd>
+                            </div>`
+                          : ""
+                      }
+                    </dl>`
                   : ""
               }
-            </div>
 
-            <div class="wiki-ib-badges-row">
-              <span class="${badge.cls}">${escapeHtml(badge.text)}</span>
-              <span class="wiki-lv-pill">保密等级 Lv.${itemClearance}</span>
-            </div>
-
-            ${
-              infoboxRowsHtml || coordStr
-                ? `<dl class="wiki-ib-dl">
-                    ${infoboxRowsHtml}
-                    ${
-                      coordStr
-                        ? `<div class="wiki-ib-row">
-                            <dt class="wiki-ib-label">经纬坐标</dt>
-                            <dd class="wiki-ib-val">
-                              <span class="wiki-ib-coord">${escapeHtml(coordStr)}</span>
-                              ${
-                                precisionStr
-                                  ? `<span class="wiki-ib-precision">${escapeHtml(precisionStr)}</span>`
-                                  : ""
-                              }
-                            </dd>
-                          </div>`
-                        : ""
-                    }
-                  </dl>`
-                : ""
-            }
-
-            ${
-              mapHref || hasGalleryLink
-                ? `<div class="wiki-ib-actions">
-                    ${
-                      mapHref
-                        ? `<a class="bp-btn active wiki-ib-btn" href="${escapeHtml(mapHref)}">在铜版舆图定位 →</a>`
-                        : ""
-                    }
-                    ${
-                      hasGalleryLink
-                        ? `<a class="bp-btn wiki-ib-btn" href="${galleryHref}">${galleryBtnText}</a>`
-                        : ""
-                    }
-                  </div>`
-                : ""
-            }
-          </aside>
+              ${
+                mapHref || hasGalleryLink
+                  ? `<div class="wiki-ib-actions">
+                      ${
+                        mapHref
+                          ? `<a class="bp-btn active wiki-ib-btn" href="${escapeHtml(mapHref)}">在铜版舆图定位 →</a>`
+                          : ""
+                      }
+                      ${
+                        hasGalleryLink
+                          ? `<a class="bp-btn wiki-ib-btn" href="${galleryHref}">${galleryBtnText}</a>`
+                          : ""
+                      }
+                    </div>`
+                  : ""
+              }
+            </aside>
+            ${desktopTocHtml}
+          </div>
 
           <article class="wiki-entry-main">
-            <section class="wiki-entry-overview">
-              <p class="prose-read wiki-lead-prose">${overviewHtml}</p>
-            </section>
-
+            ${mobileTocHtml}
+            ${overviewBoxHtml}
             ${epigraphHtml}
             ${cluesBoxHtml}
-            ${sectionsHtml}
-            ${procHtml}
-            ${siteGeoNotesHtml}
-            ${logsSectionHtml}
+            ${mainBodyHtml}
             ${relatedHtml}
 
             <section class="wiki-provenance-box" aria-label="出处署名与版权声明">
@@ -618,11 +767,30 @@ export async function renderEntryView(rootEl, entryId, ctx) {
         </div>
       </div>
     `;
+
+    bindFigureImageStates(rootEl);
   };
 
   renderArticleDom();
 
-  const onRootClick = (e) => {
+  const handleRootClick = (e) => {
+    const tocLink = e.target.closest?.("[data-toc-target]");
+    if (tocLink) {
+      e.preventDefault();
+      const targetId = tocLink.dataset.tocTarget;
+      if (targetId && typeof document !== "undefined") {
+        const targetEl = document.getElementById(targetId);
+        if (targetEl && typeof targetEl.scrollIntoView === "function") {
+          targetEl.scrollIntoView({ behavior: "smooth", block: "start" });
+        }
+        const mobDetails = tocLink.closest?.(".wiki-toc-mobile");
+        if (mobDetails) {
+          mobDetails.open = false;
+        }
+      }
+      return;
+    }
+
     const clueBtn = e.target.closest?.("[data-grant-clue]");
     if (clueBtn) {
       const id = clueBtn.dataset.grantClue;
@@ -643,7 +811,7 @@ export async function renderEntryView(rootEl, entryId, ctx) {
     }
   };
 
-  rootEl.addEventListener("click", onRootClick);
+  rootEl.addEventListener("click", handleRootClick);
 
   let prevRenderedLevel = ctx.clearance.getClearanceState().level;
   const offClearance = ctx.clearance.onClearanceChange((nextState) => {
@@ -654,7 +822,7 @@ export async function renderEntryView(rootEl, entryId, ctx) {
   });
 
   rootEl.__wikiCleanup = () => {
-    rootEl.removeEventListener("click", onRootClick);
+    rootEl.removeEventListener("click", handleRootClick);
     offClearance?.();
   };
 }

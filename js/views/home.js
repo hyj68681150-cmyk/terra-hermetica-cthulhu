@@ -1,14 +1,22 @@
 /**
  * js/views/home.js
  * Archive Lobby (#/) — Hermes-inspired monochrome editorial header,
- * full-site instant search with live suggestions, Clearance progression strip,
- * 7-category directory grid, recent dossiers, and novel/investigation portals.
+ * "入馆必读" (Prolegomena Guides) strip at top of lobby, full-site instant search,
+ * Clearance progression strip, archival category directory grid, recent dossiers,
+ * and novel/investigation portals.
  */
 
 import { escapeHtml } from "../sanitize.js";
 import { formatPlainSummary } from "../autolink.js";
 
 export const ARCHIVE_CATEGORIES = [
+  {
+    slug: "guides",
+    title: "入馆必读",
+    latin: "PROLEGOMENA ARCHIVI",
+    glyph: "☉\uFE0E",
+    desc: "入馆导读六卷：权限与徽章体例、三大体系合流、纪元前情、阵营格局、休谟物理与大浸染守则。",
+  },
   {
     slug: "entities",
     title: "实体与神祇",
@@ -28,28 +36,28 @@ export const ARCHIVE_CATEGORIES = [
     title: "地点与站点",
     latin: "TOPOGRAPHIA SANCTORVM",
     glyph: "☉\uFE0E",
-    desc: "全球收容要塞、远古遗迹与神话海渊的实测高程、经纬坐标与驻防志。",
+    desc: "全球收容要塞、七曜圣城、远古遗迹与神话海渊的实测高程、经纬坐标与驻防志。",
   },
   {
     slug: "goi",
     title: "同行组织",
     latin: "ORDINES ET SOCIETATES",
     glyph: "☿\uFE0E",
-    desc: "战术神学部、破碎之神教会、欲肉教、蛇之手、密大与赫尔墨斯蓝色修会。",
+    desc: "蓝印盟约、战术神学部、破碎之神教会、欲肉教、蛇之手、密大与赫尔墨斯蓝色修会。",
   },
   {
     slug: "timeline",
     title: "事件年表",
     latin: "CHRONICA AETATVM",
     glyph: "☉\uFE0E",
-    desc: "自古生代远古者筑城、青铜神战、法罗斯立约至现代休谟并网的编年史。",
+    desc: "自古生代远古者筑城、青铜神战、法罗斯立约至大浸染纪元七曜并网的编年史。",
   },
   {
     slug: "codices",
     title: "典籍残卷",
     latin: "FRAGMENTA HERMETICA",
     glyph: "♄\uFE0E",
-    desc: "蓝色神学休谟场论、外神分级矩阵与跨宇宙秘传文献汇编。",
+    desc: "大浸染纪元总述、蓝色神学休谟场论、外神分级矩阵与秘传文献汇编。",
   },
   {
     slug: "novels",
@@ -58,6 +66,15 @@ export const ARCHIVE_CATEGORIES = [
     glyph: "☽\uFE0E",
     desc: "基于馆藏世界观创作的克苏鲁新怪谈连载长卷，支持术语侧栏即点即查。",
   },
+];
+
+const CANONICAL_GUIDE_SLOTS = [
+  { id: "guide-01-reading", code: "GVIDA-I", title: "入馆阅览与保密体例导引", desc: "五级 Clearance 晋升机制、原典与本站设定双态徽章及遮蔽记录解密规则。" },
+  { id: "guide-02-three-canons", code: "GVIDA-II", title: "三大文献体系合流考", desc: "洛夫克拉夫特公有领域神话、SCP 维基原典与赫尔墨斯蓝色神学的边界与融合。" },
+  { id: "guide-03-chronicle", code: "GVIDA-III", title: "世界编年与大浸染前情提要", desc: "自二叠纪南极筑城、法罗斯立约、1925 全球群梦至现代大浸染纪元的因果脉络。" },
+  { id: "guide-04-factions", code: "GVIDA-IV", title: "蓝印盟约与同行势力图谱", desc: "战术神学部、蓝色修会、密大与异学会、破碎之神、欲肉教及蛇之手的立场分野。" },
+  { id: "guide-05-hume-physics", code: "GVIDA-V", title: "休谟场、阿基瓦与圣城结界原理", desc: "斯克兰顿现实稳定锚、《翠玉录》谐振频率与 0–V 级浸染危险度分级准则。" },
+  { id: "guide-06-life-in-tinctura", code: "GVIDA-VI", title: "大浸染时代的圣城与行旅守则", desc: "七曜圣城日常运作、结界航线护航制度、清道队编制与平民夜间避险规范。" },
 ];
 
 const QUICK_QUERIES = ["SCP-2317", "拉莱耶在哪", "破碎之神", "翠玉录"];
@@ -81,7 +98,6 @@ function buildLiveSuggestions(rawQuery, manifest) {
   if (!q) return [];
   const qLower = q.toLowerCase();
 
-  // Check exact SCP-XXXX word boundary first so SCP-173 never falsely claims SCP-1730
   const scpMatch = q.match(/\bSCP-(\d+)\b/i);
   const entries = Array.isArray(manifest?.entries) ? manifest.entries : [];
 
@@ -109,7 +125,6 @@ function buildLiveSuggestions(rawQuery, manifest) {
     }
   }
 
-  // Strip natural-language question suffixes ("拉莱耶在哪" -> "拉莱耶")
   const coreTerm = q
     .replace(/(在哪里?|在哪儿?|在什么地方|的?坐标(是多少)?|是谁|是什么|怎么去|[？?。！!])/g, "")
     .trim()
@@ -224,12 +239,9 @@ export async function renderHomeView(rootEl, ctx) {
       const idxData = await ctx.fetchJson("data/play/index.json");
       if (Array.isArray(idxData?.cases)) playCases = idxData.cases;
       else if (Array.isArray(idxData)) playCases = idxData;
-    } catch (_) {
-      // Optional before play cases are merged
-    }
+    } catch (_) {}
   }
 
-  // Count per category
   const catCounts = {};
   for (const cat of ARCHIVE_CATEGORIES) catCounts[cat.slug] = 0;
   for (const e of entries) {
@@ -237,11 +249,68 @@ export async function renderHomeView(rootEl, ctx) {
   }
   catCounts.novels = novels.length;
 
-  // Latest 6 entries sorted by updatedAt desc
+  const entryById = new Map(entries.map((e) => [e.id, e]));
+  const guideEntries = entries
+    .filter((e) => e.category === "guides")
+    .sort((a, b) => String(a.id).localeCompare(String(b.id)));
+
+  const guideItemsToRender =
+    guideEntries.length > 0
+      ? guideEntries.slice(0, 6).map((g) => ({
+          href: `#/entry/${encodeURIComponent(g.id)}`,
+          previewId: g.id,
+          code: g.code || "GVIDA",
+          title: g.title,
+          desc: formatPlainSummary(g.summary),
+          mins: g.readingMinutes ? `约 ${g.readingMinutes} 分钟` : "入馆导读",
+        }))
+      : CANONICAL_GUIDE_SLOTS.map((slot) => {
+          const live = entryById.get(slot.id);
+          return {
+            href: live
+              ? `#/entry/${encodeURIComponent(live.id)}`
+              : "#/category/guides",
+            previewId: live ? live.id : "",
+            code: slot.code,
+            title: live ? live.title : slot.title,
+            desc: escapeHtml(live ? live.summary : slot.desc),
+            mins: live?.readingMinutes ? `约 ${live.readingMinutes} 分钟` : "导读卷目",
+          };
+        });
+
+  const guidesStripHtml = `
+    <section class="wiki-guides-strip" aria-labelledby="home-guides-heading">
+      <div class="wiki-section-head">
+        <div>
+          <div class="lapidary-serif">PROLEGOMENA · FIRST READING</div>
+          <h2 id="home-guides-heading" class="wiki-section-title">入馆必读 · 世界观与阅览导引</h2>
+        </div>
+        <a class="wiki-inline-link" href="#/category/guides">全部入馆必读 (${guideEntries.length || 6}) →</a>
+      </div>
+      <div class="wiki-guides-grid">
+        ${guideItemsToRender
+          .map(
+            (g) => `
+            <a class="wiki-guide-card" href="${escapeHtml(g.href)}"${g.previewId ? ` data-entry-preview="${escapeHtml(g.previewId)}"` : ""}>
+              <div class="wiki-guide-card-top">
+                <span class="wiki-guide-code">${escapeHtml(g.code)}</span>
+                <span class="wiki-lv-pill">${escapeHtml(g.mins)}</span>
+              </div>
+              <h3 class="wiki-guide-title">${escapeHtml(g.title)}</h3>
+              <p class="wiki-guide-desc">${g.desc}</p>
+            </a>`
+          )
+          .join("")}
+      </div>
+    </section>
+  `;
+
   const recentEntries = [...entries]
     .sort((a, b) => {
       const d = String(b.updatedAt || "").localeCompare(String(a.updatedAt || ""));
       if (d !== 0) return d;
+      const bc = (Number(b.bodyChars) || 0) - (Number(a.bodyChars) || 0);
+      if (bc !== 0) return bc;
       return String(a.id).localeCompare(String(b.id));
     })
     .slice(0, 6);
@@ -275,6 +344,7 @@ export async function renderHomeView(rootEl, ctx) {
             <span class="wiki-recent-code">${escapeHtml(e.code || catName)}</span>
             <div class="wiki-recent-badges">
               <span class="${badge.cls}">${escapeHtml(badge.text)}</span>
+              ${e.bodyPath ? `<span class="wiki-lv-pill">长卷 · ${Number(e.readingMinutes) || 15} 分钟</span>` : ""}
               <span class="wiki-meta-date">${escapeHtml(e.updatedAt || "")}</span>
             </div>
           </div>
@@ -396,6 +466,8 @@ export async function renderHomeView(rootEl, ctx) {
         </blockquote>
       </header>
 
+      ${guidesStripHtml}
+
       <section class="wiki-search-hub" aria-label="全馆即时检索">
         <form class="wiki-search-form" data-role="home-search-form" role="search">
           <div class="wiki-search-input-wrap">
@@ -435,8 +507,8 @@ export async function renderHomeView(rootEl, ctx) {
       <section class="wiki-section" aria-labelledby="home-cat-heading">
         <div class="wiki-section-head">
           <div>
-            <div class="lapidary-serif">INDEX SEPTEM ORDINVM</div>
-            <h2 id="home-cat-heading" class="wiki-section-title">七大馆藏分类目录</h2>
+            <div class="lapidary-serif">INDEX ORDINVM ARCHIVI</div>
+            <h2 id="home-cat-heading" class="wiki-section-title">馆藏分类总目</h2>
           </div>
           <span class="wiki-section-count">共收录 ${entries.length} 份档案卷宗 · ${novels.length} 部连载</span>
         </div>
@@ -479,7 +551,6 @@ export async function renderHomeView(rootEl, ctx) {
     </div>
   `;
 
-  // Wire delegated events inside rootEl (zero inline handlers)
   const formEl = rootEl.querySelector('[data-role="home-search-form"]');
   const inputEl = rootEl.querySelector('[data-role="home-search-input"]');
   const suggestEl = rootEl.querySelector('[data-role="home-search-suggest"]');
@@ -555,7 +626,7 @@ export async function renderHomeView(rootEl, ctx) {
     }
   };
 
-  const onRootClick = (e) => {
+  const handleRootClick = (e) => {
     const randBtn = e.target.closest?.('[data-action="random-entry"]');
     if (randBtn && entries.length > 0) {
       const chosen = entries[Math.floor(Math.random() * entries.length)];
@@ -571,7 +642,7 @@ export async function renderHomeView(rootEl, ctx) {
     }
   };
 
-  const onDocPointerDown = (e) => {
+  const handleDocPointerDown = (e) => {
     if (formEl && !formEl.contains(e.target)) {
       closeSuggest();
     }
@@ -580,8 +651,8 @@ export async function renderHomeView(rootEl, ctx) {
   formEl?.addEventListener("submit", handleFormSubmit);
   inputEl?.addEventListener("input", handleSearchInput);
   inputEl?.addEventListener("keydown", handleInputKeydown);
-  rootEl.addEventListener("click", onRootClick);
-  document.addEventListener("pointerdown", onDocPointerDown);
+  rootEl.addEventListener("click", handleRootClick);
+  document.addEventListener("pointerdown", handleDocPointerDown);
 
   const offClearance = ctx.clearance.onClearanceChange((nextState) => {
     if (clearanceEl && clearanceEl.isConnected) {
@@ -593,8 +664,8 @@ export async function renderHomeView(rootEl, ctx) {
     formEl?.removeEventListener("submit", handleFormSubmit);
     inputEl?.removeEventListener("input", handleSearchInput);
     inputEl?.removeEventListener("keydown", handleInputKeydown);
-    rootEl.removeEventListener("click", onRootClick);
-    document.removeEventListener("pointerdown", onDocPointerDown);
+    rootEl.removeEventListener("click", handleRootClick);
+    document.removeEventListener("pointerdown", handleDocPointerDown);
     offClearance?.();
   };
 }
