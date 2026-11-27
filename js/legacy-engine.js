@@ -330,7 +330,7 @@ export function mountArchiveEngine({ PANTHEON, SCP_FILES, CITIES, FACTIONS, AIC_
 
           // Animated downstream shimmering flow pulse in Astral Cyan-Ivory!
           float flowPulse = 0.75 + 0.25 * sin((h0 - seaLevel) * 140.0 + u_time * 4.2);
-          vec3 cyanRiver = vec3(0.46, 0.92, 1.0);
+          vec3 cyanRiver = vec3(0.80, 0.88, 1.0);
           landCol = mix(landCol, vec3(0.03, 0.12, 0.58), riverMask * 0.88);
           landCol = mix(landCol, cyanRiver, riverMask * smoothstep(rWidth * 0.58, 0.0, min(rVal1, rVal2)) * flowPulse);
         }
@@ -343,7 +343,7 @@ export function mountArchiveEngine({ PANTHEON, SCP_FILES, CITIES, FACTIONS, AIC_
         float sv = abs(fract(lat * 190.0) - 0.5);
         float urbanZone = landMask * smoothstep(0.55, 0.10, elev) * smoothstep(0.48, 0.72, fbm(P * 12.0));
         float sGrid = smoothstep(0.14, 0.02, min(su, sv)) * urbanZone;
-        vec3 electrumGold = vec3(1.0, 0.89, 0.58);
+        vec3 electrumGold = vec3(0.88, 0.93, 1.0);
         col = mix(col, mix(ivoryWhite, electrumGold, 0.55), sGrid * 0.82);
 
         // Drifting Copperplate Atmospheric Cloud Swirls & R'lyeh Abyssal Typhoon!
@@ -360,7 +360,7 @@ export function mountArchiveEngine({ PANTHEON, SCP_FILES, CITIES, FACTIONS, AIC_
         float dR = length(P - rlyehP);
         float rlyehRings = smoothstep(0.18, 0.02, abs(fract(dR * 22.0 - u_time * 0.45) - 0.5)) * exp(-dR * 4.8);
         float breachTint = clamp((u_abyss - 0.72) * 3.2 * (1.0 - u_seal), 0.0, 1.0);
-        vec3 riftColor = mix(vec3(0.52, 0.93, 1.0), vec3(1.0, 0.36, 0.54), breachTint);
+        vec3 riftColor = mix(vec3(0.80, 0.88, 1.0), vec3(1.0, 1.0, 1.0), breachTint);
         col = mix(col, riftColor, clamp((rift * 0.82 + rlyehRings * 0.88) * u_abyss, 0.0, 0.92));
 
         // Astrolabe Graticule
@@ -411,7 +411,7 @@ export function mountArchiveEngine({ PANTHEON, SCP_FILES, CITIES, FACTIONS, AIC_
       rx = safeR(rx); ry = safeR(ry);
       if (rx < 0.5 || ry < 0.5) return;
       ctx.save(); ctx.translate(x, y);
-      ctx.fillStyle = state.theme === 'day' ? '#fbf8f1' : '#181c26';
+      ctx.fillStyle = '#060e58';
       ctx.strokeStyle = strokeCol; ctx.lineWidth = 1.25;
       ctx.beginPath();
       ctx.moveTo(-rx, 0); ctx.quadraticCurveTo(0, -ry * 1.28, rx, 0); ctx.quadraticCurveTo(0, ry * 1.28, -rx, 0);
@@ -440,24 +440,24 @@ export function mountArchiveEngine({ PANTHEON, SCP_FILES, CITIES, FACTIONS, AIC_
     function drawCosmicBackdrop(ctx, cx, cy, radius, pan, t) {
       ctx.save(); ctx.scale(DPR, DPR);
       const isDay = state.theme === 'day';
-      const inkRgb = isDay ? '19, 38, 230' : '148, 172, 248';
-      const inkHex = isDay ? '#1326e6' : '#7b96fa';
+      const inkRgb = '255, 255, 255';
+      const inkHex = '#ffffff';
 
       if (IS_MOBILE) {
-        ctx.fillStyle = isDay ? '#f3ede0' : '#12151c';
+        ctx.fillStyle = '#0a1890';
         ctx.fillRect(0, 0, W, H);
       } else {
         const bg = ctx.createRadialGradient(W * 0.5, H * 0.45, 50, W * 0.5, H * 0.5, Math.max(W, H) * 0.85);
         if (isDay) {
-          bg.addColorStop(0, '#f7f3ea'); bg.addColorStop(0.65, '#efe8d8'); bg.addColorStop(1, '#e5dcc8');
+          bg.addColorStop(0, '#0d1fa8'); bg.addColorStop(0.65, '#0a1890'); bg.addColorStop(1, '#060e58');
         } else {
-          bg.addColorStop(0, '#181d2a'); bg.addColorStop(0.65, '#12151c'); bg.addColorStop(1, '#0c0e14');
+          bg.addColorStop(0, '#0d1fa8'); bg.addColorStop(0.65, '#0a1890'); bg.addColorStop(1, '#060e58');
         }
         ctx.fillStyle = bg; ctx.fillRect(0, 0, W, H);
       }
 
       if (!IS_MOBILE) {
-        ctx.fillStyle = isDay ? 'rgba(19, 38, 230, 0.18)' : '#9bb4ff';
+        ctx.fillStyle = 'rgba(255, 255, 255, 0.85)';
         for (let si = 0; si < STARS.length; si += 2) {
           const s = STARS[si];
           ctx.globalAlpha = 0.15 + 0.35 * (0.5 + 0.5 * Math.sin(t * s.sp + s.ph));
@@ -492,7 +492,7 @@ export function mountArchiveEngine({ PANTHEON, SCP_FILES, CITIES, FACTIONS, AIC_
         }
         orbs.forEach(([dx, dy, rr, hasEye], idx) => {
           const wx = ygX + dx + Math.sin(t * 1.3 + idx) * 3, wy = ygY + dy + Math.cos(t * 1.1 + idx) * 3;
-          ctx.fillStyle = isDay ? 'rgba(251, 248, 241, 0.9)' : 'rgba(24, 28, 38, 0.9)';
+          ctx.fillStyle = 'rgba(6, 14, 88, 0.9)';
           ctx.strokeStyle = `rgba(${inkRgb}, ${0.65 * og})`; ctx.lineWidth = 1.15;
           ctx.beginPath(); ctx.arc(wx, wy, safeR(rr * og), 0, Math.PI * 2); ctx.fill(); ctx.stroke();
           if (hasEye) drawEngravedEye(ctx, wx, wy, rr * 0.62 * og, rr * 0.38 * og, inkHex);
@@ -543,8 +543,8 @@ export function mountArchiveEngine({ PANTHEON, SCP_FILES, CITIES, FACTIONS, AIC_
           pts.push({ x: cx + p[0], y: cy - p[1], z: p[2] });
         }
         ctx.strokeStyle = isDay
-          ? `rgba(19, 38, 230, ${(isFront ? 0.56 : 0.24) * state.seal})`
-          : `rgba(220, 230, 255, ${(isFront ? 0.62 : 0.28) * state.seal})`;
+          ? `rgba(255, 255, 255, ${(isFront ? 0.56 : 0.24) * state.seal})`
+          : `rgba(255, 255, 255, ${(isFront ? 0.62 : 0.28) * state.seal})`;
         ctx.lineWidth = ring.width * (isFront ? 1.0 : 0.78);
         ctx.beginPath();
         let penDown = false;
@@ -565,7 +565,7 @@ export function mountArchiveEngine({ PANTHEON, SCP_FILES, CITIES, FACTIONS, AIC_
             const px = cx + p[0], py = cy - p[1];
             if (px < -30 || px > W + 30 || py < -30 || py > H + 30) return;
             const alpha = (0.4 + 0.6 * ((p[2] / (rr || 1) + 1) * 0.5)) * state.seal;
-            ctx.fillStyle = `rgba(19, 38, 230, ${0.92 * alpha})`; ctx.strokeStyle = `rgba(244, 247, 255, ${alpha})`; ctx.lineWidth = 1.1;
+            ctx.fillStyle = `rgba(10, 24, 144, ${0.92 * alpha})`; ctx.strokeStyle = `rgba(244, 247, 255, ${alpha})`; ctx.lineWidth = 1.1;
             ctx.beginPath(); ctx.arc(px, py, 9, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
             ctx.fillStyle = `rgba(255, 255, 255, ${alpha})`; ctx.font = '12px Georgia, serif';
             ctx.fillText(g, px, py + 0.5);
@@ -600,7 +600,7 @@ export function mountArchiveEngine({ PANTHEON, SCP_FILES, CITIES, FACTIONS, AIC_
           left.push({ x: p.x + nx*p.w, y: p.y + ny*p.w }); right.push({ x: p.x - nx*p.w, y: p.y - ny*p.w });
           if (s > 2 && s < segs - 2 && s % 2 === 0) suckers.push({ x: p.x + nx*p.w*0.92, y: p.y + ny*p.w*0.92, r: safeR(Math.max(1.4, p.w*0.42)) });
         }
-        ctx.fillStyle = '#1326e6'; ctx.strokeStyle = '#f4f7ff'; ctx.lineWidth = 1.2;
+        ctx.fillStyle = '#0a1890'; ctx.strokeStyle = '#f4f7ff'; ctx.lineWidth = 1.2;
         ctx.beginPath(); ctx.moveTo(left[0].x, left[0].y);
         for (let s = 1; s <= segs; s++) ctx.lineTo(left[s].x, left[s].y);
         for (let s = segs; s >= 0; s--) ctx.lineTo(right[s].x, right[s].y);
@@ -707,7 +707,7 @@ export function mountArchiveEngine({ PANTHEON, SCP_FILES, CITIES, FACTIONS, AIC_
           const vA = latLonToVec3(cA.lat, cA.lon), vB = latLonToVec3(cB.lat, cB.lon);
 
           if (state.showRings && state.seal > 0.1) {
-            ctx.strokeStyle = rIdx % 2 === 0 ? `rgba(255, 229, 150, ${0.42 * state.seal})` : `rgba(136, 240, 255, ${0.42 * state.seal})`;
+            ctx.strokeStyle = rIdx % 2 === 0 ? `rgba(255, 255, 255, ${0.42 * state.seal})` : `rgba(200, 214, 255, ${0.42 * state.seal})`;
             ctx.lineWidth = 1.1;
             ctx.beginPath();
             let arcStarted = false;
@@ -727,7 +727,7 @@ export function mountArchiveEngine({ PANTHEON, SCP_FILES, CITIES, FACTIONS, AIC_
             const altP = 1.0 + Math.sin(uPulse * Math.PI) * 0.115 * state.seal;
             const vcP = rotateToCamera(pP, state.rotY, state.rotX);
             if (vcP[2] > 0) {
-              ctx.fillStyle = rIdx % 2 === 0 ? '#ffe596' : '#ffffff';
+              ctx.fillStyle = rIdx % 2 === 0 ? '#ffffff' : '#c8d6ff';
               ctx.beginPath(); ctx.arc(cx + vcP[0] * surfRadius * altP, cy - vcP[1] * surfRadius * altP, 2.3, 0, Math.PI * 2); ctx.fill();
             }
           }
@@ -775,7 +775,7 @@ export function mountArchiveEngine({ PANTHEON, SCP_FILES, CITIES, FACTIONS, AIC_
             const x0 = cx + v0[0] * surfRadius * 1.015, y0 = cy - v0[1] * surfRadius * 1.015;
             const x1 = cx + v0[0] * surfRadius * 1.065, y1 = cy - v0[1] * surfRadius * 1.065;
             const aurAlpha = Math.max(0, (0.16 + 0.16 * Math.sin(t * 2.4 + b * 0.9)) * v0[2]);
-            ctx.strokeStyle = b % 3 === 0 ? `rgba(255, 229, 150, ${aurAlpha})` : `rgba(116, 238, 255, ${aurAlpha})`;
+            ctx.strokeStyle = b % 3 === 0 ? `rgba(255, 255, 255, ${aurAlpha})` : `rgba(200, 214, 255, ${aurAlpha})`;
             ctx.lineWidth = Math.max(1.5, surfRadius * 0.008);
             ctx.beginPath(); ctx.moveTo(x0, y0); ctx.lineTo(x1, y1); ctx.stroke();
           }
@@ -793,7 +793,7 @@ export function mountArchiveEngine({ PANTHEON, SCP_FILES, CITIES, FACTIONS, AIC_
             const sx = cx + vc[0] * surfRadius * 1.005, sy = cy - vc[1] * surfRadius * 1.005;
             const ang = Math.atan2(-(vn[1] - vc[1]), vn[0] - vc[0]);
             ctx.save(); ctx.translate(sx, sy); ctx.rotate(ang);
-            ctx.strokeStyle = 'rgba(136, 240, 255, 0.55)'; ctx.lineWidth = 0.9;
+            ctx.strokeStyle = 'rgba(200, 214, 255, 0.55)'; ctx.lineWidth = 0.9;
             ctx.beginPath(); ctx.moveTo(-9, -3.2); ctx.lineTo(2, 0); ctx.lineTo(-9, 3.2); ctx.stroke();
             ctx.fillStyle = '#f4f7ff';
             ctx.beginPath(); ctx.moveTo(4.5, 0); ctx.lineTo(-3.5, -2.1); ctx.lineTo(-3.5, 2.1); ctx.closePath(); ctx.fill();
@@ -801,7 +801,7 @@ export function mountArchiveEngine({ PANTHEON, SCP_FILES, CITIES, FACTIONS, AIC_
             // Positive modulo guaranteed (P0.1 fix!)
             const sonarR = (((t * 14 + mIdx * 9 + shipIdx * 17) % 24) + 24) % 24;
             if (sonarR < 18) {
-              ctx.strokeStyle = `rgba(136, 240, 255, ${(1 - sonarR / 18) * 0.5})`;
+              ctx.strokeStyle = `rgba(200, 214, 255, ${(1 - sonarR / 18) * 0.5})`;
               ctx.lineWidth = 0.8;
               ctx.beginPath(); ctx.arc(sx, sy, safeR(sonarR), 0, Math.PI * 2); ctx.stroke();
             }
@@ -818,10 +818,10 @@ export function mountArchiveEngine({ PANTHEON, SCP_FILES, CITIES, FACTIONS, AIC_
           if (vc[2] < -0.1) continue;
           const sx = cx + vc[0] * surfRadius * sat.alt, sy = cy - vc[1] * surfRadius * sat.alt;
           const gx = cx + vc[0] * surfRadius, gy = cy - vc[1] * surfRadius;
-          ctx.strokeStyle = isDay ? 'rgba(19, 38, 230, 0.25)' : 'rgba(136, 240, 255, 0.25)';
+          ctx.strokeStyle = 'rgba(255, 255, 255, 0.25)';
           ctx.lineWidth = 0.9; ctx.setLineDash([2, 3]);
           ctx.beginPath(); ctx.moveTo(sx, sy); ctx.lineTo(gx, gy); ctx.stroke(); ctx.setLineDash([]);
-          ctx.strokeStyle = isDay ? '#1326e6' : '#ffe596'; ctx.fillStyle = isDay ? '#fbf8f1' : '#0916b8'; ctx.lineWidth = 1.2;
+          ctx.strokeStyle = '#ffffff'; ctx.fillStyle = '#0a1890'; ctx.lineWidth = 1.2;
           ctx.beginPath(); ctx.moveTo(sx - 8, sy - 3); ctx.lineTo(sx + 8, sy + 3); ctx.stroke();
           ctx.beginPath(); ctx.rect(sx - 2.5, sy - 2.5, 5, 5); ctx.fill(); ctx.stroke();
         }
@@ -1045,7 +1045,7 @@ export function mountArchiveEngine({ PANTHEON, SCP_FILES, CITIES, FACTIONS, AIC_
               ctx.beginPath(); ctx.moveTo(pBot.x, pBot.y); ctx.lineTo(pTop.x, pTop.y); ctx.stroke();
               // Chain #6 is the ONLY intact glowing taut chain; Chains 0..5 are snapped!
               if (k === 6) {
-                ctx.strokeStyle = '#fff4b8'; ctx.lineWidth = 1.8;
+                ctx.strokeStyle = '#ffffff'; ctx.lineWidth = 2.4;
                 ctx.beginPath(); ctx.moveTo(pTop.x, pTop.y); ctx.lineTo(centerPit.x, centerPit.y); ctx.stroke();
               } else {
                 ctx.strokeStyle = 'rgba(244,247,255,0.45)'; ctx.lineWidth = 1.0; ctx.setLineDash([2, 3]);
@@ -1271,15 +1271,15 @@ export function mountArchiveEngine({ PANTHEON, SCP_FILES, CITIES, FACTIONS, AIC_
 
               // Robed / Tactical Body Silhouette + Glowing Torch/Lantern Leader every 5th figure!
               const isTorchBearer = (pIdx % 5 === 0);
-              ctx.strokeStyle = isTorchBearer ? '#fff4b8' : `rgba(244, 247, 255, ${0.92 * vis})`;
+              ctx.strokeStyle = isTorchBearer ? '#ffffff' : `rgba(244, 247, 255, ${0.92 * vis})`;
               ctx.lineWidth = Math.max(1.5, headR * 1.35);
               ctx.lineCap = 'round';
               ctx.beginPath(); ctx.moveTo(foot.x, foot.y); ctx.lineTo(head.x, head.y); ctx.stroke();
 
-              ctx.fillStyle = isTorchBearer ? '#fff4b8' : '#ffffff';
+              ctx.fillStyle = isTorchBearer ? '#ffffff' : '#ffffff';
               ctx.beginPath(); ctx.arc(head.x, head.y - headR * 0.7, safeR(headR), 0, Math.PI * 2); ctx.fill();
               if (isTorchBearer && archUnit > 36) {
-                ctx.fillStyle = 'rgba(255, 244, 184, 0.28)';
+                ctx.fillStyle = 'rgba(255, 255, 255, 0.28)';
                 ctx.beginPath(); ctx.arc(head.x, head.y - headR, safeR(headR * 3.4), 0, Math.PI * 2); ctx.fill();
               }
             }
@@ -1295,7 +1295,7 @@ export function mountArchiveEngine({ PANTHEON, SCP_FILES, CITIES, FACTIONS, AIC_
           if (state.seal > 0.15) {
             for (const [sx, sy] of [[-1.15, 0.85], [1.15, 0.85], [-1.15, -0.95], [1.15, -0.95]]) {
               const sTop = proj(sx, sy, 1.22);
-              ctx.strokeStyle = `rgba(136, 240, 255, ${0.55 * state.seal * vis})`;
+              ctx.strokeStyle = `rgba(200, 214, 255, ${0.55 * state.seal * vis})`;
               ctx.lineWidth = 1.3;
               ctx.setLineDash([4, 3]); ctx.lineDashOffset = -t * 24;
               ctx.beginPath(); ctx.moveTo(sTop.x, sTop.y); ctx.lineTo(rise.x, rise.y - sc * 0.25); ctx.stroke();
@@ -1306,9 +1306,9 @@ export function mountArchiveEngine({ PANTHEON, SCP_FILES, CITIES, FACTIONS, AIC_
           ctx.save(); ctx.translate(rise.x, rise.y); ctx.globalAlpha = vis * Math.min(0.92, state.abyss * 1.15);
 
           // Engraved Occult Double Astrolabe Aureole & Radial Sigil Ticks
-          ctx.strokeStyle = 'rgba(255, 229, 150, 0.72)'; ctx.lineWidth = 1.1;
+          ctx.strokeStyle = 'rgba(255, 255, 255, 0.72)'; ctx.lineWidth = 1.1;
           ctx.beginPath(); ctx.arc(0, -sc * 0.35, safeR(sc * 1.18), 0, Math.PI * 2); ctx.stroke();
-          ctx.strokeStyle = 'rgba(136, 240, 255, 0.55)'; ctx.lineWidth = 0.85;
+          ctx.strokeStyle = 'rgba(200, 214, 255, 0.55)'; ctx.lineWidth = 0.85;
           ctx.beginPath(); ctx.arc(0, -sc * 0.35, safeR(sc * 0.98), 0, Math.PI * 2); ctx.stroke();
           for (let r = 0; r < 16; r++) {
             const ra = (r / 16) * Math.PI * 2 + t * 0.18;
@@ -1337,7 +1337,7 @@ export function mountArchiveEngine({ PANTHEON, SCP_FILES, CITIES, FACTIONS, AIC_
             ctx.quadraticCurveTo(dir * sc * 0.4, sc * 0.15, sh.x, sc * 0.22); ctx.closePath(); ctx.fill(); ctx.stroke();
 
             // Fine wing-rib spokes + cross-ribs
-            ctx.strokeStyle = 'rgba(136, 240, 255, 0.62)'; ctx.lineWidth = 0.85;
+            ctx.strokeStyle = 'rgba(200, 214, 255, 0.62)'; ctx.lineWidth = 0.85;
             for (const tp of tips) {
               ctx.beginPath(); ctx.moveTo(elb.x, elb.y); ctx.lineTo(tp.x, tp.y); ctx.stroke();
               for (let h = 1; h <= 4; h++) {
@@ -1366,12 +1366,12 @@ export function mountArchiveEngine({ PANTHEON, SCP_FILES, CITIES, FACTIONS, AIC_
           }
 
           // Six Slitted Eldritch Ocelli Eyes (3 per side, glowing Electrum Gold / Crimson!)
-          const eyeCol = (state.abyss > 0.78 && state.seal < 0.45) ? '#ff6b86' : '#ffe596';
+          const breachEye = (state.abyss > 0.78 && state.seal < 0.45); const eyeCol = breachEye ? '#ffffff' : 'rgba(255, 255, 255, 0.72)';
           for (const dir of [-1, 1]) {
             for (let e = 0; e < 3; e++) {
               const ex = dir * sc * (0.12 + e * 0.09), ey = -sc * (0.26 + e * 0.09);
               const er = safeR(sc * (0.055 - e * 0.01));
-              ctx.strokeStyle = eyeCol; ctx.lineWidth = 1.1;
+              ctx.strokeStyle = eyeCol; ctx.lineWidth = breachEye ? 1.8 : 1.1;
               ctx.beginPath(); ctx.ellipse(ex, ey, safeR(er * 1.4), safeR(er * 0.65), dir * -0.3, 0, Math.PI * 2); ctx.stroke();
               ctx.fillStyle = '#ffffff';
               ctx.beginPath(); ctx.arc(ex, ey, safeR(er * 0.38), 0, Math.PI * 2); ctx.fill();
@@ -1422,7 +1422,7 @@ export function mountArchiveEngine({ PANTHEON, SCP_FILES, CITIES, FACTIONS, AIC_
       const isDay = state.theme === 'day';
       ctxRadar.clearRect(0, 0, 168, 148);
       const cx = 84, cy = 74, R = 46;
-      ctxRadar.strokeStyle = isDay ? 'rgba(19, 38, 230, 0.22)' : 'rgba(220, 230, 255, 0.25)';
+      ctxRadar.strokeStyle = isDay ? 'rgba(10, 24, 144, 0.22)' : 'rgba(255, 255, 255, 0.25)';
       ctxRadar.lineWidth = 0.9;
       for (const ring of [0.35, 0.68, 1.0]) {
         ctxRadar.beginPath();
@@ -1433,7 +1433,7 @@ export function mountArchiveEngine({ PANTHEON, SCP_FILES, CITIES, FACTIONS, AIC_
         }
         ctxRadar.closePath(); ctxRadar.stroke();
       }
-      ctxRadar.fillStyle = isDay ? '#1d1f24' : '#d9dde6';
+      ctxRadar.fillStyle = isDay ? '#0a1890' : 'rgba(255, 255, 255, 0.86)';
       ctxRadar.font = '12px sans-serif';
       ctxRadar.textAlign = 'center'; ctxRadar.textBaseline = 'middle';
       for (let i = 0; i < 6; i++) {
@@ -1441,8 +1441,8 @@ export function mountArchiveEngine({ PANTHEON, SCP_FILES, CITIES, FACTIONS, AIC_
         ctxRadar.beginPath(); ctxRadar.moveTo(cx, cy); ctxRadar.lineTo(cx + Math.cos(a) * R, cy + Math.sin(a) * R); ctxRadar.stroke();
         ctxRadar.fillText(RADAR_LABELS[i], cx + Math.cos(a) * (R + 16), cy + Math.sin(a) * (R + 14));
       }
-      ctxRadar.fillStyle = isDay ? 'rgba(19, 38, 230, 0.16)' : 'rgba(115, 144, 250, 0.24)';
-      ctxRadar.strokeStyle = isDay ? '#1326e6' : '#7390fa';
+      ctxRadar.fillStyle = isDay ? 'rgba(10, 24, 144, 0.12)' : 'rgba(255, 255, 255, 0.14)';
+      ctxRadar.strokeStyle = isDay ? '#0a1890' : '#ffffff';
       ctxRadar.lineWidth = 1.6;
       ctxRadar.beginPath();
       for (let i = 0; i < 6; i++) {
@@ -1465,12 +1465,12 @@ export function mountArchiveEngine({ PANTHEON, SCP_FILES, CITIES, FACTIONS, AIC_
 
     function drawLiberTwo(t) {
       const isDay = state.theme === 'day';
-      const ringCol = isDay ? '#1326e6' : '#7390fa';
+      const ringCol = isDay ? '#0a1890' : '#ffffff';
       ctxWheel.clearRect(0, 0, 648, 648);
       ctxWheel.save(); ctxWheel.translate(324, 324);
-      ctxWheel.strokeStyle = isDay ? 'rgba(19, 38, 230, 0.55)' : 'rgba(220, 230, 255, 0.62)'; ctxWheel.lineWidth = 1.8;
+      ctxWheel.strokeStyle = isDay ? 'rgba(10, 24, 144, 0.55)' : 'rgba(255, 255, 255, 0.62)'; ctxWheel.lineWidth = 1.8;
       ctxWheel.beginPath(); ctxWheel.arc(0, 0, 260, 0, Math.PI * 2); ctxWheel.stroke();
-      ctxWheel.strokeStyle = isDay ? 'rgba(19, 38, 230, 0.25)' : 'rgba(136, 240, 255, 0.30)'; ctxWheel.lineWidth = 1.1;
+      ctxWheel.strokeStyle = isDay ? 'rgba(10, 24, 144, 0.25)' : 'rgba(255, 255, 255, 0.30)'; ctxWheel.lineWidth = 1.1;
       ctxWheel.beginPath(); ctxWheel.arc(0, 0, 242, 0, Math.PI * 2); ctxWheel.stroke();
       for (let tk = 0; tk < 72; tk++) {
         const ta = (tk / 72) * Math.PI * 2 + t * 0.02;
@@ -1481,10 +1481,10 @@ export function mountArchiveEngine({ PANTHEON, SCP_FILES, CITIES, FACTIONS, AIC_
       PANTHEON.forEach((p, idx) => {
         const a = (idx / 8) * Math.PI * 2 - Math.PI * 0.5;
         const x = Math.cos(a) * 260, y = Math.sin(a) * 260, active = idx === state.pantheonIdx;
-        ctxWheel.fillStyle = active ? ringCol : (isDay ? '#fbf8f1' : '#181c26');
+        ctxWheel.fillStyle = active ? ringCol : (isDay ? '#f6f4ee' : '#060e4a');
         ctxWheel.strokeStyle = ringCol; ctxWheel.lineWidth = 2;
         ctxWheel.beginPath(); ctxWheel.arc(x, y, active ? 10 : 5.5, 0, Math.PI * 2); ctxWheel.fill(); ctxWheel.stroke();
-        ctxWheel.fillStyle = active ? ringCol : (isDay ? 'rgba(29,31,36,0.65)' : 'rgba(217,221,230,0.65)');
+        ctxWheel.fillStyle = active ? ringCol : (isDay ? 'rgba(10,24,144,0.65)' : 'rgba(255,255,255,0.65)');
         ctxWheel.font = `${active ? 'bold ' : ''}19px Georgia, serif`; ctxWheel.textAlign = 'center'; ctxWheel.textBaseline = 'middle';
         ctxWheel.fillText(p.roman, Math.cos(a) * 292, Math.sin(a) * 292);
       });
@@ -1493,7 +1493,7 @@ export function mountArchiveEngine({ PANTHEON, SCP_FILES, CITIES, FACTIONS, AIC_
       // High-Definition Chiaroscuro Volumetric Copperplate Scanline Plate!
       const Wc = 520, Hc = 580;
       const grad = ctxWood.createRadialGradient(Wc * 0.5, Hc * 0.38, 20, Wc * 0.5, Hc * 0.5, Hc * 0.72);
-      grad.addColorStop(0, '#1935f5'); grad.addColorStop(0.6, '#1022dc'); grad.addColorStop(1, '#07118c');
+      grad.addColorStop(0, '#0d1fa8'); grad.addColorStop(0.6, '#0a1890'); grad.addColorStop(1, '#060e58');
       ctxWood.fillStyle = grad; ctxWood.fillRect(0, 0, Wc, Hc);
 
       const art = PANTHEON[state.pantheonIdx].artType;
@@ -1584,7 +1584,7 @@ export function mountArchiveEngine({ PANTHEON, SCP_FILES, CITIES, FACTIONS, AIC_
 
           if (val > 0.07) {
             const hLine = Math.min(rowStep * 0.92, val * rowStep * 0.88);
-            ctxWood.fillStyle = val > 0.92 ? '#ffe9a8' : '#f4f7ff';
+            ctxWood.fillStyle = val > 0.92 ? '#ffffff' : '#e8eeff';
             ctxWood.fillRect(x, py - hLine * 0.5, xStep + 0.18, hLine);
           }
         }
@@ -1593,9 +1593,9 @@ export function mountArchiveEngine({ PANTHEON, SCP_FILES, CITIES, FACTIONS, AIC_
       // Copperplate Inner Marginalia Frame & Coordinate Crosshairs inside Niche!
       ctxWood.strokeStyle = 'rgba(244, 247, 255, 0.42)'; ctxWood.lineWidth = 1;
       ctxWood.strokeRect(22, 260, Wc - 44, Hc - 282);
-      ctxWood.fillStyle = 'rgba(7, 17, 140, 0.88)';
+      ctxWood.fillStyle = 'rgba(6, 14, 88, 0.88)';
       ctxWood.fillRect(24, Hc - 47, Wc - 48, 22);
-      ctxWood.fillStyle = 'rgba(255, 229, 150, 0.92)'; ctxWood.font = '12px Georgia, serif';
+      ctxWood.fillStyle = 'rgba(255, 255, 255, 0.92)'; ctxWood.font = '12px Georgia, serif';
       ctxWood.fillText('ORDO CAERULEUS · TABULA SACRA', 34, Hc - 32);
       ctxWood.textAlign = 'right';
       ctxWood.fillText(`SCALE 1:${(state.pantheonIdx + 1) * 144}`, Wc - 34, Hc - 32);
@@ -1608,7 +1608,7 @@ export function mountArchiveEngine({ PANTHEON, SCP_FILES, CITIES, FACTIONS, AIC_
     function drawPrologus(t) {
       const c = document.getElementById('prologus-canvas'); if (!c) return;
       const isDay = state.theme === 'day';
-      const inkRgb = isDay ? '19, 38, 230' : '126, 150, 224';
+      const inkRgb = isDay ? '10, 24, 144' : '255, 255, 255';
       const ctx = c.getContext('2d'); ctx.save(); ctx.scale(DPR, DPR); ctx.clearRect(0, 0, W, H);
       ctx.translate(W * 0.5, H * 0.5);
       const rArc = safeR(Math.min(W, H) * 0.40);
@@ -1621,7 +1621,7 @@ export function mountArchiveEngine({ PANTHEON, SCP_FILES, CITIES, FACTIONS, AIC_
     function drawColophon(t) {
       const ec = document.getElementById('seal-emblem-canvas'); if (!ec) return;
       const isDay = state.theme === 'day';
-      const col = isDay ? '#1326e6' : '#7390fa';
+      const col = isDay ? '#0a1890' : '#ffffff';
       const ectx = ec.getContext('2d');
       ectx.clearRect(0, 0, 420, 420); ectx.save(); ectx.translate(210, 210);
       ectx.strokeStyle = col; ectx.lineWidth = 2.4;
@@ -1658,11 +1658,11 @@ export function mountArchiveEngine({ PANTHEON, SCP_FILES, CITIES, FACTIONS, AIC_
     function drawTelemetryOscilloscope(t) {
       if (!ctxTel || state.uiHidden || (IS_MOBILE && !leftPanel.classList.contains('mobile-sheet-open'))) return;
       const isDay = state.theme === 'day';
-      ctxTel.clearRect(0, 0, 244, 44);
-      ctxTel.strokeStyle = isDay ? 'rgba(29,31,36,0.15)' : 'rgba(244,247,255,0.12)'; ctxTel.lineWidth = 0.7;
+      ctxTel.clearRect(0, 0, 244, 44); ctxTel.setLineDash([]);
+      ctxTel.strokeStyle = isDay ? 'rgba(10,24,144,0.15)' : 'rgba(255,255,255,0.12)'; ctxTel.lineWidth = 0.7;
       ctxTel.beginPath(); ctxTel.moveTo(0, 22); ctxTel.lineTo(244, 22); ctxTel.stroke();
 
-      ctxTel.strokeStyle = isDay ? '#1326e6' : '#7390fa'; ctxTel.lineWidth = 1.4;
+      ctxTel.strokeStyle = isDay ? '#0a1890' : '#ffffff'; ctxTel.lineWidth = 1.4;
       ctxTel.beginPath();
       for (let x = 0; x <= 244; x += 4) {
         const y = 22 - (state.seal - 0.5) * 12 + Math.sin(x * 0.09 - t * 4.5) * (3 + state.abyss * 7) * Math.sin(x * 0.025 + t);
@@ -1670,8 +1670,8 @@ export function mountArchiveEngine({ PANTHEON, SCP_FILES, CITIES, FACTIONS, AIC_
       }
       ctxTel.stroke();
 
-      ctxTel.strokeStyle = (state.abyss > 0.78 && state.seal < 0.45) ? '#c92a48' : (isDay ? '#9a6700' : '#ebd08a');
-      ctxTel.lineWidth = 1.2;
+      const telBreach = (state.abyss > 0.78 && state.seal < 0.45); const telInk = isDay ? '10, 24, 144' : '255, 255, 255'; ctxTel.strokeStyle = `rgba(${telInk}, ${telBreach ? 1 : 0.5})`; ctxTel.setLineDash(telBreach ? [3, 2] : []);
+      ctxTel.lineWidth = telBreach ? 1.8 : 1.2;
       ctxTel.beginPath();
       for (let x = 0; x <= 244; x += 4) {
         const spike = Math.pow(Math.max(0, Math.sin(x * 0.14 - t * 6.2)), 6) * 14 * state.abyss;
@@ -1687,11 +1687,11 @@ export function mountArchiveEngine({ PANTHEON, SCP_FILES, CITIES, FACTIONS, AIC_
       ctxCosmo.clearRect(0, 0, 420, 240);
       ctxCosmo.save(); ctxCosmo.translate(210, 120);
       const spheres = [
-        { r: 22, col: isDay ? '#1326e6' : '#ffffff' },
-        { r: 44, col: isDay ? 'rgba(19,38,230,0.45)' : 'rgba(244,247,255,0.45)' },
-        { r: 68, col: isDay ? '#8a5a00' : '#ebd08a' },
-        { r: 92, col: isDay ? 'rgba(14,98,154,0.55)' : 'rgba(136,240,255,0.45)' },
-        { r: 110, col: isDay ? 'rgba(168,32,58,0.55)' : 'rgba(255,120,145,0.55)' }
+        { r: 22, col: isDay ? '#0a1890' : '#ffffff' },
+        { r: 44, col: isDay ? 'rgba(10,24,144,0.45)' : 'rgba(255,255,255,0.45)' },
+        { r: 68, col: isDay ? 'rgba(10,24,144,0.7)' : 'rgba(255,255,255,0.7)' },
+        { r: 92, col: isDay ? 'rgba(10,24,144,0.4)' : 'rgba(255,255,255,0.4)' },
+        { r: 110, col: isDay ? 'rgba(10,24,144,0.55)' : 'rgba(255,255,255,0.55)' }
       ];
       spheres.forEach((s, idx) => {
         ctxCosmo.strokeStyle = s.col; ctxCosmo.lineWidth = idx === 2 ? 1.6 : 1.1;
@@ -1701,9 +1701,9 @@ export function mountArchiveEngine({ PANTHEON, SCP_FILES, CITIES, FACTIONS, AIC_
         ctxCosmo.fillStyle = s.col;
         ctxCosmo.beginPath(); ctxCosmo.arc(nx, ny, 3.2, 0, Math.PI * 2); ctxCosmo.fill();
       });
-      ctxCosmo.fillStyle = isDay ? '#1326e6' : '#ffffff';
+      ctxCosmo.fillStyle = isDay ? '#0a1890' : '#ffffff';
       ctxCosmo.beginPath(); ctxCosmo.arc(0, 0, 5.5, 0, Math.PI * 2); ctxCosmo.fill();
-      ctxCosmo.fillStyle = isDay ? '#4a5060' : '#d9dde6';
+      ctxCosmo.fillStyle = isDay ? 'rgba(10,24,144,0.78)' : 'rgba(255,255,255,0.78)';
       ctxCosmo.font = '12px sans-serif'; ctxCosmo.textAlign = 'left';
       ctxCosmo.fillText('第九重：盲目混沌外圈', -198, -96);
       ctxCosmo.fillText('第八重：群青圣律天球', 62, -96);
@@ -1971,7 +1971,7 @@ export function mountArchiveEngine({ PANTHEON, SCP_FILES, CITIES, FACTIONS, AIC_
       if (scripEl) scripEl.textContent = p.scripture || '';
       const metEl = document.getElementById('pan-metrics');
       if (metEl && p.metrics) {
-        metEl.innerHTML = p.metrics.map((m, mi) => `<span class="${mi===0?'badge-crimson':(mi===1?'badge-cyan':'badge-gold')}">${m}</span>`).join('');
+        metEl.innerHTML = p.metrics.map((m, mi) => `<span class="${mi===0?'badge-canon':'badge-original'}">${m}</span>`).join('');
       }
       drawPantheonRadar(p.stats || [90,90,90,90,90,90]);
       document.querySelectorAll('#pan-selector button').forEach((b, i) => b.classList.toggle('active', i === idx));
@@ -2010,7 +2010,7 @@ export function mountArchiveEngine({ PANTHEON, SCP_FILES, CITIES, FACTIONS, AIC_
     function buildElevationProfileSVG(cityId, h = 38) {
       const m = CITY_META_EXTRA[cityId] || CITY_META_EXTRA.alexandria;
       const isDay = state.theme === 'day';
-      const lineCol = isDay ? '#1326e6' : '#ffffff';
+      const lineCol = isDay ? '#0a1890' : '#ffffff';
       const fillCol = isDay ? 'rgba(19,38,230,0.12)' : 'rgba(255,255,255,0.14)';
       const pts = m.prof;
       const Wp = 260;
@@ -2253,7 +2253,7 @@ export function mountArchiveEngine({ PANTHEON, SCP_FILES, CITIES, FACTIONS, AIC_
             setTimeout(() => { window.switchLiber('terra'); setCamMode('cradle', 'alexandria'); }, 900);
           } else if (r === 'starsright') {
             sRelief.value = 140; sSeal.value = 15; sAbyss.value = 100; sOuter.value = 100; applySliders();
-            appendAicMsg('<b style="color:var(--badge-crim-fg);">[警告 · XK级群星归位推演已激活]</b> 全球现实稳定锚跌破 15%，拉莱耶海沟爆发绯红阿波罗级异常脉冲，外神星环全面显圣！');
+            appendAicMsg('<b style="color:var(--klein); text-decoration:underline;">[警告 · XK级群星归位推演已激活]</b> 全球现实稳定锚跌破 15%，拉莱耶海沟爆发绯红阿波罗级异常脉冲，外神星环全面显圣！');
             setTimeout(() => { window.switchLiber('terra'); setCamMode('skyline', 'rlyeh'); }, 900);
           }
         }
@@ -2428,7 +2428,7 @@ export function mountArchiveEngine({ PANTHEON, SCP_FILES, CITIES, FACTIONS, AIC_
       if (oscA) oscA.textContent = `阿基瓦: ${akiva}`;
       if (oscS) {
         oscS.textContent = `理智: ${san}%`;
-        oscS.style.color = san < 45 ? 'var(--badge-crim-fg)' : 'var(--ink)';
+        oscS.style.color = 'var(--ink)'; oscS.style.fontWeight = san < 45 ? '700' : '400';
       }
     }
     [sRelief, sSeal, sAbyss, sOuter].forEach(el => el.addEventListener('input', () => {

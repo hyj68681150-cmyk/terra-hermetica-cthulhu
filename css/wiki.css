@@ -521,3 +521,16 @@
     grid-template-columns: 1fr;
   }
 }
+
+
+/* Gallery astrolabe plate (07 §2A): the Klein-blue plate is the backdrop in both themes,
+   so the frame and running headers must read as white on it. Nav stays on its paper strip. */
+html body[data-view="gallery"] .corner-header {
+  color: rgba(255, 255, 255, 0.78);
+}
+html body[data-view="gallery"] a.corner-header:hover {
+  color: #ffffff;
+}
+html body[data-view="gallery"] #marginalia-outer {
+  border-color: rgba(255, 255, 255, 0.32);
+}
