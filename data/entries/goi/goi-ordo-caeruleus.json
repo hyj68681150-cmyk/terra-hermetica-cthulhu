@@ -9,12 +9,41 @@
     "本站原创组织",
     "赫尔墨斯蓝色修会"
   ],
-  "clearance": 1,
+  "clearance": 2,
   "provenance": "original",
+  "provenanceLabel": "本站原创组织（赫尔墨斯古典几何传统衍生）",
   "badge": "badge-cyan",
   "legacyCityId": "alexandria",
   "mapSiteId": "site-alexandria",
   "summary": "本站原创设定：研习《翠玉录》几何圣律，与亚历山大圣座联合维护地脉星盘。",
+  "sections": [
+    {
+      "heading": "法罗斯立约源流与去神秘化规尺教义",
+      "paragraphs": [
+        "赫尔墨斯蓝色修会（Ordo Caeruleus Hermeticus）系本站原创的核心同行组织，其谱系上溯至 [[era-alexandria-pharos-concord|公元前280年亚历山大法罗斯大灯塔落成]] 之夜。不同于追求点金术或灵体飞升的世俗神秘学社团，蓝色修会将托勒密几何学、毕达哥拉斯弦长比例与青金石矿物晶体学合为一炉。",
+        "修会根本戒律载于 [[dossier-tabula-caerulea|《翠玉录·第八重神圣群青补遗》]]：宇宙外部深渊并无位格化的憎恶，仅有热力学与维度几何的无序涨落；唯有不带情绪的精密测量、铜版蚀刻星图与八角谐振腔，方能为脆弱的人类城邦划定稳定的现实堤岸。"
+      ]
+    },
+    {
+      "heading": "近代铅封行动与现代战术神学合流",
+      "paragraphs": [
+        "两千余年间，修会抄写员曾先后介入 [[dossier-codex-al-azif|1586年《阿尔·阿吉夫》大马士革铜版抗模因校勘]] 与 [[era-1609-prague-alagadda|1609年布拉格阿拉卡达门扉铅封]]，以最低限度的物理干预阻断认知危害扩散。",
+        "自二十世纪末与 [[goi-tactical-theology|SCP 基金会战术神学部]] 达成并网盟约后，修会常驻 [[site-alexandria|亚历山大 Site-01 十二肋穹顶]]，负责校核全球斯克兰顿稳定锚的母钟频率，并主持高度机密的 {{redact:4:法罗斯棱镜—冷原双环星门第八锁链跨维投射计划}}。"
+      ]
+    }
+  ],
+  "logs": [
+    {
+      "title": "【修会见习抄写员入阁誓词 · ORDO-NOVITIVS】",
+      "minClearance": 2,
+      "content": "“我不向星辰祈求怜悯，亦不向海渊献上血食；我手执铜规与青金石墨，如实记录每一分休谟之消长、每一度岁差之偏斜。”[本站原创设定]"
+    },
+    {
+      "title": "【亚历山大内院星盘室值宿簿 · ORDO-2026-XI】",
+      "minClearance": 3,
+      "content": "“东港海底法罗斯基石今晚第三次发出肉耳可辨的低音泛音，水银水平仪向东北偏东倾斜 0.04 角秒——那个方位正对着帕米尔高原的喀拉库勒盐湖。”[本站原创设定]"
+    }
+  ],
   "infobox": [
     {
       "label": "组织代号",
@@ -25,10 +54,27 @@
       "label": "关联驻地",
       "value": "ALEXANDRIA",
       "original": true
+    },
+    {
+      "label": "创立纪年",
+      "value": "公元前 280 年（托勒密亚历山大港，本站设定）",
+      "original": true
+    }
+  ],
+  "cluesGranted": [
+    {
+      "id": "clue-ordo-lapis-ink",
+      "title": "蓝色修会青金石抗模因铜版校勘配方",
+      "xp": 20
     }
   ],
   "relatedIds": [
-    "site-alexandria"
+    "site-alexandria",
+    "dossier-tabula-caerulea",
+    "era-alexandria-pharos-concord",
+    "era-1609-prague-alagadda",
+    "goi-tactical-theology",
+    "codex-hume-theory"
   ],
-  "updatedAt": "2026-11-26"
+  "updatedAt": "2026-11-27"
 }

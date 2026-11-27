@@ -70,8 +70,45 @@
       "original": false
     }
   ],
-  "relatedIds": [],
-  "updatedAt": "2026-11-26",
+  "sections": [
+    {
+      "heading": "原典深海坐标与四千米玄武岩三级卫城",
+      "paragraphs": [
+        "南纬 47°09′、西经 126°43′（47.1500°S, 126.7167°W）系洛夫克拉夫特在 1928 年《克苏鲁的呼唤》中精确给出的南太平洋深海坐标，靠近地球海洋难抵极（尼莫点）。现实水深实测达 4,048 米，方圆数千公里无任何陆地岛礁。",
+        "在原典与本站测绘档案中，海床断崖之上拔起着自 [[era-sinking-of-rlyeh|中新世沉没]] 至今的三级绿黑色巨石卫城，主神殿倾斜石门内沉眠着 [[entity-cthulhu|渊海大主教克苏鲁]]（参见 [[dossier-rlyeh-2662|拉莱耶海渊卫城档案]]）。"
+      ]
+    },
+    {
+      "heading": "四塔深海稳定锚阵与沉睡之海禁航圈",
+      "paragraphs": [
+        "在大浸染纪元舆图上，以拉莱耶为圆心、半径两千六百公里的南太平洋海域被划为全球面积最大的 V 级禁区“沉睡之海（MARE SOMNIANS）”，仅能由西南方向的南太平洋前线圣城白银潮汐结界在外围隔海滤除群梦。",
+        "卫城海沟边缘四角矗立着基金会与蓝色修会早期投建的四座无人深海斯克兰顿稳定塔，维持着脆弱的 0.41 Hm 底线，日夜监测 {{redact:3:主墓门缝隙向北大西洋魔鬼礁与帕米尔地幔输出的 17Hz 包络载波}}。[本站原创设定]"
+      ]
+    }
+  ],
+  "logs": [
+    {
+      "title": "【无人深潜器 ROV-GAMMA6 声学测图记录】",
+      "minClearance": 3,
+      "content": "水深 3,980 米处光学镜头全部因空间曲率畸变无法对焦，仅靠旁侧多波束声呐绘出高逾百米的单石门楣轮廓。声呐回波计算的门扇内角和为 194.6 度。"
+    }
+  ],
+  "cluesGranted": [
+    {
+      "id": "clue-site-rlyeh-non-euclidean-angle",
+      "title": "拉莱耶主墓门声呐测绘194.6度非欧内角差",
+      "xp": 20
+    }
+  ],
+  "relatedIds": [
+    "entity-cthulhu",
+    "dossier-rlyeh-2662",
+    "entity-scp-3000",
+    "site-innsmouth",
+    "era-sinking-of-rlyeh",
+    "era-1925-1928-call-innsmouth"
+  ],
+  "updatedAt": "2026-11-27",
   "realElevationMeters": -4048,
   "z12RealLocation": "南太平洋东太平洋海隆西侧深海海面（无岛屿陆地）",
   "coordSource": "洛夫克拉夫特《克苏鲁的呼唤》原文坐标 47°9′S 126°43′W"

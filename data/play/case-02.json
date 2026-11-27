@@ -1,0 +1,377 @@
+{
+  "caseId": "case-02-calabasas-salt",
+  "title": "帕米尔地下盐漠 · 第七锁链巡检实录",
+  "subtitle": "CASE-02 · 冷原双环星门与程序 220-Calabasas 临界值守",
+  "provenance": "original",
+  "provenanceLabel": "本站原创互动调查剧本（基于 DrClef《SCP-2317》CC BY-SA 3.0 与冷原合流设定）",
+  "recommendedClearance": 2,
+  "initialSan": 85,
+  "maxSan": 100,
+  "initialHume": 0.42,
+  "summary": "海拔 3,915 米的帕米尔高原无人盐碱荒滩下，通往异界盐湖盆地的秘门内休谟场跌至 0.42 Hm。你将以战术神学部高级巡检官身份踏入 SCP-2317 七柱祭坛督导每日“程序 220-Calabasas”，在揭穿安慰剂真相并直面第七锁链晶界滑移后，抉择是否启用绝顶高台上的犹格双环星门。",
+  "startNode": "node-01-bunker",
+  "nodes": {
+    "node-01-bunker": {
+      "title": "零下二十七度的铅衬气闸",
+      "location": "帕米尔高原 · 冷原监测站地下地堡",
+      "paragraphs": [
+        "清晨五点四十分，喀拉库勒高寒盐滩地面风速每秒十九米。你穿戴好防寒铅衬巡检服，站在 [[site-leng|冷原监测站]] B-3 层重型气闸前，准备接替上一班组督导六点整的 [[dossier-scp-2317|程序 220-Calabasas]]。",
+        "气闸内侧立着那扇从十九世纪马萨诸塞州褐砂石宅邸整体拆运至此的木门框。门缝底下正往外渗出一层极薄的深蓝色方钠石反霜，便携休谟计读数停在 0.42 Hm。"
+      ],
+      "lowSanThreshold": 55,
+      "lowSanNote": "木门明明关着，门把手背面的黄铜锁舌却像活物脉搏似的每秒钟轻微弹动十七下。",
+      "choices": [
+        {
+          "label": "按标准仪轨清点银碗圣水与黑曜石刀，准点推开木门踏入异界盐湖",
+          "next": "node-02-threshold",
+          "sanDelta": -3,
+          "humeDelta": -0.03
+        },
+        {
+          "label": "先进旁侧遥测室调取昨夜七号石柱的声发射原始波形",
+          "next": "node-05-strain-audit",
+          "sanDelta": -2,
+          "humeDelta": 0.0,
+          "minClearance": 2,
+          "grantClue": {
+            "id": "clue-play02-pillar7-wave",
+            "title": "七号石柱昨夜14次晶界滑移原始波形",
+            "xp": 15
+          }
+        },
+        {
+          "label": "依据 O5 四级勘误备忘，跳过形式化圣水清点直扑七柱竖井核查裂纹",
+          "next": "node-03-seven-pillars",
+          "sanDelta": 0,
+          "humeDelta": 0.02,
+          "requiresClue": "read-dossier-scp-2317"
+        }
+      ]
+    },
+    "node-02-threshold": {
+      "title": "多长出半寸的盐滩脚印",
+      "location": "SCP-2317-Prime · 异界干涸盐湖",
+      "paragraphs": [
+        "一步跨过木门框，帕米尔的呼啸寒风骤然截断。眼前是一望无际的灰白色干涸盐湖，头顶天空呈没有太阳方位的死灰铅色，休谟计读数掉到 0.39 Hm。",
+        "两名执勤神学官捧着混合圣水银碗走在前面。你低头看了一眼盐壳上的靴印——每一步踩下去，身后留下的凹痕都比你的军靴实长多出整整半寸。"
+      ],
+      "lowSanThreshold": 55,
+      "lowSanNote": "你不敢再看脚印，因为前面两名执勤官投在白盐地上的影子根本没有腿，而是两条拖行的粗铁链。",
+      "choices": [
+        {
+          "label": "牢记哨卡戒律绝不回头丈量脚印，握紧钨钢音叉快步进入前方七柱石阵",
+          "next": "node-03-seven-pillars",
+          "sanDelta": -3,
+          "humeDelta": -0.02
+        },
+        {
+          "label": "蹲下身用钢卷尺实测靴印拉伸率，采集盐壳下的蓝色反霜结晶",
+          "next": "node-03-seven-pillars",
+          "sanDelta": -12,
+          "humeDelta": -0.05,
+          "grantClue": {
+            "id": "clue-play02-salt-stretch",
+            "title": "异界盐湖0.39Hm空间尺度拉伸实测值",
+            "xp": 15
+          }
+        }
+      ]
+    },
+    "node-03-seven-pillars": {
+      "title": "玄武岩七柱与六道断链",
+      "location": "异界盐漠 · 十米圆形石阵",
+      "paragraphs": [
+        "拨开表层粗盐，直径十米的黑色玄武岩圆阵露了出来。七根刻满螺旋浮雕的石柱环绕中央深不见底的竖井，前六根石柱根部的珍珠母与活体筋腱锁链早已崩断，残段像枯死巨蟒般半埋在盐泥里。",
+        "唯独正北第七根石柱上的银白锁链仍笔直绷向地下二百公里深渊，链身每隔七秒便传出一阵令牙根发酸的 17.004 Hz 蜂鸣。"
+      ],
+      "lowSanThreshold": 55,
+      "lowSanNote": "前六根断链的茬口在渗出暗色卤水，每一滴卤水落地都拼成同一个古埃里克什音节。",
+      "choices": [
+        {
+          "label": "监督执勤班组按步执行“程序 220-Calabasas”，同时紧盯七号柱应变计",
+          "next": "node-04-calabasas-rite",
+          "sanDelta": -4,
+          "humeDelta": -0.02
+        },
+        {
+          "label": "绕到七号石柱背面，将激光测振探头直接贴上第 409 节锁链环扣",
+          "next": "node-05-strain-audit",
+          "sanDelta": -8,
+          "humeDelta": -0.04
+        },
+        {
+          "label": "探身越过玄武岩井栏，用强光手电向下照看锁链没入黑暗的深处",
+          "next": "node-06-subterranean-echo",
+          "sanDelta": -22,
+          "humeDelta": -0.1
+        }
+      ]
+    },
+    "node-04-calabasas-rite": {
+      "title": "六点整的安慰剂木偶戏",
+      "location": "七柱祭坛中央 · 仪轨执行位",
+      "paragraphs": [
+        "六点零分，执勤官按手册以拉丁语吟诵祷词，黑曜石小刀划破辅助人员拇指滴入银碗，混合圣水泼洒在圆阵刻槽内。地下深处随即传来持续四秒的沉闷金属摩擦声，年轻执勤官松了口气，准备在日志上勾选“压制生效”。",
+        "但你手里的四级加密应变终端清清楚楚跳出红字：泼水瞬间，第七锁链张力非但没有下降半毫牛，反而新增了三次微米级晶界滑移——刚才那阵声响，是锁链外层珍珠母包浆剥落坠入深渊的碎裂声。"
+      ],
+      "lowSanThreshold": 55,
+      "lowSanNote": "银碗里的圣水泼在玄武岩上连水印都没留下，像倒进烧红铁锅的水银珠子一样滚进竖井。",
+      "choices": [
+        {
+          "label": "不动声色签署常规日志稳住基层士气，独自携实测数据返回地堡发报室",
+          "next": "node-07-command-dispute",
+          "sanDelta": -2,
+          "humeDelta": 0.02
+        },
+        {
+          "label": "趁班组收队先行撤离，独自留在七号柱旁复核 17Hz 共振源方向",
+          "next": "node-05-strain-audit",
+          "sanDelta": -6,
+          "humeDelta": -0.03
+        }
+      ]
+    },
+    "node-05-strain-audit": {
+      "title": "第409节环扣的受迫共振",
+      "location": "七号石柱基座 · 声发射监测端",
+      "paragraphs": [
+        "激光测振仪给出了无可辩驳的物理判决：[[entity-scp-2317|诸界吞噬者]] 并非在凭蛮力硬挣，而是太平洋与大西洋传来的 17.004 Hz 反相地幔波恰好击中了第七锁链的固有频率。按当前斜率推算，第 409 节环扣将在数周内发生脆性崩断。",
+        "终端屏幕底部弹出一行由 [[goi-ordo-caeruleus|赫尔墨斯蓝色修会]] 预置的备选协议：借监测站北侧断崖上的太古双环星门，在 UTC 10:00 正午窗口折射亚历山大 1.80 Hm 母钟脉冲。"
+      ],
+      "lowSanThreshold": 55,
+      "lowSanNote": "测振仪屏幕上的正弦波正在自己拉直成一根绷紧的白线，仿佛下一秒就要勒断你的手腕。",
+      "choices": [
+        {
+          "label": "立即退回地堡指挥室，要求站长开启北侧断崖高台的超导波导闸门",
+          "next": "node-07-command-dispute",
+          "sanDelta": -3,
+          "humeDelta": 0.02
+        },
+        {
+          "label": "先趴到竖井边缘测取井下二百公里空腔的声阻抗深度值",
+          "next": "node-06-subterranean-echo",
+          "sanDelta": -20,
+          "humeDelta": -0.09
+        }
+      ]
+    },
+    "node-06-subterranean-echo": {
+      "title": "两百公里地底的换气声",
+      "location": "七柱竖井井栏 · 0.30 Hm 边缘",
+      "paragraphs": [
+        "手电光束在井口以下十米就像撞进浓墨般彻底熄灭。没有风，你的耳膜却猛地向外鼓胀——地下二百公里球形空腔里的那个庞然巨物刚刚完成了一次长达十九秒的吸气。",
+        "你的休谟计读数瞬时跌穿 0.30 Hm，左腕机械表的发条啪地绷断，鼻腔涌出一股温热的铁锈味。"
+      ],
+      "lowSanThreshold": 60,
+      "lowSanNote": "井底没有眼睛，却有七颗早已熄灭的太阳正顺着最后一根铁链往上爬。",
+      "choices": [
+        {
+          "label": "猛敲钨钢音叉抵住眉心，连退十步撤出木门返回地堡",
+          "next": "node-07-command-dispute",
+          "sanDelta": -5,
+          "humeDelta": 0.04
+        },
+        {
+          "label": "继续俯身向井下投掷声学测深信标，试图测清巨魔双角距井口的高度",
+          "next": "node-10-chain-snap-crisis",
+          "sanDelta": -24,
+          "humeDelta": -0.08
+        }
+      ]
+    },
+    "node-07-command-dispute": {
+      "title": "指挥室里的两条训令",
+      "location": "冷原监测站地堡 · 加密电报房",
+      "paragraphs": [
+        "回到混凝土气闸内侧，驻站老站长把两份相互冲突的密令拍在铁桌上：监督者议会常规训令严禁任何人员触碰高台上的 Archon 级 [[entity-yog-sothoth|犹格双环星门]]，只准继续维持 220-Calabasas 直至最后时刻；而 [[goi-tactical-theology|战术神学部]] 主任急电则授权现场最高巡检官在正午脉冲前自主决断。",
+        "墙上的世界协调时钟指向 09:32 UTC。距离 [[site-alexandria|亚历山大]] 法罗斯正午播发只剩二十八分钟。"
+      ],
+      "lowSanThreshold": 55,
+      "lowSanNote": "电报机吐出的纸带背面印着细小的盐粒，摸上去像一排排微缩的碎锁链。",
+      "choices": [
+        {
+          "label": "动用巡检官临机专断权，携带准直仪登顶四千一百米断崖校准双环星门",
+          "next": "node-08-escarpment-climb",
+          "sanDelta": -5,
+          "humeDelta": 0.02
+        },
+        {
+          "label": "服从 Archon 不可触碰戒律，仅在木门外侧加装三台局部稳定锚维持现状",
+          "next": "end-calabasas-veil",
+          "sanDelta": 2,
+          "humeDelta": 0.06
+        },
+        {
+          "label": "判定末链随时崩断，立即下令浇筑重铅封死木门地堡并撤往丝路结界中继站",
+          "next": "end-sealed-withdrawal",
+          "sanDelta": 4,
+          "humeDelta": 0.08
+        }
+      ]
+    },
+    "node-08-escarpment-climb": {
+      "title": "雪线之上的直立双环",
+      "location": "帕米尔断崖高台 · 独石修道院旧址",
+      "paragraphs": [
+        "顶着零下三十度的刀割狂风爬上断崖高台，两道高达十二米的灰黑石环静静矗立在万仞雪峰之间。石环表面不沾片雪，内环空气呈现出轻微的透镜折光，通往下沉盐坑的超导波导槽已完成预冷。",
+        "你必须在十点整前设好内环方位倾角——偏小会打空进雪谷，偏大则会直接击穿星门本体引发局部维度坍缩。"
+      ],
+      "lowSanThreshold": 55,
+      "lowSanNote": "透过十二米石环往对面雪峰看去，山脊后面立着的不是昆仑山，而是地中海边白色的法罗斯灯塔。",
+      "choices": [
+        {
+          "label": "调出《法罗斯第八重天球引力弦方程》，按 0.12 度弦切角做八次全反射锁相",
+          "next": "node-09-star-gate-align",
+          "sanDelta": 0,
+          "humeDelta": 0.08,
+          "requiresClue": "clue-eighth-sphere-chord"
+        },
+        {
+          "label": "凭三级战术神学官权限调用《冷原星门准直参数》，手动摇柄对准亚历山大子午线",
+          "next": "node-09-star-gate-align",
+          "sanDelta": -6,
+          "humeDelta": 0.04,
+          "minClearance": 3
+        },
+        {
+          "label": "无现成弦切表，靠肉眼经纬仪贴近内环边缘现场估算折射角",
+          "next": "node-10-chain-snap-crisis",
+          "sanDelta": -18,
+          "humeDelta": -0.06
+        }
+      ]
+    },
+    "node-09-star-gate-align": {
+      "title": "超前零点三毫秒的群青弦",
+      "location": "双环星门测角台 · UTC 09:59:58",
+      "paragraphs": [
+        "青铜蜗杆咔哒咬死在 0.12 度刻线上。试射导引激光的瞬间，接收屏在光束发出前 0.0003 秒便收到了回波——内环弦切面已与四千公里外的 [[site-alexandria|亚历山大]] 十二肋穹顶建立无损导通。",
+        "UTC 10:00:00 整，天边掠过一道不含热量的深邃群青细线，在内环石壁间无声弹折八次，垂直灌入脚下盐坑地堡。"
+      ],
+      "lowSanThreshold": 55,
+      "lowSanNote": "那一瞬间的群青光线里，你看见自己的影子被规规矩矩钉回了靴跟底下，一分不多，一分不少。",
+      "choices": [
+        {
+          "label": "保持波导闸刀合闸满零点四秒，将驻波套管完整套入第七锁链第409环扣",
+          "next": "end-eighth-chord",
+          "sanDelta": 6,
+          "humeDelta": 0.28
+        },
+        {
+          "label": "担心星门过载，在零点一秒时提前拉闸转入保守阻尼维持",
+          "next": "end-calabasas-veil",
+          "sanDelta": 2,
+          "humeDelta": 0.1
+        }
+      ]
+    },
+    "node-10-chain-snap-crisis": {
+      "title": "零点二九休谟：末链剧震",
+      "location": "冷原盐坑与高台断层 · 临界坍缩区",
+      "paragraphs": [
+        "脚下花岗岩山体猛地横移半尺！地堡警报钟凄厉炸响，第七锁链第 409 节环扣外层的珍珠母壳整片崩飞，门内休谟场跌至 0.27 Hm，整片喀拉库勒盐滩浮起半米高的深蓝静电盐雾。",
+        "木门框在气闸室里剧烈扭曲，距离彻底崩断只剩最后十几秒决断窗口。"
+      ],
+      "lowSanThreshold": 65,
+      "lowSanNote": "风声停了。七根石柱的影子从地堡水泥板底下直立起来，正等着第八个人去替那截断链。",
+      "choices": [
+        {
+          "label": "立刻引爆气闸顶部的万吨铅砂塌方栓，炸毁地表通道全员后撤",
+          "next": "end-sealed-withdrawal",
+          "sanDelta": -8,
+          "humeDelta": 0.06
+        },
+        {
+          "label": "冲回扭曲的木门框前，试图徒手转动失效的斯克兰顿副锚手轮",
+          "next": "end-crimson-aperture",
+          "sanDelta": -30,
+          "humeDelta": -0.15
+        }
+      ]
+    },
+    "end-calabasas-veil": {
+      "title": "结局 A · 照常举行的黎明木偶戏",
+      "location": "帕米尔冷原监测站 · B-3 气闸",
+      "paragraphs": [
+        "三台增补的斯克兰顿副锚在木门外围筑起一道 0.58 Hm 的缓冲环，暂时压平了十七赫兹尾波的尖峰。第二天清晨六点整，不知情的年轻执勤官照常捧着银碗跨过木门，诵念拉丁祷文、泼洒圣水。",
+        "你在交接簿上签下“220-Calabasas 执行正常”，将真实裂纹斜率锁进五级铅匣。人类争取到了又一个平静的冬天，尽管地底那根旧铁链仍在按月倒数。"
+      ],
+      "endingType": "stabilized",
+      "endingCode": "CASE02-END-A",
+      "grantClue": {
+        "id": "clue-case02-end-veil",
+        "title": "结案卷宗：220-Calabasas局部阻尼维稳记录",
+        "xp": 50
+      },
+      "relatedEntries": [
+        "dossier-scp-2317",
+        "entity-scp-2317",
+        "site-leng",
+        "goi-tactical-theology"
+      ]
+    },
+    "end-eighth-chord": {
+      "title": "结局 S · 第八重天球弦：无质之锁",
+      "location": "冷原高台双环星门 → 七柱盐坑",
+      "paragraphs": [
+        "正午三秒过后，地下盐坑声发射传感器的 17.0 Hz 振幅彻底归零。内窥画面显示，在第七根古老锁链斑驳开裂的第 409 节环扣外侧，凝成了一道由纯粹空间曲率编织的双环群青驻波套管，将局部休谟场稳稳托回 0.89 Hm。",
+        "旧神铸造的骨血铁链终会朽坏，而人类用几何规尺与跨海母钟接上了不会疲劳的第八道弦。地面依旧白雪茫茫，丝路结界远方传来了清道列车准点进站的气笛声。"
+      ],
+      "endingType": "epiphany",
+      "endingCode": "CASE02-END-S",
+      "grantClue": {
+        "id": "clue-case02-end-chord",
+        "title": "结案卷宗：冷原双环星门第八重群青弦合龙",
+        "xp": 50
+      },
+      "relatedEntries": [
+        "site-leng",
+        "dossier-scp-2317",
+        "entity-yog-sothoth",
+        "site-alexandria",
+        "dossier-tabula-caerulea",
+        "era-modern-blue-theology-convergence"
+      ]
+    },
+    "end-sealed-withdrawal": {
+      "title": "结局 B · 万吨铅封与荒滩界碑",
+      "location": "帕米尔外围 · 撒马尔罕清道接应线",
+      "paragraphs": [
+        "万吨掺青金石粉的铅砂在三十秒内灌满 B-3 层气闸，将那扇十九世纪木门彻底深埋在冻土花岗岩之下。全站六十四名人员乘装甲履带车沿冰道安全撤抵丝路结界外哨。",
+        "物理掩埋切断了地表通道，却也彻底放弃了对异界盐坑的观测窗口。京都铜版测绘局在当晚的新版舆图上，将帕米尔禁区斜线半径向外扩刻了五十公里。"
+      ],
+      "endingType": "retreat",
+      "endingCode": "CASE02-END-B",
+      "grantClue": {
+        "id": "clue-case02-end-withdrawal",
+        "title": "结案卷宗：冷原B-3地堡铅砂永久封井令",
+        "xp": 50
+      },
+      "relatedEntries": [
+        "site-leng",
+        "dossier-scp-2317",
+        "codex-hume-theory"
+      ]
+    },
+    "end-crimson-aperture": {
+      "title": "结局 X · 门框里的干涸盐风",
+      "location": "冷原B-3地堡 · 0.19 Hm 失联点",
+      "paragraphs": [
+        "两小时后，高台自动铅闸依预设程序落下封闭整座地下工事。外围清道救援队在通风竖井滤网里没有检出辐射或烟尘，只扫出了三百公斤原本只存在于异界盆地的温热白盐。",
+        "地堡最后传出的半截电传电文停在逗号处：“第七根链条并没有断，它只是把门这边的我们也算进链环里了，”"
+      ],
+      "endingType": "breach",
+      "endingCode": "CASE02-END-X",
+      "grantClue": {
+        "id": "clue-case02-end-breach",
+        "title": "结案卷宗：冷原地堡白盐倒灌失联报告",
+        "xp": 50
+      },
+      "relatedEntries": [
+        "entity-scp-2317",
+        "dossier-scp-2317",
+        "site-leng"
+      ]
+    }
+  }
+}

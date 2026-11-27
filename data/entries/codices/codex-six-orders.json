@@ -10,16 +10,63 @@
   ],
   "clearance": 1,
   "provenance": "scp-canon",
+  "provenanceLabel": "SCP 维基同行组织原典 + 洛氏原典 + 本站合流综述",
   "summary": "当前收录：SCP 基金会战术神学部、破碎之神教会（GOI-004）、欲肉教团、蛇之手（被放逐者之图书馆）、密斯卡托尼克大学、中华异学会（CN分部原典）及本站原创之赫尔墨斯蓝色修会。",
+  "sections": [
+    {
+      "heading": "常态帷幕内的收容盟约与学术传承",
+      "paragraphs": [
+        "在现代常态帷幕体系下，[[goi-tactical-theology|SCP 基金会战术神学部]] 承担着全球神性实体量化监控与阿基瓦辐射压制的核心职责。与之保持历史秘约协作的包括驻守亚历山大圣座的本站原创组织 [[goi-ordo-caeruleus|赫尔墨斯蓝色修会]]，以及东西方两大古典异常文献重镇——马萨诸塞州阿卡姆的 [[goi-miskatonic-yixuehui|密斯卡托尼克大学与中华异学会]]。",
+        "上述机构虽在保密层级与奇术方法论上各有侧重，但在面对足以撕裂地表物理公理的旧日复苏或 Apollyon 级危机时，均承认《法罗斯群青基准协定》的最高优先级，共享 {{redact:2:跨大洋十七赫兹深渊声呐预警网与珍本禁书借阅白名单}}。[注：跨组织并网协定系本站原创桥接]"
+      ]
+    },
+    {
+      "heading": "机械、血肉与门径：三大异质信仰及激进派系",
+      "paragraphs": [
+        "在基金会管辖体制之外，自 [[era-bronze-mekhane-sarkic|青铜时代晚期超自然大战]] 延续至今的两大宿敌——崇尚精密齿轮与理性秩序的 [[goi-broken-god|破碎之神教会（GOI-004）]] 与崇拜原初血肉母神及深渊古神的 [[goi-sarkic-dagon|欲肉教与深海秘教]]——仍在西伯利亚、东地中海及新英格兰暗礁带持续角力。",
+        "与此同时，依托跨维度“门径（Ways）”自由出入被放逐者之图书馆的 [[goi-serpents-hand|蛇之手（GOI-019）]] 拒绝承认基金会的常态封锁权。战术神学部评估认为，蛇之手掌握的部分银匙几何通行术直接映射了 [[entity-yog-sothoth|犹格·索托斯]] 的高维拓扑性质，一旦门径坐标泄露至狂热教团手中，极易重演 {{redact:3:1609年布拉格地宫误开阿拉卡达门扉的维度污染事故}}。"
+      ]
+    }
+  ],
+  "logs": [
+    {
+      "title": "【同行组织威胁与协作矩阵 · GOI-MATRIX-2026】",
+      "minClearance": 2,
+      "content": "一级盟友：赫尔墨斯蓝色修会（共享 Site-01 基准）、中华异学会遗产组（并入 Site-CN-01）；受限学术协作：密斯卡托尼克大学特藏馆；局部停火协防：破碎之神齿轮正教（仅限贝加尔 SCP-610 隔离墙）；高危敌对：新欲肉教派、印斯茅斯大衮残党。"
+    },
+    {
+      "title": "【被放逐者之图书馆截获书简 · SH-WAYS-19】",
+      "minClearance": 3,
+      "content": "“狱卒们以为给大海装上四座斯克兰顿铁塔就能让深渊闭嘴，却看不见三波特兰地窖里的潮水已经漫过了第三级台阶。”——摘自阿卡姆河谷水下拱门截获的无署名蛇之手传单。"
+    }
+  ],
   "infobox": [
     {
       "label": "文献性质",
       "value": "跨体系综述",
       "original": true
+    },
+    {
+      "label": "原典许可",
+      "value": "SCP GOI 源自 SCP 维基（CC BY-SA 3.0）；密大源自洛氏公有领域原典",
+      "original": false
+    }
+  ],
+  "cluesGranted": [
+    {
+      "id": "clue-six-orders-concordat",
+      "title": "六大秘教与基金会局部停火及门径监管名录",
+      "xp": 15
     }
   ],
   "relatedIds": [
-    "site-alexandria"
+    "site-alexandria",
+    "goi-tactical-theology",
+    "goi-ordo-caeruleus",
+    "goi-broken-god",
+    "goi-sarkic-dagon",
+    "goi-serpents-hand",
+    "goi-miskatonic-yixuehui"
   ],
-  "updatedAt": "2026-11-26"
+  "updatedAt": "2026-11-27"
 }

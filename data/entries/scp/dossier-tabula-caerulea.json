@@ -11,8 +11,9 @@
     "《翠玉录·第八重神圣群青补遗》与战术神学宪章",
     "alexandria"
   ],
-  "clearance": 1,
+  "clearance": 2,
   "provenance": "original",
+  "provenanceLabel": "本站原创核心圣典设定（化用公有领域《翠玉录》拉丁本）",
   "authorCredit": "古典《翠玉录》公有领域传说 + 本站原创蓝色神学设定",
   "hume": "1.80 Hm · 基准圣律",
   "legacyCityId": "alexandria",
@@ -20,6 +21,41 @@
   "summary": "出土于亚历山大法罗斯大灯塔地基下的绿松石-青金石合铸碑板，揭示宇宙并非善恶二元，而是由“盲目熵增的旧日深渊”与“赋予秩序的第八重天球群青圣律”构成；这正是现代 {{redact:1:[斯克兰顿现实稳定锚与战术神学部]}} 的真正理论源头。",
   "proc": "全文铭刻于 Site-01 十二肋大穹顶内壁，作为全球休谟基准场的频率校准母本。",
   "log": "【碑文首句】“Verum sine mendacio, certum et verissimum: 如其在上之星盘，如其在下之海渊；执群青之规尺者，可丈量不可名状之神。”",
+  "sections": [
+    {
+      "heading": "法罗斯海底青金石碑板与拉丁铭文源流",
+      "paragraphs": [
+        "据 [[era-alexandria-pharos-concord|公元前280年法罗斯立约卷宗]] 记载，该碑板由整块阿富汗巴达赫尚青金石与西奈绿松石在高温铅锡浴中嵌合铸成，厚四指、宽二肘尺，表面以古希腊文及早期赫尔墨斯符号刻出十三行几何公理。中世纪流传于世的公有领域拉丁本《翠玉录》（Tabula Smaragdina）仅译出了前七重炼金隐喻，而隐去了关乎现实曲率校准的第八重补遗。",
+        "在大浸染纪元的七曜圣城体系中，碑板核心铭句被分刻于七城门楣——如亚历山大的“PATER EIVS EST SOL”、惠灵顿的“MATER EIVS LVNA”与佛罗伦萨的“VERVM SINE MENDACIO, CERTVM ET VERISSIMVM”——构成跨越南北半球的相位闭环。"
+      ]
+    },
+    {
+      "heading": "群青谐振常数与第八重天球弦方程",
+      "paragraphs": [
+        "[[goi-ordo-caeruleus|赫尔墨斯蓝色修会]] 与 [[goi-tactical-theology|战术神学部]] 对碑板晶格进行的声光衍射测试表明，青金石中的蓝方石笼状阴离子团在受到正午太阳辐射激发时，会稳定输出对应 1.80 Hm 的基准驻波（参见 [[codex-hume-theory|休谟场论]]）。",
+        "碑板背面末行刻有一组长期被误认为装饰花边的双曲线比例式。直至 2026 年 [[site-innsmouth|魔鬼礁]] 十七赫兹反相信号破译后，抄写员方才解出其真义：{{redact:4:当七曜时辰满载无法增设第八圣城时，可将正午脉冲经双环门径折叠八次，凝成束缚深渊实体的纯几何引力弦}}。"
+      ]
+    }
+  ],
+  "logs": [
+    {
+      "title": "【节略外勤本使用戒律 · TABULA-POCKET-02】",
+      "minClearance": 2,
+      "content": "配发外勤调查员的防水节略本仅印前六节比例表与钨钢音叉校准图。若在低于 0.70 Hm 的浸染区发现书页铅字出现自行游移，应立即合拢书匣并以音叉敲击书脊三下复位。[本站原创设定]"
+    },
+    {
+      "title": "【Site-01 十二肋穹顶正午共振实录 · SOL-NOON-V】",
+      "minClearance": 5,
+      "content": "11:59:58 至 12:00:01，海底母碑温度在无热源条件下精准上升 0.17 摄氏度，穹顶内所有铁磁尘埃悬停半空排列成八角星阵。三秒之内，亚历山大港内一切阴影边缘锐利如铜版刀刻。[本站原创设定]"
+    }
+  ],
+  "cluesGranted": [
+    {
+      "id": "clue-tabula-harmonic-ratio",
+      "title": "翠玉录八重群青谐振基准常数",
+      "xp": 25
+    }
+  ],
   "infobox": [
     {
       "label": "档案编号",
@@ -43,7 +79,11 @@
     }
   ],
   "relatedIds": [
-    "site-alexandria"
+    "site-alexandria",
+    "goi-ordo-caeruleus",
+    "codex-hume-theory",
+    "era-alexandria-pharos-concord",
+    "era-modern-blue-theology-convergence"
   ],
-  "updatedAt": "2026-11-26"
+  "updatedAt": "2026-11-27"
 }

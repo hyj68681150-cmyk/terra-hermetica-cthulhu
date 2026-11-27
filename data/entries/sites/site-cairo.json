@@ -70,7 +70,49 @@
       "original": false
     }
   ],
-  "relatedIds": [],
+  "sections": [
+    {
+      "heading": "双源考据：1924《金字塔下》竖井与沙漠机械遗城",
+      "paragraphs": [
+        "本图幅并置两套经典异常地理文献：其一出自洛夫克拉夫特与胡迪尼合署发表于 1924 年《诡丽幻谭》的原典《金字塔下》（Under the Pyramids，又题 Imprisoned with the Pharaohs，公有领域），记述吉萨狮身人面像与大金字塔石灰岩台地深处直通地底祭祀深坑的隐秘竖井；其二源自 SCP 维基 [[goi-broken-god|破碎之神教会]] 体系（CC BY-SA 3.0）在北非沙漠绵延的古典机械圣城阿蒙尼-拉姆（Amoni-Ram）遗迹。",
+        "为严守文献与文化边界，本馆档案明确区分现存历史古迹与虚构地底奇术层：地表吉萨石质高台保持历史原貌，一切青铜发条残骸与深渊观测井均严格限定于西侧无人沙漠断层之下。"
+      ]
+    },
+    {
+      "heading": "青铜大战遗存与尼罗河三角洲南翼屏障",
+      "paragraphs": [
+        "据 [[era-bronze-mekhane-sarkic|青铜时代晚期欲肉—机械大战编年]] 考证，沙漠砂岩层下封存的发条残阵曾是阻遏内亚血肉兽群南侵北非的关键防线，亦为 [[dossier-codex-al-azif|《阿尔·阿吉夫》]] 作者游历埃及时的传闻来源之一。",
+        "在现代收容格局中，开罗西郊沙漠监测点受北侧 [[site-alexandria|亚历山大圣座]] 正午基准脉冲直接辐射，常年维持在 0.78–0.92 Hm 的警戒与浸染交界线，专门拦截自南部沙漠深处向尼罗河谷渗透的 {{redact:2:逆金字塔光学海市蜃楼与低频沙鸣异常}}。[本站延伸设定]"
+      ]
+    }
+  ],
+  "logs": [
+    {
+      "title": "【吉萨西侧石灰岩断层微震监测 · CAI-GIZA-1924】",
+      "minClearance": 2,
+      "content": "在距狮身人面像西南 3.2 公里的封闭地质勘探井内，微气压计每逢朔夜零时记录到规律的砂砾滑落声与干热上升气流，深度超过地下二百米，与 1924 年文献所述深井方位吻合。"
+    },
+    {
+      "title": "【阿蒙尼-拉姆外围铍青铜残件化验 · AMONI-04】",
+      "minClearance": 3,
+      "content": "流沙层下回收的半枚行星差速齿轮（年代测定约公元前十三世纪）在接入亚历山大 1.80 Hm 谐波后自行缓慢顺时针转动三格，随即因齿面磨损卡死。[基于 SCP 破碎之神原典延伸]"
+    }
+  ],
+  "cluesGranted": [
+    {
+      "id": "clue-cairo-amoni-gear",
+      "title": "吉萨西侧沙漠青铜差速残件谐振测年报告",
+      "xp": 15
+    }
+  ],
+  "relatedIds": [
+    "site-alexandria",
+    "entity-mekhane",
+    "entity-nyarlathotep-alagadda",
+    "goi-broken-god",
+    "dossier-codex-al-azif",
+    "era-bronze-mekhane-sarkic"
+  ],
   "updatedAt": "2026-11-27",
   "realElevationMeters": 86,
   "z12RealLocation": "埃及开罗西南吉萨金字塔群西侧沙漠石灰岩台地边缘",
