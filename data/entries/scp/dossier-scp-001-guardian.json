@@ -4,10 +4,11 @@
   "category": "scp",
   "subCat": "scp",
   "badge": "badge-gold",
-  "code": "SCP-001 · YESOD / KETER",
+  "code": "SCP-001 · EUCLID / KETER",
   "title": "守门人 · 两河流域伊甸四翼炽天使巨像",
   "aliases": [
     "SCP-001 · YESOD / KETER",
+    "SCP-001 · EUCLID / KETER",
     "守门人 · 两河流域伊甸四翼炽天使巨像",
     "gate001",
     "SCP-001"
@@ -18,13 +19,23 @@
   "hume": "8.90 Hm · 奇术饱和",
   "legacyCityId": "gate001",
   "mapSiteId": "site-001",
-  "summary": "立于底格里斯与幼发拉底两河交汇高崖之上，高约三百肘尺，生有四翼并持炽白火焰剑。任何进入半径 1 公里河谷禁区的敌对人员均收到心灵指令 {{redact:1:“遗忘，或归于原初群青”}} 并瞬间原子化。",
-  "proc": "远古站点 Site-0 沿外围双河石堤呈半月形布防，仅允许无人观测船在下游河道巡航。",
-  "log": "【紧急遥测 001-伊甸】当印度洋海沟发生 8.9 级异常震动时，SCP-001 曾短暂将火焰巨剑转向东南深海方向达 14 秒，阿基瓦辐射峰值突破 6,400 Ak。",
+  "overview": "原典源自 DrClef 所著《Dr Clef's Proposal（守门人）》（CC BY-SA 3.0）：一尊高约七百肘尺、翼数均值四翼的发光巨像，低首持火焰巨剑 SCP-001-2 伫立于底格里斯与幼发拉底两河交汇未公开处。越过 1 公里或发起敌对者将被抹除，常人目视则收到“遗忘”指令平安退去；唯有创始人曾受“预备”启示。本站大浸染纪元中，此地测得 8.90 Hm 极端高休谟，由 Site 0 与外围无人哨长期静默监守。",
+  "bodyPath": "data/dossiers/dossier-scp-001-guardian.md",
+  "readingMinutes": 23,
+  "summary": "立于底格里斯河与幼发拉底河交汇冲积平原未公开点位（本站锚定古尔奈海拔 4 米河洲），高约七百肘尺，发光翼状附肢均值四翼，低首持恒星级高温火焰剑 SCP-001-2。常人目视通常收到心灵指令 {{redact:1:“遗忘（FORGET）”并平安离去}}，越过 1 公里警戒半径或采取敌对行动者则即刻遭 SCP-001-2 彻底抹除。",
+  "proc": "原典仅自 10 公里外保密站点 Site 0 由总管与亚伯拉罕系监督者 O5-14 执行 24 小时监守并备妥拔摩（PATMOS）应急程序；大浸染纪元外围 12 公里石堤增设无人水文浮标带与下游无人观测艇（本站设定）。",
+  "log": "【紧急遥测 001-伊甸（本站设定）】2021 年深秋孟加拉湾—印度洋深海沟记录到非地震性休谟骤降尖峰时，SCP-001 强光质心曾向东南深海微偏达 14 秒，外围阿基瓦辐射峰值突破 6,400 Ak。",
+  "cluesGranted": [
+    {
+      "id": "clue-scp001-patmos-future",
+      "title": "拔摩-欧米茄未来时间戳错位电文与Site-0监守规程",
+      "xp": 25
+    }
+  ],
   "infobox": [
     {
       "label": "档案编号",
-      "value": "SCP-001 · YESOD / KETER",
+      "value": "SCP-001 · EUCLID / KETER",
       "original": false
     },
     {
@@ -39,13 +50,23 @@
     },
     {
       "label": "驻防与收容",
-      "value": "Site-0 远古守望哨",
-      "original": true
+      "value": "Site 0 远距守望哨（O5-14）",
+      "original": false
     }
   ],
   "relatedIds": [
-    "site-001"
+    "site-001",
+    "entity-gate-guardian",
+    "dossier-scp-1730",
+    "site-3000-bengal",
+    "goi-tactical-theology",
+    "goi-foedus-caeruleum",
+    "codex-tinctura",
+    "codex-hume-theory",
+    "sanct-sol",
+    "dossier-scp-2000",
+    "era-modern-blue-theology-convergence"
   ],
-  "updatedAt": "2026-11-26",
+  "updatedAt": "2026-11-27",
   "provenanceLabel": "DrClef (Dr. Clef's Proposal, CC BY-SA 3.0)"
 }

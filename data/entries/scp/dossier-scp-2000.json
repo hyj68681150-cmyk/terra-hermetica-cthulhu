@@ -18,9 +18,19 @@
   "hume": "1.35 Hm · SRA×8",
   "legacyCityId": "site2000",
   "mapSiteId": "site-2000",
-  "summary": "位于怀俄明州黄石破火山口深层花岗岩地幔上方，配备 8 座斯克兰顿现实稳定锚冷却塔与 50 万台布莱特/扎尔茨曼人类克隆舱。已知至少在 {{redact:1:[旧日苏醒导致的 2 次 K 级纪元重置]}} 后重新播种并建造了现代人类文明。",
-  "proc": "全天候由 MTF Alpha-1 与赫尔墨斯工程团驻守火山口台地，严禁非 O5 人员接近中央升降竖井。",
-  "log": "【工程日志 2000-Ω】地下 B-14 层发现早于现代基金会的古典拉丁铜版铭文：“此井已重启人类第七次，切勿唤醒黄石地幔下的原初蠕行者。”——首席奇术师 C. 扎尔茨曼博士",
+  "overview": "原典源自 HammerMaiden 所著《SCP-2000》（CC BY-SA 3.0），为 Thaumiel 级奠基项目：深藏于黄石国家公园地下 75 至 100 米的文明重启巨构，地表伪装为废弃护林站，配六边形埋地 SRA 阵、5 台 XACTS 时间槽、10 平方公里伪黎曼流形与 50 万台 BZHR 类人复制机，历史上至少已重启人类两次。在本站大浸染纪元设定中，黄石转入明面要塞化并网，以八座冷却塔维持 1.35 Hm 北美稳定核。",
+  "bodyPath": "data/dossiers/dossier-scp-2000.md",
+  "readingMinutes": 23,
+  "summary": "位于美国怀俄明州黄石破火山口地下 75 至 100 米深处，原典以废弃护林站伪装并由每 20 米六边形布设的 SRA、5 台 XACTS 时间槽与 50 万台布莱特/扎蒂翁类人复制机（BZHR）构成，已知至少在 {{redact:1:[2 次以上的 K 级末日情景]}} 后借拉撒路-01 程序重建人类文明；大浸染纪元地表增建 8 座冷却塔维持 1.35 Hm 圣域（本站设定）。",
+  "proc": "原典执行众目睽睽-201 协议与 4/2000 及 5/2000 级权限隔离；大浸染纪元由 MTF Alpha-1、战术神学部与赫尔墨斯工程团联合驻守火山口台地，严禁非授权人员接近中央升降竖井与地下四层流形闸口（本站设定）。",
+  "log": "【联合勘验摘记 2000-Ω】原典 3382 号扇区曾检获距今 450–700 年且携有克莱夫博士证件的遗骸；本站设定中，地下 B-14 夹层另出土十七世纪拉丁铜版，生物技术研发部主管 C. 扎蒂翁医学博士拒绝为其背书，仅批注“我们连第一次是什么时候都算错了”。",
+  "cluesGranted": [
+    {
+      "id": "clue-scp2000-lazarus-limit",
+      "title": "SCP-2000：拉撒路-01二十年回拨上限与3382扇区古尸案",
+      "xp": 25
+    }
+  ],
   "infobox": [
     {
       "label": "档案编号",
@@ -44,8 +54,17 @@
     }
   ],
   "relatedIds": [
-    "site-2000"
+    "site-2000",
+    "codex-hume-theory",
+    "codex-tinctura",
+    "goi-tactical-theology",
+    "goi-foedus-caeruleum",
+    "site-alexandria",
+    "sanct-mars",
+    "dossier-scp-2317",
+    "dossier-scp-1730",
+    "era-modern-blue-theology-convergence"
   ],
-  "updatedAt": "2026-11-26",
+  "updatedAt": "2026-11-27",
   "provenanceLabel": "HammerMaiden (SCP-2000, CC BY-SA 3.0)"
 }
