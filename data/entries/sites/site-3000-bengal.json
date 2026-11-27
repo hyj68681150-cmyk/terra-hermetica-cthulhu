@@ -39,7 +39,25 @@
     ],
     "riverAt": -1
   },
-  "relatedIds": [],
+  "relatedIds": [
+    "entity-scp-3000",
+    "codex-tinctura",
+    "goi-foedus-caeruleum",
+    "dossier-rlyeh-2662",
+    "site-rlyeh",
+    "era-modern-blue-theology-convergence",
+    "goi-tactical-theology",
+    "codex-hume-theory",
+    "sanct-venus",
+    "sanct-sol"
+  ],
+  "cluesGranted": [
+    {
+      "id": "clue-3000-atzak-y909",
+      "title": "151-霍利斯特阿扎克协议与Y-909记忆覆写账本",
+      "xp": 25
+    }
+  ],
   "geo": {
     "lat": 11.5,
     "lon": 88.5,
@@ -48,7 +66,10 @@
   "realElevationMeters": -3236,
   "z12RealLocation": "印度洋孟加拉湾中部深海扇海面（无陆地，划设直径 300km 禁航区）",
   "coordSource": "SCP-3000 原典（A Random Day, djkaktus, Joreth）：孟加拉湾深海封锁区",
-  "summary": "孟加拉湾深海扇水深 3,236 米禁航海域，盘踞体长数百公里的认知危害实体阿难陀舍沙（SCP-3000），由潜艇站点 Atzak 监控。",
+  "summary": "孟加拉湾深海扇水深 3,236 米禁航海域（直径 300 km），盘踞体长 600–900 公里的 VIII 级认知危害实体 SCP-3000（“阿难陀舍沙”），由 INWBKL Site-151 统筹、潜艇 SCPF Eremita 驻守并执行阿扎克协议（Atzak Protocol）。",
+  "overview": "印度洋孟加拉湾中部深海扇禁航区（11.5°N，88.5°E，封锁直径 300 km，实测海底水深 3,236 m），系 Thaumiel 级 VIII 类认知危害实体 SCP-3000（作者 A Random Day、djkaktus、Joreth，2017）栖居域。实体前端常驻恒河深海扇海面下约 0.7 km，进食人类后分泌现代记忆删除剂关键原料 Y-909。现由 Site-151 与潜艇 SCPF Eremita 执行阿扎克协议；在大浸染纪元中，此海域亦为拉莱耶—孟加拉低休谟共振漏斗之一（< 0.35 Hm，本站设定）。",
+  "bodyPath": "data/dossiers/site-3000-bengal.md",
+  "readingMinutes": 20,
   "coordsText": "11.5°N · 88.5°E · 实测水深 3,236 m",
   "infobox": [
     {
@@ -72,5 +93,5 @@
       "original": false
     }
   ],
-  "updatedAt": "2026-11-26"
+  "updatedAt": "2026-11-27"
 }

@@ -19,7 +19,10 @@
   "legacyCityId": "baikal",
   "mapSiteId": "site-baikal",
   "summary": "西伯利亚大裂谷沿岸爆发的 SCP-610 欲肉教血肉瘟疫区被三道六角形火焰高墙封锁。根据《群青秘约》，基金会允许破碎之神教会齿轮正教在隔离区中心运转 {{redact:1:[麦卡恩发条心脏谐振穹顶]}}，以纯机械几何场抑制血肉增殖。",
-  "proc": "MTF Eta-5 与齿轮正教圣骑士团沿环湖高墙分区巡逻，严防卡르基斯特残党渗透。",
+  "overview": "贝加尔湖东岸奥尔洪峡湾（53.24°N，107.42°E）的西伯利亚裂谷封锁区，系 SCP-610“憎恶之血肉”（Keter，NekoChris，2009）爆发核心。原典五次探索揭露地表村落与深达数百米的地下肉窟、钟楼教堂；进入大浸染纪元后，核心跌入 V 级禁区（< 0.35 Hm）。依蓝印盟约与破碎之神教会签署的《青铜圣柜盟约》（本站设定），三道六角火焰高墙与中心 108 rpm 发条谐振穹顶共同将外围托举在 0.88 Hm，遏制血肉扩张并警戒欲肉教渗透。",
+  "bodyPath": "data/dossiers/dossier-baikal-610.md",
+  "readingMinutes": 22,
+  "proc": "MTF Eta-5 与齿轮正教圣骑士团沿环湖高墙分区巡逻，严防卡尔基斯特残党渗透（联席编制及三道高墙为本站设定）。",
   "log": "【联席会议纪要】大牧首罗伯特·布麻罗代表发函：“血肉盲目生长，唯发条与圣蓝星盘可定乾坤；若阿蒙尼-拉姆重启，610 将在三日内灰飞烟灭。”",
   "infobox": [
     {
@@ -43,9 +46,25 @@
       "original": true
     }
   ],
-  "relatedIds": [
-    "site-baikal"
+  "cluesGranted": [
+    {
+      "id": "clue-baikal-108rpm-lock",
+      "title": "贝加尔发条穹顶108转抑肉锁止与126转磁致警讯",
+      "xp": 25
+    }
   ],
-  "updatedAt": "2026-11-26",
+  "relatedIds": [
+    "site-baikal",
+    "entity-mekhane",
+    "goi-broken-god",
+    "goi-sarkic-dagon",
+    "era-bronze-mekhane-sarkic",
+    "codex-tinctura",
+    "goi-foedus-caeruleum",
+    "codex-hume-theory",
+    "sanct-venus",
+    "site-cairo"
+  ],
+  "updatedAt": "2026-11-27",
   "provenanceLabel": "NekoChris (SCP-610) & HammerMaiden (破碎之神教会中心页, CC BY-SA 3.0) + 本站原创盟约"
 }
