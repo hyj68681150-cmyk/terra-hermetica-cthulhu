@@ -70,8 +70,33 @@
       "original": false
     }
   ],
-  "relatedIds": [],
-  "updatedAt": "2026-11-26",
+  "relatedIds": [
+    "dossier-innsmouth-1928",
+    "site-innsmouth",
+    "era-1925-1928-call-innsmouth",
+    "era-1931-miskatonic-antarctica",
+    "dossier-antarctica-1931",
+    "dossier-codex-al-azif",
+    "goi-miskatonic-yixuehui",
+    "goi-foedus-caeruleum",
+    "sanct-mars",
+    "sanct-venus",
+    "sanct-saturnus",
+    "site-alexandria",
+    "codex-tinctura",
+    "codex-hume-theory"
+  ],
+  "cluesGranted": [
+    {
+      "id": "clue-arkham-pier3-lapis",
+      "title": "阿卡姆三号桥墩 0.78 Hm 陡降与青金石盐晶实录",
+      "xp": 20
+    }
+  ],
+  "overview": "阿卡姆坐落于马萨诸塞州密斯卡托尼克河谷，是新英格兰连接学术考据与海岸异常防线的前线学城。北岸高坡上的密斯卡托尼克大学珍藏十七世纪拉丁文《死灵之书》，并主导过 1928 年敦威治善后与 1930—1931 年南极科考；南岸折顶老街坊与下游印斯茅斯废港隔沼相望。大浸染纪元中，全城依托北岸铜网微结界与三号石拱桥水闸勉力分岸守城，北接魁北克铁之城，南防大西洋低休谟潮气逆灌。",
+  "bodyPath": "data/dossiers/site-arkham.md",
+  "readingMinutes": 19,
+  "updatedAt": "2026-11-27",
   "realElevationMeters": 0,
   "z12RealLocation": "美国马萨诸塞州北岸塞勒姆湾与贝弗利港交汇海岬水域",
   "coordSource": "洛夫克拉夫特阿卡姆原型地：马萨诸塞州北岸塞勒姆-贝弗利河口海域"

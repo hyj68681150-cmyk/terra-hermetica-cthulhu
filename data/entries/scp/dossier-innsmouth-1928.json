@@ -83,7 +83,17 @@
     "site-innsmouth",
     "goi-miskatonic-yixuehui",
     "goi-serpents-hand",
-    "era-1925-1928-call-innsmouth"
+    "goi-sarkic-dagon",
+    "era-1925-1928-call-innsmouth",
+    "dossier-rlyeh-2662",
+    "sanct-mars",
+    "dossier-codex-al-azif",
+    "dossier-tabula-caerulea",
+    "site-leng",
+    "codex-tinctura"
   ],
+  "overview": "印斯茅斯是马萨诸塞州马努克塞特河口一座建于 1643 年的衰败渔港，外海一海里半的魔鬼礁深渊下栖居着非人两栖物种“深潜者”及其海底石城伊哈-恩斯雷。1927 年夏一名访客脱险报案后，1928 年 2 月爆发大规模封锁爆破与外海潜航鱼雷清剿，但海底城并未覆灭。在本站设定中，魔鬼礁八十二米深处的破损反相钟室把拉莱耶 17 Hz 波动偏转至帕米尔盐坑，上游阿卡姆桥下则隐伏着连通三波特兰的水下门径。",
+  "bodyPath": "data/dossiers/dossier-innsmouth-1928.md",
+  "readingMinutes": 20,
   "updatedAt": "2026-11-27"
 }

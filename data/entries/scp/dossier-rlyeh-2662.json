@@ -44,8 +44,29 @@
     }
   ],
   "relatedIds": [
-    "site-rlyeh"
+    "site-rlyeh",
+    "entity-cthulhu",
+    "era-sinking-of-rlyeh",
+    "era-1925-1928-call-innsmouth",
+    "site-3000-bengal",
+    "entity-scp-3000",
+    "dossier-innsmouth-1928",
+    "dossier-scp-2317",
+    "sanct-luna",
+    "codex-tinctura",
+    "codex-hume-theory",
+    "dossier-codex-al-azif"
   ],
-  "updatedAt": "2026-11-26",
+  "cluesGranted": [
+    {
+      "id": "clue-rlyeh-17hz-coupling",
+      "title": "拉莱耶—孟加拉湾—魔鬼礁 17.004 Hz 地幔耦合频谱表",
+      "xp": 25
+    }
+  ],
+  "overview": "南太平洋 47°09′S、126°43′W 四千米深海下的拉莱耶卫城，是大浸染纪元的起点。1925 年春该遗址随海震短暂浮出十一日，引发全球群梦；挪威大副约翰森驾《警觉号》撞裂沉眠主祭司后遗址复沉。百年间此处的 0.41 Hm 漏斗经地幔与孟加拉湾 SCP-3000、魔鬼礁钟室及帕米尔第七锁链耦合共振。阅读前请留意：本卷将洛氏拉莱耶与 SCP 原典反教团实体 SCP-2662 并列索引，两者原典性质截然不同，卷内已作分列辨伪。",
+  "bodyPath": "data/dossiers/dossier-rlyeh-2662.md",
+  "readingMinutes": 24,
+  "updatedAt": "2026-11-27",
   "provenanceLabel": "H. P. Lovecraft (公有领域) & SoullessSingularity (SCP-2662) + 本站原创合流"
 }
