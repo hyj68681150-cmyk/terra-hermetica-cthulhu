@@ -70,8 +70,50 @@
       "original": false
     }
   ],
-  "relatedIds": [],
-  "updatedAt": "2026-11-26",
+  "sections": [
+    {
+      "heading": "高寒封闭盐滩与双层异质遗迹叠合",
+      "paragraphs": [
+        "冷原监测站位于海拔 3,915 米的帕米尔高原喀拉库勒高寒咸水盆地北端无人荒滩，四周雪峰屏立，终年冻风凛冽。在本站跨体系设定中，此处同时承载两重高危拓扑结构：北侧断崖高台上耸立着映射 [[entity-yog-sothoth|犹格·索托斯]] 几何流形的太古直立双环星门；南侧下沉盐碱坑地堡则封存着通往 [[dossier-scp-2317|SCP-2317 异界七柱盐漠]]（DrClef 撰，CC BY-SA 3.0）的木质秘门。",
+        "由于门内异界长期处于 0.31–0.42 Hm 的极低休谟状态，冷原周边四百五十公里被列为最高等级的 V 级禁区，仅由全封闭铅衬装甲巡检车沿高寒冰道定期运送执行“程序 220-Calabasas”的轮换班组。"
+      ]
+    },
+    {
+      "heading": "盐面青金石反霜与双环星门偏转实验",
+      "paragraphs": [
+        "自 [[era-modern-blue-theology-convergence|2026年11月跨洋反相共振]] 显现以来，喀拉库勒湖岸白色芒硝盐壳下开始成片析出深蓝色方钠石与青金石微晶，与新英格兰 [[site-innsmouth|印斯茅斯魔鬼礁]] 潮间带的异常结晶完全一致。",
+        "驻站 [[goi-tactical-theology|战术神学部]] 工程组已在高台双环星门与下沉盐坑之间铺设超导波导槽，准备在第七根锁链彻底崩断前执行 {{redact:4:法罗斯正午脉冲跨维折射实验，以纯几何驻波接管诸界吞噬者的束缚载荷}}。[本站原创设定]"
+      ]
+    }
+  ],
+  "logs": [
+    {
+      "title": "【冷原气象与休谟哨卡交接簿 · LENG-GATE-11】",
+      "minClearance": 2,
+      "content": "气温零下二十七度，风速每秒十九米。外环三号休谟桩读数 0.44 Hm。提醒接班巡检员：若在盐滩上看见自己的脚印比靴底长出半寸，切勿回头丈量，立即握紧钨钢音叉返回地堡气闸。"
+    },
+    {
+      "title": "【高台双环星门准直校准记录 · LENG-RING-IV】",
+      "minClearance": 4,
+      "content": "内环倾角已按亚历山大东港子午线差值微调 0.12 度。试通低功率导引光束时，地下盐坑第七石柱的裂纹扩展速率短暂归零达十一秒，证实跨维弦替代路线具备物理可行性。[本站原创设定]"
+    }
+  ],
+  "cluesGranted": [
+    {
+      "id": "clue-leng-twin-ring-gate",
+      "title": "帕米尔冷原双环星门0.12度准直校准参数",
+      "xp": 20
+    }
+  ],
+  "relatedIds": [
+    "dossier-scp-2317",
+    "entity-scp-2317",
+    "entity-yog-sothoth",
+    "goi-tactical-theology",
+    "site-alexandria",
+    "era-modern-blue-theology-convergence"
+  ],
+  "updatedAt": "2026-11-27",
   "realElevationMeters": 3915,
   "z12RealLocation": "帕米尔高原喀拉库勒高寒封闭咸水湖心岛北端无人盐碱荒滩",
   "coordSource": "SCP-2317 异界盐漠（DrClef）之本站原创地球高寒咸水盆地映射点"

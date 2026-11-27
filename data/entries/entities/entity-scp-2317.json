@@ -14,10 +14,46 @@
     "异界盐漠地下七柱圆阵内仅余最后一根锁链的巨型实体",
     "SCP-2317"
   ],
-  "clearance": 1,
+  "clearance": 3,
   "provenance": "scp-canon",
+  "provenanceLabel": "SCP-2317 原典（DrClef，CC BY-SA 3.0）+ 本站冷原合流",
   "summary": "原典出自 DrClef 撰写的 SCP-2317（CC BY-SA 3.0）：秘门通往异界盐湖地下玄武岩七柱阵，七根封印锁链已断裂六根；基金会通过虚构仪轨“程序 220-Calabasas”维持人员士气，实则尚无永久收容手段。",
   "scripture": "“七链已断其六；程序 220-Calabasas 仅为安抚性仪轨。”",
+  "sections": [
+    {
+      "heading": "原典考据：六级权限迭代与 Apollyon 终局真相",
+      "paragraphs": [
+        "在 DrClef 创作的 SCP-2317 原典结构中，档案随阅读者权限从 0 级递升至 O5 专享第 6 次迭代，层层剥开基金会最严酷的制度性谎言：木门通往异宇宙广阔盐湖盆地（SCP-2317-Prime），其地底直径二百公里的球形玄武岩空腔内，七根刻满浮雕的巨柱曾以珍珠母与活体筋腱铸成的锁链禁锢着长角赤肤巨魔“诸界吞噬者（SCP-2317-K）”。",
+        "自十九世纪秘门被埃里克什密教徒发掘以来，前六根锁链已相继崩断。低权限文档中煞有介事记载的圣水泼洒、黑曜石刀放血与核弹头保险——即“程序 220-Calabasas”——在第 5 次迭代中被揭穿为 {{redact:3:纯粹基于中世纪手稿拼凑的安慰剂仪轨，唯一作用是防止知情收容团队陷入集体绝望哗变}}。"
+      ]
+    },
+    {
+      "heading": "本站合流设定：冷原双环星门与第八重天球弦工程",
+      "paragraphs": [
+        "在本站跨体系地理架构中，通往异界盐漠的门扉映射点被安置于帕米尔高原高寒无人盐滩下的 [[site-leng|冷原监测站]]，与高原绝顶的 [[entity-yog-sothoth|犹格·索托斯]] 双环星门形成上下高差对峙（参见 [[dossier-scp-2317|SCP-2317 收容卷宗]]）。",
+        "2026 年 11 月，随着 [[era-modern-blue-theology-convergence|十七赫兹跨洋反相谐波]] 传入盐坑，第七根锁链原本剩余的数十年金属与奇术寿命急剧缩短。[[goi-ordo-caeruleus|赫尔墨斯蓝色修会]] 正与 [[goi-tactical-theology|战术神学部]] 秘密验证备选方案：绕开无效的 220-Calabasas，直接以 {{redact:5:亚历山大法罗斯母钟的 1.80 Hm 群青引力弦穿过冷原双环星门，在第七柱断裂前完成拓扑替身锚定}}。[本站设定]"
+      ]
+    }
+  ],
+  "logs": [
+    {
+      "title": "【第七石柱声发射传感器日报 · 2317-PILLAR7】",
+      "minClearance": 3,
+      "content": "过去七十二小时内，第七锁链第 409 节环扣记录到 14 次微米级晶界滑移。每次滑移发生前 1.8 秒，盐湖地表均出现一层极薄的青金石色反霜，休谟计读数由 0.42 Hm 瞬时跌至 0.29 Hm。[本站设定]"
+    },
+    {
+      "title": "【监督者议会绝密训令 · O5-2317-FINAL】",
+      "minClearance": 5,
+      "content": "“在冷原星门弦锚定实验取得确定性读数前，任何巡检员不得中止程序 220-Calabasas 的每日排演。哪怕那只是一出演给深渊和我们自己看的木偶戏，钟点也绝不能错一秒。”"
+    }
+  ],
+  "cluesGranted": [
+    {
+      "id": "clue-entity-2317-seventh-link",
+      "title": "诸界吞噬者第七锁链第409环扣晶界滑移记录",
+      "xp": 25
+    }
+  ],
   "metrics": [
     "SCP原典",
     "Apollyon级",
@@ -53,7 +89,10 @@
     }
   ],
   "relatedIds": [
-    "site-leng"
+    "site-leng",
+    "dossier-scp-2317",
+    "entity-yog-sothoth",
+    "era-modern-blue-theology-convergence"
   ],
-  "updatedAt": "2026-11-26"
+  "updatedAt": "2026-11-27"
 }

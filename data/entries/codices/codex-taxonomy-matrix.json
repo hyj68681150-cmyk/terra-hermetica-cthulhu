@@ -8,18 +8,64 @@
     "分级对照",
     "谱系"
   ],
-  "clearance": 1,
+  "clearance": 2,
   "provenance": "original",
+  "provenanceLabel": "本站原创跨体系分类学对照表（严格区分洛氏原典与 SCP 原典）",
   "summary": "馆藏将克苏鲁原典中的旧日支配者/外神与 SCP 原典项目（如 Apollyon 级 SCP-2317、Thaumiel 级 SCP-3000、Archon 级 SCP-2264）分卷收录，并在各词条标明“原典”或“本站原创”。",
+  "sections": [
+    {
+      "heading": "收容可行性四轴与旧日/外神映射准则",
+      "paragraphs": [
+        "古典洛夫克拉夫特神话体系本身并不设官僚化收容等级（注：后世德雷斯体系将旧日支配者按元素归类，并非洛氏本人手笔）；而 SCP 基金会原典则依据“锁盒测试”将异常划分为 Safe、Euclid、Keter、Thaumiel、Apollyon 与 Archon 等操作等级。本馆编纂《分级对照总表》旨在在不混淆两套原典文献主权的前提下，为调查员提供统一的现场处置标尺。",
+        "例如，沉眠于 [[site-rlyeh|拉莱耶]] 的 [[entity-cthulhu|克苏鲁]] 在常态沉睡期表现为局部 Keter 级灵能渗漏，一旦群星相位解锁则跃升为不可遏制的 XK 级情景；而超越三维时空连续体的 [[entity-yog-sothoth|犹格·索托斯]] 与 [[entity-azathoth-scarlet|阿撒托斯]]，在物理上根本不存在“锁盒边界”，故在战术神学内部仅能按 {{redact:2:零收容介入的观测级外层公理或 Archon 级不可触碰态}} 登记备查。"
+      ]
+    },
+    {
+      "heading": "Thaumiel 以毒攻毒与 Apollyon 终局预警",
+      "paragraphs": [
+        "在 SCP 原典序列中，[[entity-scp-3000|SCP-3000 阿难陀舍沙]] 与 [[dossier-scp-2000|SCP-2000 机械降神]] 同属 Thaumiel 级——即基金会赖以维系帷幕、制造记忆删除药剂或在文明覆灭后重启人类种群的“锁盒本身”。相反，[[dossier-scp-2317|SCP-2317 异界吞世者]] 代表了收容手段彻底失效、倒计时不可逆转的 Apollyon 级终局威胁。",
+        "本站原创“蓝色神学”合流框架严守认识论底线：凡属洛氏公有领域原典或 SCP 维基 CC BY-SA 3.0 原典的固有属性，一律加盖实心原典徽记；凡涉及跨体系地脉共鸣、休谟读数标定或 {{redact:4:借犹格星门重铸 SCP-2317 第七锁链的天球第八弦工程}}，均显式标注为空心线框“本站设定”。"
+      ]
+    }
+  ],
+  "logs": [
+    {
+      "title": "【馆藏编目凡例 · TAXON-RULE-01】",
+      "minClearance": 2,
+      "content": "严禁将基金会喜剧分支条目 SCP-2662（克苏鲁青少年化的反教团 Euclid 项目）直接等同于《克苏鲁的呼唤》（1928）中的南太平洋旧日主祭。本馆 `dossier-rlyeh-2662` 词条明确标注为洛氏海渊原典与 SCP-2662 编号的本站原创合流演绎。"
+    },
+    {
+      "title": "【Archon 级处置戒律 · DOCTRINE-ARCHON】",
+      "minClearance": 4,
+      "content": "针对 SCP-2264（阿拉卡达门扉）及冷原双环星门：Archon 级的定义是“理论上可尝试物理摧毁或强行封死，但收容行为本身将引发远超异常本体的维度灾难”。任何擅自向门内投放高当量奇术炸药的提案均自动驳回。"
+    }
+  ],
   "infobox": [
     {
       "label": "文献性质",
       "value": "本站原创跨体系设定",
       "original": true
+    },
+    {
+      "label": "分级术语来源",
+      "value": "Safe / Keter / Thaumiel / Apollyon / Archon 源自 SCP 维基（CC BY-SA 3.0）",
+      "original": false
+    }
+  ],
+  "cluesGranted": [
+    {
+      "id": "clue-taxonomy-archon-rule",
+      "title": "跨体系分级对照：Archon不可强行封堵戒律",
+      "xp": 15
     }
   ],
   "relatedIds": [
-    "site-alexandria"
+    "site-alexandria",
+    "entity-cthulhu",
+    "entity-yog-sothoth",
+    "entity-scp-2317",
+    "entity-scp-3000",
+    "dossier-scp-2264"
   ],
-  "updatedAt": "2026-11-26"
+  "updatedAt": "2026-11-27"
 }

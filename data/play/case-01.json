@@ -1,0 +1,417 @@
+{
+  "caseId": "case-01-innsmouth-sonar",
+  "title": "印斯茅斯暗礁的十七赫兹回波",
+  "subtitle": "CASE-01 · 密斯卡托尼克河口至魔鬼礁八十米潜航实录",
+  "provenance": "original",
+  "provenanceLabel": "本站原创互动调查剧本（基于洛氏《印斯茅斯之影》公有领域原典延伸）",
+  "recommendedClearance": 1,
+  "initialSan": 90,
+  "maxSan": 100,
+  "initialHume": 0.86,
+  "summary": "大浸染纪元深秋寒夜，密斯卡托尼克河口四号水听浮标传回与南太平洋拉莱耶稳定锚严格反相的 17.0 Hz 低鸣。你将以战术神学部声呐调查员身份核查河口水文站，乘铸铁潜航钟下探魔鬼礁 V 级禁区断层，在理智与休谟双重衰减下查明水下反相钟室真相。",
+  "startNode": "node-01-estuary",
+  "nodes": {
+    "node-01-estuary": {
+      "title": "宵禁前的三号石拱桥",
+      "location": "阿卡姆外围 · 密斯卡托尼克河口",
+      "paragraphs": [
+        "十一月的雨夹雪砸在石拱桥栏杆上。距离日落闭户只剩四十分钟，你手里的康德—休谟双模表刚刚从 0.86 Hm 跌到 0.82 Hm，预示河口正从 II 级警戒滑向 III 级浸染。",
+        "连接四号水听浮标的同轴电缆绷在桥墩牡蛎壳之间。耳机里没有常见的碎冰拍岸声，只有一记干净得像节拍器似的 17.004 Hz 低频脉动，每秒钟轻轻顶一下耳膜。退潮露出的花岗岩石缝里，隐约闪烁着一抹不该出现在大西洋咸水里的深蓝色结晶。"
+      ],
+      "lowSanThreshold": 55,
+      "lowSanNote": "雨水顺着石栏杆往下淌，可你越看越觉得水珠在离桥面半寸的地方停住了，正排着队往河床反方向爬。",
+      "choices": [
+        {
+          "label": "趁涨潮前下到桥墩水位线，刮取石缝里的深蓝结晶化验",
+          "next": "node-02-pier-sample",
+          "sanDelta": -4,
+          "humeDelta": -0.04,
+          "grantClue": {
+            "id": "clue-play01-lapis-salt",
+            "title": "三号桥墩无氯青金石析出样本",
+            "xp": 15
+          }
+        },
+        {
+          "label": "按外勤守则优先保住体温，拎起录音箱直奔坡顶河口水文站",
+          "next": "node-03-station",
+          "sanDelta": -2,
+          "humeDelta": -0.02
+        },
+        {
+          "label": "对照《群青潮汐备忘录》反相谱，直接调阅水文站十月以来的声呐纸带",
+          "next": "node-04-tape-room",
+          "sanDelta": 0,
+          "humeDelta": 0.02,
+          "requiresClue": "clue-17hz-phase-inversion"
+        }
+      ]
+    },
+    "node-02-pier-sample": {
+      "title": "花岗岩石缝里的十二面体",
+      "location": "河口三号桥墩 · 低潮线",
+      "paragraphs": [
+        "你踩着湿滑的墨角藻蹲到桥墩根部。窄束手电照亮石缝：那并非海盐结霜，而是一簇切面规整的青金石色蓝方石细晶，每一道晶棱都逆着重力垂线向上斜指。收刀封管时，缆绳上的藤壶壳划破了你左手食指，渗出的血珠在 0.78 Hm 的冷空气里凝成扁平圆片，边缘锐利得像铜版墨线。",
+        "水下电缆忽然轻轻颤了一下。某种体积极大的金属腔体似乎正在外海海底缓慢收放呼吸。"
+      ],
+      "lowSanThreshold": 55,
+      "lowSanNote": "你包扎手指时数了两遍——手套只有五根指套，可刚才影子投在桥墩上时分明多出了一截分叉的蹼影。",
+      "choices": [
+        {
+          "label": "取出 432Hz 钨钢音叉轻磕石栏阻断骨传导，立刻上坡进水文站",
+          "next": "node-03-station",
+          "sanDelta": -2,
+          "humeDelta": 0.02
+        },
+        {
+          "label": "把监听器增益推到满格盲听六十秒，强行测算外海声源方位角",
+          "next": "node-04-tape-room",
+          "sanDelta": -14,
+          "humeDelta": -0.08,
+          "grantClue": {
+            "id": "clue-play01-raw-bearing",
+            "title": "梅花岛水道外九十链盲听方位线",
+            "xp": 15
+          }
+        }
+      ]
+    },
+    "node-03-station": {
+      "title": "缺介词的值班簿",
+      "location": "河口北岸坡顶 · 折顶水文站",
+      "paragraphs": [
+        "屋檐下的熟铁护符已被海雾蚀成暗褐色。守站三十年的老赫尔坐在煤油炉旁削铅笔，递来半杯微温的黑咖啡，劝你别去管四号浮标的自激杂音，等明早清道车来接应回 [[site-arkham|阿卡姆]]。",
+        "你垂眼扫过桌角摊开的值班簿。老赫尔字迹工整，唯独最后三行里的方位介词全部颠倒：“雾气沉在屋顶上方之下，潮水退进河岸里面之外，钟声停在梅花岛北边以南。”他本人对此毫无察觉。"
+      ],
+      "lowSanThreshold": 55,
+      "lowSanNote": "老赫尔说话时嘴唇开合的节拍比声音慢了半秒，像一盘磁带在生锈磁头上打滑。",
+      "choices": [
+        {
+          "label": "将钨钢音叉按在值班簿封皮上稳住炉火，出示调阅令索取里屋纸带",
+          "next": "node-04-tape-room",
+          "sanDelta": -4,
+          "humeDelta": 0.0
+        },
+        {
+          "label": "趁老赫尔转身添煤，推开朝海的木百叶窗核实海湾雾况",
+          "next": "node-05-shutter-gaze",
+          "sanDelta": -18,
+          "humeDelta": -0.1
+        }
+      ]
+    },
+    "node-05-shutter-gaze": {
+      "title": "悬空两尺的航标倒影",
+      "location": "水文站二楼 · 朝海百叶窗",
+      "paragraphs": [
+        "冷风夹着浓重的鱼腥味灌进窄窗。远处的伊普斯维奇湾黑沉沉一片，海面既无浪花也无碎冰，两盏防波堤航标灯的倒影却没有贴在水面上，而是齐刷刷悬在海面以上两尺高的灰雾里。",
+        "你的右侧乳突骨深处突然跟着十七赫兹的节拍酸胀起来，手电筒掉在地板上滚了半圈。"
+      ],
+      "lowSanThreshold": 65,
+      "lowSanNote": "雾里的航标灯根本没有发光——那是两只没有眼睑的黄铜色圆孔正在反过来往屋里看。",
+      "choices": [
+        {
+          "label": "立刻落死熟铁窗栓，退入钉满厚毛毡的里屋灯箱室",
+          "next": "node-04-tape-room",
+          "sanDelta": -4,
+          "humeDelta": 0.02
+        },
+        {
+          "label": "强忍耳后刺痛，用六分仪测出悬空倒影的视差折角后再关窗",
+          "next": "node-06-tender-deck",
+          "sanDelta": -14,
+          "humeDelta": -0.06,
+          "grantClue": {
+            "id": "clue-play01-refraction-log",
+            "title": "伊普斯维奇湾低休谟海雾折光视差",
+            "xp": 15
+          }
+        }
+      ]
+    },
+    "node-04-tape-room": {
+      "title": "纺锤波与四毫秒阻尼刺",
+      "location": "水文站里屋 · 隔音绘图台",
+      "paragraphs": [
+        "你在灯箱玻璃上摊平十月下旬以来的三卷声学纸带。自十月二十二日凌晨起，17.004 Hz 墨线每隔七秒便绘出一道纺锤形包络，波峰与 [[site-rlyeh|拉莱耶]] 海底稳定锚母表严格反相一百八十度；而在每道包络收尾的千分之四秒内，磁通门附针都会留下一根代表大型金属腔体急停的锯齿尖刺。",
+        "三组浮标双曲线在海图上交汇于一点：梅花岛南水道外九十链，[[site-innsmouth|印斯茅斯魔鬼礁]] 东侧八十米海沟。"
+      ],
+      "lowSanThreshold": 55,
+      "lowSanNote": "灯箱玻璃下方的圆规影子自己多折出了一个锐角，墨线在纸带上像黑色线虫一样微微起伏。",
+      "choices": [
+        {
+          "label": "签发紧急调拨回执，天亮乘清道工作船“塘鹅四号”前往魔鬼礁下潜",
+          "next": "node-06-tender-deck",
+          "sanDelta": -3,
+          "humeDelta": -0.04
+        },
+        {
+          "label": "凭二级权限调阅《1928年印斯茅斯清剿卷宗》，标定当年深水炸弹弹坑位置",
+          "next": "node-06-tender-deck",
+          "sanDelta": 2,
+          "humeDelta": 0.04,
+          "minClearance": 2,
+          "grantClue": {
+            "id": "clue-play01-1928-crater",
+            "title": "1928年魔鬼礁东坡深水装药弹坑图",
+            "xp": 15
+          }
+        }
+      ]
+    },
+    "node-06-tender-deck": {
+      "title": "越过白色禁航浮筒",
+      "location": "伊普斯维奇湾外海 · 清道船“塘鹅四号”",
+      "paragraphs": [
+        "清晨海面平得像一块刷过酸液的旧铅板。老船长莫罗将船停在 [[site-innsmouth|魔鬼礁]] V 级禁区白浮筒边缘，船载小型斯克兰顿锚嗡嗡运转，勉强将甲板三十米内撑在 0.88 Hm。远处黑黝黝的暗礁脊线刚露出海面半米。",
+        "球墨铸铁潜航钟已挂上尾绞车，钢缆时限四十分钟。水下四十米后有线电话将因低休谟串音失效，仅能靠电键点划联络。"
+      ],
+      "lowSanThreshold": 55,
+      "lowSanNote": "甲板栏杆外根本没有海鸟，只有十几串细密的气泡正逆着洋流围着船底打转。",
+      "choices": [
+        {
+          "label": "关闭外部强光灯，仅凭窄束高频声呐慢速下潜至八十米海沟",
+          "next": "node-07-abyss-cleft",
+          "sanDelta": -6,
+          "humeDelta": -0.14
+        },
+        {
+          "label": "全开两盏五百瓦水下卤素探照灯，加速直插海沟底部抢时间",
+          "next": "node-08-optical-trap",
+          "sanDelta": -18,
+          "humeDelta": -0.2
+        },
+        {
+          "label": "判定水下休谟过低不宜载人入井，仅在禁区外缘投放阻尼浮标后返航",
+          "next": "end-retreat",
+          "sanDelta": 4,
+          "humeDelta": 0.06
+        }
+      ]
+    },
+    "node-08-optical-trap": {
+      "title": "向内折拢的探照光柱",
+      "location": "魔鬼礁东侧海沟 · 水下六十二米",
+      "paragraphs": [
+        "水银深度计指向六十二米，舱内休谟跌至 0.52 Hm。原本平行朝前照射的两道五百瓦白光，在前方六米黑水里像撞上高折射率棱镜般诡异折拢，交汇成一点刺眼白斑；钟底五米测深铅锤的钢索已完全绷紧报出触底信号，可下方黑洞洞的岩壁明明还在十米开外。",
+        "生铁钟壁外侧陡然传来一连串角质蹼爪贴壳滑过的闷响，海水却连一丝涡流都没起。"
+      ],
+      "lowSanThreshold": 55,
+      "lowSanNote": "石英观察窗内侧的水珠正在往钟顶倒爬，白斑中心似乎浮出了一排没有眼皮的灰绿鳞褶。",
+      "choices": [
+        {
+          "label": "立即切断舱外卤素灯电源，改用窄束声呐摸进八十二米断崖石缝",
+          "next": "node-07-abyss-cleft",
+          "sanDelta": -6,
+          "humeDelta": -0.04
+        },
+        {
+          "label": "果断连敲六下紧急电键，命令母船绞车全速拉回甲板",
+          "next": "end-retreat",
+          "sanDelta": 2,
+          "humeDelta": 0.08
+        },
+        {
+          "label": "贴近石英舷窗对焦拍摄白斑深处的游弋轮廓",
+          "next": "node-11-siren-abyss",
+          "sanDelta": -24,
+          "humeDelta": -0.16
+        }
+      ]
+    },
+    "node-07-abyss-cleft": {
+      "title": "六道内墙的五边石楣",
+      "location": "魔鬼礁断层 · 水下八十二米",
+      "paragraphs": [
+        "潜航钟悬停在距玄武岩断崖两米处，康德计数器跌至 0.36 Hm。声呐平面图上明明是闭合的五边形裂口，剖面回波却多折出了第六道内墙。你将光纤内窥镜送进石缝——里面竟然滴水皆无。",
+        "灰绿色大西洋海水在石楣内侧三寸处垂直立成一面平整水墙。干爽的八角石室穹顶倒悬着一口直径三米的海蚀青铜巨钟，八棱青金石钟舌笔直垂在中央纹丝不动，钟壁铭文槽却每隔七秒悬浮起八圈群青与白色盐粉。"
+      ],
+      "lowSanThreshold": 55,
+      "lowSanNote": "耳机早就关了，可你胸腔里的每一根肋骨都在替那口不动的铜钟每秒钟数十七下。",
+      "choices": [
+        {
+          "label": "操控机械采样臂伸进水墙，用铅蜡压模盘拓印钟腹裂纹旁的铭文",
+          "next": "node-09-bell-chamber",
+          "sanDelta": -8,
+          "humeDelta": -0.06
+        },
+        {
+          "label": "将钟内悬浮粉末光谱与桥墩采集的无氯青金石样本做现场比对",
+          "next": "node-10-harmonic-lock",
+          "sanDelta": -4,
+          "humeDelta": 0.02,
+          "requiresClue": "clue-play01-lapis-salt"
+        },
+        {
+          "label": "驱动液压机械臂直接顶住青金石钟舌，试图用外力卡死共振",
+          "next": "node-11-siren-abyss",
+          "sanDelta": -22,
+          "humeDelta": -0.18
+        }
+      ]
+    },
+    "node-09-bell-chamber": {
+      "title": "三十七度裂纹与内陆芒硝",
+      "location": "水下八十二米 · 反相青铜钟室",
+      "paragraphs": [
+        "铅蜡压模盘清晰印下了倒置镌刻的《[[dossier-tabula-caerulea|翠玉录]]》几何比例式：这是一口古代修会天算师秘密铸造的被动相位翻转钟，原本借大西洋水压抵消太平洋群梦；但 [[dossier-innsmouth-1928|1928年深水炸弹]] 震裂了右侧三块铜板，使反相波偏转三十七度直刺欧亚大陆地幔。",
+        "收回采样臂瞬间，青金石钟舌表面突然结出一层刺眼白霜——光谱仪报出“高寒内陆无水芒硝”，与半个地球外 [[site-leng|帕米尔冷原盐坑]] 的成分分毫不差。"
+      ],
+      "lowSanThreshold": 55,
+      "lowSanNote": "钟舌白霜里映出的不是潜航钟，而是七根黑石巨柱和一截正在崩落珍珠母碎屑的银白铁链。",
+      "choices": [
+        {
+          "label": "将随身钨钢音叉卡入采样外筒做局部阻尼，锁死铅蜡拓片立即起吊",
+          "next": "end-stabilized",
+          "sanDelta": -4,
+          "humeDelta": 0.06
+        },
+        {
+          "label": "结合二级权限与《翠玉录》八重常数，当场解算亚历山大母钟旁路偏转角",
+          "next": "node-10-harmonic-lock",
+          "sanDelta": -2,
+          "humeDelta": 0.08,
+          "minClearance": 2,
+          "requiresClue": "read-dossier-tabula-caerulea"
+        },
+        {
+          "label": "打开负压气瓶抽吸一管钟室内部的干空气带回化验",
+          "next": "node-11-siren-abyss",
+          "sanDelta": -20,
+          "humeDelta": -0.15
+        }
+      ]
+    },
+    "node-10-harmonic-lock": {
+      "title": "跨洋共鸣链条闭合",
+      "location": "潜航钟返航舱段 · 水下四十米",
+      "paragraphs": [
+        "随着潜航钟缓缓拉离断崖阴影，有线电话重新恢复嘶嘶底噪。你在膝头的防水记录簿上算完了最后一行八阶连分数：魔鬼礁裂钟每一次把 [[site-rlyeh|拉莱耶]] 的 17.004 Hz 信号翻转放大，都在通过地幔低速波导硬拽 [[dossier-scp-2317|SCP-2317]] 仅存的第七根锁链。",
+        "只要在四十八小时内把这块铅蜡拓片的 37° 偏转差送抵 [[site-alexandria|亚历山大圣座]]，法罗斯正午脉冲就能借冷原双环星门反向抵消这道应力。"
+      ],
+      "lowSanThreshold": 55,
+      "lowSanNote": "铅盒里的拓片隔着两层铅皮仍在轻轻搏动，像一枚刚从深海活体胸腔里摘出来的瓣膜。",
+      "choices": [
+        {
+          "label": "一登甲板立即经魁北克铁桥专线向亚历山大与帕米尔发去锁相密电",
+          "next": "end-epiphany",
+          "sanDelta": 4,
+          "humeDelta": 0.12
+        },
+        {
+          "label": "按常规保密层级封存拓片，先向阿卡姆分部提交魔鬼礁阻尼封堵方案",
+          "next": "end-stabilized",
+          "sanDelta": 2,
+          "humeDelta": 0.08
+        }
+      ]
+    },
+    "node-11-siren-abyss": {
+      "title": "临界失锁：逆流之钟",
+      "location": "魔鬼礁V级禁区核 · 水下八十四米",
+      "paragraphs": [
+        "康德计数器跌破 0.28 Hm，表盘玻璃啪地崩出一道细纹。那面原本齐整停在石楣内侧的垂直水墙骤然向潜航钟塌拢，几十道灰绿色鳃裂黑影贴着石英窗一掠而过，钟室里纹丝不动的青金石钟舌仿佛直接悬进了你的颅腔正中。",
+        "你的手表秒针开始倒退两格、前跳三格，手指几乎摸不准电键的铜钮位置。"
+      ],
+      "lowSanThreshold": 65,
+      "lowSanNote": "你突然觉得潜航钟根本不需要往上拉——海水本来就是干的，只要拧开顶盖走出去就能呼吸。",
+      "choices": [
+        {
+          "label": "用尽全力把钨钢音叉砸断在生铁舱壁上震醒听觉，拉下紧急抛载阀上浮",
+          "next": "end-retreat",
+          "sanDelta": -6,
+          "humeDelta": 0.05
+        },
+        {
+          "label": "松开电键，顺着颅骨里的十七赫兹节拍默念钟壁上的倒置铭文",
+          "next": "end-breach",
+          "sanDelta": -30,
+          "humeDelta": -0.2
+        }
+      ]
+    },
+    "end-stabilized": {
+      "title": "结局 A · 铅蜡封存与阻尼浮标阵",
+      "location": "阿卡姆北岸哨卡 · 战术神学部档案室",
+      "paragraphs": [
+        "“塘鹅四号”在风雪重临前驶回梅花岛内港。你带回的魔鬼礁八十二米铅蜡拓片与无氯青金石样本被连夜送入 [[site-arkham|阿卡姆]] 铅封证物库，清道工程船随即在暗礁东坡布下六座 17Hz 反相声学阻尼浮标。",
+        "密斯卡托尼克河口的休谟读数在三天后回升至 0.89 Hm，老赫尔值班簿上的介词恢复正常。唯有你清楚，水下那口裂开的古钟并未停摆，通往欧亚腹地的地幔暗涌仍在等待最终校核。"
+      ],
+      "endingType": "stabilized",
+      "endingCode": "CASE01-END-A",
+      "grantClue": {
+        "id": "clue-case01-end-stabilized",
+        "title": "结案卷宗：魔鬼礁反相钟室阻尼封存",
+        "xp": 50
+      },
+      "relatedEntries": [
+        "site-innsmouth",
+        "dossier-innsmouth-1928",
+        "site-arkham",
+        "goi-tactical-theology"
+      ]
+    },
+    "end-epiphany": {
+      "title": "结局 S · 群青弦锁相：跨越半球的校准码",
+      "location": "魁北克铁桥快车 → 亚历山大圣座",
+      "paragraphs": [
+        "你在甲板上用冻僵的右手发出的八阶连分数密电，在六小时内同时摆上了 [[site-alexandria|亚历山大圣座]] 十二肋穹顶与 [[site-leng|帕米尔冷原]] 工程组的测角台。魔鬼礁反相钟 37° 裂纹带来的跨洋共振谜团就此彻底闭环。",
+        "四十八小时后的正午十二时，法罗斯四吨纯金母钟切出 0.4 秒窄带脉冲，精准抵消了从太平洋经大西洋传往中亚盐坑的十七赫兹疲劳应力。你那支出现镜面裂纹的钨钢音叉被收入内院陈列匣，批注为：“大浸染纪元首次跨海锁相实证”。"
+      ],
+      "endingType": "epiphany",
+      "endingCode": "CASE01-END-S",
+      "grantClue": {
+        "id": "clue-case01-end-epiphany",
+        "title": "结案卷宗：法罗斯—冷原十七赫兹跨洋锁相破译",
+        "xp": 50
+      },
+      "relatedEntries": [
+        "dossier-tabula-caerulea",
+        "site-alexandria",
+        "site-leng",
+        "dossier-scp-2317",
+        "era-modern-blue-theology-convergence"
+      ]
+    },
+    "end-retreat": {
+      "title": "结局 B · 冬季禁航线后撤十海里",
+      "location": "梅花岛南水道 · 警戒封锁栈桥",
+      "paragraphs": [
+        "潜航钟带着满壳白霜与三道寸许深的角质抓痕险险吊回甲板。鉴于外海休谟已跌穿安全红线，你依规签署了《伊普斯维奇湾冬季紧急撤离令》，将清道巡逻线整体向内陆收缩十海里，并落死阿卡姆石桥下的三波特兰水闸。",
+        "人员零伤亡，但水下八十米断层深处的十七赫兹脉动并未减弱。每逢深夜退潮，沿岸十几个小镇的居民仍会听见窗户银丝发出细微嗡鸣。"
+      ],
+      "endingType": "retreat",
+      "endingCode": "CASE01-END-B",
+      "grantClue": {
+        "id": "clue-case01-end-retreat",
+        "title": "结案卷宗：伊普斯维奇湾冬季禁航后撤令",
+        "xp": 50
+      },
+      "relatedEntries": [
+        "site-innsmouth",
+        "era-1925-1928-call-innsmouth",
+        "site-arkham"
+      ]
+    },
+    "end-breach": {
+      "title": "结局 X · 空钟出水与倒写的航海日志",
+      "location": "魔鬼礁外海 · 0.24 Hm 认知坍缩区",
+      "paragraphs": [
+        "四十分钟时限一到，莫罗船长强行启动绞车拉起潜航钟。当生铁钟体破水落回甲板时，八颗内侧黄铜翼形螺母完好紧锁，舱内却空无一人，只剩一双叠得整整齐齐的橡胶手套与一本翻开的防水记录簿。",
+        "记录簿最后一页没有签名，只用混着青金石粉的海水写着一行语法工整的句子：“海水停在钟室外面之内，我们已经替那口钟走完剩下的十七秒了。”"
+      ],
+      "endingType": "breach",
+      "endingCode": "CASE01-END-X",
+      "grantClue": {
+        "id": "clue-case01-end-breach",
+        "title": "结案卷宗：塘鹅四号空钟回收事故录",
+        "xp": 50
+      },
+      "relatedEntries": [
+        "site-rlyeh",
+        "entity-cthulhu",
+        "site-innsmouth"
+      ]
+    }
+  }
+}

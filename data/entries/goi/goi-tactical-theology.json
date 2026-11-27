@@ -11,12 +11,41 @@
     "基金会",
     "战术神学部"
   ],
-  "clearance": 1,
+  "clearance": 2,
   "provenance": "scp-canon",
+  "provenanceLabel": "SCP 维基战术神学部（DoTT）原典 + 本站并网延伸",
   "badge": "badge-gold",
   "legacyCityId": "site2000",
   "mapSiteId": "site-2000",
   "summary": "统辖斯克兰顿现实稳定锚（SRA）与阿基瓦辐射监测阵列，以量化仪轨应对神性异常。",
+  "sections": [
+    {
+      "heading": "原典职能：阿基瓦辐射计量与官僚化驱魔",
+      "paragraphs": [
+        "在 SCP 基金会维基设定（Department of Tactical Theology, DoTT，CC BY-SA 3.0）中，战术神学部系基金会内部专门处置神学实体（Pistiphages / Pluripotent Entities）、宗教仪式异常与阿基瓦辐射（Akiva Radiation）场的核心实战与研究部门。该部门将原本模糊的古代礼拜、献祭与盟约拆解为可复现的工程参数与战术交战规则。",
+        "无论面对亚伯拉罕系异象、多神教残响还是 [[dossier-scp-2317|程序 220-Calabasas]] 式的信仰维持协议，战术神学官均以冷峻的实验统计学取代狂热虔信：若一段祷词能使局部阿基瓦读数下降 12%，则由自动扬声器按毫秒节拍循环播放。"
+      ]
+    },
+    {
+      "heading": "本站延伸：群青声呐调查组与 1998 法罗斯并网",
+      "paragraphs": [
+        "在本站原创“蓝色神学”主线中，战术神学部于 [[era-modern-blue-theology-convergence|1998年签署《法罗斯并网协定》]] 后，在北美新英格兰、黄石 [[site-2000|SCP-2000 巨构]] 与中亚高原设立了直属外勤调查科（小说《群青潮汐备忘录》主角林砚即隶属该部大西洋声呐组）。",
+        "部门当前最高机密任务为追查 2026 年 11 月自 [[site-innsmouth|印斯茅斯魔鬼礁]] 传出的 17Hz 反相谐波，并评估该信号对 {{redact:3:帕米尔冷原 SCP-2317 第七锁链与黄石稳定锚备用电容阵列的同步冲击}}。[本站设定]"
+      ]
+    }
+  ],
+  "logs": [
+    {
+      "title": "【外勤战术神学官标准配装单 · DoTT-FIELD-09】",
+      "minClearance": 2,
+      "content": "便携式康德—休谟双模计数器一台、盖革—阿基瓦闪烁管一支、防水装帧节略本《翠玉录·第八重补遗》一册、以及三支用于紧急阻断声学模因耦合的钨钢音叉（基准频率 432.0 Hz / 反相制动频率 17.0 Hz）。[本站设定]"
+    },
+    {
+      "title": "【部门主任致 O5 议会急电 · DoTT-2026-1127】",
+      "minClearance": 4,
+      "content": "“不要再往帕米尔增派神父和吟诵班了。盐坑底下那根铁链缺的不是信仰阿基瓦，是相位阻尼。给我们开放亚历山大母钟的二级调频权限。”[本站设定]"
+    }
+  ],
   "infobox": [
     {
       "label": "组织代号",
@@ -27,10 +56,27 @@
       "label": "关联驻地",
       "value": "SITE2000",
       "original": true
+    },
+    {
+      "label": "核心监测物理量",
+      "value": "阿基瓦辐射（Akiva）与休谟指数（Hm）",
+      "original": false
+    }
+  ],
+  "cluesGranted": [
+    {
+      "id": "clue-dott-akiva-tuning",
+      "title": "战术神学部外勤钨钢音叉17Hz反相制动规程",
+      "xp": 20
     }
   ],
   "relatedIds": [
-    "site-2000"
+    "site-2000",
+    "dossier-scp-2000",
+    "goi-ordo-caeruleus",
+    "codex-hume-theory",
+    "dossier-scp-2317",
+    "era-modern-blue-theology-convergence"
   ],
-  "updatedAt": "2026-11-26"
+  "updatedAt": "2026-11-27"
 }

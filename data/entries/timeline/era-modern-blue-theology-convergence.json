@@ -1,0 +1,91 @@
+{
+  "id": "era-modern-blue-theology-convergence",
+  "order": 8,
+  "category": "timeline",
+  "eraLabel": "现代收容纪元",
+  "yearSort": 2026,
+  "code": "CHRONO-VIII · AEVVM TINCTVRAE",
+  "title": "大浸染纪元、蓝印盟约七曜并网与第七锁链疲劳预警",
+  "aliases": [
+    "现代收容纪元",
+    "大浸染纪元",
+    "AEVVM TINCTVRAE",
+    "蓝印盟约",
+    "战术神学部成立",
+    "斯克兰顿锚网并网",
+    "第七锁链疲劳预警",
+    "CHRONO-VIII"
+  ],
+  "clearance": 4,
+  "provenance": "original",
+  "provenanceLabel": "本站原创现代主线设定（合流大浸染纪元、DoTT、SRA 与 SCP-2317 原典要素）",
+  "mapSiteId": "site-leng",
+  "summary": "自 1925 年春全球群梦开启“大浸染纪元（AEVVM TINCTVRAE）”以来，百年间深海与内陆异常彼此共振，致使全球逾八成水陆跌入警戒至禁区；SCP 基金会战术神学部与赫尔墨斯蓝色修会等缔结“蓝印盟约”，以七曜圣城与结界航线稳住人类栖居圈，却在 2026 年深秋截获十七赫兹反相谐波，证实帕米尔冷原 SCP-2317 的第七根锁链已逼近断裂极限。",
+  "sections": [
+    {
+      "heading": "百年休谟下沉与蓝印盟约七曜立城（1984–2016）",
+      "paragraphs": [
+        "自 [[era-1925-1928-call-innsmouth|1925年春季全球群梦]] 之后的一个世纪里，[[site-rlyeh|拉莱耶]] 的梦境潮汐、孟加拉湾 [[entity-scp-3000|SCP-3000]]（作者 djkaktus、Joreth、A Random Day，CC BY-SA 3.0）的遗忘分泌物、西伯利亚 [[dossier-baikal-610|SCP-610]]（作者 NekoChris，CC BY-SA 3.0）的血肉扩张以及 [[site-antarctica|南极旧城]] 的苏醒彼此共振，使全球基准现实场逐年变软下沉。至二十一世纪初，0 级圣域（≥ 1.20 Hm）与 I 级平靖区（0.95–1.20 Hm）合计仅余全球地表的 18%。",
+        "人类并未退让。[[goi-tactical-theology|SCP 基金会战术神学部]] 联合 [[goi-ordo-caeruleus|赫尔墨斯蓝色修会]]、[[goi-miskatonic-yixuehui|密斯卡托尼克大学与中华异学会]]、全球超自然联盟（GOC）及各国缔结“蓝印盟约（FOEDVS CAERVLEVM）”。盟约将 [[dossier-tabula-caerulea|《翠玉录》]] 几何频率接入斯克兰顿现实稳定锚（[[codex-hume-theory|SRA 休谟场论]]），借七颗古典行星的仪轨时辰在 [[site-alexandria|亚历山大]]、惠灵顿、佛罗伦萨、京都、魁北克城、西安与布宜诺斯艾利斯托起七座 ≥ 1.20 Hm 的圣城，并以清道队巡护的大圆结界航线（两侧各约 120 公里平靖带）连通 [[site-2000|黄石]]、[[site-penglai|蓬莱]] 等前哨据点。"
+      ]
+    },
+    {
+      "heading": "2026年十七赫兹反相潮汐与帕米尔末链危机",
+      "paragraphs": [
+        "京都铜版测绘局每六小时重校的等休谟图在 2026 年 11 月亮起警讯。大西洋清道声呐组率先在 [[site-arkham|密斯卡托尼克河口]] 与 V 级禁区 [[site-innsmouth|印斯茅斯魔鬼礁]] 边缘截获一组与拉莱耶稳定塔严格反相的 17.0 Hz 包络波；同一周内，丝路结界西侧紧盯的 [[site-leng|帕米尔冷原监测站]] 报告异界门内休谟值跌至 0.31 Hm。",
+        "跨站点激光比对揭开了迫在眉睫的险情：[[dossier-scp-2317|SCP-2317 异界吞世者]]（作者 DrClef，CC BY-SA 3.0）地下盐坑内仅存的第七根锁链，正以每秒十七次的频率与深海禁区发生受迫共振。鉴于“程序 220-Calabasas”仅属维持士气的安抚仪轨，佛罗伦萨七曜议会与亚历山大圣座于 2026 年 11 月秘密批准 {{redact:4:天球第八弦工程，尝试在正午太阳脉冲时辰借冷原犹格双环星门重铸第七道几何枷锁}}。"
+      ]
+    }
+  ],
+  "logs": [
+    {
+      "title": "【铜版测绘局全球等休谟急报 · CHALCO-2026-1126】",
+      "minClearance": 3,
+      "content": "诺顿湾数据中枢汇总显示：UTC 03:17 亚历山大母钟播发前夕，惠灵顿银幕、魁北克城铁钉阵与西安锡枢同步测得 17.004 Hz 负相拖曳，帕米尔七号石柱应变计读数越过金属疲劳红线。[本站原创设定]"
+    },
+    {
+      "title": "【七曜议会与战术神学部联席决议 · FOEDVS-VIII】",
+      "minClearance": 5,
+      "content": "“七颗古典行星的时辰已悉数分配给七座圣城，地球上立不起第八座城。但若林砚调查组从魔鬼礁钟室带回的反相相位角核验无误，我们可以把法罗斯正午脉冲切出三秒注入冷原双环星门——用整个人类文明的母钟去替那根快断的旧铁链。”[本站原创设定]"
+    }
+  ],
+  "infobox": [
+    {
+      "label": "纪元名称",
+      "value": "大浸染纪元（AEVVM TINCTVRAE，1925–2026）",
+      "original": true
+    },
+    {
+      "label": "文献源流",
+      "value": "本站原创主线（整合 SCP DoTT、SRA、SCP-2317 CC BY-SA 3.0 要素）",
+      "original": true
+    },
+    {
+      "label": "安全版图占比",
+      "value": "0 级圣域（≥1.20 Hm）与 I 级平靖区合计约 18%",
+      "original": true
+    },
+    {
+      "label": "当前核心预警",
+      "value": "帕米尔冷原第七锁链 17Hz 共振疲劳（0.31 Hm）",
+      "original": true
+    }
+  ],
+  "cluesGranted": [
+    {
+      "id": "clue-modern-seventh-chain-fatigue",
+      "title": "2026年第七锁链十七赫兹受迫共振波形图",
+      "xp": 30
+    }
+  ],
+  "relatedIds": [
+    "site-leng",
+    "dossier-scp-2317",
+    "entity-scp-2317",
+    "goi-tactical-theology",
+    "goi-ordo-caeruleus",
+    "codex-hume-theory",
+    "site-alexandria"
+  ],
+  "updatedAt": "2026-11-27"
+}

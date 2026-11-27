@@ -1,0 +1,87 @@
+{
+  "id": "era-bronze-mekhane-sarkic",
+  "order": 3,
+  "category": "timeline",
+  "eraLabel": "青铜时代晚期",
+  "yearSort": -1500,
+  "code": "CHRONO-III · BRONZE WAR",
+  "title": "爱琴海与近东欲肉帝国—机械神教青铜大战",
+  "aliases": [
+    "青铜时代晚期",
+    "欲肉帝国战争",
+    "第一次超自然大战",
+    "麦卡恩与亚大伯斯",
+    "阿蒙尼-拉姆",
+    "CHRONO-III"
+  ],
+  "clearance": 2,
+  "provenance": "scp-canon",
+  "provenanceLabel": "SCP 维基欲肉教与破碎之神原典（Metaphysician 等，CC BY-SA 3.0）",
+  "mapSiteId": "site-cairo",
+  "summary": "约公元前 1800 至前 1200 年间，崛起于西伯利亚与内亚内陆海盆的欲肉教“不朽帝国”向东地中海扩张，与信奉破碎之神麦卡恩的迈锡尼机械神教同盟及埃及阿蒙尼-拉姆城邦爆发旷日持久的奇术生物与发条巨构战争，最终诱发青铜时代晚期环地中海文明的连锁崩塌。",
+  "sections": [
+    {
+      "heading": "内亚血肉帝国西扩与环东地中海防线",
+      "paragraphs": [
+        "依据 SCP 维基《欲肉教中心页》与《破碎之神教会》原典考据，大术士亚恩（Grand Karcist Ion）在挣脱大先知奴役并建立内殿（Adytum）后，率领卡拉马克塔玛不朽帝国将活体血肉塑形术推向顶峰。至公元前十六世纪，受控于 [[goi-sarkic-dagon|欲肉教团]] 祭司阶层（Karcists）的有机攻城巨兽已推进至安纳托利亚高原、黎凡特海岸及爱琴海诸岛。",
+        "为阻遏血肉瘟疫吞噬定居城邦，早期 [[goi-broken-god|破碎之神教会]]（迈锡尼麦卡恩同盟）与北非古埃及沙漠机械圣城 [[site-cairo|阿蒙尼-拉姆]] 结成跨海防线。考古地层中出土的铍青铜差速齿轮组、发条自动机残骸与玻璃化焦土层表明，双方曾在克里特、塞浦路斯与尼罗河三角洲外围投入 {{redact:2:搭载麦卡恩神躯残片的共鸣巨像与高传染性血肉畸变兽群}}。"
+      ]
+    },
+    {
+      "heading": "青铜时代崩溃与地下封印遗产",
+      "paragraphs": [
+        "约公元前 1200 年前后，持续数百年的超自然消耗战达到临界点：迈锡尼卫城、赫梯帝国与黎凡特多座港口在短短数十年间焚毁殆尽，正统历史学将其统称为“青铜时代晚期崩溃”并归因于笼统的“海上民族”入侵。原典文献则证实，多方联军最终击溃了欲肉帝国在地中海的前锋，迫使残余内殿势力退回欧亚草原与外高加索深山转入隐秘传承。",
+        "战争遗留的高危生物畸变源并未彻底根除，其中西伯利亚裂谷分支在后世演化为 [[dossier-baikal-610|贝加尔湖 SCP-610 封锁区]]。在本站合流编年中，托勒密时期的亚历山大学者正是通过整理阿蒙尼-拉姆遗留的青铜谐振铭文，才推导出 {{redact:3:以几何刚性频率抑制亚大伯斯血肉熵增的早期休谟稳定律}}。"
+      ]
+    }
+  ],
+  "logs": [
+    {
+      "title": "【东地中海沉船发掘简报 · ARCH-1320BC】",
+      "minClearance": 2,
+      "content": "乌鲁布伦（Uluburun）海岬以南 14 海里深水区打捞出十枚未列入公开目录的锡青铜铸锭与一具密封铅罐。铅罐内保存着已钙化的多眼软骨组织，而青铜铸锭内壁刻有早期线形文字 B 铭文：“献予持锤与规尺之女神，勿令赤肉越过盐海。”"
+    },
+    {
+      "title": "【破碎之神/基金会联合历史档案注记 · GOI-004-H7】",
+      "minClearance": 3,
+      "content": "注意区分原典边界：阿蒙尼-拉姆（SCP-001 Rounderhouse 提案等衍生体系）与欲肉-机械青铜战争均属 SCP 维基 CC BY-SA 3.0 共享设定；本站将其与吉萨地下遗迹（洛氏 1924《金字塔下》）在同一开罗图幅并置，仅供跨体系地理对照，不混同二者神学本源。"
+    }
+  ],
+  "infobox": [
+    {
+      "label": "纪元年代",
+      "value": "约公元前 1800 – 前 1200 年（青铜时代晚期）",
+      "original": false
+    },
+    {
+      "label": "文献源流",
+      "value": "SCP 维基 Sarkicism Hub & Church of the Broken God Hub（CC BY-SA 3.0）",
+      "original": false
+    },
+    {
+      "label": "主要交战方",
+      "value": "卡拉马克塔玛欲肉帝国 vs 迈锡尼机械神教及盟邦",
+      "original": false
+    },
+    {
+      "label": "本站地理锚点",
+      "value": "开罗 / 阿蒙尼-拉姆与贝加尔裂谷防线延伸",
+      "original": true
+    }
+  ],
+  "cluesGranted": [
+    {
+      "id": "clue-bronze-mekhane-lattice",
+      "title": "青铜时代麦卡恩差速谐振抑肉铭文",
+      "xp": 20
+    }
+  ],
+  "relatedIds": [
+    "site-cairo",
+    "entity-mekhane",
+    "goi-broken-god",
+    "goi-sarkic-dagon",
+    "dossier-baikal-610"
+  ],
+  "updatedAt": "2026-11-27"
+}

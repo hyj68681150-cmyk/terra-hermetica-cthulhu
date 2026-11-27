@@ -12,18 +12,69 @@
     "hume",
     "sra"
   ],
-  "clearance": 1,
+  "clearance": 2,
   "provenance": "original",
+  "provenanceLabel": "本站原创跨体系理论设定（融合 SCP 休谟/SRA 原典与翠玉录传说）",
   "summary": "在本站跨世界观设定中，斯克兰顿现实稳定锚（SRA，源自 SCP 维基原典）的谐振腔与亚历山大《翠玉录》几何频率结合，维持 1.00–1.80 Hm 基准现实场。",
+  "sections": [
+    {
+      "heading": "休谟梯度与群青八重天球驻波模型",
+      "paragraphs": [
+        "在 SCP 基金会原典（CC BY-SA 3.0）确立的现实强度度量体系中，“休谟（Hume, Hm）”用于表征局部客观现实对主观意志或外部维度改写的阻抗，标准地球地表基准值为 1.00 Hm。本站原创“蓝色神学”理论在此基础上引入 [[dossier-tabula-caerulea|《翠玉录·第八重神圣群青补遗》]] 的几何比例律：当局部休谟值跌破 0.65 Hm 时，欧几里得内角和公理与线性因果律开始出现微观松弛。",
+        "[[goi-tactical-theology|战术神学部]] 与 [[goi-ordo-caeruleus|赫尔墨斯蓝色修会]] 的联合实验证实，罗伯特·斯克兰顿博士于 1889 年设计的斯克兰顿现实稳定锚（SRA），其核心多面体陀螺谐振腔之所以能从平行基准宇宙抽取现实密度，本质上是因为腔体弦长比例暗合了 {{redact:2:公元前280年法罗斯灯塔基座锁定的八角群青驻波常数}}。"
+      ]
+    },
+    {
+      "heading": "跨大陆锚网并网与十七赫兹反相疲劳风险",
+      "paragraphs": [
+        "自 1998 年并网工程实施以来，以 [[site-alexandria|亚历山大圣座（1.80 Hm）]] 为母钟、以 [[site-2000|黄石巨构（1.35 Hm）]] 与 [[site-penglai|东海蓬莱宝塔]] 为中继的全球稳定锚网，成功压制了包括 [[site-rlyeh|拉莱耶海渊]] 与 [[site-baikal|贝加尔裂谷]] 在内的多处旧日与血肉低休谟漏斗。",
+        "然而该体系并非永动机。当两处相距上万公里的低休谟深渊通过地幔波导建立反相耦合时，稳定锚谐振腔会承受剧烈的无功功率反冲。2026 年深秋监测到的 17.0 Hz 极低频包络波已证明，锚网耗散的相位应力正沿着地脉节点向 [[site-leng|帕米尔冷原盐漠]] 汇集，直接加速了 {{redact:4:SCP-2317 第七根神圣锁链晶格的跨维度受迫共振断裂}}。[注：SRA 与翠玉录合流机制全部为本站设定]"
+      ]
+    }
+  ],
+  "logs": [
+    {
+      "title": "【SRA 三代机固件校准规程 · DoTT-HUME-04】",
+      "minClearance": 2,
+      "content": "外勤调查员携带便携式康德计数器进入低于 0.50 Hm 区域时，严禁同时开启主动声呐与高频无线电。低休谟介质会将电磁载波解调为局部空间的几何折射率涨落，诱发器物尺寸读数失真与方位介词认知障碍。[本站设定]"
+    },
+    {
+      "title": "【首席奇术师扎尔茨曼封存批注 · SRA-LIMIT-V】",
+      "minClearance": 5,
+      "content": "“斯克兰顿锚从来没有凭空创造过哪怕一毫休谟的现实；它只是向相邻的死寂宇宙借债，再用群青几何把账期往后顺延。一旦拉莱耶与帕米尔盐坑在十七赫兹锁相，所有借来的现实基准都会在同一秒要求连本带利清偿。”[本站设定]"
+    }
+  ],
   "infobox": [
     {
       "label": "文献性质",
       "value": "本站原创跨体系设定",
       "original": true
+    },
+    {
+      "label": "核心概念源流",
+      "value": "休谟指数与 SRA 源自 SCP 维基原典（CC BY-SA 3.0）",
+      "original": false
+    },
+    {
+      "label": "全球母钟基准",
+      "value": "1.80 Hm（亚历山大 Site-01 十二肋穹顶）",
+      "original": true
+    }
+  ],
+  "cluesGranted": [
+    {
+      "id": "clue-hume-phase-recoil",
+      "title": "休谟场论：稳定锚跨洋反相无功应力公式",
+      "xp": 20
     }
   ],
   "relatedIds": [
-    "site-alexandria"
+    "site-alexandria",
+    "dossier-tabula-caerulea",
+    "goi-tactical-theology",
+    "goi-ordo-caeruleus",
+    "site-2000",
+    "era-modern-blue-theology-convergence"
   ],
-  "updatedAt": "2026-11-26"
+  "updatedAt": "2026-11-27"
 }

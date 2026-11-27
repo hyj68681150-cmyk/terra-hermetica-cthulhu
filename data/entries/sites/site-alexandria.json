@@ -70,8 +70,50 @@
       "original": false
     }
   ],
-  "relatedIds": [],
-  "updatedAt": "2026-11-26",
+  "sections": [
+    {
+      "heading": "东港法罗斯海岬与十二肋秘仪穹顶",
+      "paragraphs": [
+        "亚历山大圣座（Site-01 Alexandria）锚定于埃及亚历山大东港外侧的法罗斯岛海岬尖端（31.2140°N, 29.8856°E），脚下水深八米的海床内至今散落着 [[era-alexandria-pharos-concord|托勒密时期法罗斯大灯塔]] 的巨型花岗岩构件。在本站原创“蓝色神学”架构中，海岬基岩下方的防水密室封存着 [[dossier-tabula-caerulea|《翠玉录·第八重神圣群青补遗》]] 原碑。",
+        "地面高台由 [[goi-ordo-caeruleus|赫尔墨斯蓝色修会]] 与基金会工程团合建十二肋拱秘仪穹顶，穹顶中心悬吊四吨级八角纯金基准音叉，使港湾核心区常年保持全球最高的 1.80 Hm 现实密度。"
+      ]
+    },
+    {
+      "heading": "全球母钟正午定频与跨海地脉中枢",
+      "paragraphs": [
+        "在大浸染纪元的全球防御网中，亚历山大圣座承担太阳主频发射站职责：每日当地时间正午十二时整，法罗斯基座向全球斯克兰顿稳定锚阵列播发三秒同步脉冲（参见 [[codex-hume-theory|休谟场论]]），校准北至欧陆、东至中亚丝路、南贯东非裂谷的结界走廊。",
+        "2026 年深秋，穹顶精密倾角仪测得母钟脉冲在传向东北方 [[site-leng|帕米尔冷原]] 时出现微弱相位滞后，促使驻站长老会开放 {{redact:3:第八重天球折叠透镜室，配合前线声呐组执行末链替代计算}}。[本站原创设定]"
+      ]
+    }
+  ],
+  "logs": [
+    {
+      "title": "【法罗斯水下基座潜水巡检 · ALEX-DIVE-12】",
+      "minClearance": 2,
+      "content": "东港外礁水下七米处，环绕母碑密室的八角铅青铜箍环完好无损。潜水员报告正午脉冲触发瞬间，海底砂石全部按同心圆波节整齐排列，海水呈现纯净透明的群青色泽。[本站原创设定]"
+    },
+    {
+      "title": "【圣座十二肋穹顶调频密令 · SITE01-ORD-IV】",
+      "minClearance": 4,
+      "content": "自即日起，每日正午脉冲预留 0.4 秒窄带旁路窗口，指向东经 73.5°、北纬 39.0°（帕米尔冷原双环星门），静候大西洋十七赫兹反相校核码输入。[本站原创设定]"
+    }
+  ],
+  "cluesGranted": [
+    {
+      "id": "clue-alexandria-pharos-lens",
+      "title": "亚历山大法罗斯十二肋穹顶正午旁路窗口参数",
+      "xp": 20
+    }
+  ],
+  "relatedIds": [
+    "dossier-tabula-caerulea",
+    "goi-ordo-caeruleus",
+    "codex-hume-theory",
+    "site-cairo",
+    "site-leng",
+    "era-alexandria-pharos-concord"
+  ],
+  "updatedAt": "2026-11-27",
   "realElevationMeters": 3,
   "z12RealLocation": "埃及亚历山大东港外侧法罗斯岛古灯塔遗址海岬尖端礁石区",
   "coordSource": "古亚历山大法罗斯大灯塔历史遗址坐标 31°12′50″N 29°53′08″E（本站原创圣座设定）"

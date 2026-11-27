@@ -1,0 +1,31 @@
+{
+  "updatedAt": "2026-11-27",
+  "cases": [
+    {
+      "caseId": "case-01-innsmouth-sonar",
+      "title": "印斯茅斯暗礁的十七赫兹回波",
+      "subtitle": "CASE-01 · 密斯卡托尼克河口至魔鬼礁八十米潜航实录",
+      "provenance": "original",
+      "provenanceLabel": "本站原创互动调查剧本（基于洛氏《印斯茅斯之影》公有领域原典延伸）",
+      "recommendedClearance": 1,
+      "initialSan": 90,
+      "maxSan": 100,
+      "initialHume": 0.86,
+      "summary": "大浸染纪元深秋寒夜，密斯卡托尼克河口四号水听浮标传回与南太平洋拉莱耶稳定锚严格反相的 17.0 Hz 低鸣。你将以战术神学部声呐调查员身份核查河口水文站，乘铸铁潜航钟下探魔鬼礁 V 级禁区断层，在理智与休谟双重衰减下查明水下反相钟室真相。",
+      "path": "data/play/case-01.json"
+    },
+    {
+      "caseId": "case-02-calabasas-salt",
+      "title": "帕米尔地下盐漠 · 第七锁链巡检实录",
+      "subtitle": "CASE-02 · 冷原双环星门与程序 220-Calabasas 临界值守",
+      "provenance": "original",
+      "provenanceLabel": "本站原创互动调查剧本（基于 DrClef《SCP-2317》CC BY-SA 3.0 与冷原合流设定）",
+      "recommendedClearance": 2,
+      "initialSan": 85,
+      "maxSan": 100,
+      "initialHume": 0.42,
+      "summary": "海拔 3,915 米的帕米尔高原无人盐碱荒滩下，通往异界盐湖盆地的秘门内休谟场跌至 0.42 Hm。你将以战术神学部高级巡检官身份踏入 SCP-2317 七柱祭坛督导每日“程序 220-Calabasas”，在揭穿安慰剂真相并直面第七锁链晶界滑移后，抉择是否启用绝顶高台上的犹格双环星门。",
+      "path": "data/play/case-02.json"
+    }
+  ]
+}
