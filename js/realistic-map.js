@@ -51,10 +51,10 @@ const SITE_LATIN_SLUG = {
 const DISPUTED_LABEL_MASK = {
   type: "MultiPolygon",
   coordinates: [
-    [[[91.5, 26.8], [97.6, 26.8], [97.6, 29.45], [91.5, 29.45], [91.5, 26.8]]],
-    [[[77.4, 33.2], [80.6, 33.2], [80.6, 36.1], [77.4, 36.1], [77.4, 33.2]]],
+    [[[91.62, 27.85], [91.62, 27.05], [92.05, 26.9], [93.0, 26.95], [93.9, 27.3], [94.6, 27.6], [95.2, 27.7], [95.9, 27.6], [96.25, 27.3], [96.9, 27.45], [97.35, 28.0], [97.4, 28.3], [97.1, 28.75], [96.6, 29.1], [96.0, 29.45], [95.2, 29.35], [94.5, 29.25], [93.8, 28.85], [93.1, 28.45], [92.5, 28.05], [91.62, 27.85]]],
+    [[[78.1, 35.55], [78.4, 34.55], [78.9, 34.05], [79.5, 34.05], [80.25, 34.4], [80.3, 35.4], [79.9, 35.75], [78.9, 35.9], [78.1, 35.55]]],
     [[[123.1, 25.5], [124.8, 25.5], [124.8, 26.1], [123.1, 26.1], [123.1, 25.5]]],
-    [[[109.6, 3.5], [119.5, 3.5], [119.5, 21.1], [116.0, 21.1], [111.0, 17.5], [109.6, 3.5]]],
+    [[[109.8, 6.0], [111.0, 5.0], [113.0, 5.8], [114.5, 6.9], [116.0, 8.3], [116.5, 9.6], [117.2, 10.4], [117.9, 11.2], [118.0, 13.2], [118.1, 15.6], [117.4, 17.0], [116.9, 20.0], [117.2, 21.0], [116.0, 21.1], [115.6, 20.6], [113.0, 17.6], [111.2, 17.6], [110.3, 16.5], [110.4, 14.0], [109.8, 9.0], [109.8, 6.0]]],
   ],
 };
 
@@ -736,8 +736,9 @@ function buildUnifiedStyle(initialTerminator) {
           "text-font": ["Noto Sans Regular"],
           "text-size": ["interpolate", ["linear"], ["zoom"], 1, 11.5, 8, 12.5, 13, 13],
           "text-letter-spacing": 0.12,
-          "text-offset": [0, 1.25],
-          "text-anchor": "top",
+          // 阿卡姆与印斯茅斯只隔 17 km：偏北的印斯茅斯把标签放到点上方，两条标签不再叠在一起
+          "text-offset": ["case", ["==", ["get", "id"], "site-innsmouth"], ["literal", [0, -1.25]], ["literal", [0, 1.25]]],
+          "text-anchor": ["case", ["==", ["get", "id"], "site-innsmouth"], "bottom", "top"],
           "text-allow-overlap": true,
         },
         paint: {
@@ -810,6 +811,11 @@ export function parseMapSubRoute(rest = "") {
 export async function createRealisticEarthController({ onOpenEntry }) {
   const placesPromise = fetch("./data/map/places.geojson").then((r) => r.json());
   let places = [];
+  // 「大浸染」图层（js/mythos-layer.js）：模块和数据先拉，地图 load 后再装
+  const mythosModPromise = import("./mythos-layer.js").then((m) => {
+    m.prefetchMythosData().catch(() => {});
+    return m;
+  });
 
   let basemapMode = DEFAULT_BASEMAP; // copperplate | realistic | paper | night
   let lastNonRealisticMode = "copperplate";
@@ -818,7 +824,9 @@ export async function createRealisticEarthController({ onOpenEntry }) {
   let activeLayerFilter = "all";
   let selectedSiteId = null;
   let suppressHashWrite = false;
-  let heroOffsetApplied = null;
+  let mythos = null;
+  let mythosCardOpen = false;
+  let pendingMythos = null;
 
   let s2ConsecErr = 0;
   let ofmConsecErr = 0;
@@ -894,24 +902,35 @@ export async function createRealisticEarthController({ onOpenEntry }) {
   map.addImage("arch-dot-light", createHairlineMarkerIcon("#ffffff"), { pixelRatio: 2 });
   map.addImage("arch-dot-ink", createHairlineMarkerIcon("#0a1890"), { pixelRatio: 2 });
 
+  const origFlyTo = map.flyTo.bind(map);
+  const origEaseTo = map.easeTo.bind(map);
+
   // Global Hero & Left-1/3 Globe Offset Choreography (Hermes 0:04 Framing)
-  function syncGlobalHeroAndFigureTag(targetZoom = map.getZoom()) {
+  // padMode："jump" 立即设定（初始化、jumpTo 之前）；"ease" 相机静止时平滑过渡；"none" 由调用方把 padding 放进自己的动画。
+  // 以 map.getPadding() 为准，不再缓存，避免动画中途被打断后缓存和实际不一致。
+  const heroPadFor = (targetZoom) => (window.innerWidth > 960 && targetZoom < 3.1 && !selectedSiteId ? 320 : 0);
+  function syncGlobalHeroAndFigureTag(targetZoom = map.getZoom(), padMode = "ease") {
     const hero = document.getElementById("map-global-hero");
     const figEl = document.getElementById("corner-fig-label");
-    const wideDesktop = window.innerWidth > 960;
     const showGlobalHero = targetZoom < 3.1 && !selectedSiteId;
 
     if (hero) {
       hero.classList.toggle("hidden-hero", !showGlobalHero);
     }
 
-    const wantLeftPad = wideDesktop && showGlobalHero ? 320 : 0;
-    if (heroOffsetApplied !== wantLeftPad) {
-      heroOffsetApplied = wantLeftPad;
-      map.setPadding({ left: wantLeftPad, top: 0, right: 0, bottom: 0 });
+    const wantLeftPad = heroPadFor(targetZoom);
+    if (padMode !== "none" && map.getPadding().left !== wantLeftPad) {
+      const pad = { left: wantLeftPad, top: 0, right: 0, bottom: 0 };
+      if (padMode === "jump") map.setPadding(pad);
+      else if (!map.isMoving()) origEaseTo({ padding: pad, duration: 480 });
     }
 
     if (figEl) {
+      const mythosFig = mythosCardOpen && mythos ? mythos.figLabel() : null;
+      if (mythosFig) {
+        figEl.textContent = mythosFig;
+        return;
+      }
       if (selectedSiteId && places.length) {
         const hit = places.find((p) => p.id === selectedSiteId || p.entryId === selectedSiteId);
         if (hit) {
@@ -947,7 +966,7 @@ export async function createRealisticEarthController({ onOpenEntry }) {
     }
   }
 
-  syncGlobalHeroAndFigureTag(initZoom);
+  syncGlobalHeroAndFigureTag(initZoom, "jump");
 
   const applyPlacesData = (placesGeo) => {
     places = placesGeo.features.map((f, idx) => ({
@@ -1077,7 +1096,9 @@ export async function createRealisticEarthController({ onOpenEntry }) {
     const wantTerrain =
       terrainOn && (map.getZoom() >= 4.2 || targetZoom >= 4.2 || map.getPitch() >= 8 || targetPitch >= 8);
     if (wantTerrain) {
-      if (!map.getTerrain()) {
+      // 地形源切换（Mapterhorn 与 AWS 备用之间）也要生效：60 秒重试后切回 terrain-dem
+      const cur = map.getTerrain();
+      if (!cur || cur.source !== demSource) {
         map.setTerrain({ source: demSource, exaggeration: 1.2 });
       }
     } else if (!terrainOn || (map.getZoom() < 3.8 && targetZoom < 3.8 && map.getPitch() < 5 && targetPitch < 5)) {
@@ -1086,9 +1107,6 @@ export async function createRealisticEarthController({ onOpenEntry }) {
       }
     }
   }
-
-  const origFlyTo = map.flyTo.bind(map);
-  const origEaseTo = map.easeTo.bind(map);
 
   function attachAdaptiveDprSampler(durationMs) {
     if (currentMaxPixelRatio <= 1 || (durationMs !== undefined && durationMs < 600)) return;
@@ -1115,25 +1133,33 @@ export async function createRealisticEarthController({ onOpenEntry }) {
     map.on("moveend", onEnd);
   }
 
+  // 标题区让位用的左侧 padding 跟着这次动画一起过渡，不再先瞬移再起飞
+  const withHeroPadding = (options, tz) => {
+    if (options.padding !== undefined) return options;
+    const want = heroPadFor(tz);
+    return map.getPadding().left === want ? options : { ...options, padding: { left: want, top: 0, right: 0, bottom: 0 } };
+  };
+
   map.flyTo = function (options = {}, eventData) {
     const tz = options.zoom ?? map.getZoom();
     ensureTerrainForTarget(tz, options.pitch ?? map.getPitch());
-    syncGlobalHeroAndFigureTag(tz);
+    syncGlobalHeroAndFigureTag(tz, "none");
     attachAdaptiveDprSampler(options.duration ?? 1500);
-    return origFlyTo(options, eventData);
+    return origFlyTo(withHeroPadding(options, tz), eventData);
   };
 
   map.easeTo = function (options = {}, eventData) {
     const tz = options.zoom ?? map.getZoom();
     ensureTerrainForTarget(tz, options.pitch ?? map.getPitch());
-    syncGlobalHeroAndFigureTag(tz);
+    syncGlobalHeroAndFigureTag(tz, "none");
     attachAdaptiveDprSampler(options.duration ?? 800);
-    return origEaseTo(options, eventData);
+    return origEaseTo(withHeroPadding(options, tz), eventData);
   };
 
   function syncUrlHash() {
     if (suppressHashWrite) return;
-    if (!window.location.hash.startsWith("#/map") && window.location.hash !== "" && window.location.hash !== "#/") {
+    // 空 hash 和 #/ 现在是大厅，只在 #/map 下回写相机
+    if (!window.location.hash.startsWith("#/map")) {
       return;
     }
     const c = map.getCenter();
@@ -1154,7 +1180,7 @@ export async function createRealisticEarthController({ onOpenEntry }) {
     }
   }
 
-  function applyBasemapAndTerrain(targetZoom = map.getZoom(), targetPitch = map.getPitch()) {
+  function applyBasemapAndTerrain(targetZoom = map.getZoom(), targetPitch = map.getPitch(), padMode = "ease") {
     if (!map.isStyleLoaded() && !map.getLayer("bg-base")) return;
     const isCopper = basemapMode === "copperplate";
     const isReal = basemapMode === "realistic";
@@ -1350,7 +1376,8 @@ export async function createRealisticEarthController({ onOpenEntry }) {
       map.setLayoutProperty("terrain-hillshade", "visibility", "none");
     }
 
-    syncGlobalHeroAndFigureTag(targetZoom);
+    mythos?.applyTheme(basemapMode);
+    syncGlobalHeroAndFigureTag(targetZoom, padMode);
   }
 
   function applyArchiveLayerFilter(layerVal) {
@@ -1382,6 +1409,11 @@ export async function createRealisticEarthController({ onOpenEntry }) {
   function renderSiteCard(site, skipHashSync = false) {
     const card = document.getElementById("map-site-card");
     if (!card) return;
+    if (mythosCardOpen) {
+      // 卡片由档案点接管（或关闭）：只让神话图层清掉自己的状态
+      mythosCardOpen = false;
+      mythos?.closeCard(true);
+    }
     if (!site) {
       selectedSiteId = null;
       card.classList.remove("open");
@@ -1438,15 +1470,54 @@ export async function createRealisticEarthController({ onOpenEntry }) {
     if (!skipHashSync) syncUrlHash();
   }
 
+  const mythosHooks = {
+    formatCoord: formatSiteCoord,
+    onCardOpen(id) {
+      mythosCardOpen = true;
+      selectedSiteId = id;
+      syncGlobalHeroAndFigureTag();
+      syncUrlHash();
+    },
+    onCardClose() {
+      mythosCardOpen = false;
+      selectedSiteId = null;
+      syncGlobalHeroAndFigureTag();
+      syncUrlHash();
+    },
+  };
+  function focusMythos(id, camera) {
+    if (mythos) return mythos.openById(id, { camera });
+    pendingMythos = { id, camera };
+    return false;
+  }
+
   map.once("load", () => {
     window.__earthLoadMs = Number((performance.now() - tStart).toFixed(1));
-    applyBasemapAndTerrain(initZoom, initPitch);
+    applyBasemapAndTerrain(initZoom, initPitch, "jump");
     applyArchiveLayerFilter(parsedInit.layer);
     if (selectedSiteId && places.length) {
       const hit = places.find((p) => p.id === selectedSiteId || p.entryId === selectedSiteId);
       if (hit) renderSiteCard(hit, true);
     }
     window.__earthMapLoaded = true;
+    mythosModPromise
+      .then((m) => m.installMythos(map, mythosHooks))
+      .then((api) => {
+        mythos = api;
+        api.applyTheme(basemapMode);
+        window.__mythosLoadMs = Number((performance.now() - tStart).toFixed(1));
+        const pending = pendingMythos;
+        pendingMythos = null;
+        if (pending && selectedSiteId === pending.id) {
+          suppressHashWrite = true;
+          try {
+            api.openById(pending.id, { camera: pending.camera });
+          } finally {
+            suppressHashWrite = false;
+          }
+        }
+      })
+      .catch((err) => console.warn("[map] mythos layer failed:", err));
   });
 
   setInterval(() => {
@@ -1472,6 +1543,8 @@ export async function createRealisticEarthController({ onOpenEntry }) {
   const handleMarkerClick = (e) => {
     const feat = e.features?.[0];
     if (!feat) return;
+    // 点在神话图层的符号上时，让它处理（档案点的范围圈很大，容易吞掉圈里的异常）
+    if (feat.layer?.id === "archive-precision-fill" && mythos?.hitAt(e.point)) return;
     const hit = places.find((p) => p.id === feat.properties.id);
     if (hit) {
       renderSiteCard(hit);
@@ -1544,7 +1617,17 @@ export async function createRealisticEarthController({ onOpenEntry }) {
             p.code.toLowerCase().includes(q) ||
             p.z12RealDesc.toLowerCase().includes(q)
         );
-    searchResults.innerHTML = list.length
+    const extra = mythos ? mythos.search(q) : [];
+    const mythosHtml = extra
+      .map(
+        (m) => `
+          <button type="button" class="map-search-item" data-mid="${escapeHtml(m.id)}">
+            <span>${escapeHtml(m.name)}</span>
+            <span style="font-size:11.5px; opacity:0.72;">${escapeHtml(m.tag)}</span>
+          </button>`
+      )
+      .join("");
+    searchResults.innerHTML = list.length || extra.length
       ? list
           .map(
             (p) => `
@@ -1553,10 +1636,18 @@ export async function createRealisticEarthController({ onOpenEntry }) {
             <span style="font-size:11.5px; opacity:0.72;">${escapeHtml(LAYER_GLYPH[p.layer] || "")}</span>
           </button>`
           )
-          .join("")
-      : `<div style="padding:8px 6px; font-size:13px; opacity:0.72;">未匹配到档案坐标</div>`;
+          .join("") + mythosHtml
+      : `<div style="padding:8px 6px; font-size:13px; opacity:0.72;">未匹配到档案坐标或异常</div>`;
 
-    searchResults.querySelectorAll(".map-search-item").forEach((b) => {
+    searchResults.querySelectorAll("[data-mid]").forEach((b) => {
+      b.addEventListener("click", () => {
+        popSearch?.classList.remove("open");
+        btnSearch?.classList.remove("active");
+        mythos?.openById(b.dataset.mid, { camera: "fly" });
+      });
+    });
+
+    searchResults.querySelectorAll(".map-search-item[data-pid]").forEach((b) => {
       b.addEventListener("click", () => {
         const hit = places.find((x) => x.id === b.dataset.pid);
         popSearch?.classList.remove("open");
@@ -1653,8 +1744,9 @@ export async function createRealisticEarthController({ onOpenEntry }) {
           selectedSiteId = norm;
           const hit = places.find((p) => p.id === norm || p.entryId === norm);
           if (hit) renderSiteCard(hit, true);
+          else focusMythos(norm, "none");
         }
-        applyBasemapAndTerrain(parsed.zoom, parsed.pitch);
+        applyBasemapAndTerrain(parsed.zoom, parsed.pitch, "jump");
         map.jumpTo({
           center: [parsed.lon, parsed.lat],
           zoom: parsed.zoom,
@@ -1663,14 +1755,20 @@ export async function createRealisticEarthController({ onOpenEntry }) {
         });
       } else if (parsed.siteId) {
         const norm = LEGACY_TO_SITE_ID[parsed.siteId] || parsed.siteId;
-        selectedSiteId = norm;
         const hit = places.find((p) => p.id === norm || p.entryId === norm);
         const cam = QUICK_SITE_CAM[norm];
+        if (!hit && !cam && (!mythos || mythos.has(norm))) {
+          // 「大浸染」的异常与据点，例如档案里七曜圣城的 #/map/sanct-luna
+          if (!(mythosCardOpen && selectedSiteId === norm)) renderSiteCard(null, true);
+          selectedSiteId = norm;
+          if (!focusMythos(norm, "jump")) applyBasemapAndTerrain(undefined, undefined, "jump");
+        } else {
+        selectedSiteId = norm;
         const targetLon = hit ? hit.lon : cam ? cam[0] : 22.0;
         const targetLat = hit ? hit.lat : cam ? cam[1] : 20.0;
         const targetZoom = hit ? hit.defaultZoom || 11 : cam ? cam[2] : 11;
         const targetPitch = norm === "site-2000" ? 60 : cam ? cam[3] : 0;
-        applyBasemapAndTerrain(targetZoom, targetPitch);
+        applyBasemapAndTerrain(targetZoom, targetPitch, "jump");
         map.jumpTo({
           center: [targetLon, targetLat],
           zoom: targetZoom,
@@ -1678,9 +1776,10 @@ export async function createRealisticEarthController({ onOpenEntry }) {
           bearing: 0,
         });
         if (hit) renderSiteCard(hit, true);
+        }
       } else {
         renderSiteCard(null, true);
-        applyBasemapAndTerrain(1.46, 0);
+        applyBasemapAndTerrain(1.46, 0, "jump");
         map.jumpTo({ center: [22.0, 20.0], zoom: 1.46, pitch: 0, bearing: 0 });
       }
     } finally {
@@ -1693,6 +1792,9 @@ export async function createRealisticEarthController({ onOpenEntry }) {
     map,
     get places() {
       return places;
+    },
+    get mythos() {
+      return mythos;
     },
     get pixelRatio() {
       return map.getPixelRatio();

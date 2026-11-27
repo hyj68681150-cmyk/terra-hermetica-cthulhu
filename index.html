@@ -23,6 +23,7 @@
   <link rel="modulepreload" href="./js/app.js" />
   <link rel="modulepreload" href="./js/router.js" />
   <link rel="modulepreload" href="./js/realistic-map.js" />
+  <link rel="modulepreload" href="./js/mythos-layer.js" />
   <link rel="modulepreload" href="./js/sanitize.js" />
   <link rel="modulepreload" href="./vendor/maplibre-gl@6.18.0/maplibre-gl.mjs" />
   <link rel="modulepreload" href="./vendor/maplibre-gl@6.18.0/maplibre-gl-shared.mjs" />
@@ -32,6 +33,7 @@
   <link rel="stylesheet" href="./css/tokens.css" />
   <link rel="stylesheet" href="./css/wiki.css" />
   <link rel="stylesheet" href="./css/modules.css" />
+  <link rel="stylesheet" href="./css/mythos.css" />
 </head>
 <body data-view="map" data-map-basemap="copperplate">
   <!-- 14px Inset Hairline Manuscript Frame & Four-Corner Running Headers -->
@@ -103,7 +105,8 @@
       <div class="hero-latin-display">ORBIS CAERVLEVS</div>
       <h1 class="hero-zh-title">蓝色神学舆图</h1>
       <div class="hero-rule"></div>
-      <p class="hero-desc">十四处收容与神话坐标 · 真实卫星与高程铜版卷</p>
+      <p class="hero-desc">群梦之后第一百零一年，八成地表已不宜人居。<span id="mythos-hero-count" class="hero-count">九十六处异常 · 七座圣城 · 十五条结界航线</span></p>
+      <div class="mythos-legend" data-mythos-legend aria-label="危险等级与面积占比"></div>
       <div class="hero-epigraph">OMNIA AB VNO MEDITATIONE VNIVS · ITA MVNDVS CREATVS EST</div>
     </header>
 
@@ -131,10 +134,18 @@
         <div class="popover-row" style="border-top:1px solid var(--chrome-line); padding-top:6px; margin-top:2px;">
           <button type="button" id="btn-map-scanlines" class="popover-chip active">铜版扫描线: 开</button>
         </div>
+        <div class="popover-kicker" style="border-top:1px solid var(--chrome-line); padding-top:8px; margin-top:2px;">TINCTVRA · 大浸染</div>
+        <div class="popover-row">
+          <button type="button" class="popover-chip active" data-mythos="zones">危险区</button>
+          <button type="button" class="popover-chip active" data-mythos="anomalies">异常</button>
+          <button type="button" class="popover-chip active" data-mythos="bastions">据点与航线</button>
+          <button type="button" class="popover-chip active" data-mythos="orbits">七曜天球</button>
+        </div>
+        <div class="mythos-legend" data-mythos-legend></div>
       </div>
 
       <div id="popover-search" class="map-popover">
-        <input id="map-place-search" type="search" autocomplete="off" placeholder="检索罗马编号或地名 (I–XIV / 拉莱耶 / 亚历山大)..." />
+        <input id="map-place-search" type="search" autocomplete="off" placeholder="检索地名、异常或圣城（拉莱耶 / SCP-2264 / 京都）…" />
         <div id="map-search-results" class="custom-scroll"></div>
       </div>
     </div>
@@ -154,7 +165,7 @@
     <!-- Bottom-Edge Single-Line Attribution + Fiction Disclaimer (Collapsed to ⓘ on Mobile) -->
     <button type="button" id="btn-attrib-mobile" aria-label="展开数据来源与免责声明">ⓘ</button>
     <div id="map-attrib-bar">
-      本站为虚构作品，地点与真实机构无关 · 卫星 <a href="https://s2maps.eu" target="_blank" rel="noopener">Sentinel-2 cloudless © EOX (2016 CC BY 4.0)</a> · 矢量 <a href="https://openfreemap.org" target="_blank" rel="noopener">OpenFreeMap</a> © <a href="https://www.openmaptiles.org/" target="_blank" rel="noopener">OpenMapTiles</a> / <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OSM</a> · 高程 <a href="https://mapterhorn.com/attribution" target="_blank" rel="noopener">© Mapterhorn</a> · 夜光 <a href="https://earthobservatory.nasa.gov/features/NightLights" target="_blank" rel="noopener">NASA</a>
+      本站为虚构作品，地点与真实机构无关 · 卫星 <a href="https://s2maps.eu" target="_blank" rel="noopener">Sentinel-2 cloudless © EOX (2016 CC BY 4.0)</a> · 矢量 <a href="https://openfreemap.org" target="_blank" rel="noopener">OpenFreeMap</a> © <a href="https://www.openmaptiles.org/" target="_blank" rel="noopener">OpenMapTiles</a> / <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OSM</a> · 高程 <a href="https://mapterhorn.com/attribution" target="_blank" rel="noopener">© Mapterhorn</a> · 夜光 <a href="https://earthobservatory.nasa.gov/features/NightLights" target="_blank" rel="noopener">NASA</a> · 异常与据点改编自 <a href="https://scp-wiki.wikidot.com/" target="_blank" rel="noopener">SCP 基金会</a>（CC BY-SA 3.0）与洛夫克拉夫特的公有领域作品，逐条署名见 <a href="./data/map/CREDITS-mythos.md" target="_blank" rel="noopener">CREDITS-mythos.md</a>
     </div>
   </section>
 

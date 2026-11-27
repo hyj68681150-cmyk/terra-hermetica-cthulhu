@@ -71,13 +71,21 @@ a.corner-header:hover {
 body[data-view="map"] #corner-bl {
   display: inline-flex;
 }
+/* 图注过长（神话图层的拉丁名）时截断，不压比例尺 */
+#corner-fig-label {
+  display: inline-block;
+  max-width: 280px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
 
 /* Top-Center Pure Text Navigation (separated cleanly from TL/TR corner headers!) */
 #top-nav {
   position: fixed !important;
   top: 17px !important;
-  left: 236px !important;
-  right: 236px !important;
+  left: 330px !important;
+  right: 330px !important;
   transform: none !important;
   max-width: none !important;
   z-index: 55 !important;
@@ -121,6 +129,17 @@ body:not([data-view="map"]) #top-nav {
   color: var(--chrome-line);
   padding: 0 3px;
   font-size: 11px;
+}
+/* 窄桌面：四角页眉放不下就收起，导航占满顶边 */
+@media (min-width: 861px) and (max-width: 1180px) {
+  #corner-tl,
+  #corner-tr {
+    display: none !important;
+  }
+  #top-nav {
+    left: 26px !important;
+    right: 26px !important;
+  }
 }
 
 /* =========================================================================
@@ -390,7 +409,7 @@ body[data-view="map"][data-map-basemap="paper"] .map-search-item:hover {
 #map-zoom-stack {
   position: fixed;
   right: 26px;
-  bottom: 44px;
+  bottom: 60px;
   z-index: 48;
   display: flex;
   flex-direction: column;
@@ -454,10 +473,8 @@ body[data-view="map"][data-map-basemap="paper"] .map-search-item:hover {
   letter-spacing: 0.02em;
   color: var(--chrome-muted);
   text-align: right;
-  max-width: calc(100vw - 380px);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  max-width: min(880px, calc(100vw - 470px));
+  white-space: normal;
 }
 #map-attrib-bar a {
   color: inherit;

@@ -1,0 +1,301 @@
+/* css/mythos.css — 「大浸染」图层的界面：图例、读数条、准星、图版卡补充、七曜天球 */
+
+/* 图例色块：和地图上的排线同一套语言（II 单斜线 → III 交叉 → IV 加横线 → V 压暗） */
+.mythos-legend {
+  display: grid;
+  grid-template-columns: 28px 1fr auto;
+  align-items: center;
+  gap: 5px 10px;
+  font-size: 13px;
+  line-height: 1.35;
+  color: var(--chrome-muted);
+}
+.ml-sw {
+  width: 28px;
+  height: 12px;
+  border: 1px solid var(--chrome-line);
+  color: var(--chrome-fg);
+  --sw-a: rgba(255, 255, 255, 0.62);
+  --sw-d: rgba(3, 10, 74, 0.55);
+}
+body[data-map-basemap="paper"] .ml-sw {
+  --sw-a: rgba(10, 24, 144, 0.62);
+  --sw-d: rgba(10, 24, 144, 0.18);
+}
+.ml-sw[data-lv="2"] {
+  background: repeating-linear-gradient(135deg, var(--sw-a) 0 1px, transparent 1px 6px);
+}
+.ml-sw[data-lv="3"] {
+  background: repeating-linear-gradient(135deg, var(--sw-a) 0 1px, transparent 1px 6px),
+    repeating-linear-gradient(45deg, var(--sw-a) 0 1px, transparent 1px 6px);
+}
+.ml-sw[data-lv="4"] {
+  background: repeating-linear-gradient(0deg, var(--sw-a) 0 1px, transparent 1px 4px),
+    repeating-linear-gradient(135deg, var(--sw-a) 0 1px, transparent 1px 6px),
+    repeating-linear-gradient(45deg, var(--sw-a) 0 1px, transparent 1px 6px);
+}
+.ml-sw[data-lv="5"] {
+  background: repeating-linear-gradient(0deg, var(--sw-a) 0 1px, transparent 1px 4px),
+    repeating-linear-gradient(135deg, var(--sw-a) 0 1px, transparent 1px 6px),
+    repeating-linear-gradient(45deg, var(--sw-a) 0 1px, transparent 1px 6px), var(--sw-d);
+}
+.ml-name {
+  color: var(--chrome-fg);
+  white-space: nowrap;
+}
+.ml-la {
+  font-family: var(--font-latin-inscr);
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  color: var(--chrome-muted);
+}
+.ml-pct {
+  font-family: var(--font-latin-display);
+  font-size: 13px;
+  letter-spacing: 0.06em;
+  text-align: right;
+  color: var(--chrome-fg);
+}
+#map-global-hero .mythos-legend {
+  margin-top: 4px;
+  max-width: 300px;
+}
+.hero-count {
+  display: block;
+  color: var(--chrome-fg);
+}
+
+/* 图层弹层里的「大浸染」一行 */
+.popover-kicker {
+  font-family: var(--font-latin-inscr);
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  color: var(--chrome-muted);
+}
+#popover-layers .mythos-legend {
+  padding: 2px 2px 4px;
+  font-size: 12.5px;
+}
+
+/* 地图中心的危险等级读数 */
+#mythos-readout {
+  position: fixed;
+  left: 26px;
+  bottom: 44px;
+  z-index: 48;
+  max-width: min(560px, calc(100vw - 52px));
+  display: none;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 4px 9px;
+  padding: 6px 11px 7px;
+  background: var(--chrome-panel);
+  border: 1px solid var(--chrome-line);
+  color: var(--chrome-fg);
+  font-family: var(--font-zh-serif);
+  font-size: 13.5px;
+  line-height: 1.5;
+  pointer-events: none;
+}
+#mythos-readout.open {
+  display: inline-flex;
+}
+.mr-lv {
+  font-family: var(--font-latin-display);
+  font-size: 19px;
+  line-height: 1;
+  letter-spacing: 0.06em;
+}
+.mr-zh {
+  font-weight: 700;
+  letter-spacing: 0.14em;
+}
+.mr-la {
+  font-family: var(--font-latin-inscr);
+  font-size: 10.5px;
+  letter-spacing: var(--track-micro);
+  color: var(--chrome-muted);
+}
+.mr-rule {
+  color: var(--chrome-muted);
+}
+#mythos-crosshair {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 22px;
+  height: 22px;
+  margin: -11px 0 0 -11px;
+  z-index: 26;
+  pointer-events: none;
+  display: none;
+  opacity: 0.75;
+}
+#mythos-crosshair.open {
+  display: block;
+}
+/* 任何图版卡片（档案或神话）展开时，读数和准星都让位 */
+#stage-map:has(#map-site-card.open) #mythos-readout,
+#stage-map:has(#map-site-card.open) #mythos-crosshair {
+  display: none;
+}
+#mythos-crosshair::before,
+#mythos-crosshair::after {
+  content: "";
+  position: absolute;
+  background: var(--chrome-fg);
+}
+#mythos-crosshair::before {
+  left: 10.5px;
+  top: 0;
+  width: 1px;
+  height: 22px;
+}
+#mythos-crosshair::after {
+  top: 10.5px;
+  left: 0;
+  width: 22px;
+  height: 1px;
+}
+
+/* 图版卡：异常与据点 */
+#map-site-card.mythos-plate {
+  gap: 9px;
+}
+.mythos-meta {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 3px 12px;
+  margin: 0;
+  font-size: 13.5px;
+  line-height: 1.5;
+}
+.mythos-meta dt {
+  color: var(--chrome-muted);
+  white-space: nowrap;
+}
+.mythos-meta dd {
+  margin: 0;
+  color: var(--chrome-fg);
+}
+.mythos-la {
+  font-family: var(--font-latin-inscr);
+  font-size: 10.5px;
+  letter-spacing: 0.2em;
+  color: var(--chrome-muted);
+}
+.mythos-motto {
+  font-family: var(--font-latin-inscr);
+  font-size: 11.5px;
+  line-height: 1.6;
+  letter-spacing: 0.2em;
+  color: var(--chrome-muted);
+}
+.mythos-sec {
+  border-top: 1px solid var(--chrome-line);
+  padding-top: 7px;
+}
+.mythos-sec-h {
+  font-size: 12px;
+  letter-spacing: 0.2em;
+  color: var(--chrome-muted);
+  margin-bottom: 3px;
+}
+.mythos-sec p {
+  margin: 0;
+  font-family: var(--font-zh-serif);
+  font-size: 15px;
+  line-height: 1.72;
+  color: var(--chrome-fg);
+  opacity: 0.92;
+}
+.mythos-foot {
+  flex-wrap: wrap;
+  row-gap: 4px;
+}
+.mythos-src {
+  line-height: 1.55;
+}
+.mythos-src a {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.mythos-src a:hover {
+  color: var(--chrome-fg);
+}
+
+/* 七曜天球：全球视图的装饰，跟着地球边缘缩放 */
+#mythos-orbits {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+  pointer-events: none;
+  overflow: visible;
+  opacity: 0;
+  transition: opacity 0.6s ease;
+  color: #ffffff;
+}
+#mythos-orbits.open {
+  opacity: 1;
+}
+body[data-map-basemap="paper"] #mythos-orbits {
+  color: #0a1890;
+}
+#mythos-orbits .orb-ring {
+  fill: none;
+  stroke: currentColor;
+  stroke-opacity: 0.2;
+  stroke-width: 1;
+}
+#mythos-orbits .orb-yug {
+  stroke-opacity: 0.3;
+  stroke-dasharray: 2 9;
+}
+#mythos-orbits .orb-dot {
+  fill: rgba(7, 18, 118, 0.85);
+  stroke: currentColor;
+  stroke-opacity: 0.55;
+  stroke-width: 1;
+}
+body[data-map-basemap="paper"] #mythos-orbits .orb-dot {
+  fill: rgba(246, 244, 238, 0.92);
+}
+#mythos-orbits .orb-glyph {
+  fill: currentColor;
+  font-family: "Segoe UI Symbol", "Noto Sans Symbols", "Noto Sans Symbols 2", "Apple Symbols", serif;
+  font-size: 13px;
+  opacity: 0.85;
+}
+#mythos-orbits .orb-la {
+  fill: currentColor;
+  font-family: var(--font-latin-inscr);
+  font-size: 8.5px;
+  letter-spacing: 0.24em;
+  opacity: 0.5;
+}
+#mythos-orbits .orb-yug-la {
+  font-size: 9.5px;
+  opacity: 0.6;
+}
+
+@media (max-width: 860px) {
+  #map-global-hero .mythos-legend {
+    display: none;
+  }
+  #mythos-readout {
+    left: 12px;
+    right: 64px;
+    bottom: 58px; /* 让出底部的比例尺和图注 */
+    max-width: none;
+    font-size: 13px;
+  }
+  .mr-rule {
+    flex-basis: 100%;
+  }
+  #mythos-orbits .orb-la {
+    display: none;
+  }
+}
