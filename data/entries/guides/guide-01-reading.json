@@ -1,0 +1,61 @@
+{
+  "id": "guide-01-reading",
+  "order": 1,
+  "category": "guides",
+  "code": "GVIDA-I",
+  "title": "入馆阅览总则 · 权限职级、双态徽记与版权契约",
+  "aliases": [
+    "入馆必读",
+    "阅览总则",
+    "如何阅读",
+    "权限等级",
+    "GRADVS",
+    "原典与本站设定",
+    "GVIDA-I"
+  ],
+  "clearance": 1,
+  "provenance": "original",
+  "provenanceLabel": "本站原创设定",
+  "summary": "面向初次踏入蓝色神学档案馆的访客：详解七大馆藏分架、五级权限晋升（GRADVS I–V）、“实心原典 / 线框本站设定”双态徽记、加密遮蔽条检定与 CC BY-SA 3.0 署名规范。",
+  "overview": "本卷为蓝色神学档案馆第一号入门引得。在翻阅任何收容卷宗、纪元编年或踏入铜版舆图之前，请先在此确认三项基本契约：如何辨识洛夫克拉夫特原典、SCP 维基原典与本站原创设定的边界；如何通过调阅卷宗、研读连载小说与完成现场调查晋升五级权限以解锁机密附件；以及本馆在坐标精度与知识共享协议上的硬性准则。",
+  "bodyPath": "data/guides/guide-01-reading.md",
+  "readingMinutes": 13,
+  "infobox": [
+    {
+      "label": "导览编号",
+      "value": "GVIDA-I · 阅览总则",
+      "original": true
+    },
+    {
+      "label": "适用读者",
+      "value": "GRADVS I 一级见习抄写员及以上全体访客",
+      "original": true
+    },
+    {
+      "label": "双态徽记准则",
+      "value": "实心底块 = 原典文献；单像素线框 = 本站设定",
+      "original": true
+    },
+    {
+      "label": "全站内容许可",
+      "value": "CC BY-SA 3.0（兼容 SCP 维基与公有领域原典）",
+      "original": false
+    }
+  ],
+  "cluesGranted": [
+    {
+      "id": "clue-guide-01-protocol",
+      "title": "入馆阅览总则：双态真值徽记与五级检定章程",
+      "xp": 15
+    }
+  ],
+  "relatedIds": [
+    "guide-02-three-canons",
+    "guide-03-chronicle",
+    "codex-tinctura",
+    "codex-taxonomy-matrix",
+    "goi-foedus-caeruleum",
+    "site-alexandria"
+  ],
+  "updatedAt": "2026-11-27"
+}

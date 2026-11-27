@@ -1,0 +1,62 @@
+{
+  "id": "guide-02-three-canons",
+  "order": 2,
+  "category": "guides",
+  "code": "GVIDA-II",
+  "title": "三源合流考 · 克苏鲁原典、基金会档案与蓝色神学",
+  "aliases": [
+    "三源合流",
+    "世界观来源",
+    "克苏鲁与SCP",
+    "蓝色神学源流",
+    "版权与改编边界",
+    "GVIDA-II"
+  ],
+  "clearance": 1,
+  "provenance": "original",
+  "provenanceLabel": "本站原创设定",
+  "summary": "厘清洛夫克拉夫特宇宙恐怖原典、SCP 基金会协同写作维基与本站“赫尔墨斯蓝色神学”三套叙事源流的汇合机制、文献归属与改编底线。",
+  "overview": "本馆并非将不同怪谈体系胡乱拼贴的杂烩，而是遵循严格文献学边界的三源合流工程：洛夫克拉夫特公有领域作品提供太古地质与深海冷漠宇宙观，SCP 维基（CC BY-SA 3.0）提供现代官僚收容规程与休谟物理学，而植根于亚历山大灯塔与《翠玉录》拉丁本的“蓝色神学”则充当连接二者的本站原创桥梁。本卷逐一列明哪些设定属于原典作者，哪些属于本站推演。",
+  "bodyPath": "data/guides/guide-02-three-canons.md",
+  "readingMinutes": 14,
+  "infobox": [
+    {
+      "label": "导览编号",
+      "value": "GVIDA-II · 三源考据",
+      "original": true
+    },
+    {
+      "label": "第一源流",
+      "value": "H. P. Lovecraft 原典（1920–1936，公有领域）",
+      "original": false
+    },
+    {
+      "label": "第二源流",
+      "value": "SCP 基金会维基原典（CC BY-SA 3.0 逐篇署名）",
+      "original": false
+    },
+    {
+      "label": "第三源流",
+      "value": "赫尔墨斯蓝色神学与大浸染纪元（本站原创设定）",
+      "original": true
+    }
+  ],
+  "cluesGranted": [
+    {
+      "id": "clue-guide-02-canons",
+      "title": "三源合流考：原典文献主权与改编分界台账",
+      "xp": 15
+    }
+  ],
+  "relatedIds": [
+    "guide-01-reading",
+    "guide-03-chronicle",
+    "codex-taxonomy-matrix",
+    "dossier-tabula-caerulea",
+    "dossier-codex-al-azif",
+    "dossier-scp-2317",
+    "dossier-scp-2264",
+    "dossier-rlyeh-2662"
+  ],
+  "updatedAt": "2026-11-27"
+}

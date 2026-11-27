@@ -1,0 +1,63 @@
+{
+  "id": "guide-03-chronicle",
+  "order": 3,
+  "category": "guides",
+  "code": "GVIDA-III",
+  "title": "纪元前情提要 · 自二叠纪冰渊至大浸染百年",
+  "aliases": [
+    "前情提要",
+    "世界历史",
+    "大浸染编年",
+    "纪元通史",
+    "十七赫兹始末",
+    "GVIDA-III"
+  ],
+  "clearance": 1,
+  "provenance": "original",
+  "provenanceLabel": "本站原创设定",
+  "summary": "以八个关键时间切面串联本馆完整世界史：从二点五亿年前南极筑城、拉莱耶沉没、青铜神战、法罗斯立约、1609 布拉格铅封、1925 群梦揭幕，直至 2026 年大浸染纪元的跨洋共振危机。",
+  "overview": "若你是首次进入本馆，无需先行翻完六十余份独立档案。本卷将跨度逾两亿五千万年的八大历史节点浓缩为一条因果连贯的叙事长卷，解释太古外星遗迹如何在 1925 年春唤醒百年休谟下沉，人类为何被迫在二十世纪末转入“七曜圣城”防御体制，以及 2026 年 11 月印斯茅斯声呐回波为何会牵动帕米尔高原地底的最后一根锁链。",
+  "bodyPath": "data/guides/guide-03-chronicle.md",
+  "readingMinutes": 15,
+  "infobox": [
+    {
+      "label": "导览编号",
+      "value": "GVIDA-III · 纪元通史",
+      "original": true
+    },
+    {
+      "label": "时间跨度",
+      "value": "约公元前 2.5 亿年 — 公元 2026 年 11 月",
+      "original": true
+    },
+    {
+      "label": "现代转折点",
+      "value": "1925 年春全球群梦（大浸染纪元起点）",
+      "original": true
+    },
+    {
+      "label": "当前档案时刻",
+      "value": "2026 年深秋 · 17.004 Hz 跨洋反相锁相事件",
+      "original": true
+    }
+  ],
+  "cluesGranted": [
+    {
+      "id": "clue-guide-03-chronicle",
+      "title": "纪元通史：八大时间切面与百年下沉因果链",
+      "xp": 15
+    }
+  ],
+  "relatedIds": [
+    "era-permian-elder-antarctica",
+    "era-sinking-of-rlyeh",
+    "era-bronze-mekhane-sarkic",
+    "era-alexandria-pharos-concord",
+    "era-1609-prague-alagadda",
+    "era-1925-1928-call-innsmouth",
+    "era-1931-miskatonic-antarctica",
+    "era-modern-blue-theology-convergence",
+    "codex-tinctura"
+  ],
+  "updatedAt": "2026-11-27"
+}

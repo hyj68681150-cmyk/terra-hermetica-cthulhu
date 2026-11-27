@@ -1,0 +1,63 @@
+{
+  "id": "guide-06-life-in-tinctura",
+  "order": 6,
+  "category": "guides",
+  "code": "GVIDA-VI",
+  "title": "大浸染纪元风物与行旅守则 · 圣城、航线与护符日常",
+  "aliases": [
+    "大浸染日常",
+    "行旅守则",
+    "七座圣城生活",
+    "结界航线指南",
+    "清道队规矩",
+    "GVIDA-VI"
+  ],
+  "clearance": 1,
+  "provenance": "original",
+  "provenanceLabel": "本站原创设定",
+  "summary": "记录大浸染纪元普通人与外勤行旅的真实衣食住行：从惠灵顿报潮钟、魁北克十月换钉周、西安门楣锡牌，到跨越浸染区的双锚护航列车规矩与随身钨钢音叉用法。",
+  "overview": "在八成地表退入警戒乃至禁区的年代，人类既没有全部住进地下掩体，也没有终日活在歇斯底里的尖叫中。人们照常烤麦饼、修电车、喝马黛茶、按潮汐表上下工，只是把宵禁落栓、核对正午脉冲与查验门楣锡牌变成了如同添衣避寒般的家常习惯。本卷为远行客与新入职外勤员提供一份切合实际的生存与风物指南。",
+  "bodyPath": "data/guides/guide-06-life-in-tinctura.md",
+  "readingMinutes": 14,
+  "infobox": [
+    {
+      "label": "导览编号",
+      "value": "GVIDA-VI · 风物与行旅",
+      "original": true
+    },
+    {
+      "label": "常住人口核心圈",
+      "value": "七曜圣城、二十余座前哨据点及大城市城防结界",
+      "original": true
+    },
+    {
+      "label": "跨洲交通干线",
+      "value": "十余条大圆结界航线（两侧各约 120 km 平靖走廊）",
+      "original": true
+    },
+    {
+      "label": "行旅标准护具",
+      "value": "群青谐振金属护符、机械怀表、432Hz 钨钢音叉",
+      "original": true
+    }
+  ],
+  "cluesGranted": [
+    {
+      "id": "clue-guide-06-traveller",
+      "title": "浸染区行旅守则：结界列车编组与夜间闭户铁律",
+      "xp": 15
+    }
+  ],
+  "relatedIds": [
+    "codex-tinctura",
+    "goi-foedus-caeruleum",
+    "sanct-luna",
+    "sanct-mercurius",
+    "sanct-venus",
+    "sanct-sol",
+    "sanct-mars",
+    "sanct-iuppiter",
+    "sanct-saturnus"
+  ],
+  "updatedAt": "2026-11-27"
+}

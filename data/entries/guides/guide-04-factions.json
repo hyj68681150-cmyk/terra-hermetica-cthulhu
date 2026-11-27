@@ -1,0 +1,62 @@
+{
+  "id": "guide-04-factions",
+  "order": 4,
+  "category": "guides",
+  "code": "GVIDA-IV",
+  "title": "诸方势力与盟约图谱 · 谁在守望，谁在叩门",
+  "aliases": [
+    "同行组织导览",
+    "阵营关系",
+    "蓝印盟约成员",
+    "战术神学部与修会",
+    "破碎之神与欲肉教",
+    "GVIDA-IV"
+  ],
+  "clearance": 1,
+  "provenance": "original",
+  "provenanceLabel": "本站原创设定",
+  "summary": "全面梳理大浸染纪元的人类防线与异质教团：解析蓝印盟约四方支柱（基金会战术神学部、赫尔墨斯蓝色修会、密大与异学会、全球超自然联盟）的分工摩擦，以及破碎之神教会、欲肉教与蛇之手的立场分野。",
+  "overview": "当全球八成以上水陆不再安全，旧时代“独自隐瞒超自然现象”的单一机构模式早已破产。本卷向访客拆解当今世界的人类权力与知识架构：谁在佛罗伦萨七曜议会投票分配稳定锚功率，谁在京都镌刻铜版海图，谁在贝加尔湖火焰高墙内与基金会维持脆弱停火，又是哪些派系仍在深海暗礁与跨维门径中试图撬开结界。",
+  "bodyPath": "data/guides/guide-04-factions.md",
+  "readingMinutes": 14,
+  "infobox": [
+    {
+      "label": "导览编号",
+      "value": "GVIDA-IV · 势力图谱",
+      "original": true
+    },
+    {
+      "label": "最高联席机制",
+      "value": "FOEDVS CAERVLEVM（蓝印盟约 · 七曜议会）",
+      "original": true
+    },
+    {
+      "label": "局部协防派系",
+      "value": "破碎之神教会齿轮正教（GOI-004，限于贝加尔防线）",
+      "original": true
+    },
+    {
+      "label": "高危监控对象",
+      "value": "内亚新欲肉残部、深潜者海沟聚落、未登记门径行者",
+      "original": true
+    }
+  ],
+  "cluesGranted": [
+    {
+      "id": "clue-guide-04-factions",
+      "title": "盟约图谱：四方支柱权责与同行组织交战边界",
+      "xp": 15
+    }
+  ],
+  "relatedIds": [
+    "goi-foedus-caeruleum",
+    "goi-tactical-theology",
+    "goi-ordo-caeruleus",
+    "goi-miskatonic-yixuehui",
+    "goi-broken-god",
+    "goi-sarkic-dagon",
+    "goi-serpents-hand",
+    "codex-six-orders"
+  ],
+  "updatedAt": "2026-11-27"
+}
