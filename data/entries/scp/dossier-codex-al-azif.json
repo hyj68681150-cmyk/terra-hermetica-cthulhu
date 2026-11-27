@@ -43,8 +43,32 @@
     }
   ],
   "relatedIds": [
-    "site-cairo"
+    "site-cairo",
+    "site-alexandria",
+    "sanct-sol",
+    "sanct-saturnus",
+    "site-arkham",
+    "site-prague",
+    "era-1609-prague-alagadda",
+    "dossier-tabula-caerulea",
+    "dossier-antarctica-1931",
+    "entity-yog-sothoth",
+    "entity-cthulhu",
+    "goi-ordo-caeruleus",
+    "goi-tactical-theology",
+    "goi-foedus-caeruleum",
+    "goi-miskatonic-yixuehui"
   ],
-  "updatedAt": "2026-11-26",
+  "overview": "公元约730年由萨那疯癫诗人阿卜杜勒·阿尔哈兹莱德在大马士革撰成的禁忌典籍《阿尔·阿吉夫》，经950年希腊译本《死灵之书》、1228年沃尔米乌斯拉丁译本及十五至十七世纪匿名印本流传，全球仅余少数受严密锁闭的拉丁文藏本（含阿卡姆密大与布宜诺斯艾利斯铅之城）。本站设定中，亚历山大Site-01地下穹顶另封存1586年布拉格约翰·迪伊博士以青金石矿墨镌刻的铜版栅格校勘孤本，须借光学滤镜与W级记忆加固剂受控查阅。",
+  "bodyPath": "data/dossiers/dossier-codex-al-azif.md",
+  "readingMinutes": 21,
+  "cluesGranted": [
+    {
+      "id": "clue-alazif-1586-grating",
+      "title": "1586年布拉格铜版120线扫描栅格抗模因去耦参数",
+      "xp": 20
+    }
+  ],
+  "updatedAt": "2026-11-27",
   "provenanceLabel": "H. P. Lovecraft (公有领域) + 本站原创铜版校勘设定"
 }

@@ -43,8 +43,29 @@
     }
   ],
   "relatedIds": [
-    "site-antarctica"
+    "site-antarctica",
+    "era-permian-elder-antarctica",
+    "era-1931-miskatonic-antarctica",
+    "dossier-codex-al-azif",
+    "site-leng",
+    "site-arkham",
+    "goi-miskatonic-yixuehui",
+    "goi-tactical-theology",
+    "goi-foedus-caeruleum",
+    "codex-tinctura",
+    "sanct-saturnus",
+    "sanct-luna"
   ],
-  "updatedAt": "2026-11-26",
+  "overview": "1930年秋至1931年初，密斯卡托尼克大学戴尔与莱克等二十名科考人员赴南极内陆钻探，在76°15′S、113°10′E黑山脉脚下掘出十四具太古五重对称生物遗骸，随后莱克营地十一人遇难、八具完整样本复苏失踪。戴尔与丹佛斯飞越两万英尺超高原，证实了古老者五芒星废弃石城与地下修格斯的存在。在大浸染纪元中，基金会第72极地哨站与蓝印盟约清道队联合封锁三号五芒星竖井，以五重声学驻波遏制冰下原生质上浮。",
+  "bodyPath": "data/dossiers/dossier-antarctica-1931.md",
+  "readingMinutes": 22,
+  "cluesGranted": [
+    {
+      "id": "clue-antarctica-eight-intact",
+      "title": "1931年莱克营地十四具太古样本清点核验记录（八完整失踪/六残损掩埋）",
+      "xp": 20
+    }
+  ],
+  "updatedAt": "2026-11-27",
   "provenanceLabel": "H. P. Lovecraft《疯狂山脉》(公有领域) + 本站原创哨站记录"
 }

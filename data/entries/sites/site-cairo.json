@@ -103,16 +103,32 @@
       "id": "clue-cairo-amoni-gear",
       "title": "吉萨西侧沙漠青铜差速残件谐振测年报告",
       "xp": 15
+    },
+    {
+      "id": "clue-cairo-fault-238m",
+      "title": "CAI-GIZA-1924西侧石灰岩断层238米朔夜上升气流记录",
+      "xp": 15
     }
   ],
   "relatedIds": [
     "site-alexandria",
+    "sanct-sol",
     "entity-mekhane",
     "entity-nyarlathotep-alagadda",
     "goi-broken-god",
+    "goi-ordo-caeruleus",
+    "goi-tactical-theology",
+    "goi-foedus-caeruleum",
     "dossier-codex-al-azif",
-    "era-bronze-mekhane-sarkic"
+    "dossier-tabula-caerulea",
+    "era-bronze-mekhane-sarkic",
+    "codex-tinctura",
+    "codex-hume-theory",
+    "site-prague"
   ],
+  "overview": "开罗西侧吉萨石灰岩台地边缘（30.0°N, 31.1°E，海拔86m）并置两套跨体系异常线索：其一为1924年洛夫克拉夫特《金字塔下》所述的地底深井与未知深渊实体，其二为源自SCP破碎之神体系、埋于西侧无人沙漠断层下的公元前十三世纪阿蒙尼-拉姆西翼铍青铜发条残阵。本站档案严格保护地表历史古迹，将一切观测井与光学拦截限定于西南3.2公里无人沙漠断层，依托北侧亚历山大圣座正午脉冲维系0.78–0.92 Hm南翼屏障。",
+  "bodyPath": "data/dossiers/site-cairo.md",
+  "readingMinutes": 22,
   "updatedAt": "2026-11-27",
   "realElevationMeters": 86,
   "z12RealLocation": "埃及开罗西南吉萨金字塔群西侧沙漠石灰岩台地边缘",
