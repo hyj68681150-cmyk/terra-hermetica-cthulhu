@@ -1157,7 +1157,8 @@ export async function createRealisticEarthController({ onOpenEntry }) {
   };
 
   function syncUrlHash() {
-    if (suppressHashWrite) return;
+    // 深链还在等神话图层解析时先不回写，免得把开场的世界视角写进地址栏
+    if (suppressHashWrite || pendingMythos) return;
     // 空 hash 和 #/ 现在是大厅，只在 #/map 下回写相机
     if (!window.location.hash.startsWith("#/map")) {
       return;
@@ -1516,8 +1517,13 @@ export async function createRealisticEarthController({ onOpenEntry }) {
             suppressHashWrite = false;
           }
         }
+        // 深链落定后的相机补写进地址栏，复制出去的链接才能复现同一视角
+        syncUrlHash();
       })
-      .catch((err) => console.warn("[map] mythos layer failed:", err));
+      .catch((err) => {
+        pendingMythos = null;
+        console.warn("[map] mythos layer failed:", err);
+      });
   });
 
   setInterval(() => {
