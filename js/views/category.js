@@ -1,7 +1,7 @@
 /**
  * js/views/category.js
- * 7-Category Archival Directory (#/category/<cat>)
- * Supports: entities | scp | sites | goi | timeline | codices | novels
+ * Archival Category Directory (#/category/<cat>)
+ * Supports: guides | entities | scp | sites | goi | timeline | codices | novels
  */
 
 import { escapeHtml } from "../sanitize.js";
@@ -22,16 +22,6 @@ const CLEARANCE_FILTERS = [
   { value: "2", label: "Lv.2" },
   { value: "3", label: "Lv.3+" },
 ];
-
-function getBadgeMeta(provenance, provenanceLabel) {
-  if (provenance === "original") {
-    return { cls: "badge-original", text: provenanceLabel || "本站设定" };
-  }
-  if (provenance === "cthulhu-canon") {
-    return { cls: "badge-canon", text: provenanceLabel || "克苏鲁原典" };
-  }
-  return { cls: "badge-canon", text: provenanceLabel || "SCP原典" };
-}
 
 const KNOWN_MAP_SITE_IDS = new Set([
   "site-rlyeh",
@@ -64,6 +54,16 @@ export function buildEntryMapHref(item) {
     return `#/map/${encodeURIComponent(item.mapSiteId)}`;
   }
   return "";
+}
+
+function getBadgeMeta(provenance, provenanceLabel) {
+  if (provenance === "original") {
+    return { cls: "badge-original", text: provenanceLabel || "本站设定" };
+  }
+  if (provenance === "cthulhu-canon") {
+    return { cls: "badge-canon", text: provenanceLabel || "克苏鲁原典" };
+  }
+  return { cls: "badge-canon", text: provenanceLabel || "SCP原典" };
 }
 
 function formatEntryCoord(geo) {
@@ -121,7 +121,6 @@ function matchesKeyword(item, kwLower) {
 export async function renderCategoryView(rootEl, catSlug, queryParams, ctx) {
   if (!rootEl) return;
 
-  // Support both (rootEl, catSlug, queryParams, ctx) and 3-arg (rootEl, catSlug, ctx)
   if (queryParams && typeof queryParams.getManifest === "function" && !ctx) {
     ctx = queryParams;
     queryParams = "";
@@ -165,7 +164,8 @@ export async function renderCategoryView(rootEl, catSlug, queryParams, ctx) {
   catCounts.novels = novels.length;
 
   const activeMeta =
-    ARCHIVE_CATEGORIES.find((c) => c.slug === activeCat) || ARCHIVE_CATEGORIES[1];
+    ARCHIVE_CATEGORIES.find((c) => c.slug === activeCat) ||
+    ARCHIVE_CATEGORIES.find((c) => c.slug === "scp");
 
   const tabsHtml = ARCHIVE_CATEGORIES.map((c) => {
     const isAct = c.slug === activeCat;
@@ -200,7 +200,7 @@ export async function renderCategoryView(rootEl, catSlug, queryParams, ctx) {
         <p class="wiki-cat-page-desc">${escapeHtml(activeMeta.desc)}</p>
       </header>
 
-      <nav class="wiki-cat-switcher no-scrollbar" aria-label="馆藏七大分类切换">
+      <nav class="wiki-cat-switcher no-scrollbar" aria-label="馆藏分类切换">
         ${tabsHtml}
       </nav>
 
@@ -369,12 +369,12 @@ export async function renderCategoryView(rootEl, catSlug, queryParams, ctx) {
           <h2 class="wiki-empty-title">${
             hasAnyInCat
               ? "当前筛选条件下未匹配到卷宗"
-              : `“${escapeHtml(activeMeta.title)}”分类暂无已归档卷宗`
+              : `“${escapeHtml(activeMeta.title)}”分类正在编纂归档中`
           }</h2>
           <p class="wiki-empty-desc">${
             hasAnyInCat
               ? "可重置文献出处、权限等级或清空关键词重新检索。"
-              : "您可先浏览其他分类或使用全站检索台查询关联记录。"
+              : "您可先浏览收容档案、典籍残卷或返回档案馆大厅查阅现有卷宗。"
           }</p>
           ${
             hasAnyInCat
@@ -438,7 +438,6 @@ export async function renderCategoryView(rootEl, catSlug, queryParams, ctx) {
       return;
     }
 
-    // Standard 2-column dossier grid for entities, scp, sites, goi, codices
     resultsHost.innerHTML = `
       <div class="wiki-dossier-grid">
         ${filtered
@@ -447,6 +446,9 @@ export async function renderCategoryView(rootEl, catSlug, queryParams, ctx) {
             const lv = Math.max(1, Number(item.clearance) || 1);
             const mapHref = buildEntryMapHref(item);
             const coordStr = formatEntryCoord(item.geo);
+            const readBadge = item.bodyPath
+              ? `<span class="wiki-lv-pill">长卷 · 约 ${Number(item.readingMinutes) || 15} 分钟</span>`
+              : "";
             const summaryHtml = ctx.autolink.renderProseWithLinks(item.summary || "", {
               autolinkIndex: [],
               excludeId: item.id,
@@ -461,6 +463,7 @@ export async function renderCategoryView(rootEl, catSlug, queryParams, ctx) {
                     <span class="wiki-dossier-code">${escapeHtml(item.code || item.category.toUpperCase())}</span>
                     <div class="wiki-dossier-badges">
                       <span class="${badge.cls}">${escapeHtml(badge.text)}</span>
+                      ${readBadge}
                       <span class="wiki-lv-pill">Lv.${lv}</span>
                     </div>
                   </div>
@@ -501,7 +504,7 @@ export async function renderCategoryView(rootEl, catSlug, queryParams, ctx) {
     });
   };
 
-  const onRootClick = (e) => {
+  const handleRootClick = (e) => {
     const provBtn = e.target.closest?.("[data-prov]");
     if (provBtn) {
       filterState.prov = provBtn.dataset.prov;
@@ -529,21 +532,21 @@ export async function renderCategoryView(rootEl, catSlug, queryParams, ctx) {
     }
   };
 
-  const onKwInput = (e) => {
+  const handleKwInput = (e) => {
     filterState.kw = e.target.value;
     renderResults();
   };
 
-  rootEl.addEventListener("click", onRootClick);
-  kwInput?.addEventListener("input", onKwInput);
+  rootEl.addEventListener("click", handleRootClick);
+  kwInput?.addEventListener("input", handleKwInput);
 
   const offClearance = ctx.clearance.onClearanceChange(() => {
     renderResults();
   });
 
   rootEl.__wikiCleanup = () => {
-    rootEl.removeEventListener("click", onRootClick);
-    kwInput?.removeEventListener("input", onKwInput);
+    rootEl.removeEventListener("click", handleRootClick);
+    kwInput?.removeEventListener("input", handleKwInput);
     offClearance?.();
   };
 }

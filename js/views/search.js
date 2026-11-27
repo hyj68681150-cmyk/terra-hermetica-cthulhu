@@ -1,8 +1,8 @@
 /**
  * js/views/search.js
  * Full-Site Archival Search (#/search?q=<kw>)
- * Strict /\bSCP-(\d+)\b/i word-boundary validation, natural-language reverse matching
- * with top coordinate answer card, cross-category + novel + playCase coverage,
+ * Covers all 7 entry categories (incl. `guides`), serialized novels, and play cases.
+ * Enforces /\bSCP-(\d+)\b/i word boundaries, natural-language coordinate resolution,
  * zero hallucinated fallback, and full escapeHtml XSS safety.
  */
 
@@ -21,7 +21,7 @@ const SUGGESTED_CHIPS = [
   "拉莱耶在哪",
   "亚历山大坐标",
   "守门人是谁",
-  "破碎之神",
+  "大浸染",
 ];
 
 function getBadgeMeta(provenance, provenanceLabel) {
@@ -131,7 +131,6 @@ function findClosestScpEntries(entries, targetNum, count = 3) {
   const candidates = [];
   const seenScpNums = new Set();
 
-  // Prefer category === "scp" first so primary containment files rank cleanly
   const orderedPool = [...entries].sort((a, b) => {
     const pa = a.category === "scp" ? 0 : 1;
     const pb = b.category === "scp" ? 0 : 1;
@@ -160,13 +159,11 @@ function executeArchiveSearch(rawQuery, { entries, novels, playCases }) {
   const intent = parseNaturalIntent(rawQuery);
   const byId = new Map(entries.map((e) => [e.id, e]));
 
-  // 1. Strict word-boundary check for SCP-\d+ queries
   const scpMatch = rawQuery.match(/\bSCP-(\d+)\b/i);
   if (scpMatch) {
     const numStr = scpMatch[1];
     const targetNum = parseInt(numStr, 10);
     const canonicalCode = `SCP-${numStr.toUpperCase()}`;
-    // Word boundary ensures SCP-173 NEVER matches SCP-1730
     const exactScpRe = new RegExp(`\\bSCP-${numStr}\\b`, "i");
 
     const exactEntries = entries.filter((e) => {
@@ -194,7 +191,7 @@ function executeArchiveSearch(rawQuery, { entries, novels, playCases }) {
       const aPrimary = exactScpRe.test(a.code || "") || exactScpRe.test(a.title || "") ? 0 : 1;
       const bPrimary = exactScpRe.test(b.code || "") || exactScpRe.test(b.title || "") ? 0 : 1;
       if (aPrimary !== bPrimary) return aPrimary - bPrimary;
-      const catOrder = { scp: 0, entities: 1, sites: 2 };
+      const catOrder = { scp: 0, entities: 1, sites: 2, guides: 3 };
       return (catOrder[a.category] ?? 9) - (catOrder[b.category] ?? 9);
     });
 
@@ -215,7 +212,6 @@ function executeArchiveSearch(rawQuery, { entries, novels, playCases }) {
     };
   }
 
-  // 2. General + Natural-Language Reverse Matching across all 6 entry categories, novels & playCases
   const scoredEntries = [];
   for (const e of entries) {
     let score = 0;
@@ -226,7 +222,6 @@ function executeArchiveSearch(rawQuery, { entries, novels, playCases }) {
     const eraL = String(e.eraLabel || "").toLowerCase();
     const entryKeys = extractEntryKeywords(e);
 
-    // Forward match (entry fields contain query or cleaned core subject)
     const termsToCheck = [intent.rawLower, intent.coreLower, ...intent.tokens].filter(
       (t) => t.length >= 1
     );
@@ -249,7 +244,6 @@ function executeArchiveSearch(rawQuery, { entries, novels, playCases }) {
       }
     }
 
-    // Natural-language reverse match (user question contains entry's canonical name/alias, e.g. "拉莱耶在哪")
     for (const k of entryKeys) {
       if (k.length < 2) continue;
       if (/^[ivxlcdm]+$/i.test(k)) continue;
@@ -277,7 +271,6 @@ function executeArchiveSearch(rawQuery, { entries, novels, playCases }) {
   );
   const entryHits = scoredEntries.map((s) => s.entry);
 
-  // Match novels (books & chapters)
   const novelHits = [];
   for (const book of novels) {
     const bookBlob = `${book.bookId || ""} ${book.title || ""} ${book.summary || ""}`.toLowerCase();
@@ -297,7 +290,6 @@ function executeArchiveSearch(rawQuery, { entries, novels, playCases }) {
     }
   }
 
-  // Match playCases
   const caseHits = playCases.filter((c) => {
     const blob = `${c.caseId || ""} ${c.title || ""} ${c.subtitle || ""} ${c.summary || ""}`.toLowerCase();
     return (
@@ -401,7 +393,7 @@ export async function renderSearchView(rootEl, queryStr, ctx) {
         <div class="lapidary-serif">INDEX INQVISITIONIS · 全馆跨卷宗检索</div>
         <h1 class="wiki-cat-page-title">档案馆检索终端</h1>
         <p class="wiki-cat-page-desc">
-          检索范围覆盖全部六类馆藏卷宗、连载小说与互动调查剧本；支持完整 SCP 编号精确校验及“拉莱耶在哪”等自然语言提问。
+          检索范围覆盖入馆必读导引、六类馆藏卷宗、连载小说与互动调查剧本；支持完整 SCP 编号精确校验及“拉莱耶在哪”等自然语言提问。
         </p>
       </header>
 
@@ -460,7 +452,6 @@ export async function renderSearchView(rootEl, queryStr, ctx) {
 
     const res = executeArchiveSearch(q, { entries, novels, playCases });
 
-    // Case 1: Exact SCP-XXXX queried, but NOT recorded in the archive!
     if (res.unrecordedScpCode) {
       resultsHost.innerHTML = `
         <div class="wiki-unrecorded-banner" role="status">
@@ -489,18 +480,17 @@ export async function renderSearchView(rootEl, queryStr, ctx) {
     const totalHits =
       res.entryHits.length + res.novelHits.length + res.caseHits.length;
 
-    // Case 2: Zero matches anywhere (100% honest, XSS-safe, zero hallucinated text)
     if (totalHits === 0) {
       resultsHost.innerHTML = `
         <div class="wiki-empty-box" role="status">
           <div class="lapidary-serif">NVLLVM RESPONSVM</div>
           <h2 class="wiki-empty-title">档案库未收录：“${escapeHtml(q)}”</h2>
           <p class="wiki-empty-desc">
-            在全部六类档案卷宗、连载小说与互动调查剧本中均未找到与“${escapeHtml(q)}”匹配的记录。请尝试缩短关键词或按分类目录浏览。
+            在入馆必读、六类档案卷宗、连载小说与互动调查剧本中均未找到与“${escapeHtml(q)}”匹配的记录。请尝试缩短关键词或按分类目录浏览。
           </p>
           <div class="wiki-dossier-actions" style="justify-content:center;">
-            <a class="bp-btn active" href="#/category/scp">浏览收容档案 →</a>
-            <a class="bp-btn" href="#/category/entities">浏览实体与神祇 →</a>
+            <a class="bp-btn active" href="#/category/guides">浏览入馆必读 →</a>
+            <a class="bp-btn" href="#/category/scp">浏览收容档案 →</a>
             <a class="bp-btn" href="#/category/sites">浏览地点与站点 →</a>
           </div>
         </div>
@@ -508,7 +498,6 @@ export async function renderSearchView(rootEl, queryStr, ctx) {
       return;
     }
 
-    // Optional Direct Answer Card (highlighted at top for location / coordinate / identity queries)
     let directCardHtml = "";
     if (res.topDirectAnswer) {
       const { entry: top, geoSource } = res.topDirectAnswer;
