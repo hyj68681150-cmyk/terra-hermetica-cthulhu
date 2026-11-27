@@ -4,10 +4,11 @@
   "category": "scp",
   "subCat": "scp",
   "badge": "badge-crimson",
-  "code": "SCP-1730 · KETER / NEUTRALIZED",
+  "code": "SCP-1730 · NEUTRALIZED",
   "title": "第十三号站点 · 跨宇宙奇术焚化巨塔群",
   "aliases": [
     "SCP-1730 · KETER / NEUTRALIZED",
+    "SCP-1730 · NEUTRALIZED",
     "第十三号站点 · 跨宇宙奇术焚化巨塔群",
     "site13",
     "SCP-1730"
@@ -18,13 +19,23 @@
   "hume": "0.24 Hm · 现实扭曲",
   "legacyCityId": "site13",
   "mapSiteId": "site-13",
-  "summary": "自平行宇宙（GOC 与基金会合并时间线）滑入本位面的超巨型阶梯式收容综合体，曾同时关押并焚化包括鹿神、水蛭男孩与 {{redact:1:[至高多臂神性实体 MALIDRAMAGIUAN]}} 在内的数百个灭世级异常。",
-  "proc": "由 MTF Tau-5 “轮回（Samsara）”半神义体小队沿高空连廊与外围隔离壕沟执行常态化清剿。",
-  "log": "【MTF Tau-5 行动记录】队长 Nanku：“地下第 28 层墙壁全是活体认知危害铭文，奥林匹斯级奇术焚化炉仍在喷射群青色死光，休谟读数正在崩溃！”",
+  "overview": "原典源自 djkaktus 所著《SCP-1730（第十三号站点发生了什么？）》（CC BY-SA 3.0）：一座原本建于平行宇宙阿拉斯加诺姆附近（本宇宙从未动工）、由基金会与 GOC 合并体掌管的超巨型收容焚毁综合体，因脱粒机（Thresher）故障滑入本宇宙得克萨斯州大本德农场州立公园。2017 年 5–6 月经 MTF Apollo-3、Zeta-9 与 Tau-5 联合撤离，Hollis 与 Onru 重启脱粒机令设施彻底消失，留下一公里巨坑并重定为已无效化。本站大浸染纪元中，该巨坑仍遗留 0.24 Hm 低休谟凹陷。",
+  "bodyPath": "data/dossiers/dossier-scp-1730.md",
+  "readingMinutes": 25,
+  "summary": "原建于平行宇宙（GOC 与基金会合并时间线）阿拉斯加诺姆附近、因 55 GW 脱粒机装置失控而滑入本位面美国得克萨斯州大本德农场州立公园（距美墨边境西北 15 公里）的超巨型收容综合体，曾以地下尸坑焚化炉与百米奥林匹斯级收容室关押并处决包括鹿首神祇、火焰持剑巨像、水蛭男孩以利亚与 {{redact:1:[七十二手多肢实体 86243AR-001 MALIDRAMAGIUAN]}} 在内的大量高危异常；2017 年 6 月 22 日随脱粒机重启彻底消失，仅余直径逾 1 公里巨坑，已重定为无效化（Neutralized）。",
+  "proc": "原典无效化前以临时第 23 号站点实施 2 公里封锁与 1 公里隔离，并先后派遣 MTF D-12、Y-24、Zeta-9、Apollo-3、Tau-5“轮回”与 Alpha-20 执行勘察与撤离；现由战术神学部对大本德遗留巨坑维持 IV 级失落带无人遥测（本站设定）。",
+  "log": "【联合撤离核心记要 · 2017-06】MTF Tau-5 队长 Irantu 率 Munru、Onru、Nanku 突入地底营救穆罕默德·斯科特博士等 27 名幸存者；终局 Zeta-9 队长 Hollis 与 T-5 Onru 留守重启脱粒机，令 SCP-1730 自大本德荒漠抹除；本站 2026 年遥测显示坑底仍存在 0.24 Hm 休谟凹陷与 400 米玻璃化砂砾带。",
+  "cluesGranted": [
+    {
+      "id": "clue-scp1730-thresher-origin",
+      "title": "SCP-1730：诺姆原址、脱粒机装置与大本德2017无效化真相",
+      "xp": 25
+    }
+  ],
   "infobox": [
     {
       "label": "档案编号",
-      "value": "SCP-1730 · KETER / NEUTRALIZED",
+      "value": "SCP-1730 · NEUTRALIZED",
       "original": false
     },
     {
@@ -38,14 +49,23 @@
       "original": true
     },
     {
-      "label": "驻防与收容",
-      "value": "MTF Tau-5 轮回小队",
+      "label": "原典特遣与现行监控",
+      "value": "MTF Tau-5 / Apollo-3 / Zeta-9 撤离；现大本德无人遥测",
       "original": true
     }
   ],
   "relatedIds": [
-    "site-13"
+    "site-13",
+    "dossier-scp-001-guardian",
+    "entity-azathoth-scarlet",
+    "goi-tactical-theology",
+    "goi-foedus-caeruleum",
+    "codex-tinctura",
+    "codex-hume-theory",
+    "site-2000",
+    "dossier-scp-2000",
+    "sanct-mars"
   ],
-  "updatedAt": "2026-11-26",
+  "updatedAt": "2026-11-27",
   "provenanceLabel": "djkaktus (SCP-1730, CC BY-SA 3.0)"
 }
