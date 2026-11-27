@@ -1,0 +1,61 @@
+{
+  "id": "guide-05-hume-physics",
+  "order": 5,
+  "category": "guides",
+  "code": "GVIDA-V",
+  "title": "休谟场、阿基瓦与圣城工程 · 蓝色神学自然哲学导论",
+  "aliases": [
+    "休谟物理",
+    "阿基瓦辐射",
+    "斯克兰顿现实稳定锚",
+    "五级危险原理",
+    "七曜结界原理",
+    "GVIDA-V"
+  ],
+  "clearance": 1,
+  "provenance": "original",
+  "provenanceLabel": "本站原创设定",
+  "summary": "用平实准确的工程语言解释本馆三大核心读数——休谟指数（Hm）、阿基瓦辐射（Akiva）与声学相位角，说明斯克兰顿稳定锚如何结合《翠玉录》几何频率托起七座圣城，以及为何全球只能维持七座。",
+  "overview": "馆藏卷宗中频繁出现的“0.78 Hm”“康德计数器”“阿基瓦闪烁计”“斯克兰顿现实稳定锚”与“七曜炼金金属”并非故弄玄虚的装饰辞藻，而是全馆所有收容成败、结界运维与现场调查检定共同遵循的底层物理账本。本卷将 SCP 维基原典的休谟场论、阿基瓦辐射耦合边界，与本站原创的《翠玉录》八角几何驻波及“七曜满载定理”逐条拆解，帮助读者看懂每一份现场遥测单背后的工程逻辑。",
+  "bodyPath": "data/guides/guide-05-hume-physics.md",
+  "readingMinutes": 14,
+  "infobox": [
+    {
+      "label": "导览编号",
+      "value": "GVIDA-V · 自然哲学与工程",
+      "original": true
+    },
+    {
+      "label": "三大核心量纲",
+      "value": "休谟指数（Hm）/ 阿基瓦辐射 / 驻波相位角",
+      "original": true
+    },
+    {
+      "label": "原典理论来源",
+      "value": "SCP 维基休谟 FAQ（Jekeled）与 SCP-3001（OZ Ouroboros）",
+      "original": false
+    },
+    {
+      "label": "圣城硬性上限",
+      "value": "迦勒底七曜各司一城，上限七座（≥ 1.20 Hm）",
+      "original": true
+    }
+  ],
+  "cluesGranted": [
+    {
+      "id": "clue-guide-05-physics",
+      "title": "自然哲学导论：休谟梯度、阿基瓦耦合与七曜满载定理",
+      "xp": 15
+    }
+  ],
+  "relatedIds": [
+    "codex-hume-theory",
+    "codex-tinctura",
+    "dossier-tabula-caerulea",
+    "dossier-scp-2000",
+    "sanct-sol",
+    "sanct-luna",
+    "site-leng"
+  ],
+  "updatedAt": "2026-11-27"
+}
