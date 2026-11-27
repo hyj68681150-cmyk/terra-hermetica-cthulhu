@@ -26,7 +26,8 @@
         "z12RealDesc": "南太平洋东太平洋海隆西侧深海海面（无岛屿陆地）",
         "defaultZoom": 5,
         "summary": "南太平洋深海异常坐标点。Terrarium 地形实测此处海床水深 4,048 米；原典记载沉眠着非欧几何巨石城拉莱耶。",
-        "labelWithDepth": "拉莱耶\n水深 4048m"
+        "labelWithDepth": "拉莱耶\n水深 4048m",
+        "roman": "I"
       }
     },
     {
@@ -54,7 +55,8 @@
         "z12RealDesc": "埃及亚历山大东港外侧法罗斯岛古灯塔遗址海岬尖端礁石区",
         "defaultZoom": 12,
         "summary": "位于埃及亚历山大东港入口法罗斯岛古灯塔遗址海岬。在本站原创蓝色神学设定中为翠玉录文献总库与基准锚点。",
-        "labelWithDepth": "亚历山大·法罗斯圣座"
+        "labelWithDepth": "亚历山大·法罗斯圣座",
+        "roman": "II"
       }
     },
     {
@@ -82,7 +84,8 @@
         "z12RealDesc": "美国怀俄明州黄石国家公园破火山口中央荒野台地（黄石湖以北无人火山穹丘）",
         "defaultZoom": 10,
         "summary": "位于黄石破火山口无人荒野地下的 Thaumiel 级文明重启设施，配备斯克兰顿现实稳定锚与大规模人类克隆阵列。",
-        "labelWithDepth": "SCP-2000 机械降神"
+        "labelWithDepth": "SCP-2000 机械降神",
+        "roman": "III"
       }
     },
     {
@@ -110,7 +113,8 @@
         "z12RealDesc": "伊拉克古尔奈（Al-Qurnah）底格里斯河与幼发拉底河交汇处河道沙洲水面",
         "defaultZoom": 12,
         "summary": "伫立于两河交汇河谷的四翼持剑高大发光实体，外围由远古观测站 Site-0 沿河岸保持远距监测。",
-        "labelWithDepth": "SCP-001 伊甸守门人"
+        "labelWithDepth": "SCP-001 伊甸守门人",
+        "roman": "IV"
       }
     },
     {
@@ -138,7 +142,8 @@
         "z12RealDesc": "捷克布拉格伏尔塔瓦河西岸城堡山北侧鹿护城河林谷绿地",
         "defaultZoom": 13,
         "summary": "连接多维狂欢城邦“阿拉卡达”的炼金秘门映射点，关联吊王与黑衣无面大使记录。",
-        "labelWithDepth": "布拉格炼金秘门·阿拉卡达"
+        "labelWithDepth": "布拉格炼金秘门·阿拉卡达",
+        "roman": "V"
       }
     },
     {
@@ -146,8 +151,8 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          -150.85,
-          62.94
+          -103.965,
+          29.475
         ]
       },
       "properties": {
@@ -159,14 +164,15 @@
         "layer": "scp",
         "clearance": 1,
         "provenance": "scp-canon",
-        "coordSource": "SCP-1730 原典（djkaktus）：阿拉斯加荒野冰原区域级坐标",
+        "coordSource": "SCP-1730 原典（djkaktus）：现址美国得克萨斯州大本德农场州立公园；原计划选址：阿拉斯加诺姆（Nome）附近",
         "precision": "region",
-        "realElevationM": 1774,
-        "elevDisplay": "实测海拔 1,774 m",
-        "z12RealDesc": "美国阿拉斯加州德纳里山脉南麓卡希尔特纳冰川无人雪原",
+        "realElevationM": 1271,
+        "elevDisplay": "实测海拔 1,271 m",
+        "z12RealDesc": "美国得克萨斯州大本德农场州立公园（Big Bend Ranch State Park）腹地奇瓦瓦荒漠红岩峡谷台地（距美墨边境约 15 km）",
         "defaultZoom": 10,
-        "summary": "自平行宇宙滑入阿拉斯加无人冰川谷的超巨型收容与奇术焚化设施遗址，曾由 MTF Tau-5 轮回小队突入勘察。",
-        "labelWithDepth": "SCP-1730 第十三号站点"
+        "summary": "原计划建于平行宇宙阿拉斯加诺姆附近、后跨维滑入美国得州大本德农场州立公园荒漠（距美墨边境约 15 km）的超巨型奇术焚化与收容遗址。",
+        "labelWithDepth": "SCP-1730 第十三号站点",
+        "roman": "VI"
       }
     },
     {
@@ -187,14 +193,15 @@
         "layer": "goi",
         "clearance": 1,
         "provenance": "cthulhu-canon",
-        "coordSource": "洛夫克拉夫特《奈亚拉托提普》开罗吉萨高台 + 破碎之神教会沙漠遗迹区域延伸",
+        "coordSource": "洛夫克拉夫特《金字塔下》（Under the Pyramids, 1924）吉萨金字塔群高台 + 破碎之神教会沙漠遗迹区域延伸",
         "precision": "city",
         "realElevationM": 86,
         "elevDisplay": "实测海拔 86 m",
         "z12RealDesc": "埃及开罗西南吉萨金字塔群西侧沙漠石灰岩台地边缘",
         "defaultZoom": 13,
-        "summary": "尼罗河西岸吉萨沙漠石灰岩高台，并置奈亚拉托提普古埃及传说与破碎之神教会发条遗迹考据。",
-        "labelWithDepth": "吉萨高台与机械神殿秘道"
+        "summary": "尼罗河西岸吉萨沙漠石灰岩高台，并置洛夫克拉夫特《金字塔下》（1924）古埃及地下秘仪传说与破碎之神教会发条遗迹考据。",
+        "labelWithDepth": "吉萨高台与机械神殿秘道",
+        "roman": "VII"
       }
     },
     {
@@ -222,7 +229,8 @@
         "z12RealDesc": "东南极洲内陆冰盖高原无人区（近沃斯托克冰下高地）",
         "defaultZoom": 5,
         "summary": "1930–1931 年密斯卡托尼克大学南极考察队莱克营地原典坐标，冰盖深处封存古老者五芒星石城遗址。",
-        "labelWithDepth": "疯狂山脉·莱克营地\n水深 185m"
+        "labelWithDepth": "疯狂山脉·莱克营地\n水深 185m",
+        "roman": "VIII"
       }
     },
     {
@@ -250,7 +258,8 @@
         "z12RealDesc": "中国山东省烟台市蓬莱区丹崖山-田横山外侧黄渤海分界海域礁盘",
         "defaultZoom": 12,
         "summary": "位于山东蓬莱黄渤海分界岬角外海礁盘的奇术监测站，融合中华异学会古籍馆藏与基金会东海海眼监测网。",
-        "labelWithDepth": "Site-CN-01 蓬莱镇海塔"
+        "labelWithDepth": "Site-CN-01 蓬莱镇海塔",
+        "roman": "IX"
       }
     },
     {
@@ -278,7 +287,8 @@
         "z12RealDesc": "俄罗斯西伯利亚贝加尔湖奥尔洪岛东岸湖湾无人山地",
         "defaultZoom": 9,
         "summary": "南西伯利亚贝加尔湖裂谷外围的 SCP-610 血肉畸变隔离封锁区，由防疫特遣队与破碎之神教会协防（协防部分为本站设定）。",
-        "labelWithDepth": "贝加尔湖 SCP-610 封锁区"
+        "labelWithDepth": "贝加尔湖 SCP-610 封锁区",
+        "roman": "X"
       }
     },
     {
@@ -306,7 +316,8 @@
         "z12RealDesc": "美国马萨诸塞州北岸塞勒姆湾与贝弗利港交汇海岬水域",
         "defaultZoom": 11,
         "summary": "马萨诸塞州北岸虚构学城阿卡姆的海岸河口映射点，馆藏《死灵之书》拉丁文刻本并监控近海异常。",
-        "labelWithDepth": "阿卡姆·密斯卡托尼克河湾"
+        "labelWithDepth": "阿卡姆·密斯卡托尼克河湾",
+        "roman": "XI"
       }
     },
     {
@@ -334,7 +345,8 @@
         "z12RealDesc": "美国马萨诸塞州伊普斯维奇湾（Ipswich Bay）与梅花岛南水道入海口外海暗礁",
         "defaultZoom": 11,
         "summary": "1928 年美国财政部与早期异常机构联合清剿的衰败海港印斯茅斯及外海深潜者栖息地“魔鬼礁”海域。",
-        "labelWithDepth": "印斯茅斯与魔鬼礁"
+        "labelWithDepth": "印斯茅斯与魔鬼礁",
+        "roman": "XII"
       }
     },
     {
@@ -362,7 +374,8 @@
         "z12RealDesc": "帕米尔高原喀拉库勒高寒封闭咸水湖心岛北端无人盐碱荒滩",
         "defaultZoom": 9,
         "summary": "帕米尔高原海拔 3,915 米的封闭咸水盆地无人荒滩，在本站设定中映射冷原星门与 SCP-2317 异界七柱盐漠。",
-        "labelWithDepth": "帕米尔高原盐漠·SCP-2317 映射门"
+        "labelWithDepth": "帕米尔高原盐漠·SCP-2317 映射门",
+        "roman": "XIII"
       }
     },
     {
@@ -390,7 +403,8 @@
         "z12RealDesc": "印度洋孟加拉湾中部深海扇海面（无陆地，划设直径 300km 禁航区）",
         "defaultZoom": 5,
         "summary": "孟加拉湾深海扇水深 3,236 米禁航海域，盘踞体长数百公里的认知危害实体阿难陀舍沙（SCP-3000），由潜艇站点 Atzak 监控。",
-        "labelWithDepth": "孟加拉湾海沟·SCP-3000\n水深 3236m"
+        "labelWithDepth": "孟加拉湾海沟·SCP-3000\n水深 3236m",
+        "roman": "XIV"
       }
     }
   ]

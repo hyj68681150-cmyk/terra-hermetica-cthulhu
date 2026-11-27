@@ -1,17 +1,60 @@
 /**
  * js/app.js
- * Entry point: loads data/manifest.json and structured entry JSONs,
- * mounts archival views, lazy-mounts MapLibre Realistic Earth on #/map,
- * and handles #/entry/<id> and #/gallery ("神学星象仪").
+ * Entry point: fast-paths #/map cold start (deferring 44 archive JSON fetches
+ * and legacy copperplate engine until after map `idle`), handles #/entry/<id>,
+ * and enforces zero inline `onclick` attributes.
  */
-import { PANTHEON_SIGILS, CITY_SIGILS } from "./sigils.js";
 import { escapeHtml, renderSafeMarkup } from "./sanitize.js";
-import { mountArchiveEngine } from "./legacy-engine.js";
-import { initRouter, parseHashRoute } from "./router.js";
+import { initRouter, parseHashRoute, pushChapterHash } from "./router.js";
 
 let allDetailedEntries = [];
 let earthController = null;
 let earthInitPromise = null;
+let archiveMountPromise = null;
+let archiveMounted = false;
+
+// Delegated click & keyboard handler for .scp-redact and [data-history-back] (zero inline onclick)
+document.addEventListener("click", (e) => {
+  const redact = e.target.closest(".scp-redact");
+  if (redact) {
+    redact.classList.toggle("revealed");
+    return;
+  }
+  const backBtn = e.target.closest("[data-history-back]");
+  if (backBtn) {
+    e.preventDefault();
+    history.back();
+    return;
+  }
+  // Early fallback nav handler before legacy-engine finishes mounting
+  if (!archiveMounted) {
+    const navBtn = e.target.closest(".liber-nav-btn[data-liber]");
+    if (navBtn) {
+      pushChapterHash(navBtn.dataset.liber);
+    }
+  }
+});
+
+document.addEventListener("keydown", (e) => {
+  if (e.key === "Enter" || e.key === " ") {
+    const redact = e.target.closest(".scp-redact");
+    if (redact) {
+      e.preventDefault();
+      redact.classList.toggle("revealed");
+    }
+  }
+});
+
+function basicSwitchStage(view) {
+  const name = view === "terra" ? "gallery" : view;
+  document.querySelectorAll(".liber-nav-btn[data-liber]").forEach((b) =>
+    b.classList.toggle("active", b.dataset.liber === name)
+  );
+  ["prologus", "map", "pantheon", "scp", "architectura", "oraculum", "colophon", "entry"].forEach((st) => {
+    const el = document.getElementById(`stage-${st}`);
+    if (el) el.classList.toggle("open", name === st);
+  });
+}
 
 async function ensureEarthController() {
   if (earthController) return earthController;
@@ -19,13 +62,21 @@ async function ensureEarthController() {
     earthInitPromise = import("./realistic-map.js").then((mod) =>
       mod.createRealisticEarthController({
         onOpenEntry(entryId) {
-          window.location.hash = `#/entry/${entryId}`;
+          window.location.hash = `#/entry/${encodeURIComponent(entryId)}`;
         },
       })
     );
   }
   earthController = await earthInitPromise;
   return earthController;
+}
+
+function formatEntryCoord(geo) {
+  if (!geo) return "";
+  const digits = geo.precision === "exact" ? 4 : 1;
+  const ns = geo.lat >= 0 ? "N" : "S";
+  const ew = geo.lon >= 0 ? "E" : "W";
+  return `${Math.abs(geo.lat).toFixed(digits)}°${ns}, ${Math.abs(geo.lon).toFixed(digits)}°${ew}`;
 }
 
 function renderEntryDetailView(entryId) {
@@ -37,26 +88,29 @@ function renderEntryDetailView(entryId) {
       <div class="archive-card">
         <h2 class="condensed-monument" style="font-size:26px;">档案库未收录：${escapeHtml(entryId)}</h2>
         <p class="prose-read">未找到对应词条编号，请返回写实地球或收容档案库重新选择。</p>
-        <div><button class="bp-btn active" onclick="window.location.hash='#/map'">返回写实地球 →</button></div>
+        <div><a class="bp-btn active" style="text-decoration:none;" href="#/map">返回写实地球 →</a></div>
       </div>`;
     return;
   }
 
-  const infoboxHtml = Array.isArray(item.infobox) && item.infobox.length
-    ? `<div class="infobox-list">` +
-      item.infobox
-        .map(
-          (r) =>
-            `<div class="infobox-item"><span class="infobox-label">${escapeHtml(r.label)}：</span><span class="infobox-val">${escapeHtml(r.value)}</span>${r.original ? '<span class="orig-field-tag">本站设定</span>' : ""}</div>`
-        )
-        .join("") +
-      `</div>`
-    : "";
+  const infoboxHtml =
+    Array.isArray(item.infobox) && item.infobox.length
+      ? `<div class="infobox-list">` +
+        item.infobox
+          .map(
+            (r) =>
+              `<div class="infobox-item"><span class="infobox-label">${escapeHtml(r.label)}：</span><span class="infobox-val">${escapeHtml(r.value)}</span>${r.original ? '<span class="orig-field-tag">本站设定</span>' : ""}</div>`
+          )
+          .join("") +
+        `</div>`
+      : "";
 
+  const safeItemHref = `#/map/${encodeURIComponent(item.id)}`;
+  const safeMapSiteHref = item.mapSiteId ? `#/map/${encodeURIComponent(item.mapSiteId)}` : "";
   const mapBtn = item.geo
-    ? `<button class="bp-btn active" onclick="window.location.hash='#/map/${escapeHtml(item.id)}'">在写实地球定位 (${item.geo.lat.toFixed(2)}°, ${item.geo.lon.toFixed(2)}°) →</button>`
+    ? `<a class="bp-btn active" style="text-decoration:none;" href="${escapeHtml(safeItemHref)}">在写实地球定位 (${escapeHtml(formatEntryCoord(item.geo))}) →</a>`
     : item.mapSiteId
-      ? `<button class="bp-btn active" onclick="window.location.hash='#/map/${escapeHtml(item.mapSiteId)}'">在写实地球查看关联站点 →</button>`
+      ? `<a class="bp-btn active" style="text-decoration:none;" href="${escapeHtml(safeMapSiteHref)}">在写实地球查看关联站点 →</a>`
       : "";
 
   root.innerHTML = `
@@ -72,16 +126,21 @@ function renderEntryDetailView(entryId) {
       ${item.log ? `<div style="border-left:3px solid var(--klein); padding-left:12px; margin-top:6px;"><p class="prose-read">${renderSafeMarkup(item.log)}</p></div>` : ""}
       <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:12px;">
         ${mapBtn}
-        <button class="bp-btn" onclick="window.location.hash='#/scp'">浏览全部收容卷宗</button>
-        <button class="bp-btn" onclick="history.back()">← 返回上一页</button>
+        <a class="bp-btn" style="text-decoration:none;" href="#/scp">浏览全部收容卷宗</a>
+        <button class="bp-btn" type="button" data-history-back="1">← 返回上一页</button>
       </div>
       <div class="fiction-notice">版权与免责声明：SCP 相关内容遵循 CC BY-SA 3.0 协议；本站为虚构创作作品，地点与真实机构无关。</div>
     </article>
   `;
 }
 
-async function loadArchiveData() {
-  const manifest = await (await fetch("./data/manifest.json")).json();
+async function loadAndMountArchive() {
+  const [{ PANTHEON_SIGILS, CITY_SIGILS }, { mountArchiveEngine }, manifest] = await Promise.all([
+    import("./sigils.js"),
+    import("./legacy-engine.js"),
+    fetch("./data/manifest.json").then((r) => r.json()),
+  ]);
+
   const detailed = await Promise.all(
     manifest.entries.map((item) => fetch("./" + item.path).then((r) => r.json()))
   );
@@ -126,7 +185,7 @@ async function loadArchiveData() {
 
   const cityOrder = [
     "rlyeh", "alexandria", "site2000", "gate001", "prague", "site13",
-    "cairo", "antarctica", "penglai", "baikal", "arkham", "leng"
+    "cairo", "antarctica", "penglai", "baikal", "arkham", "leng",
   ];
   const seenLegacy = new Set();
   const cities = detailed
@@ -182,31 +241,42 @@ async function loadArchiveData() {
       summary: d.summary,
     }));
 
-  return { PANTHEON: entities, SCP_FILES: scpFiles, CITIES: cities, FACTIONS: factions, AIC_KB: aicKb };
+  mountArchiveEngine({ PANTHEON: entities, SCP_FILES: scpFiles, CITIES: cities, FACTIONS: factions, AIC_KB: aicKb });
+  archiveMounted = true;
+  window.__archiveReady = true;
 }
 
-const initialRoute = parseHashRoute();
-if (initialRoute.view === "map") {
-  const ctrl = await ensureEarthController();
-  if (!window.__earthMapLoaded) {
-    await new Promise((res) => {
-      ctrl.map.once("load", res);
-      setTimeout(res, 2500);
-    });
+function ensureArchiveMounted() {
+  if (!archiveMountPromise) {
+    archiveMountPromise = loadAndMountArchive();
   }
+  return archiveMountPromise;
 }
-
-const data = await loadArchiveData();
-mountArchiveEngine(data);
 
 initRouter(async ({ view, rest }) => {
-  window.switchLiber(view, true);
   if (view === "map") {
+    if (archiveMounted) {
+      window.switchLiber("map", true);
+    } else {
+      basicSwitchStage("map");
+    }
     const ctrl = await ensureEarthController();
     ctrl.applySubRoute(rest);
-  } else if (view === "entry") {
-    renderEntryDetailView(rest.split("?")[0]);
+    if (!archiveMountPromise) {
+      let triggered = false;
+      const startArchive = () => {
+        if (triggered) return;
+        triggered = true;
+        ensureArchiveMounted();
+      };
+      ctrl.map.once("idle", startArchive);
+      setTimeout(startArchive, 4500);
+    }
+  } else {
+    await ensureArchiveMounted();
+    window.switchLiber(view, true);
+    if (view === "entry") {
+      renderEntryDetailView(rest.split("?")[0]);
+    }
   }
 });
-
-window.__archiveReady = true;

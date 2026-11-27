@@ -23,12 +23,12 @@ export function renderSafeMarkup(rawText, currentClearance = 1) {
       const reqLv = parseInt(lvlStr, 10) || 1;
       const locked = currentClearance < reqLv;
       const lockTitle = locked ? `需 Lv.${reqLv} 权限显影（点击临时解密）` : "点击显影机密记录";
-      return `<span class="scp-redact" data-req-lv="${reqLv}" title="${lockTitle}" onclick="this.classList.toggle('revealed')">${inner}</span>`;
+      return `<span class="scp-redact" role="button" tabindex="0" data-req-lv="${reqLv}" title="${lockTitle}">${inner}</span>`;
     }
   );
-  // 2. Whitelist [[entryId|label]] or [[entryId]]
+  // 2. Whitelist [[entryId|label]] or [[entryId]] (strictly matching ^[a-z0-9][a-z0-9-]*$)
   return withRedactions.replace(
-    /\[\[([a-z0-9-]+)(?:\|([^\]]+))?\]\]/gi,
+    /\[\[([a-z0-9][a-z0-9-]*)(?:\|([^\]]+))?\]\]/g,
     (_, id, label) => {
       const safeId = escapeHtml(id);
       const safeLabel = label || safeId;

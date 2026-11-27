@@ -585,15 +585,15 @@
       ],
       "clearance": 1,
       "provenance": "scp-canon",
-      "summary": "镶嵌在阿拉斯加雪山冰河裂谷中的超巨型粗野主义收容要塞，拥有下沉式隔离深坑、六座奇术焚化高塔与纵横交错的高空武装连廊，轮回特遣队正沿连廊突入核心。",
+      "summary": "原计划建于平行宇宙阿拉斯加诺姆附近、后跨维滑入本位面美国得克萨斯州大本德农场州立公园荒漠峡谷的超巨型粗野主义收容要塞，拥有下沉式隔离深坑、六座奇术焚化高塔与纵横交错的高空武装连廊，轮回特遣队正沿连廊突入核心。",
       "geo": {
-        "lat": 62.94,
-        "lon": -150.85,
+        "lat": 29.475,
+        "lon": -103.965,
         "precision": "region"
       },
       "mapSiteId": null,
       "path": "data/entries/sites/site-13.json",
-      "updatedAt": "2026-11-26"
+      "updatedAt": "2026-11-27"
     },
     {
       "id": "site-2000",
@@ -759,7 +759,7 @@
       },
       "mapSiteId": null,
       "path": "data/entries/sites/site-cairo.json",
-      "updatedAt": "2026-11-26"
+      "updatedAt": "2026-11-27"
     },
     {
       "id": "site-innsmouth",

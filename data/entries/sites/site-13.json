@@ -17,14 +17,14 @@
   "provenanceLabel": "SCP-1730 原典",
   "badge": "badge-crimson",
   "geo": {
-    "lat": 62.94,
-    "lon": -150.85,
+    "lat": 29.475,
+    "lon": -103.965,
     "precision": "region"
   },
-  "coordsText": "62.94°N · 150.85°W · 实测海拔 1,774 m",
+  "coordsText": "29.5°N · 104.0°W · 实测海拔 1,271 m",
   "motto": "“站点到底发生了什么？——神明曾在地下三十层被投入奇术焚化炉。”",
-  "summary": "镶嵌在阿拉斯加雪山冰河裂谷中的超巨型粗野主义收容要塞，拥有下沉式隔离深坑、六座奇术焚化高塔与纵横交错的高空武装连廊，轮回特遣队正沿连廊突入核心。",
-  "terrain": "雪山冰川深谷 · 下沉式巨型基坑 · 冰融急流",
+  "summary": "原计划建于平行宇宙阿拉斯加诺姆附近、后跨维滑入本位面美国得克萨斯州大本德农场州立公园荒漠峡谷的超巨型粗野主义收容要塞，拥有下沉式隔离深坑、六座奇术焚化高塔与纵横交错的高空武装连廊，轮回特遣队正沿连廊突入核心。",
+  "terrain": "得州大本德奇瓦瓦荒漠峡谷 · 下沉式巨型基坑 · 干涸河床",
   "arch": "重型阶梯收容主堡 · 六座奇术焚化高炉 · 武装高空连廊",
   "crowd": "MTF Tau-5 轮回小队行军队列 · 撤离人员流",
   "god": "鹿神 / 水蛭巨兽 / 至高神性残响",
@@ -32,7 +32,7 @@
   "type": "abyss",
   "hasRiver": true,
   "hasWaterfall": false,
-  "mountainRing": "alaska_peaks",
+  "mountainRing": "desert_escarpment",
   "elevationProfile": {
     "prof": [
       90,
@@ -51,12 +51,12 @@
   "infobox": [
     {
       "label": "文献出处",
-      "value": "SCP-1730 原典（djkaktus）：阿拉斯加荒野冰原区域级坐标",
+      "value": "SCP-1730 原典（djkaktus）：现址美国得克萨斯州大本德农场州立公园；原计划选址：阿拉斯加诺姆（Nome）附近",
       "original": false
     },
     {
       "label": "实测高程/水深",
-      "value": "实测海拔 1,774 m",
+      "value": "实测海拔 1,271 m",
       "original": false
     },
     {
@@ -66,13 +66,13 @@
     },
     {
       "label": "z12 实地地貌",
-      "value": "美国阿拉斯加州德纳里山脉南麓卡希尔特纳冰川无人雪原",
+      "value": "美国得克萨斯州大本德农场州立公园（Big Bend Ranch State Park）腹地奇瓦瓦荒漠红岩峡谷台地（距美墨边境约 15 km）",
       "original": false
     }
   ],
   "relatedIds": [],
-  "updatedAt": "2026-11-26",
-  "realElevationMeters": 1774,
-  "z12RealLocation": "美国阿拉斯加州德纳里山脉南麓卡希尔特纳冰川无人雪原",
-  "coordSource": "SCP-1730 原典（djkaktus）：阿拉斯加荒野冰原区域级坐标"
+  "updatedAt": "2026-11-27",
+  "realElevationMeters": 1271,
+  "z12RealLocation": "美国得克萨斯州大本德农场州立公园（Big Bend Ranch State Park）腹地奇瓦瓦荒漠红岩峡谷台地（距美墨边境约 15 km）",
+  "coordSource": "SCP-1730 原典（djkaktus）：现址美国得克萨斯州大本德农场州立公园；原计划选址：阿拉斯加诺姆（Nome）附近"
 }

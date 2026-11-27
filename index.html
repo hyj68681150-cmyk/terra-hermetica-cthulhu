@@ -14,6 +14,20 @@
       } catch (_) {}
     })();
   </script>
+  <link rel="preconnect" href="https://a.tiles.maps.eox.at" crossorigin />
+  <link rel="preconnect" href="https://b.tiles.maps.eox.at" crossorigin />
+  <link rel="preconnect" href="https://c.tiles.maps.eox.at" crossorigin />
+  <link rel="preconnect" href="https://d.tiles.maps.eox.at" crossorigin />
+  <link rel="preconnect" href="https://tiles.openfreemap.org" crossorigin />
+  <link rel="preconnect" href="https://tiles.mapterhorn.com" crossorigin />
+  <link rel="modulepreload" href="./js/app.js" />
+  <link rel="modulepreload" href="./js/router.js" />
+  <link rel="modulepreload" href="./js/realistic-map.js" />
+  <link rel="modulepreload" href="./js/sanitize.js" />
+  <link rel="modulepreload" href="./vendor/maplibre-gl@6.18.0/maplibre-gl.mjs" />
+  <link rel="modulepreload" href="./vendor/maplibre-gl@6.18.0/maplibre-gl-shared.mjs" />
+  <link rel="modulepreload" href="./vendor/maplibre-gl@6.18.0/maplibre-gl-worker.mjs?v=6.18.0" />
+  <link rel="preload" href="./data/map/places.geojson" as="fetch" crossorigin />
   <link rel="stylesheet" href="./vendor/maplibre-gl@6.18.0/maplibre-gl.css" />
   <link rel="stylesheet" href="./css/tokens.css" />
   <link rel="stylesheet" href="./css/wiki.css" />
@@ -24,9 +38,9 @@
   <div id="marginalia-inner"></div>
 
   <!-- Top-Left Brand Pill -->
-  <div id="top-left-brand" class="margin-pill" style="top: 22px; left: 26px;" onclick="switchLiber('prologus')">
+  <a id="top-left-brand" class="margin-pill" style="top: 22px; left: 26px; text-decoration: none;" href="#/prologus">
     蓝色神学档案馆
-  </div>
+  </a>
 
   <!-- Top-Center Single-Row Archival Navigation Bar -->
   <nav id="top-nav" class="no-scrollbar blueprint-panel" style="position:fixed; top:16px; left:50%; transform:translateX(-50%); z-index:55; display:flex; flex-wrap:nowrap; white-space:nowrap; overflow-x:auto; max-width:calc(100vw - 36px); align-items:center; gap:4px; padding:4px 8px;">
@@ -65,15 +79,15 @@
         本馆汇整<b>克苏鲁神话原典</b>、<b>SCP 基金会维基文献（CC BY-SA 3.0）</b>与<b>本站原创赫尔墨斯蓝色神学设定</b>。您可在护眼纸本或夜间模式下查阅收容卷宗、探索实录、神祇铜版图鉴与三维圣城地图。
       </p>
       <div style="margin-top:18px; display:flex; justify-content:center; gap:12px; flex-wrap:wrap;">
-        <button class="bp-btn active" style="padding:10px 22px; font-size:15px;" onclick="switchLiber('scp')">
+        <a class="bp-btn active" style="padding:10px 22px; font-size:15px; text-decoration:none;" href="#/scp">
           查阅机密收容档案 (12卷) →
-        </button>
-        <button class="bp-btn" style="padding:10px 20px; font-size:15px;" onclick="switchLiber('map')">
+        </a>
+        <a class="bp-btn" style="padding:10px 20px; font-size:15px; text-decoration:none;" href="#/map">
           打开三维圣城地图
-        </button>
-        <button class="bp-btn" style="padding:10px 20px; font-size:15px;" onclick="switchLiber('oraculum')">
+        </a>
+        <a class="bp-btn" style="padding:10px 20px; font-size:15px; text-decoration:none;" href="#/oraculum">
           打开神学检索台
-        </button>
+        </a>
       </div>
     </div>
   </section>
@@ -343,7 +357,7 @@
         机密收容与神学档案库
       </h1>
       <p class="prose-read" style="margin:0 auto;">
-        馆藏共 <b>12 份</b>完整卷宗，均已明确标注<b>文献出处（原典或本站原创）</b>。点击正文中的墨色遮蔽条 <span class="scp-redact" onclick="this.classList.toggle('revealed')">[机密文本已显影]</span> 可解密隐藏记录，点击下方折叠栏可阅读现场探索与手记实录。
+        馆藏共 <b>12 份</b>完整卷宗，均已明确标注<b>文献出处（原典或本站原创）</b>。点击正文中的墨色遮蔽条 <span class="scp-redact" role="button" tabindex="0">[机密文本已显影]</span> 可解密隐藏记录，点击下方折叠栏可阅读现场探索与手记实录。
       </p>
       <div id="scp-filter-bar" style="display:flex; justify-content:center; gap:8px; flex-wrap:wrap; margin-top:16px;">
         <button class="bp-btn active" data-scpcat="all">全部卷宗 (12)</button>
@@ -461,8 +475,8 @@
         </p>
       </div>
       <div style="margin-top:20px; display:flex; gap:12px; flex-wrap:wrap; justify-content:center;">
-        <button class="bp-btn active" onclick="switchLiber('scp')">返回机密档案库</button>
-        <button class="bp-btn" onclick="switchLiber('map')">返回写实卫星地球</button>
+        <a class="bp-btn active" style="text-decoration:none;" href="#/scp">返回机密档案库</a>
+        <a class="bp-btn" style="text-decoration:none;" href="#/map">返回写实卫星地球</a>
       </div>
     </div>
   </section>

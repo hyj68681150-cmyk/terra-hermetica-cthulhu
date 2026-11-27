@@ -5,7 +5,7 @@
  *
  * Strictly zero national/disputed borders ("国界线不要画"):
  *  - No `boundary` source-layer is ever added.
- *  - `place` labels exclude country/state/province classes.
+ *  - `place` labels exclude country/state/province classes and mask disputed zones via `within`.
  */
 import {
   Map as MapLibreMap,
@@ -14,6 +14,8 @@ import {
   ScaleControl,
 } from "../vendor/maplibre-gl@6.18.0/maplibre-gl.mjs";
 import { escapeHtml } from "./sanitize.js";
+
+const DEFAULT_BASEMAP = "satellite";
 
 const EOX_ATTRIB =
   'Sentinel-2 cloudless - <a href="https://s2maps.eu" target="_blank" rel="noopener">https://s2maps.eu</a> by EOX IT Services GmbH (Contains modified Copernicus Sentinel data 2016 &amp; 2017, CC BY 4.0)';
@@ -24,34 +26,120 @@ const MAPTERHORN_ATTRIB =
 const NASA_ATTRIB =
   'Imagery: <a href="https://earthobservatory.nasa.gov/features/NightLights" target="_blank" rel="noopener">NASA Black Marble / Blue Marble</a>';
 
+// 4.2.6: Add name:en / name:latin as 3rd tier before raw native script
 const CJK_NAME_EXPR = [
   "coalesce",
   ["get", "name:zh-Hans"],
   ["get", "name:zh"],
+  ["get", "name:en"],
+  ["get", "name:latin"],
   ["get", "name"],
 ];
 
-const PLACE_ALLOWED_CLASSES = [
-  "city",
-  "town",
-  "village",
-  "suburb",
-  "quarter",
-  "neighbourhood",
-  "hamlet",
-  "island",
-];
+// 4.2.7: Disputed-area polygon mask (Zangnan / South Tibet, Aksai Chin, Diaoyu Islands, South China Sea Islands)
+const DISPUTED_LABEL_MASK = {
+  type: "MultiPolygon",
+  coordinates: [
+    // Zangnan / South Tibet (south of Lhasa & Nyingchi)
+    [[[91.5, 26.8], [97.6, 26.8], [97.6, 29.45], [91.5, 29.45], [91.5, 26.8]]],
+    // Aksai Chin / eastern border sector
+    [[[77.4, 33.2], [80.6, 33.2], [80.6, 36.1], [77.4, 36.1], [77.4, 33.2]]],
+    // Diaoyu Islands
+    [[[123.1, 25.5], [124.8, 25.5], [124.8, 26.1], [123.1, 26.1], [123.1, 25.5]]],
+    // South China Sea Islands
+    [[[109.6, 3.5], [119.5, 3.5], [119.5, 21.1], [116.0, 21.1], [111.0, 17.5], [109.6, 3.5]]],
+  ],
+};
 
-/**
- * Compute real-time UTC Solar Terminator night-hemisphere polygon.
- */
+// Synchronous site camera lookup so #/map/<siteId> starts MapLibre at t=0ms without waiting on places.geojson
+const QUICK_SITE_CAM = {
+  "site-rlyeh": [-126.7167, -47.15, 5, 0],
+  "site-alexandria": [29.8856, 31.214, 12, 0],
+  "site-2000": [-110.498, 44.462, 10, 60],
+  "site-001": [47.4395, 31.0044, 12, 0],
+  "site-prague": [14.3965, 50.0933, 13, 0],
+  "site-13": [-103.965, 29.475, 10, 45],
+  "site-cairo": [31.1308, 29.976, 13, 0],
+  "site-antarctica": [113.1667, -76.25, 5, 0],
+  "site-penglai": [120.7522, 37.8283, 12, 0],
+  "site-baikal": [107.42, 53.24, 9, 0],
+  "site-arkham": [-70.865, 42.548, 11, 0],
+  "site-innsmouth": [-70.768, 42.682, 11, 0],
+  "site-leng": [73.535, 39.035, 9, 0],
+  "site-3000-bengal": [88.5, 11.5, 5, 0],
+};
+
+const LEGACY_TO_SITE_ID = {
+  rlyeh: "site-rlyeh",
+  alexandria: "site-alexandria",
+  site2000: "site-2000",
+  gate001: "site-001",
+  prague: "site-prague",
+  site13: "site-13",
+  cairo: "site-cairo",
+  antarctica: "site-antarctica",
+  penglai: "site-penglai",
+  baikal: "site-baikal",
+  arkham: "site-arkham",
+  leng: "site-leng",
+};
+
+const EMPTY_FC = { type: "FeatureCollection", features: [] };
+
+function geodesicCircleRing([lonDeg, latDeg], radiusKm, steps = 40) {
+  const R = 6371;
+  const lat1 = (latDeg * Math.PI) / 180;
+  const lon1 = (lonDeg * Math.PI) / 180;
+  const d = radiusKm / R;
+  const ring = [];
+  for (let i = 0; i <= steps; i++) {
+    const brng = (i / steps) * 2 * Math.PI;
+    const lat2 = Math.asin(Math.sin(lat1) * Math.cos(d) + Math.cos(lat1) * Math.sin(d) * Math.cos(brng));
+    const lon2 =
+      lon1 +
+      Math.atan2(Math.sin(brng) * Math.sin(d) * Math.cos(lat1), Math.cos(d) - Math.sin(lat1) * Math.sin(lat2));
+    ring.push([Number(((lon2 * 180) / Math.PI).toFixed(4)), Number(((lat2 * 180) / Math.PI).toFixed(4))]);
+  }
+  ring[ring.length - 1] = [...ring[0]];
+  return ring;
+}
+
+function buildPrecisionRangeGeoJSON(places) {
+  const features = [];
+  for (const p of places) {
+    if (p.precision === "exact") continue;
+    const radKm = p.precision === "city" ? 1.6 : 3.4;
+    features.push({
+      type: "Feature",
+      properties: {
+        id: p.id,
+        entryId: p.entryId,
+        name_zh: p.name_zh,
+        layer: p.layer,
+        precision: p.precision,
+        rangeLabel: `${p.name_zh}\n（${p.precision === "city" ? "城市级范围" : "区域级范围"}）`,
+      },
+      geometry: {
+        type: "Polygon",
+        coordinates: [geodesicCircleRing([p.lon, p.lat], radKm, 40)],
+      },
+    });
+  }
+  return { type: "FeatureCollection", features };
+}
+
+export function formatSiteCoord(lat, lon, precision) {
+  const digits = precision === "exact" ? 4 : 1;
+  const ns = lat >= 0 ? "N" : "S";
+  const ew = lon >= 0 ? "E" : "W";
+  return `${Math.abs(lat).toFixed(digits)}°${ns}, ${Math.abs(lon).toFixed(digits)}°${ew}`;
+}
+
 export function buildSolarTerminatorGeoJSON(date = new Date()) {
   const startOfYear = Date.UTC(date.getUTCFullYear(), 0, 0);
   const dayOfYear = (date.getTime() - startOfYear) / 86400000;
-  const utcHours =
-    date.getUTCHours() + date.getUTCMinutes() / 60 + date.getUTCSeconds() / 3600;
+  const utcHours = date.getUTCHours() + date.getUTCMinutes() / 60 + date.getUTCSeconds() / 3600;
 
-  // Solar declination (rad) & subsolar longitude (deg)
   const gamma = ((2 * Math.PI) / 365.24) * (dayOfYear - 1 + (utcHours - 12) / 24);
   const decl =
     0.006918 -
@@ -79,12 +167,7 @@ export function buildSolarTerminatorGeoJSON(date = new Date()) {
     curve.push([lon, Number(latDeg.toFixed(4))]);
   }
 
-  const ring = [
-    [-180, nightPoleLat],
-    ...curve,
-    [180, nightPoleLat],
-    [-180, nightPoleLat],
-  ];
+  const ring = [[-180, nightPoleLat], ...curve, [180, nightPoleLat], [-180, nightPoleLat]];
 
   return {
     type: "FeatureCollection",
@@ -112,7 +195,6 @@ function createArchivalIconData(kind) {
   const cx = size / 2;
   const cy = size / 2;
 
-  // Soft outer aura
   const grad = ctx.createRadialGradient(cx, cy, 8, cx, cy, 30);
   grad.addColorStop(0, "rgba(19, 38, 230, 0.42)");
   grad.addColorStop(1, "rgba(19, 38, 230, 0)");
@@ -121,8 +203,8 @@ function createArchivalIconData(kind) {
   ctx.arc(cx, cy, 30, 0, Math.PI * 2);
   ctx.fill();
 
-  // Outer ivory seal ring + Klein-blue medallion
-  ctx.fillStyle = kind === "scp" ? "#0d1cb8" : kind === "mythos" ? "#1326e6" : kind === "theology" ? "#1633f0" : "#1b38c8";
+  ctx.fillStyle =
+    kind === "scp" ? "#0d1cb8" : kind === "mythos" ? "#1326e6" : kind === "theology" ? "#1633f0" : "#1b38c8";
   ctx.strokeStyle = "#fbf8f1";
   ctx.lineWidth = 3;
   ctx.beginPath();
@@ -130,14 +212,12 @@ function createArchivalIconData(kind) {
   ctx.fill();
   ctx.stroke();
 
-  // Inner copperplate ring
   ctx.strokeStyle = "rgba(251, 248, 241, 0.55)";
   ctx.lineWidth = 1.2;
   ctx.beginPath();
   ctx.arc(cx, cy, 14.5, 0, Math.PI * 2);
   ctx.stroke();
 
-  // Distinct glyph per layer
   ctx.strokeStyle = "#ffffff";
   ctx.fillStyle = "#ffffff";
   ctx.lineWidth = 2;
@@ -145,7 +225,6 @@ function createArchivalIconData(kind) {
   ctx.lineJoin = "round";
 
   if (kind === "scp") {
-    // 3 inward containment arrows + core circle
     ctx.beginPath();
     ctx.arc(cx, cy, 4.5, 0, Math.PI * 2);
     ctx.stroke();
@@ -157,7 +236,6 @@ function createArchivalIconData(kind) {
       ctx.stroke();
     }
   } else if (kind === "mythos") {
-    // Eldritch eye / diamond star
     ctx.beginPath();
     ctx.moveTo(cx - 10, cy);
     ctx.quadraticCurveTo(cx, cy - 8, cx + 10, cy);
@@ -167,7 +245,6 @@ function createArchivalIconData(kind) {
     ctx.arc(cx, cy, 2.6, 0, Math.PI * 2);
     ctx.fill();
   } else if (kind === "theology") {
-    // Hermetic octagram / astrolabe diamond
     ctx.beginPath();
     ctx.moveTo(cx, cy - 11);
     ctx.lineTo(cx + 9, cy);
@@ -179,7 +256,6 @@ function createArchivalIconData(kind) {
     ctx.arc(cx, cy, 2.8, 0, Math.PI * 2);
     ctx.fill();
   } else {
-    // GOI hexagon + center node
     ctx.beginPath();
     for (let i = 0; i < 6; i++) {
       const a = (i / 6) * Math.PI * 2 - Math.PI / 6;
@@ -197,6 +273,50 @@ function createArchivalIconData(kind) {
 
   return ctx.getImageData(0, 0, size, size);
 }
+
+// 4.2.6 + 4.2.7: Rank-controlled place filter with z4-10 major cities/capitals, z>=13 minor places, & disputed mask
+const PLACE_FILTER_EXPR = [
+  "all",
+  ["!", ["within", DISPUTED_LABEL_MASK]],
+  [
+    "step",
+    ["zoom"],
+    // z < 6: capitals and global tier-1..3 cities only
+    [
+      "all",
+      ["==", ["get", "class"], "city"],
+      ["any", ["==", ["get", "capital"], 2], ["<=", ["coalesce", ["get", "rank"], 99], 3]],
+    ],
+    6,
+    // 6 <= z < 8: capitals and rank <= 4 cities
+    [
+      "all",
+      ["==", ["get", "class"], "city"],
+      ["any", ["==", ["get", "capital"], 2], ["<=", ["coalesce", ["get", "rank"], 99], 4]],
+    ],
+    8,
+    // 8 <= z < 10: capitals and rank <= 6 cities
+    [
+      "all",
+      ["==", ["get", "class"], "city"],
+      ["any", ["==", ["get", "capital"], 2], ["<=", ["coalesce", ["get", "rank"], 99], 6]],
+    ],
+    10,
+    // 10 <= z < 13: cities and major towns (rank <= 10), NO hamlets/villages/neighbourhoods
+    [
+      "all",
+      ["in", ["get", "class"], ["literal", ["city", "town"]]],
+      ["<=", ["coalesce", ["get", "rank"], 9], 10],
+    ],
+    13,
+    // z >= 13: allow towns, villages, suburbs, neighbourhoods, islands (still zero country/state/province)
+    [
+      "in",
+      ["get", "class"],
+      ["literal", ["city", "town", "village", "suburb", "quarter", "neighbourhood", "hamlet", "island"]],
+    ],
+  ],
+];
 
 function buildUnifiedStyle(initialTerminator) {
   return {
@@ -293,9 +413,14 @@ function buildUnifiedStyle(initialTerminator) {
         maxzoom: 7,
         tolerance: 0.5,
       },
+      "archive-precision-ranges": {
+        type: "geojson",
+        data: EMPTY_FC,
+        maxzoom: 14,
+      },
       "archive-places": {
         type: "geojson",
-        data: "./data/map/places.geojson",
+        data: EMPTY_FC,
         maxzoom: 12,
         cluster: true,
         clusterMaxZoom: 3,
@@ -337,7 +462,6 @@ function buildUnifiedStyle(initialTerminator) {
           "raster-contrast": 0.15,
         },
       },
-      // Paper & Night natural water / landcover (strictly NO boundary layers!)
       {
         id: "paper-landcover",
         type: "fill",
@@ -355,9 +479,7 @@ function buildUnifiedStyle(initialTerminator) {
         source: "openmaptiles",
         "source-layer": "water",
         layout: { visibility: "none" },
-        paint: {
-          "fill-color": "#dfe5f2",
-        },
+        paint: { "fill-color": "#dfe5f2" },
       },
       {
         id: "vector-coastline",
@@ -370,7 +492,6 @@ function buildUnifiedStyle(initialTerminator) {
           "line-width": 0.9,
         },
       },
-      // Hillshade relief (activated when terrainOn && zoom >= 4.2 or in paper mode)
       {
         id: "terrain-hillshade",
         type: "hillshade",
@@ -383,7 +504,6 @@ function buildUnifiedStyle(initialTerminator) {
           "hillshade-accent-color": "#1326e6",
         },
       },
-      // Solar Terminator on Satellite Globe
       {
         id: "terminator-night-fill",
         type: "fill",
@@ -409,7 +529,6 @@ function buildUnifiedStyle(initialTerminator) {
           "line-dasharray": [3, 3],
         },
       },
-      // Waterways
       {
         id: "vector-waterways",
         type: "line",
@@ -421,7 +540,6 @@ function buildUnifiedStyle(initialTerminator) {
           "line-width": ["interpolate", ["linear"], ["zoom"], 8, 0.7, 14, 2.2],
         },
       },
-      // Roads (z >= 10 in satellite hybrid, z >= 6 in paper/night)
       {
         id: "vector-roads-casing",
         type: "line",
@@ -452,7 +570,6 @@ function buildUnifiedStyle(initialTerminator) {
           "line-width": ["interpolate", ["exponential", 1.4], ["zoom"], 10, 0.7, 14, 2.6, 17, 8],
         },
       },
-      // 3D Extruded Buildings at z >= 15!
       {
         id: "vector-buildings-3d",
         type: "fill-extrusion",
@@ -477,7 +594,6 @@ function buildUnifiedStyle(initialTerminator) {
           "fill-extrusion-opacity": 0.84,
         },
       },
-      // Road & Water & City/Town Labels (NO country/state/boundary layers!)
       {
         id: "vector-road-labels",
         type: "symbol",
@@ -502,6 +618,7 @@ function buildUnifiedStyle(initialTerminator) {
         source: "openmaptiles",
         "source-layer": "water_name",
         minzoom: 10,
+        filter: ["!", ["within", DISPUTED_LABEL_MASK]],
         layout: {
           "text-field": CJK_NAME_EXPR,
           "text-font": ["Noto Sans Italic"],
@@ -518,20 +635,12 @@ function buildUnifiedStyle(initialTerminator) {
         type: "symbol",
         source: "openmaptiles",
         "source-layer": "place",
-        minzoom: 10,
-        filter: ["in", ["get", "class"], ["literal", PLACE_ALLOWED_CLASSES]],
+        minzoom: 4,
+        filter: PLACE_FILTER_EXPR,
         layout: {
           "text-field": CJK_NAME_EXPR,
           "text-font": ["Noto Sans Bold"],
-          "text-size": [
-            "match",
-            ["get", "class"],
-            "city",
-            15,
-            "town",
-            13.5,
-            12.5,
-          ],
+          "text-size": ["match", ["get", "class"], "city", 14.5, "town", 13, 12.2],
           "text-max-width": 8,
         },
         paint: {
@@ -540,7 +649,6 @@ function buildUnifiedStyle(initialTerminator) {
           "text-halo-width": 1.6,
         },
       },
-
       // =====================================================================
       // KLEIN-BLUE ARCHIVAL OVERLAY LAYERS (Zones, Great-Circle Routes, Sites)
       // =====================================================================
@@ -563,6 +671,44 @@ function buildUnifiedStyle(initialTerminator) {
           "line-dasharray": [4, 3],
         },
       },
+      // 4.2.9: Precision range rings for city/region points at z >= 11
+      {
+        id: "archive-precision-fill",
+        type: "fill",
+        source: "archive-precision-ranges",
+        minzoom: 11,
+        paint: {
+          "fill-color": "#1326e6",
+          "fill-opacity": 0.13,
+        },
+      },
+      {
+        id: "archive-precision-line",
+        type: "line",
+        source: "archive-precision-ranges",
+        minzoom: 11,
+        paint: {
+          "line-color": "rgba(160, 192, 255, 0.85)",
+          "line-width": 1.4,
+          "line-dasharray": [4, 3],
+        },
+      },
+      {
+        id: "archive-precision-label",
+        type: "symbol",
+        source: "archive-precision-ranges",
+        minzoom: 11,
+        layout: {
+          "text-field": ["get", "rangeLabel"],
+          "text-font": ["Noto Sans Bold"],
+          "text-size": 13,
+        },
+        paint: {
+          "text-color": "#ffffff",
+          "text-halo-color": "#0d1cb8",
+          "text-halo-width": 1.6,
+        },
+      },
       {
         id: "archive-routes-glow",
         type: "line",
@@ -582,7 +728,6 @@ function buildUnifiedStyle(initialTerminator) {
           "line-dasharray": [3, 3],
         },
       },
-      // Clustered Klein-blue Seals (low zoom)
       {
         id: "archive-clusters",
         type: "circle",
@@ -606,16 +751,18 @@ function buildUnifiedStyle(initialTerminator) {
           "text-size": 13,
           "text-allow-overlap": true,
         },
-        paint: {
-          "text-color": "#ffffff",
-        },
+        paint: { "text-color": "#ffffff" },
       },
-      // Individual Klein-blue Archival Markers
+      // 4.2.9: Hide pinpoint marker at z >= 11 when precision != "exact" (replaced by range circle!)
       {
         id: "archive-places-pulse",
         type: "circle",
         source: "archive-places",
-        filter: ["!", ["has", "point_count"]],
+        filter: [
+          "all",
+          ["!", ["has", "point_count"]],
+          ["any", ["==", ["get", "precision"], "exact"], ["<", ["zoom"], 11]],
+        ],
         paint: {
           "circle-radius": ["interpolate", ["linear"], ["zoom"], 1, 13, 8, 18, 14, 22],
           "circle-color": "rgba(19, 38, 230, 0.22)",
@@ -627,7 +774,11 @@ function buildUnifiedStyle(initialTerminator) {
         id: "archive-places-icon",
         type: "symbol",
         source: "archive-places",
-        filter: ["!", ["has", "point_count"]],
+        filter: [
+          "all",
+          ["!", ["has", "point_count"]],
+          ["any", ["==", ["get", "precision"], "exact"], ["<", ["zoom"], 11]],
+        ],
         layout: {
           "icon-image": [
             "match",
@@ -642,13 +793,7 @@ function buildUnifiedStyle(initialTerminator) {
           ],
           "icon-size": ["interpolate", ["linear"], ["zoom"], 1, 0.78, 8, 0.94, 14, 1.06],
           "icon-allow-overlap": true,
-          "text-field": [
-            "step",
-            ["zoom"],
-            ["get", "name_zh"],
-            4,
-            ["get", "labelWithDepth"],
-          ],
+          "text-field": ["step", ["zoom"], ["get", "name_zh"], 4, ["get", "labelWithDepth"]],
           "text-font": ["Noto Sans Bold"],
           "text-size": ["interpolate", ["linear"], ["zoom"], 1, 12.5, 8, 13.5, 13, 14.5],
           "text-offset": [0, 1.35],
@@ -665,15 +810,17 @@ function buildUnifiedStyle(initialTerminator) {
   };
 }
 
+// 4.2.3: Omitted parameters ALWAYS reset to defaults (never sticky!)
 export function parseMapSubRoute(rest = "") {
   const [pathPart, queryPart = ""] = String(rest || "").split("?");
   const params = new URLSearchParams(queryPart);
-  const mode = params.get("mode") || null; // satellite | paper | night
+  const rawMode = params.get("mode");
+  const mode = rawMode && ["satellite", "paper", "night"].includes(rawMode) ? rawMode : DEFAULT_BASEMAP;
   const layer = params.get("layer") || "all";
   const terrainParam = params.get("terrain");
+  const terrain = terrainParam === null ? true : terrainParam !== "0";
   const siteParam = params.get("site") || null;
 
-  // Check @lat,lon,zz[,pitchp[,bearingb]]
   const atMatch = pathPart.match(
     /^@(-?\d+(?:\.\d+)?),(-?\d+(?:\.\d+)?),(\d+(?:\.\d+)?)z(?:,(\d+(?:\.\d+)?)p)?(?:,(-?\d+(?:\.\d+)?)b)?/i
   );
@@ -688,11 +835,10 @@ export function parseMapSubRoute(rest = "") {
       siteId: siteParam,
       mode,
       layer,
-      terrain: terrainParam === null ? null : terrainParam !== "0",
+      terrain,
     };
   }
 
-  // Check site-<id> or legacy city id
   const trimmed = pathPart.replace(/^\/+|\/+$/g, "");
   if (trimmed) {
     return {
@@ -700,7 +846,7 @@ export function parseMapSubRoute(rest = "") {
       siteId: trimmed,
       mode,
       layer,
-      terrain: terrainParam === null ? null : terrainParam !== "0",
+      terrain,
     };
   }
 
@@ -709,52 +855,37 @@ export function parseMapSubRoute(rest = "") {
     siteId: siteParam,
     mode,
     layer,
-    terrain: terrainParam === null ? null : terrainParam !== "0",
+    terrain,
   };
 }
 
-const LEGACY_TO_SITE_ID = {
-  rlyeh: "site-rlyeh",
-  alexandria: "site-alexandria",
-  site2000: "site-2000",
-  gate001: "site-001",
-  prague: "site-prague",
-  site13: "site-13",
-  cairo: "site-cairo",
-  antarctica: "site-antarctica",
-  penglai: "site-penglai",
-  baikal: "site-baikal",
-  arkham: "site-arkham",
-  leng: "site-leng",
-};
-
 export async function createRealisticEarthController({ onOpenEntry }) {
-  const placesGeo = await (await fetch("./data/map/places.geojson")).json();
-  const places = placesGeo.features.map((f) => ({
-    ...f.properties,
-    lon: f.geometry.coordinates[0],
-    lat: f.geometry.coordinates[1],
-  }));
+  // 4.2.1: Fetch places.geojson IN PARALLEL with MapLibre initialization!
+  const placesPromise = fetch("./data/map/places.geojson").then((r) => r.json());
+  let places = [];
 
-  let basemapMode = "satellite"; // satellite | paper | night
+  let basemapMode = DEFAULT_BASEMAP;
   let terrainOn = true;
   let activeLayerFilter = "all";
   let selectedSiteId = null;
   let suppressHashWrite = false;
-  let s2ErrCount = 0;
-  let ofmErrCount = 0;
-  let mhErrCount = 0;
+
+  // 4.2.5: Consecutive failure counters + 60s auto-recovery timers
+  let s2ConsecErr = 0;
+  let ofmConsecErr = 0;
+  let mhConsecErr = 0;
   let fallbackS2Triggered = false;
   let fallbackOfmTriggered = false;
   let fallbackDemTriggered = false;
+  let s2RetryTimer = null;
+  let ofmRetryTimer = null;
+  let demRetryTimer = null;
 
   const parsedInit = parseMapSubRoute(
     window.location.hash.startsWith("#/map") ? window.location.hash.slice(6) : ""
   );
-  if (parsedInit.mode && ["satellite", "paper", "night"].includes(parsedInit.mode)) {
-    basemapMode = parsedInit.mode;
-  }
-  if (parsedInit.terrain !== null) terrainOn = parsedInit.terrain;
+  basemapMode = parsedInit.mode;
+  terrainOn = parsedInit.terrain;
 
   let initCenter = [22.0, 20.0];
   let initZoom = 1.45;
@@ -766,19 +897,24 @@ export async function createRealisticEarthController({ onOpenEntry }) {
     initZoom = parsedInit.zoom;
     initPitch = parsedInit.pitch;
     initBearing = parsedInit.bearing;
+    selectedSiteId = parsedInit.siteId ? LEGACY_TO_SITE_ID[parsedInit.siteId] || parsedInit.siteId : null;
   } else if (parsedInit.siteId) {
     const normId = LEGACY_TO_SITE_ID[parsedInit.siteId] || parsedInit.siteId;
-    const hit = places.find((p) => p.id === normId || p.entryId === normId);
-    if (hit) {
-      initCenter = [hit.lon, hit.lat];
-      initZoom = hit.defaultZoom || 11;
-      selectedSiteId = hit.id;
+    const cam = QUICK_SITE_CAM[normId];
+    if (cam) {
+      initCenter = [cam[0], cam[1]];
+      initZoom = cam[2];
+      initPitch = cam[3];
     }
+    selectedSiteId = normId;
   }
 
   const tStart = performance.now();
   const initialTerminator = buildSolarTerminatorGeoJSON(new Date());
   const isMobile = window.matchMedia("(max-width: 860px), (pointer: coarse)").matches;
+
+  // 4.2.2: Start pixelRatio at min(devicePixelRatio, 2) on ALL devices; adapt 2 -> 1.5 -> 1 if flight p50 > 33ms
+  let currentMaxPixelRatio = Math.min(window.devicePixelRatio || 1, 2);
 
   const map = new MapLibreMap({
     container: "maplibre-canvas-host",
@@ -787,7 +923,7 @@ export async function createRealisticEarthController({ onOpenEntry }) {
     zoom: initZoom,
     pitch: initPitch,
     bearing: initBearing,
-    pixelRatio: Math.min(window.devicePixelRatio || 1, isMobile ? 1 : 2),
+    pixelRatio: currentMaxPixelRatio,
     localIdeographFontFamily:
       '"Noto Serif SC", "Source Han Serif SC", "Songti SC", "STSong", "Microsoft YaHei", serif',
     attributionControl: false,
@@ -795,7 +931,7 @@ export async function createRealisticEarthController({ onOpenEntry }) {
     fadeDuration: 0,
     validateStyle: false,
     refreshExpiredTiles: false,
-    maxParallelImageRequests: isMobile ? 4 : 16,
+    maxParallelImageRequests: isMobile ? 8 : 16,
     workerCount: isMobile ? 2 : 4,
   });
 
@@ -814,10 +950,31 @@ export async function createRealisticEarthController({ onOpenEntry }) {
   map.addControl(new ScaleControl({ maxWidth: 110, unit: "metric" }), "bottom-left");
   map.addControl(new NavigationControl({ visualizePitch: true, showCompass: true }), "bottom-right");
 
-  // Register custom Klein-blue archival icons right away
   for (const kind of ["scp", "mythos", "theology", "goi"]) {
     map.addImage(`arch-${kind}`, createArchivalIconData(kind), { pixelRatio: 2 });
   }
+
+  // Populate places GeoJSON as soon as parallel fetch finishes
+  const applyPlacesData = (placesGeo) => {
+    places = placesGeo.features.map((f) => ({
+      ...f.properties,
+      lon: f.geometry.coordinates[0],
+      lat: f.geometry.coordinates[1],
+    }));
+    const setSources = () => {
+      const srcP = map.getSource("archive-places");
+      const srcR = map.getSource("archive-precision-ranges");
+      if (srcP) srcP.setData(placesGeo);
+      if (srcR) srcR.setData(buildPrecisionRangeGeoJSON(places));
+      if (selectedSiteId) {
+        const hit = places.find((p) => p.id === selectedSiteId || p.entryId === selectedSiteId);
+        if (hit) renderSiteCard(hit, true);
+      }
+    };
+    if (map.getSource("archive-places")) setSources();
+    else map.once("styledata", setSources);
+  };
+  placesPromise.then(applyPlacesData).catch((err) => console.warn("[map] places.geojson failed:", err));
 
   const showBanner = (msg) => {
     const b = document.getElementById("map-fallback-banner");
@@ -825,49 +982,157 @@ export async function createRealisticEarthController({ onOpenEntry }) {
     b.textContent = msg;
     b.classList.add("open");
   };
+  const hideBannerIfHealthy = () => {
+    if (!fallbackS2Triggered && !fallbackOfmTriggered && !fallbackDemTriggered) {
+      document.getElementById("map-fallback-banner")?.classList.remove("open");
+    }
+  };
 
-  // Silent out-of-zoom & graceful network fallback handler (03 Section 3.2 & 3.8.3)
+  // 4.2.5: Reset consecutive failure count whenever any tile from that source succeeds
+  map.on("data", (e) => {
+    if (e.dataType !== "source" || !e.tile) return;
+    if (e.sourceId === "s2cloudless-2016") s2ConsecErr = 0;
+    else if (e.sourceId === "openmaptiles") ofmConsecErr = 0;
+    else if (e.sourceId === "terrain-dem" || e.sourceId === "hillshade-dem") mhConsecErr = 0;
+  });
+
+  // 4.2.5: Consecutive failure fallback + 60s auto-retry + console.warn for unexpected errors
   map.on("error", (ev) => {
     const msg = String(ev?.error?.message || "");
     const srcId = ev?.sourceId || "";
-    // Silently swallow expected tile 404/abort errors while counting consecutive source failures
-    if (srcId === "s2cloudless-2016" && !fallbackS2Triggered) {
-      s2ErrCount++;
-      if (s2ErrCount >= 4 && map.getLayer("fallback-blue-marble")) {
-        fallbackS2Triggered = true;
-        map.setLayoutProperty("fallback-blue-marble", "visibility", "visible");
-        map.setLayoutProperty("sat-eox-layer", "visibility", "none");
-        showBanner("卫星瓦片连接受限，已自动切换至仓库内置 NASA Blue Marble 离线底图。");
-      }
-    } else if (srcId === "openmaptiles" && !fallbackOfmTriggered) {
-      ofmErrCount++;
-      if (ofmErrCount >= 5) {
-        fallbackOfmTriggered = true;
-        for (const lid of [
-          "vector-waterways",
-          "vector-roads-casing",
-          "vector-roads-inner",
-          "vector-buildings-3d",
-          "vector-road-labels",
-          "vector-water-labels",
-          "vector-place-labels",
-        ]) {
-          if (map.getLayer(lid)) map.setLayoutProperty(lid, "visibility", "none");
+    if (srcId === "s2cloudless-2016") {
+      if (!fallbackS2Triggered) {
+        s2ConsecErr++;
+        if (s2ConsecErr >= 4 && map.getLayer("fallback-blue-marble")) {
+          fallbackS2Triggered = true;
+          map.setLayoutProperty("fallback-blue-marble", "visibility", "visible");
+          map.setLayoutProperty("sat-eox-layer", "visibility", "none");
+          showBanner("卫星瓦片连续受限，已临时切换内置 NASA Blue Marble 底图（60 秒后自动重试）。");
+          clearTimeout(s2RetryTimer);
+          s2RetryTimer = setTimeout(() => {
+            fallbackS2Triggered = false;
+            s2ConsecErr = 0;
+            applyBasemapAndTerrain();
+            hideBannerIfHealthy();
+          }, 60000);
         }
-        showBanner("OpenFreeMap 矢量道路服务暂不可达，已降级为纯卫星影像模式。");
       }
-    } else if ((srcId === "terrain-dem" || srcId === "hillshade-dem") && !fallbackDemTriggered) {
-      mhErrCount++;
-      if (mhErrCount >= 4 && terrainOn) {
-        fallbackDemTriggered = true;
-        try {
-          map.setTerrain({ source: "terrain-aws", exaggeration: 1.2 });
-        } catch (_) {}
+    } else if (srcId === "openmaptiles") {
+      if (!fallbackOfmTriggered) {
+        ofmConsecErr++;
+        if (ofmConsecErr >= 5) {
+          fallbackOfmTriggered = true;
+          for (const lid of [
+            "vector-waterways",
+            "vector-roads-casing",
+            "vector-roads-inner",
+            "vector-buildings-3d",
+            "vector-road-labels",
+            "vector-water-labels",
+            "vector-place-labels",
+          ]) {
+            if (map.getLayer(lid)) map.setLayoutProperty(lid, "visibility", "none");
+          }
+          showBanner("OpenFreeMap 矢量服务连续超时，已临时降级为纯卫星影像（60 秒后自动重试）。");
+          clearTimeout(ofmRetryTimer);
+          ofmRetryTimer = setTimeout(() => {
+            fallbackOfmTriggered = false;
+            ofmConsecErr = 0;
+            for (const lid of [
+              "vector-waterways",
+              "vector-roads-casing",
+              "vector-roads-inner",
+              "vector-buildings-3d",
+              "vector-road-labels",
+              "vector-water-labels",
+              "vector-place-labels",
+            ]) {
+              if (map.getLayer(lid)) map.setLayoutProperty(lid, "visibility", "visible");
+            }
+            applyBasemapAndTerrain();
+            hideBannerIfHealthy();
+          }, 60000);
+        }
       }
-    } else if (msg && !msg.includes("404") && !msg.includes("AbortError") && !msg.includes("Failed to fetch")) {
-      // Unexpected style/internal issue
+    } else if (srcId === "terrain-dem" || srcId === "hillshade-dem") {
+      if (!fallbackDemTriggered) {
+        mhConsecErr++;
+        if (mhConsecErr >= 4 && terrainOn) {
+          fallbackDemTriggered = true;
+          try {
+            map.setTerrain({ source: "terrain-aws", exaggeration: 1.2 });
+          } catch (_) {}
+          clearTimeout(demRetryTimer);
+          demRetryTimer = setTimeout(() => {
+            fallbackDemTriggered = false;
+            mhConsecErr = 0;
+            applyBasemapAndTerrain();
+            hideBannerIfHealthy();
+          }, 60000);
+        }
+      }
+    } else if (msg && !msg.includes("404") && !msg.includes("AbortError")) {
+      console.warn("[map]", ev?.error || msg);
     }
   });
+
+  // 4.2.4: Engage 3D terrain BEFORE flight starts whenever destination zoom >= 4.2 or pitch >= 8
+  function ensureTerrainForTarget(targetZoom = map.getZoom(), targetPitch = map.getPitch()) {
+    if (!map.getLayer("bg-base")) return;
+    const demSource = fallbackDemTriggered ? "terrain-aws" : "terrain-dem";
+    const wantTerrain =
+      terrainOn && (map.getZoom() >= 4.2 || targetZoom >= 4.2 || map.getPitch() >= 8 || targetPitch >= 8);
+    if (wantTerrain) {
+      if (!map.getTerrain()) {
+        map.setTerrain({ source: demSource, exaggeration: 1.2 });
+      }
+    } else if (!terrainOn || (map.getZoom() < 3.8 && targetZoom < 3.8 && map.getPitch() < 5 && targetPitch < 5)) {
+      if (map.getTerrain()) {
+        map.setTerrain(null);
+      }
+    }
+  }
+
+  // 4.2.2 + 4.2.4: Wrap flyTo & easeTo so terrain engages before takeoff AND pixelRatio adapts 2 -> 1.5 -> 1 if p50 > 33ms
+  const origFlyTo = map.flyTo.bind(map);
+  const origEaseTo = map.easeTo.bind(map);
+
+  function attachAdaptiveDprSampler(durationMs) {
+    if (currentMaxPixelRatio <= 1 || (durationMs !== undefined && durationMs < 600)) return;
+    const times = [];
+    const t0 = performance.now();
+    const onRender = () => times.push(performance.now());
+    const onEnd = () => {
+      map.off("render", onRender);
+      map.off("moveend", onEnd);
+      if (performance.now() - t0 < 550 || times.length < 8) return;
+      const deltas = [];
+      for (let i = 1; i < times.length; i++) deltas.push(times[i] - times[i - 1]);
+      deltas.sort((a, b) => a - b);
+      const p50 = deltas[Math.floor(deltas.length * 0.5)];
+      if (p50 > 33) {
+        const nextRatio = currentMaxPixelRatio > 1.5 ? 1.5 : 1;
+        if (nextRatio < currentMaxPixelRatio) {
+          currentMaxPixelRatio = nextRatio;
+          map.setPixelRatio(currentMaxPixelRatio);
+        }
+      }
+    };
+    map.on("render", onRender);
+    map.on("moveend", onEnd);
+  }
+
+  map.flyTo = function (options = {}, eventData) {
+    ensureTerrainForTarget(options.zoom ?? map.getZoom(), options.pitch ?? map.getPitch());
+    attachAdaptiveDprSampler(options.duration ?? 1500);
+    return origFlyTo(options, eventData);
+  };
+
+  map.easeTo = function (options = {}, eventData) {
+    ensureTerrainForTarget(options.zoom ?? map.getZoom(), options.pitch ?? map.getPitch());
+    attachAdaptiveDprSampler(options.duration ?? 800);
+    return origEaseTo(options, eventData);
+  };
 
   function syncUrlHash() {
     if (suppressHashWrite) return;
@@ -881,8 +1146,9 @@ export async function createRealisticEarthController({ onOpenEntry }) {
     let camPart = `@${c.lat.toFixed(4)},${c.lng.toFixed(4)},${z.toFixed(2)}z`;
     if (p > 0 || b !== 0) camPart += `,${p}p,${b}b`;
     const qp = new URLSearchParams();
-    if (basemapMode !== "satellite") qp.set("mode", basemapMode);
+    if (basemapMode !== DEFAULT_BASEMAP) qp.set("mode", basemapMode);
     if (!terrainOn) qp.set("terrain", "0");
+    if (activeLayerFilter !== "all") qp.set("layer", activeLayerFilter);
     if (selectedSiteId) qp.set("site", selectedSiteId);
     const qs = qp.toString();
     const nextHash = `#/map/${camPart}${qs ? "?" + qs : ""}`;
@@ -891,14 +1157,13 @@ export async function createRealisticEarthController({ onOpenEntry }) {
     }
   }
 
-  function applyBasemapAndTerrain() {
+  function applyBasemapAndTerrain(targetZoom = map.getZoom(), targetPitch = map.getPitch()) {
     if (!map.isStyleLoaded() && !map.getLayer("bg-base")) return;
     const isSat = basemapMode === "satellite";
     const isPaper = basemapMode === "paper";
     const isNight = basemapMode === "night";
     document.getElementById("stage-map")?.setAttribute("data-basemap", basemapMode);
 
-    // Sync HUD buttons
     document.querySelectorAll("[data-basemap]").forEach((btn) => {
       btn.classList.toggle("active", btn.dataset.basemap === basemapMode);
     });
@@ -908,7 +1173,6 @@ export async function createRealisticEarthController({ onOpenEntry }) {
       terBtn.textContent = `3D 地形: ${terrainOn ? "开" : "关"}`;
     }
 
-    // Background & Sky Atmosphere
     map.setPaintProperty("bg-base", "background-color", isPaper ? "#f5f0e6" : "#050916");
     map.setSky(
       isPaper
@@ -942,24 +1206,13 @@ export async function createRealisticEarthController({ onOpenEntry }) {
             }
     );
 
-    // Raster imagery visibility
-    map.setLayoutProperty(
-      "sat-eox-layer",
-      "visibility",
-      isSat && !fallbackS2Triggered ? "visible" : "none"
-    );
-    map.setLayoutProperty(
-      "fallback-blue-marble",
-      "visibility",
-      isSat && fallbackS2Triggered ? "visible" : "none"
-    );
+    map.setLayoutProperty("sat-eox-layer", "visibility", isSat && !fallbackS2Triggered ? "visible" : "none");
+    map.setLayoutProperty("fallback-blue-marble", "visibility", isSat && fallbackS2Triggered ? "visible" : "none");
     map.setLayoutProperty("night-viirs-layer", "visibility", isNight ? "visible" : "none");
 
-    // Solar terminator only on Satellite mode
     map.setLayoutProperty("terminator-night-fill", "visibility", isSat ? "visible" : "none");
     map.setLayoutProperty("terminator-twilight-line", "visibility", isSat ? "visible" : "none");
 
-    // Vector coastlines & water fill for Paper and Night modes
     map.setLayoutProperty("paper-landcover", "visibility", isPaper ? "visible" : "none");
     map.setLayoutProperty("vector-water-fill", "visibility", isPaper || isNight ? "visible" : "none");
     map.setLayoutProperty("vector-coastline", "visibility", isPaper || isNight ? "visible" : "none");
@@ -971,14 +1224,12 @@ export async function createRealisticEarthController({ onOpenEntry }) {
       map.setPaintProperty("vector-coastline", "line-color", "rgba(115, 144, 250, 0.32)");
     }
 
-    // Vector road minzoom & colors: z >= 10 in satellite, z >= 5 in paper/night
     if (!fallbackOfmTriggered) {
       const roadMinZ = isSat ? 10 : 5;
-      const placeMinZ = isSat ? 10 : 4;
       map.setLayerZoomRange("vector-roads-casing", roadMinZ, 24);
       map.setLayerZoomRange("vector-roads-inner", roadMinZ, 24);
       map.setLayerZoomRange("vector-waterways", isSat ? 10 : 5, 24);
-      map.setLayerZoomRange("vector-place-labels", placeMinZ, 24);
+      map.setLayerZoomRange("vector-place-labels", 4, 24);
       map.setLayerZoomRange("vector-water-labels", isSat ? 10 : 4, 24);
 
       if (isPaper) {
@@ -994,6 +1245,8 @@ export async function createRealisticEarthController({ onOpenEntry }) {
         map.setPaintProperty("vector-buildings-3d", "fill-extrusion-color", "#dcd4c2");
         map.setPaintProperty("archive-places-icon", "text-color", "#0d1cb8");
         map.setPaintProperty("archive-places-icon", "text-halo-color", "#fbf8f1");
+        map.setPaintProperty("archive-precision-label", "text-color", "#0d1cb8");
+        map.setPaintProperty("archive-precision-label", "text-halo-color", "#fbf8f1");
         map.setPaintProperty("archive-routes-line", "line-color", "#1326e6");
       } else {
         map.setPaintProperty("vector-roads-casing", "line-color", "rgba(10, 16, 34, 0.55)");
@@ -1009,27 +1262,16 @@ export async function createRealisticEarthController({ onOpenEntry }) {
         map.setPaintProperty("vector-road-labels", "text-halo-color", "rgba(10, 15, 30, 0.88)");
         map.setPaintProperty("vector-water-labels", "text-color", "#b8d4ff");
         map.setPaintProperty("vector-water-labels", "text-halo-color", "rgba(8, 16, 42, 0.85)");
-        map.setPaintProperty(
-          "vector-buildings-3d",
-          "fill-extrusion-color",
-          isNight ? "#26314d" : "#d8deed"
-        );
+        map.setPaintProperty("vector-buildings-3d", "fill-extrusion-color", isNight ? "#26314d" : "#d8deed");
         map.setPaintProperty("archive-places-icon", "text-color", "#ffffff");
         map.setPaintProperty("archive-places-icon", "text-halo-color", "#0d1cb8");
+        map.setPaintProperty("archive-precision-label", "text-color", "#ffffff");
+        map.setPaintProperty("archive-precision-label", "text-halo-color", "#0d1cb8");
         map.setPaintProperty("archive-routes-line", "line-color", "#7aa2ff");
       }
     }
 
-    // 3D Terrain & Hillshade:
-    // - Engage 3D terrain mesh when zoom >= 4.2 or pitch >= 8 (only when stationary/settled, not mid-flight)
-    // - Engage hillshade ONLY in paper mode (satellite imagery already contains natural relief shading)
-    const demSource = fallbackDemTriggered ? "terrain-aws" : "terrain-dem";
-    const needDemNow = terrainOn && !map.isMoving() && (map.getZoom() >= 4.2 || map.getPitch() >= 8);
-    if (needDemNow) {
-      if (!map.getTerrain()) map.setTerrain({ source: demSource, exaggeration: 1.2 });
-    } else if (!terrainOn || (map.getZoom() < 4.0 && map.getPitch() < 5)) {
-      if (map.getTerrain()) map.setTerrain(null);
-    }
+    ensureTerrainForTarget(targetZoom, targetPitch);
 
     if (terrainOn && isPaper) {
       map.setLayoutProperty("terrain-hillshade", "visibility", "visible");
@@ -1045,7 +1287,11 @@ export async function createRealisticEarthController({ onOpenEntry }) {
     document.querySelectorAll("[data-archlayer]").forEach((b) => {
       b.classList.toggle("active", b.dataset.archlayer === layerVal);
     });
-    const baseUnclustered = ["!", ["has", "point_count"]];
+    const baseUnclustered = [
+      "all",
+      ["!", ["has", "point_count"]],
+      ["any", ["==", ["get", "precision"], "exact"], ["<", ["zoom"], 11]],
+    ];
     const filterExpr =
       layerVal === "all"
         ? baseUnclustered
@@ -1065,6 +1311,9 @@ export async function createRealisticEarthController({ onOpenEntry }) {
     for (const lid of [
       "archive-zones-fill",
       "archive-zones-line",
+      "archive-precision-fill",
+      "archive-precision-line",
+      "archive-precision-label",
       "archive-routes-glow",
       "archive-routes-line",
     ]) {
@@ -1072,13 +1321,13 @@ export async function createRealisticEarthController({ onOpenEntry }) {
     }
   }
 
-  function renderSiteCard(site) {
+  function renderSiteCard(site, skipHashSync = false) {
     const card = document.getElementById("map-site-card");
     if (!card) return;
     if (!site) {
       selectedSiteId = null;
       card.classList.remove("open");
-      syncUrlHash();
+      if (!skipHashSync) syncUrlHash();
       return;
     }
     selectedSiteId = site.id;
@@ -1094,25 +1343,27 @@ export async function createRealisticEarthController({ onOpenEntry }) {
         : site.provenance === "cthulhu-canon"
           ? "badge-cyan"
           : "badge-crimson";
+    const coordDisplay = formatSiteCoord(site.lat, site.lon, site.precision);
+    const entryHref = `#/entry/${encodeURIComponent(site.entryId)}`;
 
     card.innerHTML = `
       <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:8px; border-bottom:1px solid var(--border); padding-bottom:8px;">
         <div>
           <span class="${badgeCls}">${escapeHtml(provLabel)}</span>
           <h3 class="condensed-monument" style="font-size:20px; margin-top:6px; display:block;">${escapeHtml(site.name_zh)}</h3>
-          <div style="font-size:12.5px; color:var(--ink-sec); font-family:monospace,sans-serif;">${escapeHtml(site.name_en)} · 精度: ${escapeHtml(site.precision)}</div>
+          <div style="font-size:12.5px; color:var(--ink-sec);">${escapeHtml(site.name_en)}</div>
         </div>
-        <button id="map-card-close" class="bp-btn" style="padding:4px 10px;">× 关闭</button>
+        <button id="map-card-close" type="button" class="bp-btn" style="padding:4px 10px;">× 关闭</button>
       </div>
       <div class="infobox-list" style="margin-top:2px;">
-        <div class="infobox-item"><span class="infobox-label">经纬度：</span><span class="infobox-val">${Math.abs(site.lat).toFixed(4)}°${site.lat >= 0 ? "N" : "S"}, ${Math.abs(site.lon).toFixed(4)}°${site.lon >= 0 ? "E" : "W"}</span></div>
+        <div class="infobox-item"><span class="infobox-label">经纬度：</span><span class="infobox-val">${escapeHtml(coordDisplay)}</span></div>
         <div class="infobox-item"><span class="infobox-label">真实高程/水深：</span><span class="infobox-val">${escapeHtml(site.elevDisplay)}</span></div>
         <div class="infobox-item" style="grid-column:1 / -1;"><span class="infobox-label">坐标依据：</span><span class="infobox-val">${escapeHtml(site.coordSource)}</span>${site.provenance === "original" ? '<span class="orig-field-tag">本站设定</span>' : ""}</div>
       </div>
       <p class="desc-copy">${escapeHtml(site.summary)}</p>
       <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px;">
-        <button id="map-card-zoom-street" class="bp-btn">拉近查看地貌 (${site.realElevationM < -100 ? "z7" : "z15"})</button>
-        <button id="map-card-open-entry" class="bp-btn active">打开档案 →</button>
+        <button id="map-card-zoom-street" type="button" class="bp-btn">拉近查看地貌 (${site.realElevationM < -100 ? "z7" : "z15"})</button>
+        <a id="map-card-open-entry" class="bp-btn active" style="text-decoration:none; text-align:center;" href="${escapeHtml(entryHref)}">打开档案 →</a>
       </div>
     `;
     card.classList.add("open");
@@ -1126,26 +1377,20 @@ export async function createRealisticEarthController({ onOpenEntry }) {
         duration: 1600,
       });
     });
-    card.querySelector("#map-card-open-entry")?.addEventListener("click", () => {
-      onOpenEntry(site.entryId);
-    });
-    syncUrlHash();
+    if (!skipHashSync) syncUrlHash();
   }
 
   map.once("load", () => {
     window.__earthLoadMs = Number((performance.now() - tStart).toFixed(1));
-    applyBasemapAndTerrain();
-    if (parsedInit.layer && parsedInit.layer !== "all") {
-      applyArchiveLayerFilter(parsedInit.layer);
-    }
-    if (selectedSiteId) {
-      const hit = places.find((p) => p.id === selectedSiteId);
-      if (hit) renderSiteCard(hit);
+    applyBasemapAndTerrain(initZoom, initPitch);
+    applyArchiveLayerFilter(parsedInit.layer);
+    if (selectedSiteId && places.length) {
+      const hit = places.find((p) => p.id === selectedSiteId || p.entryId === selectedSiteId);
+      if (hit) renderSiteCard(hit, true);
     }
     window.__earthMapLoaded = true;
   });
 
-  // Update UTC Solar Terminator every 60 seconds (03 Section 3.2)
   setInterval(() => {
     const src = map.getSource("solar-terminator");
     if (src) src.setData(buildSolarTerminatorGeoJSON(new Date()));
@@ -1156,8 +1401,7 @@ export async function createRealisticEarthController({ onOpenEntry }) {
     syncUrlHash();
   });
 
-  // Click on individual marker
-  map.on("click", "archive-places-icon", (e) => {
+  const handleMarkerClick = (e) => {
     const feat = e.features?.[0];
     if (!feat) return;
     const hit = places.find((p) => p.id === feat.properties.id);
@@ -1169,9 +1413,10 @@ export async function createRealisticEarthController({ onOpenEntry }) {
         duration: 1100,
       });
     }
-  });
+  };
+  map.on("click", "archive-places-icon", handleMarkerClick);
+  map.on("click", "archive-precision-fill", handleMarkerClick);
 
-  // Click on cluster circle -> expand zoom
   map.on("click", "archive-clusters", async (e) => {
     const feat = e.features?.[0];
     if (!feat) return;
@@ -1181,7 +1426,7 @@ export async function createRealisticEarthController({ onOpenEntry }) {
     map.easeTo({ center: feat.geometry.coordinates, zoom, duration: 700 });
   });
 
-  for (const lid of ["archive-places-icon", "archive-clusters"]) {
+  for (const lid of ["archive-places-icon", "archive-precision-fill", "archive-clusters"]) {
     map.on("mouseenter", lid, () => {
       map.getCanvas().style.cursor = "pointer";
     });
@@ -1190,7 +1435,6 @@ export async function createRealisticEarthController({ onOpenEntry }) {
     });
   }
 
-  // Bind HUD controls
   document.querySelectorAll("[data-basemap]").forEach((btn) => {
     btn.addEventListener("click", () => {
       basemapMode = btn.dataset.basemap;
@@ -1208,10 +1452,10 @@ export async function createRealisticEarthController({ onOpenEntry }) {
   document.querySelectorAll("[data-archlayer]").forEach((btn) => {
     btn.addEventListener("click", () => {
       applyArchiveLayerFilter(btn.dataset.archlayer);
+      syncUrlHash();
     });
   });
 
-  // Bind On-Map Place Search Box
   const searchInput = document.getElementById("map-place-search");
   const searchResults = document.getElementById("map-search-results");
   function updateSearchDropdown(raw) {
@@ -1230,7 +1474,7 @@ export async function createRealisticEarthController({ onOpenEntry }) {
       ? list
           .map(
             (p) => `
-          <button class="map-search-item" data-pid="${escapeHtml(p.id)}">
+          <button type="button" class="map-search-item" data-pid="${escapeHtml(p.id)}">
             <span><b>${escapeHtml(p.name_zh)}</b> <span style="font-size:12px; color:var(--ink-sec);">${escapeHtml(p.code)}</span></span>
             <span style="font-size:12px; color:var(--klein);">${escapeHtml(p.elevDisplay)}</span>
           </button>`
@@ -1271,43 +1515,52 @@ export async function createRealisticEarthController({ onOpenEntry }) {
     });
   }
 
+  // 4.2.3: Every omitted parameter resets cleanly to default
   function applySubRoute(rest) {
     const parsed = parseMapSubRoute(rest);
     suppressHashWrite = true;
     try {
-      if (parsed.mode && ["satellite", "paper", "night"].includes(parsed.mode) && parsed.mode !== basemapMode) {
-        basemapMode = parsed.mode;
-        applyBasemapAndTerrain();
-      }
-      if (parsed.terrain !== null && parsed.terrain !== terrainOn) {
-        terrainOn = parsed.terrain;
-        applyBasemapAndTerrain();
-      }
+      basemapMode = parsed.mode;
+      terrainOn = parsed.terrain;
+      applyArchiveLayerFilter(parsed.layer);
+
       if (parsed.hasCamera) {
+        if (!parsed.siteId) {
+          renderSiteCard(null, true);
+        } else {
+          const norm = LEGACY_TO_SITE_ID[parsed.siteId] || parsed.siteId;
+          selectedSiteId = norm;
+          const hit = places.find((p) => p.id === norm || p.entryId === norm);
+          if (hit) renderSiteCard(hit, true);
+        }
+        applyBasemapAndTerrain(parsed.zoom, parsed.pitch);
         map.jumpTo({
           center: [parsed.lon, parsed.lat],
           zoom: parsed.zoom,
           pitch: parsed.pitch,
           bearing: parsed.bearing,
         });
-        applyBasemapAndTerrain();
-        if (parsed.siteId) {
-          const norm = LEGACY_TO_SITE_ID[parsed.siteId] || parsed.siteId;
-          const hit = places.find((p) => p.id === norm || p.entryId === norm);
-          if (hit) renderSiteCard(hit);
-        }
       } else if (parsed.siteId) {
         const norm = LEGACY_TO_SITE_ID[parsed.siteId] || parsed.siteId;
+        selectedSiteId = norm;
         const hit = places.find((p) => p.id === norm || p.entryId === norm);
-        if (hit) {
-          map.jumpTo({
-            center: [hit.lon, hit.lat],
-            zoom: hit.defaultZoom || 11,
-            pitch: hit.id === "site-2000" ? 60 : 0,
-            bearing: 0,
-          });
-          renderSiteCard(hit);
-        }
+        const cam = QUICK_SITE_CAM[norm];
+        const targetLon = hit ? hit.lon : cam ? cam[0] : 22.0;
+        const targetLat = hit ? hit.lat : cam ? cam[1] : 20.0;
+        const targetZoom = hit ? hit.defaultZoom || 11 : cam ? cam[2] : 11;
+        const targetPitch = norm === "site-2000" ? 60 : cam ? cam[3] : 0;
+        applyBasemapAndTerrain(targetZoom, targetPitch);
+        map.jumpTo({
+          center: [targetLon, targetLat],
+          zoom: targetZoom,
+          pitch: targetPitch,
+          bearing: 0,
+        });
+        if (hit) renderSiteCard(hit, true);
+      } else {
+        renderSiteCard(null, true);
+        applyBasemapAndTerrain(1.45, 0);
+        map.jumpTo({ center: [22.0, 20.0], zoom: 1.45, pitch: 0, bearing: 0 });
       }
     } finally {
       suppressHashWrite = false;
@@ -1317,7 +1570,12 @@ export async function createRealisticEarthController({ onOpenEntry }) {
 
   const controller = {
     map,
-    places,
+    get places() {
+      return places;
+    },
+    get pixelRatio() {
+      return map.getPixelRatio();
+    },
     applySubRoute,
     clearSelection() {
       renderSiteCard(null);
@@ -1329,10 +1587,7 @@ export async function createRealisticEarthController({ onOpenEntry }) {
     },
     selectSite(idOrLegacy) {
       const norm = LEGACY_TO_SITE_ID[idOrLegacy] || idOrLegacy;
-      const hit = places.find((p) => p.id === norm || p.entryId === norm);
-      if (hit) {
-        window.location.hash = `#/map/${hit.id}`;
-      }
+      window.location.hash = `#/map/${encodeURIComponent(norm)}`;
     },
     resize() {
       map.resize();

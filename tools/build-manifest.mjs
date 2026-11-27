@@ -55,6 +55,7 @@ function parseFrontMatter(mdText, filePath) {
   return { meta, body: m[2].trim() };
 }
 
+const ID_RE = /^[a-z0-9][a-z0-9-]*$/;
 const errors = [];
 const seenIds = new Map();
 const entries = [];
@@ -65,6 +66,12 @@ for (const file of walkFiles(ENTRIES_DIR, ".json")) {
   const data = JSON.parse(fs.readFileSync(file, "utf8"));
   for (const req of ["id", "category", "title", "provenance", "summary"]) {
     if (!data[req]) errors.push(`[${relPath}] missing required field '${req}'`);
+  }
+  if (data.id && !ID_RE.test(data.id)) {
+    errors.push(`[${relPath}] invalid id format '${data.id}' (must match ^[a-z0-9][a-z0-9-]*$)`);
+  }
+  if (data.mapSiteId && !ID_RE.test(data.mapSiteId)) {
+    errors.push(`[${relPath}] invalid mapSiteId format '${data.mapSiteId}'`);
   }
   if (seenIds.has(data.id)) {
     errors.push(`[${relPath}] duplicate id '${data.id}' (already in ${seenIds.get(data.id)})`);
@@ -128,6 +135,9 @@ if (fs.existsSync(NOVELS_DIR)) {
       for (const req of ["id", "title", "provenance"]) {
         if (!meta[req]) errors.push(`[${rel}] missing front matter '${req}'`);
       }
+      if (meta.id && !ID_RE.test(String(meta.id))) {
+        errors.push(`[${rel}] invalid id format '${meta.id}'`);
+      }
       if (seenIds.has(meta.id)) {
         errors.push(`[${rel}] duplicate id '${meta.id}'`);
       } else {
@@ -159,14 +169,53 @@ for (const mf of mapFiles) {
   const rel = path.relative(ROOT, mf).replace(/\\/g, "/");
   const gj = JSON.parse(fs.readFileSync(mf, "utf8"));
   for (const feat of gj.features || []) {
+    const fid = feat.properties?.id;
     const eid = feat.properties?.entryId;
+    const tid = feat.properties?.targetEntryId;
+    if (fid && !ID_RE.test(fid)) {
+      errors.push(`[${rel}] feature id '${fid}' must match ^[a-z0-9][a-z0-9-]*$`);
+    }
+    if (eid && !ID_RE.test(eid)) {
+      errors.push(`[${rel}] feature '${fid || ""}' entryId '${eid}' must match ^[a-z0-9][a-z0-9-]*$`);
+    }
+    if (tid && !ID_RE.test(tid)) {
+      errors.push(`[${rel}] feature '${fid || ""}' targetEntryId '${tid}' must match ^[a-z0-9][a-z0-9-]*$`);
+    }
     if (eid && !seenIds.has(eid)) {
       errors.push(`[${rel}] feature '${feat.properties?.id || ""}' references missing entryId '${eid}'`);
+    }
+    if (tid && !seenIds.has(tid)) {
+      errors.push(`[${rel}] feature '${feat.properties?.id || ""}' references missing targetEntryId '${tid}'`);
     }
     if (feat.geometry?.type === "Point") {
       const [lon, lat] = feat.geometry.coordinates || [];
       if (typeof lon !== "number" || lon < -180 || lon > 180 || typeof lat !== "number" || lat < -90 || lat > 90) {
         errors.push(`[${rel}] feature '${feat.properties?.id}' has invalid [lon, lat]: ${JSON.stringify(feat.geometry.coordinates)}`);
+      }
+    } else if (feat.geometry?.type === "LineString") {
+      const coords = feat.geometry.coordinates || [];
+      if (coords.length < 10) {
+        errors.push(`[${rel}] LineString '${fid}' has only ${coords.length} points (must be great-circle arc >= 10 points)`);
+      }
+      for (let i = 1; i < coords.length; i++) {
+        if (Math.abs(coords[i][0] - coords[i - 1][0]) > 90) {
+          errors.push(`[${rel}] LineString '${fid}' crosses antimeridian without splitting into MultiLineString`);
+          break;
+        }
+      }
+    } else if (feat.geometry?.type === "MultiLineString") {
+      const lines = feat.geometry.coordinates || [];
+      const totalPts = lines.reduce((s, seg) => s + seg.length, 0);
+      if (totalPts < 10) {
+        errors.push(`[${rel}] MultiLineString '${fid}' has only ${totalPts} points`);
+      }
+      for (const seg of lines) {
+        for (let i = 1; i < seg.length; i++) {
+          if (Math.abs(seg[i][0] - seg[i - 1][0]) > 90) {
+            errors.push(`[${rel}] MultiLineString '${fid}' segment jumps > 90 deg longitude`);
+            break;
+          }
+        }
       }
     }
   }

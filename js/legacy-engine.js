@@ -2060,9 +2060,9 @@ export function mountArchiveEngine({ PANTHEON, SCP_FILES, CITIES, FACTIONS, AIC_
               <p class="prose-read" style="margin-top:8px;">${renderSafeMarkup(f.log)}</p>
             </details>
           </div>
-          <button class="bp-btn" style="width:100%; font-size:14.5px;" onclick="jumpAtlas('${escapeHtml(f.city)}')">
+          <a class="bp-btn" style="width:100%; font-size:14.5px; text-decoration:none; text-align:center;" href="#/map/${encodeURIComponent(f.city)}">
             在地图中查看该站点地形与水系 →
-          </button>
+          </a>
         </article>
       `).join('');
     }
@@ -2095,8 +2095,8 @@ export function mountArchiveEngine({ PANTHEON, SCP_FILES, CITIES, FACTIONS, AIC_
           <p class="prose-read" style="font-size:15.5px; margin-top:8px;">${escapeHtml(c.desc)}</p>
         </div>
         <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px;">
-          <button class="bp-btn" style="font-size:14px;" onclick="window.switchLiber('gallery'); setCamMode('skyline','${escapeHtml(c.id)}')">铜版星象仪视角</button>
-          <button class="bp-btn active" style="font-size:14px;" onclick="jumpAtlas('${escapeHtml(c.id)}')">在写实地球定位 →</button>
+          <button class="bp-btn" type="button" style="font-size:14px;" data-astrolabe-city="${escapeHtml(c.id)}" data-astrolabe-cam="skyline">铜版星象仪视角</button>
+          <a class="bp-btn active" style="font-size:14px; text-decoration:none; text-align:center;" href="#/map/${encodeURIComponent(c.id)}">在写实地球定位 →</a>
         </div>
       </article>`;
     }).join('');
@@ -2110,7 +2110,7 @@ export function mountArchiveEngine({ PANTHEON, SCP_FILES, CITIES, FACTIONS, AIC_
             <div style="font-size:16px; font-weight:700; color:var(--klein); margin-top:6px;">${escapeHtml(f.name)}</div>
             <p class="desc-copy" style="margin-top:6px;">${escapeHtml(f.desc)}</p>
           </div>
-          <button class="bp-btn" style="width:100%; font-size:14px;" onclick="window.jumpRealMap('${escapeHtml(f.city)}')">在地图定位 →</button>
+          <a class="bp-btn" style="width:100%; font-size:14px; text-decoration:none; text-align:center;" href="#/map/${encodeURIComponent(f.city)}">在地图定位 →</a>
         </div>
       `).join('');
     }
@@ -2126,13 +2126,13 @@ export function mountArchiveEngine({ PANTHEON, SCP_FILES, CITIES, FACTIONS, AIC_
         kind: '站点地理', title: `${c.name}（${c.coords}）`, city: c.id, liber: 'map',
         scpNums: ([c.name, c.tag].join(' ').match(/SCP-\d+/gi) || []).map(s => s.toUpperCase()),
         terms: [c.id, c.roman, c.name, c.short, c.god, ...c.name.split(/[·\s()（）/]+/).filter(x => x.length >= 2)],
-        html: `<b>[站点地理命中 · ${escapeHtml(c.name)}]</b><br/><b>坐标位置：</b>${escapeHtml(c.coords)}（地势：${escapeHtml(c.terrain)}）<br/>${escapeHtml(c.desc)}<br/><button class="bp-btn active" style="margin-top:8px;" onclick="window.jumpRealMap('${escapeHtml(c.id)}')">在写实地球定位 ${escapeHtml(c.short)} →</button>`
+        html: `<b>[站点地理命中 · ${escapeHtml(c.name)}]</b><br/><b>坐标位置：</b>${escapeHtml(c.coords)}（地势：${escapeHtml(c.terrain)}）<br/>${escapeHtml(c.desc)}<br/><a class="bp-btn active" style="margin-top:8px; display:inline-flex; text-decoration:none;" href="#/map/${encodeURIComponent(c.id)}">在写实地球定位 ${escapeHtml(c.short)} →</a>`
       })),
       ...PANTHEON.map((p, idx) => ({
         kind: '神祇图鉴', title: `${p.latin} · ${p.condensed}`, city: p.city, liber: 'pantheon', pIdx: idx,
         scpNums: (p.latin.match(/SCP-\d+/gi) || []).map(s => s.toUpperCase()),
         terms: [p.latin, p.condensed, p.sub, ...p.latin.split(/[·\s()（）/]+/).filter(x => x.length >= 2)],
-        html: `<b>[神祇图鉴命中 · ${escapeHtml(p.condensed)}]</b><br/>${escapeHtml(p.lore)}<br/><button class="bp-btn" style="margin-top:8px;" onclick="selectPantheon(${idx}); window.switchLiber('pantheon')">打开铜版图鉴详情 →</button>`
+        html: `<b>[神祇图鉴命中 · ${escapeHtml(p.condensed)}]</b><br/>${escapeHtml(p.lore)}<br/><button class="bp-btn" type="button" style="margin-top:8px;" data-select-pantheon="${idx}">打开铜版图鉴详情 →</button>`
       })),
       ...FACTIONS.map(f => ({
         kind: '同行组织', title: f.name, city: f.city, liber: 'oraculum',
@@ -2188,7 +2188,7 @@ export function mountArchiveEngine({ PANTHEON, SCP_FILES, CITIES, FACTIONS, AIC_
             return Math.abs(na - targetNum) - Math.abs(nb - targetNum);
           })
           .slice(0, 3);
-        const nearBtns = nearScp.map(it => `<button class="bp-btn" style="margin:4px 6px 0 0;" onclick="runQuickSearch('${escapeHtml(it.scpNums[0])}')">${escapeHtml(it.title)}</button>`).join('');
+        const nearBtns = nearScp.map(it => `<button class="bp-btn" type="button" style="margin:4px 6px 0 0;" data-quick-search="${escapeHtml(it.scpNums[0])}">${escapeHtml(it.title)}</button>`).join('');
         appendAicMsg(`<b>[档案库未收录]</b> 档案库未收录：<b>${escapeHtml(targetCode)}</b>。<br/>馆藏最相近的 3 份 SCP 条目如下：<div style="margin-top:6px;">${nearBtns}</div>`);
         return;
       }
@@ -2221,7 +2221,7 @@ export function mountArchiveEngine({ PANTHEON, SCP_FILES, CITIES, FACTIONS, AIC_
       }
 
       const fallbackThree = [UNIFIED_INDEX[0], UNIFIED_INDEX[5], UNIFIED_INDEX[12]].filter(Boolean);
-      const fbBtns = fallbackThree.map(it => `<button class="bp-btn" style="margin:4px 6px 0 0;" onclick="runQuickSearch('${escapeHtml(it.terms[0])}')">${escapeHtml(it.title)}</button>`).join('');
+      const fbBtns = fallbackThree.map(it => `<button class="bp-btn" type="button" style="margin:4px 6px 0 0;" data-quick-search="${escapeHtml(it.terms[0])}">${escapeHtml(it.title)}</button>`).join('');
       appendAicMsg(`<b>[档案库未收录]</b> 档案库未收录：“<b>${safeQ}</b>”。<br/>您可尝试检索以下馆藏条目：<div style="margin-top:6px;">${fbBtns}</div>`);
     }
 
@@ -2260,14 +2260,14 @@ export function mountArchiveEngine({ PANTHEON, SCP_FILES, CITIES, FACTIONS, AIC_
       { city: 'leng',       txt: '[APOLLYON] 帕米尔冷原 SCP-2317 第七锁链张力升至 94.2%，程序 220-Calabasas 正在注入群青谐波' },
       { city: 'alexandria', txt: '[THAUMIEL] 亚历山大 Site-01 法罗斯大灯塔休谟基准稳定于 1.48 Hm，尼罗河航道商船通行正常' },
       { city: 'rlyeh',      txt: '[SONAR-17Hz] 南太平洋 47°09\'S 侦测到拉莱耶低频梦境潮汐，MTF Gamma-6 四艘潜航舰已合围' },
-      { city: 'site13',     txt: '[KETER] 阿拉斯加 Site-13 地下第 28 层奇术焚化炉持续运转，MTF Tau-5 轮回小队已控制高空连廊' },
+      { city: 'site13',     txt: '[KETER] 得州大本德 Site-13 地下第 28 层奇术焚化炉持续运转，MTF Tau-5 轮回小队已控制高空连廊' },
       { city: 'baikal',     txt: '[CONCORDAT] 贝加尔湖隔离墙外围气温 -34°C，破碎之神发条大穹顶正以 88Hz 压制 SCP-610 活性' },
       { city: 'penglai',    txt: '[SITE-CN-01] 东海蓬莱太乙七重镇海塔完成酉时巡检，西太平洋海眼水脉平稳' }
     ];
     const tickerTrack = document.getElementById('ticker-track');
     if (tickerTrack) {
       const htmlItems = [...TICKER_EVENTS, ...TICKER_EVENTS].map(ev =>
-        `<span style="cursor:pointer; color:var(--ink);" onclick="window.switchLiber('terra'); setCamMode('skyline','${ev.city}')"><b style="color:var(--klein);">◈</b> ${ev.txt}</span>`
+        `<span style="cursor:pointer; color:var(--ink);" data-astrolabe-city="${escapeHtml(ev.city)}" data-astrolabe-cam="skyline"><b style="color:var(--klein);">◈</b> ${ev.txt}</span>`
       ).join('');
       tickerTrack.innerHTML = htmlItems;
     }
@@ -2276,6 +2276,25 @@ export function mountArchiveEngine({ PANTHEON, SCP_FILES, CITIES, FACTIONS, AIC_
       window.location.hash = '#/map/' + encodeURIComponent(cityId);
     };
     window.jumpAtlas = window.jumpRealMap;
+
+    document.addEventListener('click', (ev) => {
+      const astBtn = ev.target.closest('[data-astrolabe-city]');
+      if (astBtn) {
+        window.switchLiber('gallery');
+        setCamMode(astBtn.dataset.astrolabeCam || 'skyline', astBtn.dataset.astrolabeCity);
+        return;
+      }
+      const panBtn = ev.target.closest('[data-select-pantheon]');
+      if (panBtn) {
+        selectPantheon(Number(panBtn.dataset.selectPantheon) || 0);
+        window.switchLiber('pantheon');
+        return;
+      }
+      const qsBtn = ev.target.closest('[data-quick-search]');
+      if (qsBtn) {
+        handleAicQuery(qsBtn.dataset.quickSearch);
+      }
+    });
 
     // Globe Multi-Touch Pinch-to-Zoom, Single-Finger Orbit & Wheel Controls
     const activePointers = new Map();
