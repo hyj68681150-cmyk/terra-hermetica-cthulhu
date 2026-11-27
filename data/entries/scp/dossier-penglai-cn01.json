@@ -17,6 +17,9 @@
   "hume": "1.42 Hm · 奇术稳固",
   "legacyCityId": "penglai",
   "mapSiteId": "site-penglai",
+  "overview": "Site-CN-01 蓬莱七重镇海宝塔锚定于中国山东省烟台市蓬莱区丹崖山—田横山外侧黄渤海分界海域独立礁盘（37°49′42″N 120°45′08″E），融合 SCP 基金会中文分部“中华异学会”（CC BY-SA 3.0）古籍传统与本站原创蓝色神学防务架构。卷宗严格区分山东登州地理史实、《史记》徐福东渡传说与外海虚构设施，记录了这座维持 1.42 Hm 的东海潮路核心前哨如何凭借洛书—斯克兰顿复合锚与三十六座镇水兽，在西安（♃︎）与京都（♀︎）之间耗散来自西太平洋深沟的远洋低休谟回波。",
+  "bodyPath": "data/dossiers/dossier-penglai-cn01.md",
+  "readingMinutes": 19,
   "summary": "传承自先秦方士与中华异学会的东海海山奇术枢纽，后改组为基金会中国分部核心圣座 Site-CN-01。山巅七层翘角飞檐宝塔实为巨型 {{redact:1:[洛书-斯克兰顿复合海眼镇压锚]}}，压制西太平洋深海旧日支脉。",
   "proc": "异学会竹简阁与基金会奇术师每日卯酉二时沿玉带河石桥巡检三十六座镇水兽。",
   "log": "【竹简卷四·沧溟志】“东海之东有归墟焉，八纮九野之水莫不注之；立太乙青金七级浮屠，可令渊海大妖千年不寤。”",
@@ -42,9 +45,32 @@
       "original": true
     }
   ],
-  "relatedIds": [
-    "site-penglai"
+  "cluesGranted": [
+    {
+      "id": "clue-penglai-luoshu-caustic",
+      "title": "黄渤海浅滩声学焦散面与洛书九宫阻尼芯参数",
+      "xp": 20
+    }
   ],
-  "updatedAt": "2026-11-26",
+  "relatedIds": [
+    "site-penglai",
+    "goi-miskatonic-yixuehui",
+    "goi-foedus-caeruleum",
+    "goi-tactical-theology",
+    "goi-ordo-caeruleus",
+    "sanct-iuppiter",
+    "sanct-venus",
+    "sanct-sol",
+    "site-alexandria",
+    "dossier-tabula-caerulea",
+    "codex-tinctura",
+    "codex-hume-theory",
+    "site-rlyeh",
+    "site-2000",
+    "site-leng",
+    "era-alexandria-pharos-concord",
+    "era-modern-blue-theology-convergence"
+  ],
+  "updatedAt": "2026-11-27",
   "provenanceLabel": "中华异学会设定 (SCP-CN, CC BY-SA 3.0) + 本站原创蓬莱镇海塔设定"
 }
