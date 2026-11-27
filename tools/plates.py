@@ -124,23 +124,55 @@ def _encode_webp_under_budget(plate_img: Image.Image, max_bytes: int = MAX_BYTES
     raise RuntimeError(f"Unable to compress WebP under {max_bytes} bytes")
 
 
-def _clamp_decoded_outliers_if_any(webp_bytes: bytes, quality: int) -> bytes:
-    """Verifies zero HSV outlier pixels after lossy WebP decode; repairs YUV ringing if needed."""
-    decoded = Image.open(io.BytesIO(webp_bytes)).convert("RGB")
-    out_hsv, _ = count_outlier_pixels(decoded)
-    if out_hsv == 0:
-        return webp_bytes
+def _outlier_mask_hsv(im_rgb: Image.Image) -> np.ndarray:
+    arr = np.asarray(im_rgb.convert("RGB"), dtype=np.float32) / 255.0
+    r, g, b = arr[..., 0], arr[..., 1], arr[..., 2]
+    mx = arr.max(axis=-1)
+    mn = arr.min(axis=-1)
+    d = mx - mn
+    s_hsv = np.where(mx > 0.0, d / np.maximum(mx, 1e-9), 0.0)
+    hue = np.zeros_like(mx)
+    mask = d > 1e-9
+    rc = (mx == r) & mask
+    gc = (mx == g) & mask & ~rc
+    bc = mask & ~rc & ~gc
+    hue[rc] = ((g - b)[rc] / d[rc]) % 6.0
+    hue[gc] = ((b - r)[gc] / d[gc]) + 2.0
+    hue[bc] = ((r - g)[bc] / d[bc]) + 4.0
+    hue = hue * 60.0
+    return (s_hsv > 0.25) & ((hue < 195.0) | (hue > 255.0)) & (mx > 0.0)
 
-    # Re-project onto pure Klein-blue..white ramp with slight highlight headroom to prevent YUV chroma flip
-    arr = np.asarray(decoded, dtype=np.float32) / 255.0
-    lum = np.clip(0.2126 * arr[..., 0] + 0.7152 * arr[..., 1] + 0.0722 * arr[..., 2], 0.0, 0.985)[
-        ..., np.newaxis
-    ]
-    mapped = np.clip(np.rint(KLEIN_RGB + lum * (WHITE_RGB - KLEIN_RGB)), 0, 255).astype(np.uint8)
-    repaired = Image.fromarray(mapped, mode="RGB")
-    buf = io.BytesIO()
-    repaired.save(buf, format="WEBP", quality=quality, method=6)
-    return buf.getvalue()
+
+def _clamp_decoded_outliers_if_any(base_plate: Image.Image, webp_bytes: bytes, quality: int) -> bytes:
+    """Verifies zero HSV outlier pixels after lossy WebP decode; locally smooths YUV 4:2:0 ringing macroblocks if needed."""
+    from PIL import ImageFilter
+
+    working = base_plate.copy()
+    cur_bytes = webp_bytes
+    cur_q = quality
+
+    for _ in range(6):
+        decoded = Image.open(io.BytesIO(cur_bytes)).convert("RGB")
+        bad = _outlier_mask_hsv(decoded)
+        if not np.any(bad):
+            return cur_bytes
+
+        # Dilate only around ringing pixels (8x8 YUV block neighborhood) and blend local smoothed ramp
+        bad_img = Image.fromarray((bad.astype(np.uint8) * 255), mode="L").filter(ImageFilter.MaxFilter(9))
+        dilated = (np.asarray(bad_img) > 0)[..., np.newaxis]
+
+        blurred = working.filter(ImageFilter.GaussianBlur(radius=1.4))
+        b_arr = np.asarray(blurred, dtype=np.float32) / 255.0
+        lum = np.clip(0.2126 * b_arr[..., 0] + 0.7152 * b_arr[..., 1] + 0.0722 * b_arr[..., 2], 0.05, 0.96)[
+            ..., np.newaxis
+        ]
+        safe_patch = np.clip(np.rint(KLEIN_RGB + lum * (WHITE_RGB - KLEIN_RGB)), 0, 255).astype(np.uint8)
+        w_arr = np.asarray(working, dtype=np.uint8)
+        working = Image.fromarray(np.where(dilated, safe_patch, w_arr), mode="RGB")
+
+        cur_bytes, cur_q = _encode_webp_under_budget(working, MAX_BYTES)
+
+    return cur_bytes
 
 
 def convert_plate(in_path: str | Path, out_target: str | Path = "assets/plates") -> dict:
@@ -160,7 +192,7 @@ def convert_plate(in_path: str | Path, out_target: str | Path = "assets/plates")
         ramped = map_luminance_to_klein_ramp(raw_im)
 
     webp_bytes, used_q = _encode_webp_under_budget(ramped, MAX_BYTES)
-    webp_bytes = _clamp_decoded_outliers_if_any(webp_bytes, used_q)
+    webp_bytes = _clamp_decoded_outliers_if_any(ramped, webp_bytes, used_q)
 
     if len(webp_bytes) > MAX_BYTES:
         raise RuntimeError(f"{out_file.name}: size {len(webp_bytes)} B exceeds 220 KB limit ({MAX_BYTES} B)")
