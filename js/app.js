@@ -1,22 +1,117 @@
 /**
  * js/app.js
- * Entry point: fast-paths #/map cold start (deferring 44 archive JSON fetches
- * and legacy copperplate engine until after map `idle`), handles #/entry/<id>,
- * and enforces zero inline `onclick` attributes.
+ * Entry point. Fast-paths #/map cold start (deferring the archive JSON fetches and the legacy
+ * copperplate engine until after the map `idle`), routes the archive views (lobby, categories,
+ * entry reader, search, novel reader, investigation game, exhibition hall) and enforces zero
+ * inline event attributes.
  */
-import { escapeHtml, renderSafeMarkup } from "./sanitize.js";
-import { initRouter, parseHashRoute, pushChapterHash } from "./router.js";
+import { initRouter, pushChapterHash } from "./router.js";
 
-let allDetailedEntries = [];
 let earthController = null;
 let earthInitPromise = null;
 let archiveMountPromise = null;
 let archiveMounted = false;
+let routeToken = 0;
 
-// Delegated click & keyboard handler for .scp-redact and [data-history-back] (zero inline onclick)
+// ---------------------------------------------------------------------------------------------
+// Shared fetch caches and the `ctx` object handed to every view renderer
+// ---------------------------------------------------------------------------------------------
+const fetchCache = new Map();
+function cachedFetch(rel, kind) {
+  const key = `${kind}:${rel}`;
+  if (!fetchCache.has(key)) {
+    const p = fetch("./" + String(rel).replace(/^\.?\//, ""))
+      .then((r) => {
+        if (!r.ok) throw new Error(`HTTP ${r.status} ${rel}`);
+        return kind === "text" ? r.text() : r.json();
+      })
+      .catch((err) => {
+        fetchCache.delete(key);
+        throw err;
+      });
+    fetchCache.set(key, p);
+  }
+  return fetchCache.get(key);
+}
+const getManifest = () => cachedFetch("data/manifest.json", "json");
+const fetchJson = (rel) => cachedFetch(rel, "json");
+const fetchText = (rel) => cachedFetch(rel, "text");
+async function fetchEntry(id) {
+  const manifest = await getManifest();
+  const item = (manifest.entries || []).find((e) => e.id === id);
+  if (!item) throw new Error(`Unknown entry ${id}`);
+  return fetchJson(item.path);
+}
+
+let ctxPromise = null;
+function getCtx() {
+  if (!ctxPromise) {
+    ctxPromise = Promise.all([import("./clearance.js"), import("./autolink.js")]).then(
+      ([clearance, autolink]) => {
+        let autolinkIndexPromise = null;
+        const getAutolinkIndex = () => {
+          if (!autolinkIndexPromise) {
+            autolinkIndexPromise = getManifest().then((m) => autolink.buildAutolinkIndex(m.entries || []));
+          }
+          return autolinkIndexPromise;
+        };
+        autolink.initEntryPreviewPopover({
+          getManifestEntry: async (id) => ((await getManifest()).entries || []).find((e) => e.id === id) || null,
+          fetchEntry,
+        });
+        return {
+          getManifest,
+          getAutolinkIndex,
+          fetchEntry,
+          fetchJson,
+          fetchText,
+          clearance,
+          autolink,
+          navigate: (hash) => {
+            window.location.hash = hash;
+          },
+          openPantheonIndex: async (idx) => {
+            window.switchLiber("pantheon", true);
+            if (typeof window.selectPantheon === "function") window.selectPantheon(Number(idx) || 0);
+          },
+          activateAstrolabe: async (cityId, cam) => {
+            window.switchLiber("gallery", true);
+            if (cityId && typeof window.__astrolabeFocus === "function") window.__astrolabeFocus(cityId, cam);
+          },
+          startLegacyCinema: () => {},
+          stopLegacyCinema: () => {},
+        };
+      }
+    );
+  }
+  return ctxPromise;
+}
+
+let p2p3CssPromise = null;
+function ensureP2P3Css() {
+  if (!p2p3CssPromise) {
+    p2p3CssPromise = Promise.all(
+      ["./css/wiki-v2.css", "./css/p3-modules.css"].map(
+        (href) =>
+          new Promise((resolve) => {
+            const link = document.createElement("link");
+            link.rel = "stylesheet";
+            link.href = href;
+            link.onload = link.onerror = () => resolve();
+            document.head.appendChild(link);
+          })
+      )
+    );
+  }
+  return p2p3CssPromise;
+}
+
+// ---------------------------------------------------------------------------------------------
+// Delegated handlers (zero inline onclick)
+// ---------------------------------------------------------------------------------------------
 document.addEventListener("click", (e) => {
   const redact = e.target.closest(".scp-redact");
-  if (redact) {
+  if (redact && !redact.hasAttribute("data-redact-key")) {
     redact.classList.toggle("revealed");
     return;
   }
@@ -29,34 +124,68 @@ document.addEventListener("click", (e) => {
   // Early fallback nav handler before legacy-engine finishes mounting
   if (!archiveMounted) {
     const navBtn = e.target.closest(".liber-nav-btn[data-liber]");
-    if (navBtn) {
-      pushChapterHash(navBtn.dataset.liber);
-    }
+    if (navBtn) window.location.hash = "#/" + navBtn.dataset.liber;
   }
 });
 
 document.addEventListener("keydown", (e) => {
   if (e.key === "Enter" || e.key === " ") {
     const redact = e.target.closest(".scp-redact");
-    if (redact) {
+    if (redact && !redact.hasAttribute("data-redact-key")) {
       e.preventDefault();
       redact.classList.toggle("revealed");
     }
   }
 });
 
-const CORNER_LATIN = {"prologus":"PROLOGVS — INDEX","map":"LIBER I — DE TERRA","pantheon":"LIBER II — NVMEN","scp":"LIBER III — ARCANVM","architectura":"LIBER IV — LOCI","oraculum":"LIBER V — ORACVLVM","gallery":"LIBER VI — SPHAERA","colophon":"COLOPHON — LICENTIA","entry":"CODEX — FOLIVM"};
+const CORNER_LATIN = {
+  home: "ATRIVM — INDEX",
+  prologus: "PROLOGVS — INDEX",
+  map: "LIBER I — DE TERRA",
+  pantheon: "LIBER II — NVMEN",
+  scp: "LIBER III — ARCANVM",
+  architectura: "LIBER IV — LOCI",
+  oraculum: "LIBER V — ORACVLVM",
+  gallery: "LIBER VI — SPHAERA",
+  exhibit: "LIBER VI — SPHAERA",
+  colophon: "COLOPHON — LICENTIA",
+  entry: "CODEX — FOLIVM",
+  category: "CATALOGVS — ARCHIVI",
+  search: "INQVISITIO",
+  novel: "FABVLAE — LIBRI",
+  play: "PROBATIO — GRADVS",
+};
+const STAGE_OF = {
+  home: "stage-home",
+  category: "stage-category",
+  search: "stage-search",
+  novel: "stage-novel",
+  play: "stage-play",
+};
+// Which top-nav button stays lit for each view
+const NAV_GROUP = {
+  entry: "category",
+  scp: "category",
+  architectura: "category",
+  oraculum: "search",
+  prologus: "home",
+  pantheon: "gallery",
+  exhibit: "gallery",
+};
+
+function setNavActive(view) {
+  const name = NAV_GROUP[view] || view;
+  document.querySelectorAll(".liber-nav-btn[data-liber]").forEach((b) => b.classList.toggle("active", b.dataset.liber === name));
+}
+
 function basicSwitchStage(view) {
-  const name = view === "terra" ? "gallery" : view;
-  document.body.setAttribute("data-view", name);
+  document.body.setAttribute("data-view", view);
   const tr = document.getElementById("corner-tr");
-  if (tr) tr.textContent = CORNER_LATIN[name] || "LIBER I — DE TERRA";
-  document.querySelectorAll(".liber-nav-btn[data-liber]").forEach((b) =>
-    b.classList.toggle("active", b.dataset.liber === name)
-  );
-  ["prologus", "map", "pantheon", "scp", "architectura", "oraculum", "colophon", "entry"].forEach((st) => {
-    const el = document.getElementById(`stage-${st}`);
-    if (el) el.classList.toggle("open", name === st);
+  if (tr) tr.textContent = CORNER_LATIN[view] || "LIBER I — DE TERRA";
+  setNavActive(view);
+  document.querySelectorAll(".chapter-stage, #stage-map").forEach((el) => {
+    const id = el.id.replace(/^stage-/, "");
+    el.classList.toggle("open", id === view);
   });
 }
 
@@ -75,80 +204,14 @@ async function ensureEarthController() {
   return earthController;
 }
 
-function formatEntryCoord(geo) {
-  if (!geo) return "";
-  const digits = geo.precision === "exact" ? 4 : 1;
-  const ns = geo.lat >= 0 ? "N" : "S";
-  const ew = geo.lon >= 0 ? "E" : "W";
-  return `${Math.abs(geo.lat).toFixed(digits)}°${ns}, ${Math.abs(geo.lon).toFixed(digits)}°${ew}`;
-}
-
-function renderEntryDetailView(entryId) {
-  const root = document.getElementById("entry-detail-root");
-  if (!root) return;
-  const item = allDetailedEntries.find((e) => e.id === entryId);
-  if (!item) {
-    root.innerHTML = `
-      <div class="archive-card">
-        <h2 class="condensed-monument" style="font-size:26px;">档案库未收录：${escapeHtml(entryId)}</h2>
-        <p class="prose-read">未找到对应词条编号，请返回写实地球或收容档案库重新选择。</p>
-        <div><a class="bp-btn active" style="text-decoration:none;" href="#/map">返回写实地球 →</a></div>
-      </div>`;
-    return;
-  }
-
-  const infoboxHtml =
-    Array.isArray(item.infobox) && item.infobox.length
-      ? `<div class="infobox-list">` +
-        item.infobox
-          .map(
-            (r) =>
-              `<div class="infobox-item"><span class="infobox-label">${escapeHtml(r.label)}：</span><span class="infobox-val">${escapeHtml(r.value)}</span>${r.original ? '<span class="orig-field-tag">本站设定</span>' : ""}</div>`
-          )
-          .join("") +
-        `</div>`
-      : "";
-
-  const safeItemHref = `#/map/${encodeURIComponent(item.id)}`;
-  const safeMapSiteHref = item.mapSiteId ? `#/map/${encodeURIComponent(item.mapSiteId)}` : "";
-  const mapBtn = item.geo
-    ? `<a class="bp-btn active" style="text-decoration:none;" href="${escapeHtml(safeItemHref)}">在写实地球定位 (${escapeHtml(formatEntryCoord(item.geo))}) →</a>`
-    : item.mapSiteId
-      ? `<a class="bp-btn active" style="text-decoration:none;" href="${escapeHtml(safeMapSiteHref)}">在写实地球查看关联站点 →</a>`
-      : "";
-
-  root.innerHTML = `
-    <article class="archive-card" style="padding:28px;">
-      <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; border-bottom:1px solid var(--border); padding-bottom:12px;">
-        <span class="${item.provenance === "original" ? "badge-original" : "badge-canon"}">${escapeHtml(item.code || item.category.toUpperCase())}</span>
-        <span class="${item.provenance === "original" ? "badge-original" : "badge-canon"}">出处：${escapeHtml(item.provenanceLabel || item.provenance)}</span>
-      </div>
-      <h1 class="condensed-monument" style="font-size:30px; margin-top:6px;">${escapeHtml(item.title)}</h1>
-      ${infoboxHtml}
-      <p class="prose-read" style="margin-top:10px;">${renderSafeMarkup(item.summary)}</p>
-      ${item.proc ? `<p class="prose-read" style="color:var(--ink-sec);"><b>收容与驻防（本站设定）：</b>${renderSafeMarkup(item.proc)}</p>` : ""}
-      ${item.log ? `<div style="border-left:3px solid var(--klein); padding-left:12px; margin-top:6px;"><p class="prose-read">${renderSafeMarkup(item.log)}</p></div>` : ""}
-      <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:12px;">
-        ${mapBtn}
-        <a class="bp-btn" style="text-decoration:none;" href="#/scp">浏览全部收容卷宗</a>
-        <button class="bp-btn" type="button" data-history-back="1">← 返回上一页</button>
-      </div>
-      <div class="fiction-notice">版权与免责声明：SCP 相关内容遵循 CC BY-SA 3.0 协议；本站为虚构创作作品，地点与真实机构无关。</div>
-    </article>
-  `;
-}
-
 async function loadAndMountArchive() {
   const [{ PANTHEON_SIGILS, CITY_SIGILS }, { mountArchiveEngine }, manifest] = await Promise.all([
     import("./sigils.js"),
     import("./legacy-engine.js"),
-    fetch("./data/manifest.json").then((r) => r.json()),
+    getManifest(),
   ]);
 
-  const detailed = await Promise.all(
-    manifest.entries.map((item) => fetch("./" + item.path).then((r) => r.json()))
-  );
-  allDetailedEntries = detailed;
+  const detailed = await Promise.all(manifest.entries.map((item) => fetchJson(item.path)));
 
   const entities = detailed
     .filter((d) => d.category === "entities")
@@ -257,13 +320,70 @@ function ensureArchiveMounted() {
   return archiveMountPromise;
 }
 
+async function renderArchiveView(view, rest, token) {
+  window.switchLiber(view === "gallery" ? "gallery" : view, true);
+  const [ctx] = await Promise.all([getCtx(), ensureP2P3Css()]);
+  if (token !== routeToken) return;
+  const [pathPart, ...q] = String(rest || "").split("?");
+  const query = q.length ? "?" + q.join("?") : "";
+
+  if (view === "entry") {
+    const { renderEntryView } = await import("./views/entry.js");
+    if (token !== routeToken) return;
+    let id = pathPart.replace(/\/+$/, "");
+    try { id = decodeURIComponent(id); } catch (_) {}
+    await renderEntryView(document.getElementById("entry-detail-root"), id, ctx);
+    return;
+  }
+  if (view === "home") {
+    const { renderHomeView } = await import("./views/home.js");
+    if (token !== routeToken) return;
+    await renderHomeView(document.getElementById("home-root"), ctx);
+  } else if (view === "category") {
+    const { renderCategoryView } = await import("./views/category.js");
+    if (token !== routeToken) return;
+    await renderCategoryView(document.getElementById("category-root"), pathPart.replace(/\/+$/, ""), query, ctx);
+  } else if (view === "search") {
+    const { renderSearchView } = await import("./views/search.js");
+    if (token !== routeToken) return;
+    await renderSearchView(document.getElementById("search-root"), query || pathPart, ctx);
+  } else if (view === "novel") {
+    const { renderNovelView } = await import("./views/novel-reader.js");
+    if (token !== routeToken) return;
+    await renderNovelView(document.getElementById("novel-root"), pathPart, ctx);
+  } else if (view === "play") {
+    const { renderPlayView } = await import("./views/play-game.js");
+    if (token !== routeToken) return;
+    await renderPlayView(document.getElementById("play-root"), pathPart, ctx);
+  }
+  const stage = document.getElementById(STAGE_OF[view]);
+  if (stage) stage.scrollTop = 0;
+}
+
+async function renderGallery(rest, token) {
+  const ctx = await getCtx();
+  await ensureP2P3Css();
+  if (token !== routeToken) return;
+  const room = String(rest || "").split(/[/?]/)[0].toLowerCase();
+  const custom = document.getElementById("stage-gallery-custom");
+  if (room === "timeline" || room === "cinema") {
+    window.switchLiber("exhibit", true);
+    if (custom) custom.style.display = "";
+  }
+  const { renderGalleryView } = await import("./views/gallery.js");
+  if (token !== routeToken) return;
+  await renderGalleryView(custom, rest, ctx);
+}
+
 initRouter(async ({ view, rest }) => {
+  const token = ++routeToken;
   if (view === "map") {
     if (archiveMounted) {
       window.switchLiber("map", true);
     } else {
       basicSwitchStage("map");
     }
+    setNavActive("map");
     const ctrl = await ensureEarthController();
     ctrl.applySubRoute(rest);
     if (!archiveMountPromise) {
@@ -276,11 +396,17 @@ initRouter(async ({ view, rest }) => {
       ctrl.map.once("idle", startArchive);
       setTimeout(startArchive, 4500);
     }
-  } else {
-    await ensureArchiveMounted();
-    window.switchLiber(view, true);
-    if (view === "entry") {
-      renderEntryDetailView(rest.split("?")[0]);
-    }
+    return;
   }
+
+  await ensureArchiveMounted();
+  if (token !== routeToken) return;
+  if (view === "gallery") {
+    await renderGallery(rest, token);
+  } else if (STAGE_OF[view] || view === "entry") {
+    await renderArchiveView(view, rest, token);
+  } else {
+    window.switchLiber(view, true);
+  }
+  setNavActive(view);
 });

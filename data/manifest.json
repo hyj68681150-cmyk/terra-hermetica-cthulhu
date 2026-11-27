@@ -1132,7 +1132,7 @@
           "clueId": "clue-17hz-phase-inversion",
           "clueTitle": "十七赫兹反相包络谐振谱",
           "clueXp": 30,
-          "charCount": 2584,
+          "charCount": 2640,
           "path": "data/novels/azure-tide-dossier/ch-01.md"
         },
         {
@@ -1144,7 +1144,7 @@
           "clueId": "clue-devils-reef-bell",
           "clueTitle": "魔鬼礁反相青铜钟室测绘",
           "clueXp": 30,
-          "charCount": 3071,
+          "charCount": 3139,
           "path": "data/novels/azure-tide-dossier/ch-02.md"
         },
         {
@@ -1156,7 +1156,7 @@
           "clueId": "clue-eighth-sphere-chord",
           "clueTitle": "法罗斯第八重天球引力弦方程",
           "clueXp": 30,
-          "charCount": 3117,
+          "charCount": 3185,
           "path": "data/novels/azure-tide-dossier/ch-03.md"
         }
       ],

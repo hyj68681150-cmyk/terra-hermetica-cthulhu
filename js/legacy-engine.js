@@ -1901,6 +1901,7 @@ export function mountArchiveEngine({ PANTHEON, SCP_FILES, CITIES, FACTIONS, AIC_
       playClickBlip(620);
       state.liber = name;
       document.querySelectorAll('.liber-nav-btn[data-liber]').forEach(b => b.classList.toggle('active', b.dataset.liber === name));
+      document.querySelectorAll('.chapter-stage[data-app-stage]').forEach(el => el.classList.toggle('open', el.dataset.appStage === name));
       ['prologus', 'map', 'pantheon', 'scp', 'architectura', 'oraculum', 'colophon', 'entry'].forEach(st => {
         const el = document.getElementById(`stage-${st}`);
         if (el) el.classList.toggle('open', name === st);
@@ -1918,7 +1919,7 @@ export function mountArchiveEngine({ PANTHEON, SCP_FILES, CITIES, FACTIONS, AIC_
       leftPanel.classList.toggle('panel-hidden-left', !inTerra || state.uiHidden);
       rightPanel.classList.toggle('panel-hidden-right', !inTerra || state.uiHidden);
       document.body.setAttribute('data-view', name);
-      const cornerMap = {"prologus":"PROLOGVS — INDEX","map":"LIBER I — DE TERRA","pantheon":"LIBER II — NVMEN","scp":"LIBER III — ARCANVM","architectura":"LIBER IV — LOCI","oraculum":"LIBER V — ORACVLVM","gallery":"LIBER VI — SPHAERA","colophon":"COLOPHON — LICENTIA","entry":"CODEX — FOLIVM"};
+      const cornerMap = {"home":"ATRIVM — INDEX","category":"CATALOGVS — ARCHIVI","search":"INQVISITIO","novel":"FABVLAE — LIBRI","play":"PROBATIO — GRADVS","exhibit":"LIBER VI — SPHAERA","prologus":"PROLOGVS — INDEX","map":"LIBER I — DE TERRA","pantheon":"LIBER II — NVMEN","scp":"LIBER III — ARCANVM","architectura":"LIBER IV — LOCI","oraculum":"LIBER V — ORACVLVM","gallery":"LIBER VI — SPHAERA","colophon":"COLOPHON — LICENTIA","entry":"CODEX — FOLIVM"};
       const trEl = document.getElementById('corner-tr');
       if (trEl) trEl.textContent = cornerMap[name] || 'LIBER I — DE TERRA';
       const meta = LIBER_META[name] || LIBER_META.map;
@@ -1934,7 +1935,7 @@ export function mountArchiveEngine({ PANTHEON, SCP_FILES, CITIES, FACTIONS, AIC_
     };
 
     document.querySelectorAll('.liber-nav-btn[data-liber]').forEach(btn => {
-      btn.addEventListener('click', () => { stopCinema(); window.switchLiber(btn.dataset.liber); });
+      btn.addEventListener('click', () => { stopCinema(); window.location.hash = '#/' + btn.dataset.liber; });
     });
 
     const ICON_PLAY = `<svg class="ico" viewBox="0 0 14 14"><polygon points="3.5,2.2 11.5,7 3.5,11.8"/></svg><span>巡礼放映</span>`;
@@ -2460,6 +2461,7 @@ export function mountArchiveEngine({ PANTHEON, SCP_FILES, CITIES, FACTIONS, AIC_
       selectCity(cityOverride || state.selectedId, true, CAM_MODES[mode]);
     }
     document.querySelectorAll('[data-cam]').forEach(btn => btn.addEventListener('click', () => setCamMode(btn.dataset.cam)));
+    window.__astrolabeFocus = (cityId, cam) => setCamMode(cam || 'skyline', cityId);
     document.getElementById('btn-skyline').addEventListener('click', () => setCamMode('skyline'));
     document.getElementById('btn-street').addEventListener('click', () => setCamMode('street'));
     document.getElementById('btn-open-dossier').addEventListener('click', () => {

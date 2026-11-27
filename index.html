@@ -38,7 +38,7 @@
   <div id="marginalia-outer"></div>
   <div id="marginalia-inner"></div>
 
-  <a id="corner-tl" class="corner-header" href="#/prologus">THEOLOGIA CAERVLEA · ARCHIVVM</a>
+  <a id="corner-tl" class="corner-header" href="#/">THEOLOGIA CAERVLEA · ARCHIVVM</a>
   <div id="corner-tr" class="corner-header">LIBER I — DE TERRA</div>
   <div id="corner-bl" class="corner-header"><span id="corner-fig-label">FIG. I — ORBIS TERRARVM</span></div>
 
@@ -49,18 +49,18 @@
 
   <!-- Top-Center Pure Text Archival Navigation (Cleanly separated from TL/TR headers) -->
   <nav id="top-nav" class="no-scrollbar" aria-label="主导航">
-    <button class="liber-nav-btn" data-liber="prologus">导览</button>
+    <button class="liber-nav-btn" data-liber="home">大厅</button>
     <button class="liber-nav-btn active" data-liber="map">舆图</button>
-    <button class="liber-nav-btn" data-liber="pantheon">神祇图鉴</button>
-    <button class="liber-nav-btn" data-liber="scp">收容卷宗</button>
-    <button class="liber-nav-btn" data-liber="architectura">站点志</button>
-    <button class="liber-nav-btn" data-liber="oraculum">检索台</button>
-    <button class="liber-nav-btn" data-liber="gallery">星象仪</button>
+    <button class="liber-nav-btn" data-liber="category">档案</button>
+    <button class="liber-nav-btn" data-liber="novel">小说</button>
+    <button class="liber-nav-btn" data-liber="play">调查</button>
+    <button class="liber-nav-btn" data-liber="gallery">展厅</button>
+    <button class="liber-nav-btn" data-liber="search">检索</button>
     <button class="liber-nav-btn" data-liber="colophon">铭记</button>
     <span class="nav-sep">·</span>
     <button id="btn-theme" class="liber-nav-btn"><span id="theme-label">夜间</span></button>
     <button id="btn-audio" class="liber-nav-btn"><span>声景: 关</span></button>
-    <button id="btn-cinema" class="liber-nav-btn"><span>巡礼</span></button>
+    <button id="btn-cinema" class="liber-nav-btn" hidden style="display:none !important;"><span>巡礼</span></button>
   </nav>
 
   <!-- ===================================================================== -->
@@ -164,6 +164,16 @@
   <section id="stage-entry" class="chapter-stage custom-scroll">
     <div id="entry-detail-root" class="entry-container"></div>
   </section>
+
+  <!-- ===================================================================== -->
+  <!-- ARCHIVE VIEW STAGES (lobby, categories, search, novel, play, exhibit) -->
+  <!-- ===================================================================== -->
+  <section id="stage-home" class="chapter-stage custom-scroll" data-app-stage="home"><div id="home-root"></div></section>
+  <section id="stage-category" class="chapter-stage custom-scroll" data-app-stage="category"><div id="category-root"></div></section>
+  <section id="stage-search" class="chapter-stage custom-scroll" data-app-stage="search"><div id="search-root"></div></section>
+  <section id="stage-novel" class="chapter-stage custom-scroll" data-app-stage="novel"><div id="novel-root"></div></section>
+  <section id="stage-play" class="chapter-stage custom-scroll" data-app-stage="play"><div id="play-root"></div></section>
+  <section id="stage-gallery-custom" class="chapter-stage custom-scroll" data-app-stage="exhibit"></section>
 
   <!-- ===================================================================== -->
   <!-- STAGE GALLERY: COPPERPLATE ASTROLABE EXHIBIT (#/gallery)              -->
