@@ -586,9 +586,9 @@ async function renderBookDetailView(rootEl, book, progress, ctx) {
               <a class="bp-btn" href="#/novel">← 返回书架</a>
               <a class="bp-btn" href="#/play">进入权限与调查终端 →</a>
             </div>
-            <div class="fiction-notice">
+            <p class="fiction-notice prose-read">
               署名与许可声明：本书为本站原创跨世界观小说，基于洛夫克拉夫特公有领域作品与 SCP 基金会维基设定衍生创作，全文以 <a href="https://creativecommons.org/licenses/by-sa/3.0/deed.zh-hans" target="_blank" rel="noopener">CC BY-SA 3.0</a> 协议授权共享。虚构叙事与真实机构无关。
-            </div>
+            </p>
           </div>
         </div>
 
