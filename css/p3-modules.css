@@ -1,0 +1,1850 @@
+/* css/p3-modules.css — P3 ("能读、能玩、能看") Monochrome Klein-Blue & White Stylesheet
+ * Strict adherence to css/tokens.css:
+ *  - ZERO third colors (strictly Klein-Blue + White/Ivory paper tokens ONLY)
+ *  - ZERO scanlines over novel, game, drawer, or timeline text
+ *  - Prose >= 15.5px desktop, >= 16px mobile, auxiliary labels >= 12px
+ *  - Mobile (<= 860px) interactive touch targets >= 44x44px
+ */
+
+/* =========================================================================
+   1. SHARED P3 SHELL, BREADCRUMB & EDITORIAL HEADER
+   ========================================================================= */
+#stage-novel,
+#stage-play,
+#stage-gallery,
+#stage-gallery-custom {
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: flex-start;
+  padding: 74px 32px 88px 32px;
+}
+
+.p3-shell {
+  width: 100%;
+  max-width: 1120px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.p3-breadcrumb {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: var(--ink-sec);
+  border-bottom: 1px solid var(--border-soft);
+  padding-bottom: 8px;
+}
+
+.p3-breadcrumb a {
+  color: var(--klein);
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+}
+
+.p3-breadcrumb a:hover {
+  border-bottom-color: var(--klein);
+}
+
+.p3-editorial-header {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 16px;
+}
+
+.p3-page-title {
+  font-size: clamp(26px, 3.4vw, 36px);
+  line-height: 1.28;
+}
+
+.p3-page-lead {
+  font-size: 15.5px;
+  line-height: 1.82;
+  max-width: 46em;
+  color: var(--ink);
+}
+
+.novel-badge-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+
+.novel-stat-pill {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 8px;
+  font-size: 12px;
+  letter-spacing: 0.05em;
+  color: var(--ink-sec);
+  border: 1px solid var(--border);
+  background: var(--bg-sub);
+}
+
+/* Locked redaction chip styling (monochrome Klein-Blue & White) */
+.scp-redact.scp-redact-locked {
+  background: var(--bg-sub);
+  color: var(--klein);
+  border: 1px dashed var(--klein);
+  padding: 1px 7px;
+  font-size: 0.92em;
+  letter-spacing: 0.04em;
+}
+
+/* =========================================================================
+   2. MARKDOWN NOVEL READER (#/novel, #/novel/<bookId>, #/novel/<bookId>/<ch>)
+   ========================================================================= */
+.novel-resume-banner {
+  border: 1px solid var(--klein);
+  background: var(--bg-card);
+  padding: 16px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.novel-resume-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.novel-resume-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--klein);
+}
+
+.novel-resume-sub {
+  font-size: 14px;
+  color: var(--ink-sec);
+}
+
+.novel-resume-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.novel-book-card {
+  border: 1px solid var(--border);
+  background: var(--bg-card);
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+
+.novel-book-cover-grid {
+  display: grid;
+  grid-template-columns: 220px minmax(0, 1fr);
+  gap: 24px;
+  align-items: stretch;
+}
+
+.novel-cover-plate {
+  background: var(--plate-bg);
+  color: var(--plate-fg);
+  border: 1px solid var(--border);
+  padding: 16px 14px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  text-align: center;
+  min-height: 250px;
+}
+
+.novel-plate-kicker,
+.novel-plate-caption {
+  font-family: var(--font-latin-inscr);
+  font-size: 12px;
+  letter-spacing: 0.2em;
+  color: var(--plate-fg-sec);
+}
+
+.novel-plate-svg {
+  width: 148px;
+  height: 148px;
+  color: var(--plate-fg);
+}
+
+.novel-book-details {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.novel-book-title {
+  font-size: clamp(24px, 3vw, 32px);
+}
+
+.novel-book-summary {
+  font-size: 16px;
+  line-height: 1.84;
+}
+
+.novel-book-cta-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 4px;
+}
+
+.novel-chap-directory {
+  border-top: 1px solid var(--border);
+  padding-top: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.novel-dir-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.novel-dir-note {
+  font-size: 13px;
+  color: var(--ink-sec);
+}
+
+.novel-chap-list {
+  display: flex;
+  flex-direction: column;
+  border-top: 1px solid var(--border-soft);
+}
+
+.novel-chap-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 14px;
+  padding: 12px 10px;
+  border-bottom: 1px solid var(--border-soft);
+  transition: background 0.16s ease;
+}
+
+.novel-chap-row:hover {
+  background: var(--bg-sub);
+}
+
+.novel-chap-row.is-current {
+  background: var(--klein-soft);
+  border-left: 3px solid var(--klein);
+}
+
+.novel-chap-meta {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  min-width: 0;
+}
+
+.novel-chap-num {
+  font-family: var(--font-latin-display);
+  font-size: 16px;
+  letter-spacing: 0.08em;
+  color: var(--klein);
+  padding-top: 2px;
+  flex-shrink: 0;
+}
+
+.novel-chap-info {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.novel-chap-title-link {
+  font-size: 16.5px;
+  font-weight: 700;
+  color: var(--ink);
+  text-decoration: none;
+}
+
+.novel-chap-title-link:hover {
+  color: var(--klein);
+  text-decoration: underline;
+}
+
+.novel-chap-sub {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: var(--ink-sec);
+}
+
+/* Reader View Controls & Paper Sheet */
+.novel-reader-shell {
+  max-width: 860px;
+}
+
+.novel-toolbar {
+  position: sticky;
+  top: 0;
+  z-index: 18;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px 16px;
+  padding: 10px 14px;
+  border: 1px solid var(--border);
+  background: var(--bg-panel);
+}
+
+.novel-toolbar-group {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  flex-wrap: wrap;
+}
+
+.novel-toolbar-right {
+  margin-left: auto;
+  gap: 10px;
+}
+
+.novel-ctrl-label {
+  font-size: 12.5px;
+  color: var(--ink-sec);
+  margin-right: 4px;
+}
+
+.novel-ctrl-btn {
+  padding: 4px 10px;
+  font-size: 13px;
+  border: 1px solid var(--border);
+  background: var(--bg-card);
+  color: var(--ink);
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.novel-ctrl-btn:hover {
+  border-color: var(--klein);
+  color: var(--klein);
+  background: var(--klein-soft);
+}
+
+.novel-ctrl-btn.active {
+  background: var(--klein-strong);
+  color: #ffffff;
+  border-color: var(--klein-strong);
+  font-weight: 700;
+}
+
+.novel-progress-readout {
+  font-size: 12.5px;
+  color: var(--ink-sec);
+  letter-spacing: 0.04em;
+}
+
+.novel-paper-sheet {
+  border: 1px solid var(--border);
+  background: var(--bg-card);
+  padding: 36px 44px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.novel-chapter-header {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 18px;
+}
+
+.novel-chapter-title {
+  font-size: clamp(24px, 3.2vw, 32px);
+  line-height: 1.35;
+}
+
+.novel-chapter-subnote {
+  font-size: 13px;
+  color: var(--ink-sec);
+  line-height: 1.65;
+}
+
+.novel-prose-body {
+  font-size: var(--novel-font-size, 16.5px);
+  line-height: var(--novel-line-height, 1.88);
+  color: var(--ink);
+  max-width: 39em;
+  width: 100%;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1.18em;
+}
+
+.novel-para {
+  text-indent: 2em;
+  letter-spacing: 0.015em;
+}
+
+.novel-subheading {
+  font-size: 1.24em;
+  font-weight: 700;
+  color: var(--klein);
+  letter-spacing: 0.08em;
+  margin-top: 0.8em;
+  padding-bottom: 6px;
+  border-bottom: 1px solid var(--border-soft);
+}
+
+.novel-subheading-sm {
+  font-size: 1.08em;
+  font-weight: 700;
+  color: var(--klein);
+  margin-top: 0.5em;
+}
+
+.novel-blockquote {
+  border-left: 2px solid var(--klein);
+  background: var(--bg-sub);
+  padding: 12px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  color: var(--ink-sec);
+  font-style: italic;
+}
+
+.novel-quote-line {
+  text-indent: 0;
+}
+
+.novel-scene-break {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  margin: 0.6em 0;
+  color: var(--ink-sec);
+}
+
+.novel-scene-break::before,
+.novel-scene-break::after {
+  content: "";
+  width: 64px;
+  height: 1px;
+  background: var(--border);
+}
+
+.novel-scene-glyph {
+  font-size: 14px;
+  letter-spacing: 0.2em;
+}
+
+/* Dashed-underline in-prose archive term trigger button */
+.novel-term-link {
+  display: inline;
+  padding: 0 2px;
+  margin: 0;
+  font: inherit;
+  color: var(--klein);
+  background: transparent;
+  border: none;
+  border-bottom: 1px dashed var(--klein);
+  cursor: pointer;
+  user-select: text;
+  transition: background 0.16s ease, color 0.16s ease;
+}
+
+.novel-term-link:hover,
+.novel-term-link:focus-visible {
+  background: var(--klein-soft);
+  border-bottom-style: solid;
+  outline: none;
+}
+
+/* Chapter Completion & Clue Card */
+.novel-clue-card {
+  border: 1px solid var(--klein);
+  background: var(--bg-sub);
+  padding: 18px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-top: 8px;
+}
+
+.novel-clue-card.is-claimed {
+  border-style: dashed;
+  border-color: var(--border);
+}
+
+.novel-clue-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  max-width: 34em;
+}
+
+.novel-clue-title {
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--klein);
+}
+
+.novel-clue-desc {
+  font-size: 14.5px;
+  color: var(--ink-sec);
+}
+
+.novel-chapter-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  border-top: 1px solid var(--border);
+  padding-top: 18px;
+}
+
+.novel-chapter-nav a {
+  text-decoration: none;
+}
+
+/* In-Page Slide-Over / Bottom-Sheet Dossier Drawer (#novel-entry-drawer) */
+.novel-drawer-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 62;
+  background: rgba(6, 14, 74, 0.36);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.22s ease;
+}
+
+.novel-drawer-backdrop.open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.novel-entry-drawer {
+  position: fixed;
+  top: 58px;
+  right: calc(var(--frame-inset) + 8px);
+  bottom: calc(var(--frame-inset) + 8px);
+  width: min(410px, calc(100vw - 32px));
+  z-index: 64;
+  background: var(--bg-card);
+  color: var(--ink);
+  border: 1px solid var(--klein);
+  padding: 20px 22px;
+  overflow-y: auto;
+  transform: translateX(calc(100% + 28px));
+  opacity: 0;
+  pointer-events: none;
+  transition: transform 0.26s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.22s ease;
+}
+
+.novel-entry-drawer.open {
+  transform: translateX(0);
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.novel-drawer-inner {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.novel-drawer-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 10px;
+}
+
+.novel-drawer-title {
+  font-size: 21px;
+  line-height: 1.35;
+}
+
+.novel-drawer-infobox {
+  grid-template-columns: 1fr;
+}
+
+.novel-drawer-summary {
+  font-size: 15.5px;
+  line-height: 1.8;
+}
+
+.novel-drawer-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  border-top: 1px solid var(--border-soft);
+  padding-top: 12px;
+  margin-top: 4px;
+}
+
+.novel-drawer-actions a {
+  text-decoration: none;
+}
+
+/* =========================================================================
+   3. CLEARANCE Lv.1-5 & SAN INVESTIGATION GAME (#/play)
+   ========================================================================= */
+.play-clearance-panel {
+  border: 1px solid var(--border);
+  background: var(--bg-card);
+  padding: 22px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.play-clearance-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.play-xp-caption {
+  font-size: 14px;
+  color: var(--ink-sec);
+  margin-top: 4px;
+}
+
+.play-reset-confirm {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 8px;
+  border: 1px solid var(--klein);
+  background: var(--bg-sub);
+}
+
+.play-reset-prompt {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--klein);
+}
+
+.play-status-banner {
+  border: 1px solid var(--klein);
+  background: var(--klein-soft);
+  color: var(--klein);
+  padding: 8px 12px;
+  font-size: 14px;
+}
+
+.play-xp-track {
+  width: 100%;
+  height: 8px;
+  border: 1px solid var(--border);
+  background: var(--bg-sub);
+  overflow: hidden;
+}
+
+.play-xp-fill {
+  height: 100%;
+  background: var(--klein-strong);
+  transition: width 0.3s ease;
+}
+
+.play-tier-matrix {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.play-tier-tab {
+  border: 1px solid var(--border);
+  background: var(--bg-sub);
+  padding: 10px 10px;
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  transition: background 0.16s ease, border-color 0.16s ease;
+}
+
+.play-tier-tab:hover {
+  border-color: var(--klein);
+  background: var(--klein-soft);
+}
+
+.play-tier-tab.is-locked {
+  border-style: dashed;
+  opacity: 0.78;
+}
+
+.play-tier-tab.is-selected {
+  background: var(--klein-strong);
+  border-color: var(--klein-strong);
+  color: #ffffff;
+}
+
+.play-tier-lv {
+  font-family: var(--font-latin-display);
+  font-size: 13px;
+  letter-spacing: 0.08em;
+}
+
+.play-tier-zh {
+  font-size: 13.5px;
+  font-weight: 700;
+}
+
+.play-tier-xp {
+  font-size: 12px;
+  opacity: 0.82;
+}
+
+.play-tier-detail {
+  border: 1px solid var(--border-soft);
+  background: var(--bg-sub);
+  padding: 14px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.play-tier-detail-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.play-tier-summary {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--klein);
+}
+
+.play-tier-list {
+  margin: 0;
+  padding-left: 20px;
+  font-size: 15px;
+  line-height: 1.75;
+  color: var(--ink);
+}
+
+.play-ledger-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  border-top: 1px solid var(--border-soft);
+  padding-top: 12px;
+}
+
+.play-ledger-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.play-ledger-links a {
+  text-decoration: none;
+}
+
+.play-clues-ledger {
+  border: 1px solid var(--border);
+  background: var(--bg-sub);
+  max-height: 260px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.play-clue-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  padding: 9px 14px;
+  border-bottom: 1px solid var(--border-soft);
+  font-size: 14.5px;
+}
+
+.play-clue-row:last-child {
+  border-bottom: none;
+}
+
+.play-clue-main {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.play-clue-xp {
+  font-family: var(--font-latin-display);
+  font-size: 14px;
+  letter-spacing: 0.06em;
+  color: var(--klein);
+  flex-shrink: 0;
+}
+
+.play-empty-clues {
+  padding: 14px 16px;
+  font-size: 15px;
+  color: var(--ink-sec);
+}
+
+/* Case Selector Grid */
+.play-selector-section {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.play-selector-section.is-collapsed {
+  display: none;
+}
+
+.play-section-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.play-section-title {
+  font-size: 24px;
+  margin-top: 4px;
+}
+
+.play-cases-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.play-case-card {
+  border: 1px solid var(--border);
+  background: var(--bg-card);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 14px;
+}
+
+.play-case-card.is-active {
+  border: 2px solid var(--klein);
+}
+
+.play-case-card-title {
+  font-size: 21px;
+  margin-top: 8px;
+}
+
+.play-case-subtitle {
+  font-size: 13.5px;
+  color: var(--ink-sec);
+  margin-top: 3px;
+}
+
+.play-case-summary {
+  margin-top: 8px;
+  font-size: 15.5px;
+}
+
+.play-case-metrics {
+  display: flex;
+  gap: 8px;
+  font-size: 13px;
+  color: var(--ink-sec);
+  margin-top: 10px;
+}
+
+/* Active Case HUD (Strictly Monochrome Klein-Blue + White!) */
+.play-engine-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.play-hud-bar {
+  border: 1px solid var(--klein);
+  background: var(--bg-card);
+  padding: 14px 18px;
+  display: grid;
+  grid-template-columns: 1.45fr 0.9fr 1.25fr auto;
+  align-items: center;
+  gap: 16px;
+}
+
+/* Low SAN state: double-border + monochrome hatched indicator, ZERO red/orange */
+.play-hud-bar.hud-low-san {
+  border-width: 3px;
+  border-style: double;
+  border-color: var(--klein);
+}
+
+.play-hud-cell {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  min-width: 0;
+}
+
+.play-hud-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 8px;
+}
+
+.play-hud-num {
+  font-family: var(--font-latin-display);
+  font-size: 16px;
+  letter-spacing: 0.06em;
+  color: var(--klein);
+}
+
+.play-hud-num.is-italic {
+  font-style: italic;
+}
+
+.play-hud-loc-text {
+  font-size: 14.5px;
+  font-weight: 700;
+  color: var(--ink);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.play-san-bar {
+  display: grid;
+  grid-template-columns: repeat(20, 1fr);
+  gap: 2px;
+  height: 10px;
+  padding: 1px;
+  border: 1px solid var(--border);
+  background: var(--bg-sub);
+}
+
+.play-san-seg {
+  background: transparent;
+  border: 1px solid var(--border-soft);
+}
+
+.play-san-seg.filled {
+  background: var(--klein-strong);
+  border-color: var(--klein-strong);
+}
+
+.play-san-seg.filled.hatched {
+  background: repeating-linear-gradient(
+    -45deg,
+    var(--klein-strong) 0px,
+    var(--klein-strong) 2px,
+    transparent 2px,
+    transparent 4px
+  );
+  border-color: var(--klein);
+}
+
+.play-hud-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.play-scene-card {
+  border: 1px solid var(--border);
+  background: var(--bg-card);
+  padding: 28px 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  animation: liberFade 0.24s ease;
+}
+
+.play-scene-header {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  border-bottom: 1px solid var(--border-soft);
+  padding-bottom: 14px;
+}
+
+.play-scene-title {
+  font-size: clamp(22px, 2.8vw, 28px);
+}
+
+.play-scene-prose {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.play-scene-para {
+  font-size: 16px;
+  line-height: 1.86;
+  max-width: 42em;
+}
+
+/* Monochrome Perception Shift Block ([认知偏移记录]) */
+.play-low-san-block {
+  border: 3px double var(--klein);
+  background: repeating-linear-gradient(
+    -45deg,
+    var(--bg-sub) 0px,
+    var(--bg-sub) 8px,
+    transparent 8px,
+    transparent 16px
+  );
+  padding: 14px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.play-low-san-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.play-low-san-copy {
+  font-size: 15.5px;
+  line-height: 1.82;
+  font-style: italic;
+  color: var(--ink);
+}
+
+.play-choices-wrap {
+  border-top: 1px solid var(--border);
+  padding-top: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.play-choices-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.play-choice-btn {
+  width: 100%;
+  text-align: left;
+  border: 1px solid var(--border);
+  background: var(--bg-sub);
+  padding: 14px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  transition: background 0.16s ease, border-color 0.16s ease;
+}
+
+.play-choice-btn:hover:not(:disabled) {
+  border-color: var(--klein);
+  background: var(--klein-soft);
+}
+
+.play-choice-btn.is-locked {
+  border-style: dashed;
+  opacity: 0.68;
+  cursor: not-allowed;
+}
+
+.play-choice-top {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: 15.5px;
+  line-height: 1.65;
+}
+
+.play-choice-num {
+  font-family: var(--font-latin-display);
+  font-weight: 700;
+  color: var(--klein);
+  flex-shrink: 0;
+}
+
+.play-choice-label {
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.play-choice-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  padding-left: 22px;
+}
+
+.play-ending-box {
+  border: 2px solid var(--klein);
+  background: var(--bg-sub);
+  padding: 20px 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.play-ending-title {
+  font-size: 23px;
+}
+
+.play-ending-reward {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  font-size: 14.5px;
+  color: var(--klein);
+  font-weight: 600;
+}
+
+.play-related-links {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  border-top: 1px solid var(--border-soft);
+  padding-top: 10px;
+}
+
+.play-related-label {
+  font-size: 13.5px;
+  color: var(--ink-sec);
+}
+
+.play-related-row,
+.play-ending-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.play-related-row a,
+.play-ending-actions a {
+  text-decoration: none;
+}
+
+/* =========================================================================
+   4. VISUAL EXHIBITION HALL (#/gallery: Subnav, Pantheon, Timeline, Cinema)
+   ========================================================================= */
+#gallery-subnav {
+  display: none;
+  position: fixed;
+  top: 50px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 54;
+  background: var(--bg-panel);
+  border: 1px solid var(--border);
+  padding: 3px 6px;
+  gap: 4px;
+  align-items: center;
+  white-space: nowrap;
+  overflow-x: auto;
+  max-width: calc(100vw - 36px);
+}
+
+body[data-gallery-active="1"] #gallery-subnav {
+  display: inline-flex;
+}
+
+.gallery-subnav-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 12px;
+  font-size: 13px;
+  letter-spacing: 0.06em;
+  color: var(--ink-sec);
+  text-decoration: none;
+  border: 1px solid transparent;
+  transition: background 0.16s ease, color 0.16s ease;
+}
+
+.gallery-subnav-link:hover {
+  color: var(--klein);
+  background: var(--klein-soft);
+  border-color: var(--border-soft);
+}
+
+.gallery-subnav-link.active {
+  background: var(--klein-strong);
+  color: #ffffff;
+  border-color: var(--klein-strong);
+  font-weight: 700;
+}
+
+.gallery-subnav-glyph {
+  font-size: 13px;
+}
+
+/* Offset Astrolabe camera bar & panels cleanly below #gallery-subnav */
+body[data-gallery-active="1"][data-gallery-room="astrolabe"] #globe-cam-bar {
+  top: 94px !important;
+}
+
+body[data-gallery-active="1"][data-gallery-room="astrolabe"] #left-panel,
+body[data-gallery-active="1"][data-gallery-room="astrolabe"] #right-panel {
+  top: 138px !important;
+}
+
+body[data-gallery-active="1"] #stage-pantheon,
+body[data-gallery-active="1"] #stage-gallery,
+body[data-gallery-active="1"] #stage-gallery-custom {
+  padding-top: 102px !important;
+}
+
+/* Upgraded Pantheon Stage (Interactive Wheel + 8-Plate Copperplate Grid) */
+#stage-pantheon.pantheon-upgraded-stage {
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: flex-start !important;
+  gap: 36px !important;
+}
+
+.pantheon-etching-top {
+  width: 100%;
+  max-width: 1080px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 44px;
+}
+
+.pantheon-hero-btn-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 14px;
+}
+
+.pantheon-hero-btn-row a {
+  text-decoration: none;
+}
+
+.pantheon-plates-deck {
+  width: 100%;
+  max-width: 1120px;
+  border-top: 1px solid var(--border);
+  padding-top: 26px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.pantheon-spheres-banner {
+  border: 1px solid var(--border);
+  background: var(--bg-card);
+  padding: 14px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.chaldean-spheres-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+
+.chaldean-sphere-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border: 1px solid var(--border);
+  background: var(--bg-sub);
+  font-size: 12.5px;
+}
+
+.chaldean-sphere-chip.is-yuggoth {
+  border-style: dashed;
+  color: var(--ink-sec);
+}
+
+.chaldean-sym {
+  font-size: 14px;
+  color: var(--klein);
+}
+
+.chaldean-lat {
+  font-family: var(--font-latin-inscr);
+  font-size: 11.5px;
+  letter-spacing: 0.14em;
+}
+
+.chaldean-divider {
+  color: var(--border);
+  padding: 0 4px;
+}
+
+.pantheon-deck-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.pantheon-deck-header a {
+  text-decoration: none;
+}
+
+.pantheon-plates-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.pantheon-plate-card {
+  border: 1px solid var(--border);
+  background: var(--bg-card);
+  display: flex;
+  flex-direction: column;
+}
+
+.pantheon-plate-card.is-selected {
+  border: 2px solid var(--klein);
+}
+
+.pantheon-plate-art {
+  background: var(--plate-bg);
+  color: var(--plate-fg);
+  padding: 12px 14px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  border-bottom: 1px solid var(--border);
+}
+
+.pantheon-plate-top {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 6px;
+}
+
+.pantheon-plate-fig {
+  font-family: var(--font-latin-inscr);
+  font-size: 11.5px;
+  letter-spacing: 0.18em;
+}
+
+.pantheon-plate-sigil .sigil-lg {
+  stroke: #ffffff;
+  width: 54px;
+  height: 54px;
+}
+
+.pantheon-plate-code {
+  font-family: var(--font-latin-display);
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  color: var(--plate-fg-sec);
+}
+
+.pantheon-plate-body {
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  flex: 1;
+  gap: 10px;
+}
+
+.pantheon-plate-title {
+  font-size: 16.5px;
+  line-height: 1.38;
+}
+
+.pantheon-plate-summary {
+  font-size: 15px;
+  line-height: 1.72;
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.pantheon-plate-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: auto;
+}
+
+.pantheon-plate-actions a {
+  text-decoration: none;
+}
+
+/* Room 3: Chronological Timeline (#/gallery/timeline) */
+.timeline-filter-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.timeline-axis-box {
+  border: 1px solid var(--border);
+  background: var(--bg-card);
+  padding: 14px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.timeline-axis-scroll {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.timeline-axis-svg {
+  width: 100%;
+  min-width: 680px;
+  height: 68px;
+  display: block;
+  color: var(--klein);
+}
+
+.timeline-svg-roman {
+  font-family: var(--font-latin-display);
+  font-size: 12px;
+  fill: currentColor;
+  letter-spacing: 0.08em;
+}
+
+.timeline-svg-era {
+  font-family: var(--font-zh-serif);
+  font-size: 11.5px;
+  fill: var(--ink-sec);
+}
+
+.timeline-era-strip {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.timeline-era-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 10px;
+  font-size: 12.5px;
+  border: 1px solid var(--border);
+  background: var(--bg-sub);
+  color: var(--ink);
+}
+
+.timeline-era-chip:hover {
+  border-color: var(--klein);
+  color: var(--klein);
+}
+
+.timeline-era-chip.active {
+  background: var(--klein-strong);
+  border-color: var(--klein-strong);
+  color: #ffffff;
+}
+
+.timeline-chip-roman {
+  font-family: var(--font-latin-display);
+  font-weight: 700;
+}
+
+.timeline-spine {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  padding-left: 8px;
+}
+
+.timeline-spine::before {
+  content: "";
+  position: absolute;
+  left: 23px;
+  top: 14px;
+  bottom: 14px;
+  width: 1px;
+  background: var(--border);
+}
+
+.timeline-node-row {
+  display: grid;
+  grid-template-columns: 44px minmax(0, 1fr);
+  gap: 16px;
+  align-items: flex-start;
+}
+
+.timeline-node-marker {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding-top: 14px;
+}
+
+.timeline-marker-dot {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  border: 2px solid var(--klein);
+  background: var(--bg);
+}
+
+.timeline-marker-dot.is-solid {
+  background: var(--klein-strong);
+  border-color: var(--klein-strong);
+}
+
+.timeline-marker-roman {
+  font-family: var(--font-latin-display);
+  font-size: 12.5px;
+  color: var(--klein);
+  background: var(--bg);
+  padding: 0 3px;
+}
+
+.timeline-node-card {
+  border: 1px solid var(--border);
+  background: var(--bg-card);
+  padding: 20px 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.timeline-node-row.is-highlighted .timeline-node-card {
+  border: 2px solid var(--klein);
+}
+
+.timeline-card-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.timeline-era-pill {
+  font-family: var(--font-zh-serif);
+  font-size: 12.5px;
+  font-weight: 700;
+  color: var(--klein);
+  border: 1px solid var(--klein);
+  padding: 2px 8px;
+  background: var(--klein-soft);
+}
+
+.timeline-card-title {
+  font-size: 21px;
+}
+
+.timeline-card-summary {
+  font-size: 15.5px;
+  line-height: 1.82;
+  max-width: 44em;
+}
+
+.timeline-card-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+.timeline-card-actions a {
+  text-decoration: none;
+}
+
+/* Room 4: 6-Movement Cinema Screening Room (#/gallery/cinema) */
+.cinema-top-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  flex-wrap: wrap;
+  gap: 12px;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 14px;
+}
+
+.cinema-transport-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.cinema-stage-grid {
+  display: grid;
+  grid-template-columns: 1.35fr 0.95fr;
+  gap: 18px;
+  align-items: stretch;
+}
+
+.cinema-canvas-frame {
+  border: 1px solid var(--border);
+  background: #0a1890;
+  min-height: 340px;
+  position: relative;
+  overflow: hidden;
+}
+
+#cinema-plate-canvas {
+  width: 100%;
+  height: 100%;
+  min-height: 340px;
+  display: block;
+}
+
+.cinema-caption-panel {
+  border: 1px solid var(--border);
+  background: var(--bg-card);
+  padding: 22px 24px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 12px;
+}
+
+.cinema-mov-title {
+  font-size: 24px;
+}
+
+.cinema-mov-desc {
+  font-size: 15.5px;
+  line-height: 1.82;
+}
+
+.cinema-mov-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 6px;
+}
+
+.cinema-mov-links a {
+  text-decoration: none;
+}
+
+.cinema-timeline-wrap {
+  padding: 2px 0;
+}
+
+.cinema-progress-track {
+  width: 100%;
+  height: 12px;
+  border: 1px solid var(--klein);
+  background: var(--bg-card);
+  cursor: pointer;
+  padding: 2px;
+}
+
+.cinema-progress-fill {
+  height: 100%;
+  background: var(--klein-strong);
+  transition: width 0.08s linear;
+}
+
+.cinema-chapters-grid {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.cinema-chapter-btn {
+  border: 1px solid var(--border);
+  background: var(--bg-card);
+  padding: 10px 10px;
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.cinema-chapter-btn:hover {
+  border-color: var(--klein);
+  background: var(--klein-soft);
+}
+
+.cinema-chapter-btn.active {
+  background: var(--klein-strong);
+  border-color: var(--klein-strong);
+  color: #ffffff;
+}
+
+.cinema-chap-roman {
+  font-family: var(--font-latin-display);
+  font-size: 13px;
+  letter-spacing: 0.08em;
+}
+
+.cinema-chap-name {
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.35;
+}
+
+/* =========================================================================
+   5. RESPONSIVE & MOBILE TOUCH ACCESSIBILITY (<= 1100px & <= 860px)
+   ========================================================================= */
+@media (max-width: 1100px) {
+  .pantheon-plates-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .cinema-chapters-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+  .play-hud-bar {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 860px) {
+  #stage-novel,
+  #stage-play,
+  #stage-gallery,
+  #stage-gallery-custom {
+    padding: 64px 12px 76px 12px;
+  }
+
+  #gallery-subnav {
+    top: 56px;
+    left: 6px;
+    right: 6px;
+    transform: none;
+    max-width: calc(100vw - 12px);
+    justify-content: flex-start;
+  }
+
+  .gallery-subnav-link,
+  .novel-ctrl-btn,
+  .p3-breadcrumb a,
+  .timeline-era-chip,
+  .cinema-chapter-btn,
+  .play-tier-tab,
+  .play-choice-btn {
+    min-height: 44px !important;
+    min-width: 44px !important;
+  }
+
+  /* Keep inline prose term buttons readable at the user's chosen novel font size while meeting 44px touch height */
+  .novel-prose-body .novel-term-link {
+    display: inline-flex !important;
+    align-items: center !important;
+    min-height: 44px !important;
+    min-width: 44px !important;
+    font-size: inherit !important;
+    padding: 2px 4px !important;
+    vertical-align: middle;
+  }
+
+  body[data-gallery-active="1"][data-gallery-room="astrolabe"] #globe-cam-bar {
+    top: 108px !important;
+  }
+
+  body[data-gallery-active="1"] #stage-pantheon,
+  body[data-gallery-active="1"] #stage-gallery,
+  body[data-gallery-active="1"] #stage-gallery-custom {
+    padding-top: 112px !important;
+  }
+
+  .novel-book-cover-grid,
+  .play-cases-grid,
+  .play-hud-bar,
+  .cinema-stage-grid,
+  .pantheon-plates-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .novel-cover-plate {
+    min-height: 190px;
+  }
+
+  .novel-paper-sheet,
+  .play-scene-card,
+  .novel-book-card {
+    padding: 20px 16px;
+  }
+
+  .novel-chap-row {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .novel-entry-drawer {
+    top: auto;
+    left: 6px;
+    right: 6px;
+    bottom: 6px;
+    width: auto;
+    max-height: 74dvh;
+    transform: translateY(calc(100% + 20px));
+  }
+
+  .novel-entry-drawer.open {
+    transform: translateY(0);
+  }
+
+  .play-tier-matrix {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .pantheon-etching-top {
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .cinema-chapters-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .cinema-progress-track {
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+    padding: 16px 4px;
+  }
+
+  .cinema-progress-fill {
+    height: 10px;
+  }
+}
