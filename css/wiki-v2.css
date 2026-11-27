@@ -1649,6 +1649,21 @@
   color: var(--ink);
 }
 
+.wiki-md-em {
+  font-style: italic;
+  color: var(--ink);
+}
+
+.wiki-md-code {
+  font-family: var(--font-latin-inscr);
+  font-size: 0.9em;
+  letter-spacing: 0.03em;
+  padding: 1px 6px;
+  border: 1px solid var(--border);
+  background: var(--bg-sub);
+  color: var(--klein);
+}
+
 .wiki-md-quote {
   border-left: 2px solid var(--klein);
   background: var(--bg-sub);
@@ -1660,7 +1675,8 @@
   color: var(--ink-sec);
 }
 
-.wiki-md-list {
+.wiki-md-list,
+.wiki-md-olist {
   margin: 0;
   padding-left: 22px;
   max-width: 38em;
@@ -2221,6 +2237,7 @@
   .wiki-entry-epigraph,
   .wiki-md-p,
   .wiki-md-list,
+  .wiki-md-olist,
   .wiki-lock-desc,
   .wiki-prov-meta,
   .wiki-prov-legal,

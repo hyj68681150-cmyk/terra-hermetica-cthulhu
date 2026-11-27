@@ -80,10 +80,21 @@ export function stripFrontMatter(rawMd) {
 
 function splitTableCells(line) {
   const inner = line.trim().replace(/^\|/, "").replace(/\|$/, "");
-  return inner
+  const protectedSpans = [];
+  const masked = inner.replace(
+    /(`[^`\n]*`|\{\{[\s\S]*?\}\}|\[\[[^\]]*\]\])/g,
+    (m) => {
+      const idx = protectedSpans.length;
+      protectedSpans.push(m);
+      return `\u0001CELL_${idx}\u0001`;
+    }
+  );
+  return masked
     .split("|")
     .slice(0, MAX_TABLE_COLS)
-    .map((c) => c.trim());
+    .map((c) =>
+      c.replace(/\u0001CELL_(\d+)\u0001/g, (_, idx) => protectedSpans[Number(idx)] ?? "").trim()
+    );
 }
 
 function parseInnerBlocks(lines, idState, allowDirectives) {
@@ -245,6 +256,20 @@ function parseInnerBlocks(lines, idState, allowDirectives) {
       continue;
     }
 
+    // Ordered list 1. ...
+    if (/^\d+\.\s+/.test(trimmed)) {
+      const items = [];
+      while (i < lines.length && /^\d+\.\s+/.test(lines[i].trim())) {
+        items.push(lines[i].trim().replace(/^\d+\.\s+/, "").trim());
+        i++;
+      }
+      blocks.push({
+        type: "olist",
+        items,
+      });
+      continue;
+    }
+
     // Pipe table | a | b |
     if (TABLE_ROW_RE.test(trimmed)) {
       const rawTableLines = [];
@@ -277,6 +302,7 @@ function parseInnerBlocks(lines, idState, allowDirectives) {
         /^#{1,3}\s+/.test(cur) ||
         /^>\s?/.test(cur) ||
         /^-\s+/.test(cur) ||
+        /^\d+\.\s+/.test(cur) ||
         TABLE_ROW_RE.test(cur)
       ) {
         break;
@@ -312,40 +338,88 @@ export function parseArchivalMarkdown(rawMd) {
 
 /**
  * Safe inline renderer:
- * 1. Runs renderProseWithLinks (escapes ALL raw HTML characters `<>&"'`, handles
- *    whitelisted `{{redact:N:...}}`, `[[id|label]]`, and longest-match autolinks).
- * 2. Protects emitted HTML tags behind NUL tokens so `**bold**` never touches tag attributes,
- *    converts `**...**` in already-escaped text to `<strong class="wiki-md-strong">...</strong>`,
- *    and restores tokens. Never parses `[label](url)` or `![alt](url)`.
+ * 1. Splits out inline `` `code` `` spans FIRST so code is HTML-escaped verbatim,
+ *    never autolinked, and literal asterisks inside code never trigger `**`/`*`.
+ * 2. Runs renderProseWithLinks on non-code segments (escapes ALL raw HTML `<>&"'`,
+ *    handles whitelisted `{{redact:N:...}}`, `[[id|label]]`, and once-per-section autolinks).
+ * 3. Protects emitted HTML tags behind NUL tokens so `**` / `*` never touch tag attributes,
+ *    converts `**bold**` -> `<strong class="wiki-md-strong">`, then single `*italic*`
+ *    (bounded so math `2 * 3` or globs `sanct-*` never trigger) -> `<em class="wiki-md-em">`.
  */
-export function renderInlineMarkdown(rawText, options = {}) {
-  const baseSafeHtml = renderProseWithLinks(String(rawText ?? ""), options);
-  if (!baseSafeHtml.includes("**")) {
-    return baseSafeHtml;
+function formatEscapedStrongAndEm(safeHtmlSegment) {
+  if (!safeHtmlSegment.includes("*")) {
+    return safeHtmlSegment;
   }
 
   const tagTokens = [];
-  const withProtectedTags = baseSafeHtml.replace(/<[^>]+>/g, (tag) => {
+  const putTag = (html) => {
     const idx = tagTokens.length;
-    tagTokens.push(tag);
+    tagTokens.push(html);
     return `\u0000TAG_${idx}\u0000`;
-  });
+  };
 
-  const withStrong = withProtectedTags.replace(
-    /\*\*([^*\n]{1,160}?)\*\*/g,
-    '<strong class="wiki-md-strong">$1</strong>'
+  let stage = safeHtmlSegment.replace(/<[^>]+>/g, (tag) => putTag(tag));
+
+  // Convert **bold** first and shield its tags before single *italic* runs
+  stage = stage.replace(/\*\*([^*\n]{1,160}?)\*\*/g, (_, inner) =>
+    `${putTag('<strong class="wiki-md-strong">')}${inner}${putTag("</strong>")}`
   );
 
-  return withStrong.replace(/\u0000TAG_(\d+)\u0000/g, (_, idx) => tagTokens[Number(idx)] ?? "");
+  // Convert single *italic* without crossing lines or matching math/globs (e.g. 3 * 4, sanct-*)
+  stage = stage.replace(
+    /(?<![0-9A-Za-z_*-])\*(?!\s|\*)([^*\n]{1,160}?)(?<!\s|\*)\*(?![0-9A-Za-z_*-])/g,
+    (_, inner) => `${putTag('<em class="wiki-md-em">')}${inner}${putTag("</em>")}`
+  );
+
+  return stage.replace(/\u0000TAG_(\d+)\u0000/g, (_, idx) => tagTokens[Number(idx)] ?? "");
+}
+
+export function renderInlineMarkdown(rawText, options = {}) {
+  const rawClean = String(rawText ?? "").replace(/\u0000/g, "");
+  if (!rawClean) return "";
+
+  // Unwrap [[id|label]] -> label inside {{redact:N:...}} so decrypted text never shows raw brackets
+  const clean = rawClean.replace(
+    /\{\{redact:(\d+):([\s\S]*?)\}\}/g,
+    (_, lv, inner) => {
+      const cleanInner = inner.replace(
+        /\[\[([a-z0-9][a-z0-9-]*)(?:\|([^\]]+))?\]\]/g,
+        (__, id, label) => (label && label.trim() ? label.trim() : id)
+      );
+      return `{{redact:${lv}:${cleanInner}}}`;
+    }
+  );
+
+  if (!clean.includes("`")) {
+    return formatEscapedStrongAndEm(renderProseWithLinks(clean, options));
+  }
+
+  const parts = clean.split(/(`[^`\n]{1,240}`)/g);
+  let codeIdx = 0;
+  return parts
+    .map((part, pIdx) => {
+      if (!part) return "";
+      if (part.length >= 2 && part.startsWith("`") && part.endsWith("`") && !part.slice(1, -1).includes("`")) {
+        return `<code class="wiki-md-code">${escapeHtml(part.slice(1, -1))}</code>`;
+      }
+      const subOpts = {
+        ...options,
+        redactPrefix: `${options.redactPrefix || "r"}-p${pIdx}-${codeIdx++}`,
+      };
+      return formatEscapedStrongAndEm(renderProseWithLinks(part, subOpts));
+    })
+    .join("");
 }
 
 function stripInlineSyntaxPlain(rawText) {
   return String(rawText ?? "")
+    .replace(/`([^`\n]+)`/g, "$1")
     .replace(/\{\{redact:(\d+):([\s\S]*?)\}\}/g, "[机密遮蔽]")
     .replace(/\[\[([a-z0-9][a-z0-9-]*)(?:\|([^\]]+))?\]\]/g, (_, id, label) =>
       label && label.trim() ? label.trim() : id
     )
     .replace(/\*\*([^*]+)\*\*/g, "$1")
+    .replace(/(?<![0-9A-Za-z_*-])\*([^*\n]+)\*(?![0-9A-Za-z_*-])/g, "$1")
     .trim();
 }
 
@@ -408,7 +482,7 @@ function renderBlockList(blocks, ctxState) {
       continue;
     }
 
-    if (block.type === "list") {
+    if (block.type === "list" || block.type === "olist") {
       const lis = (block.items || [])
         .map(
           (it, liIdx) =>
@@ -422,7 +496,9 @@ function renderBlockList(blocks, ctxState) {
             })}</li>`
         )
         .join("");
-      htmlParts.push(`<ul class="wiki-md-list">${lis}</ul>`);
+      const tag = block.type === "olist" ? "ol" : "ul";
+      const cls = block.type === "olist" ? "wiki-md-olist" : "wiki-md-list";
+      htmlParts.push(`<${tag} class="${cls}">${lis}</${tag}>`);
       continue;
     }
 
