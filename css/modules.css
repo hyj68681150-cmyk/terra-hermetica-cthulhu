@@ -1,18 +1,160 @@
-/* css/modules.css — Realistic MapLibre Globe (#/map), Entry Reader (#/entry) & Astrolabe Gallery (#/gallery) */
+/* css/modules.css — Copperplate Klein-Blue & White Map Visual System, Four-Corner Frame & Entry View */
 
+/* =========================================================================
+   1. FOUR-CORNER RUNNING HEADERS & CHROME COLOR ADAPTATION (05 Section 3.2.C)
+   ========================================================================= */
+body[data-view="map"] {
+  --chrome-fg: #ffffff;
+  --chrome-muted: rgba(255, 255, 255, 0.66);
+  --chrome-line: rgba(255, 255, 255, 0.28);
+  --chrome-panel: rgba(7, 18, 118, 0.90);
+}
+body[data-view="map"][data-map-basemap="paper"] {
+  --chrome-fg: #0a1890;
+  --chrome-muted: rgba(10, 24, 144, 0.68);
+  --chrome-line: rgba(10, 24, 144, 0.28);
+  --chrome-panel: rgba(246, 244, 238, 0.94);
+}
+body:not([data-view="map"]) {
+  --chrome-fg: var(--klein);
+  --chrome-muted: var(--ink-sec);
+  --chrome-line: var(--border);
+  --chrome-panel: var(--bg-panel);
+}
+
+#marginalia-outer {
+  position: fixed;
+  inset: var(--frame-inset);
+  border: var(--hairline-w) solid var(--chrome-line);
+  z-index: 52;
+  pointer-events: none;
+  transition: border-color 0.4s ease;
+}
+#marginalia-inner {
+  display: none;
+}
+
+.corner-header {
+  position: fixed;
+  z-index: 56;
+  font-family: var(--font-latin-inscr);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: var(--track-micro);
+  text-transform: uppercase;
+  color: var(--chrome-muted);
+  text-decoration: none;
+  line-height: 1.2;
+  white-space: nowrap;
+  transition: color 0.35s ease, opacity 0.35s ease;
+}
+a.corner-header:hover {
+  color: var(--chrome-fg);
+}
+#corner-tl {
+  top: 23px;
+  left: 26px;
+}
+#corner-tr {
+  top: 23px;
+  right: 26px;
+  pointer-events: none;
+}
+#corner-bl {
+  bottom: 20px;
+  left: 26px;
+  display: none;
+  align-items: center;
+  gap: 14px;
+  pointer-events: none;
+}
+body[data-view="map"] #corner-bl {
+  display: inline-flex;
+}
+
+/* Top-Center Pure Text Navigation (separated cleanly from TL/TR corner headers!) */
+#top-nav {
+  position: fixed !important;
+  top: 17px !important;
+  left: 236px !important;
+  right: 236px !important;
+  transform: none !important;
+  max-width: none !important;
+  z-index: 55 !important;
+  display: flex !important;
+  justify-content: center;
+  align-items: center;
+  gap: 2px !important;
+  padding: 2px 6px !important;
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  overflow-x: auto;
+  white-space: nowrap;
+}
+body:not([data-view="map"]) #top-nav {
+  background: var(--bg-panel) !important;
+  border-bottom: 1px solid var(--border-soft) !important;
+}
+#top-nav .liber-nav-btn {
+  background: transparent !important;
+  border: none !important;
+  border-bottom: 1px solid transparent !important;
+  border-radius: 0 !important;
+  color: var(--chrome-muted) !important;
+  font-size: 12.5px !important;
+  letter-spacing: 0.08em !important;
+  padding: 5px 9px !important;
+  font-weight: 400 !important;
+  transition: color 0.2s ease, border-color 0.2s ease;
+}
+#top-nav .liber-nav-btn:hover {
+  color: var(--chrome-fg) !important;
+}
+#top-nav .liber-nav-btn.active {
+  color: var(--chrome-fg) !important;
+  background: transparent !important;
+  border-bottom: 1px solid var(--chrome-fg) !important;
+  font-weight: 600 !important;
+}
+#top-nav .nav-sep {
+  color: var(--chrome-line);
+  padding: 0 3px;
+  font-size: 11px;
+}
+
+/* =========================================================================
+   2. COPPERPLATE MAP STAGE, SCANLINES & GLOBAL LEFT-1/3 HERO (05 Section 3.1/3.2)
+   ========================================================================= */
 #stage-map {
   position: fixed;
   inset: 0;
   z-index: 20;
   display: none;
-  background: #050916;
+  background: var(--plate-bg);
+  animation: plateDissolve 0.9s cubic-bezier(0.22, 1, 0.36, 1);
 }
 #stage-map[data-basemap="paper"] {
-  background: #f5f0e6;
+  background: #f6f4ee;
+}
+#stage-map[data-basemap="night"] {
+  background: var(--plate-night);
+}
+#stage-map[data-basemap="realistic"] {
+  background: #040814;
 }
 #stage-map.open {
   display: block;
 }
+@keyframes plateDissolve {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
 #maplibre-canvas-host {
   position: absolute;
   inset: 0;
@@ -20,135 +162,474 @@
   height: 100%;
 }
 
-/* Map Toolbar & Search Overlay */
-#map-hud-bar {
+/* Toggleable subtle scanline overlay <= 4% opacity (05 Section 3.2.G) */
+#map-scanlines {
+  position: absolute;
+  inset: var(--frame-inset);
+  z-index: 25;
+  pointer-events: none;
+  background: repeating-linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, var(--scanline-alpha)) 0px,
+    rgba(255, 255, 255, var(--scanline-alpha)) 1px,
+    transparent 1px,
+    transparent 3px
+  );
+  transition: opacity 0.35s ease;
+}
+#stage-map[data-basemap="paper"] #map-scanlines {
+  background: repeating-linear-gradient(
+    to bottom,
+    rgba(10, 24, 144, 0.025) 0px,
+    rgba(10, 24, 144, 0.025) 1px,
+    transparent 1px,
+    transparent 3px
+  );
+}
+#stage-map[data-scanlines="off"] #map-scanlines {
+  opacity: 0;
+}
+
+/* Global View Left-1/3 Editorial Title Block (Hermes 0:04 Composition) */
+#map-global-hero {
   position: fixed;
-  top: 64px;
-  left: 22px;
-  z-index: 48;
+  left: 56px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 344px;
+  z-index: 44;
+  pointer-events: none;
+  color: var(--chrome-fg);
   display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 6px;
-  padding: 6px 8px;
-  max-width: calc(100vw - 380px);
+  flex-direction: column;
+  gap: 10px;
+  opacity: 1;
+  transition: opacity 0.65s cubic-bezier(0.22, 1, 0.36, 1), transform 0.65s cubic-bezier(0.22, 1, 0.36, 1);
 }
-#map-search-wrap {
-  position: fixed;
-  top: 64px;
-  right: 22px;
-  width: 316px;
-  z-index: 49;
+#map-global-hero.hidden-hero {
+  opacity: 0;
+  transform: translateY(calc(-50% - 8px));
 }
-#map-place-search {
-  width: 100%;
-  background: var(--bg-panel);
-  color: var(--ink);
-  border: 1px solid var(--border);
-  box-shadow: 0 6px 20px var(--shadow);
-  padding: 8px 12px;
-  font-size: 14.5px;
-  font-family: inherit;
-  border-radius: 2px;
-  outline: none;
+.hero-kicker {
+  font-family: var(--font-latin-inscr);
+  font-size: 11px;
+  letter-spacing: var(--track-inscr);
+  text-transform: uppercase;
+  color: var(--chrome-muted);
 }
-#map-place-search:focus {
-  border-color: var(--klein);
+.hero-latin-display {
+  font-family: var(--font-latin-display);
+  font-size: 46px;
+  font-weight: 700;
+  line-height: 0.98;
+  letter-spacing: var(--track-display);
+  text-transform: uppercase;
+  color: var(--chrome-fg);
 }
-#map-search-results {
+.hero-zh-title {
+  font-family: var(--font-zh-serif);
+  font-size: 24px;
+  font-weight: 700;
+  letter-spacing: var(--track-zh-title);
+  color: var(--chrome-fg);
+  margin-top: 2px;
+}
+.hero-rule {
+  width: 48px;
+  height: 1px;
+  background: var(--chrome-line);
+  margin: 4px 0;
+}
+.hero-desc {
+  font-size: 15px;
+  line-height: 1.75;
+  color: var(--chrome-muted);
+  max-width: 22em;
+}
+.hero-epigraph {
+  font-family: var(--font-latin-inscr);
+  font-size: 10.5px;
+  line-height: 1.7;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--chrome-muted);
   margin-top: 4px;
-  max-height: 300px;
-  overflow-y: auto;
+}
+
+/* =========================================================================
+   3. COMPACT HAIRLINE MAP CONTROLS (ZERO MapLibre Default Styles!)
+   ========================================================================= */
+#map-ctrl-cluster {
+  position: fixed;
+  top: 52px;
+  right: 26px;
+  z-index: 49;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 6px;
+}
+.hairline-strip {
+  display: inline-flex;
+  align-items: center;
+  border: 1px solid var(--chrome-line);
+  background: var(--chrome-panel);
+  color: var(--chrome-fg);
+}
+.hl-btn {
+  padding: 5px 10px;
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  color: var(--chrome-muted);
+  border-right: 1px solid var(--chrome-line);
+  border-radius: 0;
+  white-space: nowrap;
+  transition: background 0.18s ease, color 0.18s ease;
+}
+.hl-btn:last-child {
+  border-right: none;
+}
+.hl-btn:hover {
+  color: var(--chrome-fg);
+  background: rgba(255, 255, 255, 0.08);
+}
+body[data-view="map"][data-map-basemap="paper"] .hl-btn:hover {
+  background: rgba(10, 24, 144, 0.06);
+}
+.hl-btn.active {
+  background: var(--chrome-fg);
+  color: var(--plate-bg);
+  font-weight: 600;
+}
+body[data-view="map"][data-map-basemap="paper"] .hl-btn.active {
+  background: #0a1890;
+  color: #ffffff;
+}
+
+/* Collapsible Layer & Search Popovers */
+.map-popover {
   display: none;
   flex-direction: column;
-  padding: 4px;
-  gap: 2px;
+  width: 288px;
+  border: 1px solid var(--chrome-line);
+  background: var(--chrome-panel);
+  color: var(--chrome-fg);
+  padding: 8px;
+  gap: 6px;
 }
-#map-search-results.open {
+.map-popover.open {
   display: flex;
+}
+.popover-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+.popover-chip {
+  padding: 4px 8px;
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  border: 1px solid var(--chrome-line);
+  color: var(--chrome-muted);
+  border-radius: 0;
+}
+.popover-chip.active {
+  background: var(--chrome-fg);
+  color: var(--plate-bg);
+  border-color: var(--chrome-fg);
+  font-weight: 600;
+}
+body[data-view="map"][data-map-basemap="paper"] .popover-chip.active {
+  background: #0a1890;
+  color: #ffffff;
+  border-color: #0a1890;
+}
+
+#map-place-search {
+  width: 100%;
+  background: transparent;
+  color: var(--chrome-fg);
+  border: none;
+  border-bottom: 1px solid var(--chrome-line);
+  padding: 6px 4px;
+  font-size: 14px;
+  font-family: inherit;
+  border-radius: 0;
+  outline: none;
+}
+#map-place-search::placeholder {
+  color: var(--chrome-muted);
+}
+#map-search-results {
+  max-height: 240px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
 }
 .map-search-item {
   text-align: left;
-  padding: 8px 10px;
-  font-size: 14px;
-  border-radius: 2px;
+  padding: 6px 6px;
+  font-size: 13px;
+  border-radius: 0;
   display: flex;
   justify-content: space-between;
   align-items: center;
   gap: 8px;
-  color: var(--ink);
+  color: var(--chrome-fg);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
 }
 .map-search-item:hover {
-  background: var(--klein-soft);
-  color: var(--klein);
+  background: rgba(255, 255, 255, 0.10);
+}
+body[data-view="map"][data-map-basemap="paper"] .map-search-item:hover {
+  background: rgba(10, 24, 144, 0.08);
 }
 
-/* Archival Site Summary Card on Map */
+/* Custom Hairline Zoom / Compass Stack (Replaces MapLibre default NavigationControl!) */
+#map-zoom-stack {
+  position: fixed;
+  right: 26px;
+  bottom: 44px;
+  z-index: 48;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--chrome-line);
+  background: var(--chrome-panel);
+}
+#map-zoom-stack button {
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--chrome-fg);
+  font-family: var(--font-latin-display);
+  font-size: 15px;
+  line-height: 1;
+  border-bottom: 1px solid var(--chrome-line);
+  border-radius: 0;
+}
+#map-zoom-stack button:last-child {
+  border-bottom: none;
+}
+#map-zoom-stack button:hover {
+  background: rgba(255, 255, 255, 0.12);
+}
+
+/* Custom Hairline Scale Bar inside #corner-bl (Replaces MapLibre gray box!) */
+.maplibregl-ctrl-bottom-left {
+  left: 318px !important;
+  bottom: 19px !important;
+  z-index: 56 !important;
+}
+.maplibregl-ctrl-bottom-left .maplibregl-ctrl {
+  margin: 0 !important;
+}
+.maplibregl-ctrl-scale {
+  background: transparent !important;
+  color: var(--chrome-muted) !important;
+  border: none !important;
+  border-bottom: 1px solid var(--chrome-line) !important;
+  border-left: 1px solid var(--chrome-line) !important;
+  border-right: 1px solid var(--chrome-line) !important;
+  border-radius: 0 !important;
+  font-family: var(--font-latin-display) !important;
+  font-size: 11px !important;
+  letter-spacing: 0.12em !important;
+  line-height: 1.15 !important;
+  padding: 0 6px 2px 6px !important;
+  box-shadow: none !important;
+}
+
+/* Bottom-Edge Single-Line Attribution + Fiction Disclaimer (05 Section 3.2.C) */
+#map-attrib-bar {
+  position: fixed;
+  right: 26px;
+  bottom: 20px;
+  z-index: 56;
+  font-family: var(--font-zh-serif);
+  font-size: 10.5px;
+  line-height: 1.3;
+  letter-spacing: 0.02em;
+  color: var(--chrome-muted);
+  text-align: right;
+  max-width: calc(100vw - 380px);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+#map-attrib-bar a {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+#map-attrib-bar a:hover {
+  color: var(--chrome-fg);
+}
+#btn-attrib-mobile {
+  display: none;
+}
+
+/* =========================================================================
+   4. FIGURE PLATE CAPTION CARD ("图版说明", 05 Section 3.2.E)
+   ========================================================================= */
 #map-site-card {
   position: fixed;
-  left: 22px;
-  bottom: 44px;
-  width: 368px;
-  max-height: calc(100dvh - 180px);
+  left: 28px;
+  bottom: 48px;
+  width: 364px;
+  max-height: calc(100dvh - 140px);
   overflow-y: auto;
   z-index: 49;
-  padding: 16px 18px;
+  padding: 18px 20px 14px 20px;
   display: none;
   flex-direction: column;
   gap: 10px;
+  background: var(--chrome-panel);
+  color: var(--chrome-fg);
+  border: 1px solid var(--chrome-line);
+  border-radius: 0;
+  box-shadow: none;
 }
 #map-site-card.open {
   display: flex;
 }
+.plate-card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  border-bottom: 1px solid var(--chrome-line);
+  padding-bottom: 8px;
+}
+.plate-fig-label {
+  font-family: var(--font-latin-inscr);
+  font-size: 11.5px;
+  font-weight: 600;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--chrome-fg);
+}
+.plate-close-btn {
+  font-family: var(--font-latin-inscr);
+  font-size: 13px;
+  padding: 2px 6px;
+  color: var(--chrome-muted);
+  border: 1px solid transparent;
+}
+.plate-close-btn:hover {
+  color: var(--chrome-fg);
+  border-color: var(--chrome-line);
+}
+.plate-zh-title {
+  font-family: var(--font-zh-serif);
+  font-size: 21px;
+  font-weight: 700;
+  letter-spacing: var(--track-zh-title);
+  line-height: 1.32;
+  color: var(--chrome-fg);
+}
+.plate-coords-line {
+  font-family: var(--font-latin-inscr);
+  font-size: 12px;
+  letter-spacing: 0.16em;
+  color: var(--chrome-muted);
+}
+.plate-summary {
+  font-family: var(--font-zh-serif);
+  font-size: 15px;
+  line-height: 1.76;
+  color: var(--chrome-fg);
+  opacity: 0.92;
+}
+.plate-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-top: 2px;
+}
+.plate-btn {
+  padding: 8px 12px;
+  font-size: 13px;
+  letter-spacing: 0.08em;
+  border: 1px solid var(--chrome-line);
+  color: var(--chrome-fg);
+  background: transparent;
+  border-radius: 0;
+  text-align: center;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.18s ease, color 0.18s ease;
+}
+.plate-btn:hover {
+  border-color: var(--chrome-fg);
+  background: rgba(255, 255, 255, 0.10);
+}
+.plate-btn.primary {
+  background: var(--chrome-fg);
+  color: var(--plate-bg);
+  border-color: var(--chrome-fg);
+  font-weight: 600;
+}
+body[data-view="map"][data-map-basemap="paper"] .plate-btn.primary {
+  background: #0a1890;
+  color: #ffffff;
+  border-color: #0a1890;
+}
+.plate-footnote {
+  border-top: 1px solid var(--chrome-line);
+  padding-top: 8px;
+  margin-top: 2px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 10px;
+  font-size: 11.5px;
+  line-height: 1.5;
+  color: var(--chrome-muted);
+}
+/* Monochrome Two-State Provenance Badge on Plate Card (Solid = Canon, Outlined = Original) */
+.plate-badge-canon {
+  background: var(--chrome-fg);
+  color: var(--plate-bg);
+  border: 1px solid var(--chrome-fg);
+  padding: 1px 6px;
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  font-weight: 600;
+}
+body[data-view="map"][data-map-basemap="paper"] .plate-badge-canon {
+  background: #0a1890;
+  color: #ffffff;
+  border-color: #0a1890;
+}
+.plate-badge-orig {
+  background: transparent;
+  color: var(--chrome-fg);
+  border: 1px solid var(--chrome-fg);
+  padding: 1px 6px;
+  font-size: 11px;
+  letter-spacing: 0.06em;
+}
 
 #map-fallback-banner {
   position: fixed;
-  top: 118px;
+  top: 54px;
   left: 50%;
   transform: translateX(-50%);
   z-index: 50;
   padding: 6px 14px;
-  font-size: 13px;
+  font-size: 12.5px;
+  border: 1px solid var(--chrome-line);
+  background: var(--chrome-panel);
+  color: var(--chrome-fg);
   display: none;
 }
 #map-fallback-banner.open {
   display: block;
-}
-
-#map-fiction-pill {
-  position: fixed;
-  left: 140px;
-  bottom: 10px;
-  z-index: 45;
-  font-size: 12px;
-  padding: 3px 10px;
-  background: var(--bg-panel);
-  color: var(--ink-sec);
-  border: 1px solid var(--border-soft);
-  border-radius: 2px;
-  pointer-events: none;
-}
-
-/* MapLibre Attribution & Control Theming */
-.maplibregl-ctrl-scale {
-  font-size: 12px !important;
-  line-height: 1.3 !important;
-}
-.maplibregl-ctrl-attrib {
-  font-size: 12px !important;
-  line-height: 1.45 !important;
-  background: rgba(251, 248, 241, 0.92) !important;
-  color: #1d1f24 !important;
-  border: 1px solid rgba(19, 38, 230, 0.22) !important;
-  max-width: 62vw;
-}
-html[data-theme="night"] .maplibregl-ctrl-attrib {
-  background: rgba(24, 28, 38, 0.92) !important;
-  color: #d9dde6 !important;
-  border-color: rgba(126, 150, 224, 0.26) !important;
-}
-.maplibregl-ctrl-attrib a {
-  color: inherit !important;
 }
 
 /* Entry Detail View (#/entry/<id>) */
@@ -161,65 +642,134 @@ html[data-theme="night"] .maplibregl-ctrl-attrib {
   width: 100%;
   margin: 0 auto;
 }
-
 .fiction-notice {
   font-size: 12.5px;
   color: var(--ink-sec);
   margin-top: 4px;
 }
 
+/* =========================================================================
+   5. MOBILE LAYOUT (<= 860px): Single compact nav, collapsed ⓘ attribution
+   ========================================================================= */
 @media (max-width: 860px) {
-  #map-hud-bar {
-    top: 62px !important;
-    left: 6px !important;
-    right: 6px !important;
-    max-width: calc(100vw - 12px) !important;
-    flex-wrap: nowrap !important;
-    overflow-x: auto !important;
-    padding: 4px 6px !important;
-  }
-  #map-search-wrap {
-    top: 118px !important;
-    left: 6px !important;
-    right: 6px !important;
-    width: auto !important;
-  }
-  #map-place-search {
-    min-height: 44px !important;
-    font-size: 15px !important;
-  }
-  #map-site-card {
-    left: 8px !important;
-    right: 8px !important;
-    bottom: 38px !important;
-    width: auto !important;
-    max-height: 50dvh !important;
-    padding: 14px !important;
-  }
-  #map-fiction-pill {
+  #corner-tl,
+  #corner-tr {
     display: none !important;
   }
-  .maplibregl-ctrl-attrib {
-    max-width: 92vw !important;
-    font-size: 12px !important;
+  #top-nav {
+    top: 8px !important;
+    left: 8px !important;
+    right: 8px !important;
+    justify-content: flex-start !important;
+    border-bottom: 1px solid var(--chrome-line) !important;
+    background: var(--chrome-panel) !important;
+    padding: 0 4px !important;
   }
-  .maplibregl-ctrl-attrib.maplibregl-compact {
+  #map-global-hero {
+    left: 20px;
+    right: 20px;
+    top: auto;
+    bottom: 64px;
+    transform: none;
+    width: auto;
+    gap: 6px;
+  }
+  #map-global-hero.hidden-hero {
+    transform: translateY(8px);
+  }
+  .hero-latin-display {
+    font-size: 32px;
+  }
+  .hero-zh-title {
+    font-size: 20px;
+  }
+  .hero-desc,
+  .hero-epigraph {
+    display: none;
+  }
+
+  #map-ctrl-cluster {
+    top: 58px;
+    right: 12px;
+    left: 12px;
+    align-items: flex-end;
+  }
+  .hairline-strip {
+    max-width: 100%;
+    overflow-x: auto;
+  }
+  .hl-btn {
     min-height: 44px !important;
     min-width: 44px !important;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
+    padding: 6px 9px !important;
+    font-size: 12.5px !important;
   }
-  .maplibregl-ctrl-attrib-button {
+  .map-popover {
+    width: calc(100vw - 24px);
+  }
+
+  #map-zoom-stack {
+    right: 12px;
+    bottom: 62px;
+  }
+  #map-zoom-stack button {
     width: 44px !important;
     height: 44px !important;
-    background-repeat: no-repeat !important;
-    background-position: center !important;
-    background-size: 22px 22px !important;
+    font-size: 18px !important;
   }
-  .maplibregl-ctrl-group button {
+
+  #corner-bl {
+    left: 14px;
+    bottom: 16px;
+    font-size: 10px;
+  }
+  .maplibregl-ctrl-bottom-left {
+    left: 14px !important;
+    bottom: 34px !important;
+  }
+
+  /* Collapse attribution to ⓘ on mobile (05 Section 3.2.C) */
+  #btn-attrib-mobile {
+    display: inline-flex !important;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+    right: 12px;
+    bottom: 12px;
     width: 44px !important;
     height: 44px !important;
+    z-index: 57;
+    border: 1px solid var(--chrome-line);
+    background: var(--chrome-panel);
+    color: var(--chrome-fg);
+    font-family: var(--font-latin-inscr);
+    font-size: 14px;
+    border-radius: 0;
+  }
+  #map-attrib-bar {
+    display: none;
+    left: 12px;
+    right: 62px;
+    bottom: 12px;
+    max-width: none;
+    white-space: normal;
+    text-align: left;
+    background: var(--chrome-panel);
+    border: 1px solid var(--chrome-line);
+    padding: 8px 10px;
+    z-index: 58;
+  }
+  #map-attrib-bar.mob-open {
+    display: block;
+  }
+
+  #map-site-card {
+    left: 12px !important;
+    right: 12px !important;
+    bottom: 62px !important;
+    width: auto !important;
+    max-height: 48dvh !important;
+    padding: 14px 16px !important;
   }
   #stage-entry {
     padding: 66px 14px 72px 14px !important;

@@ -1,32 +1,19 @@
 /**
  * js/realistic-map.js
- * Realistic Satellite + Paper Archival + Night Lights 3D Globe (#/map)
+ * Copperplate Klein-Blue & Realistic 3D Globe (#/map) — Visual System v5
  * Powered by self-hosted MapLibre GL JS v6.18.0 (BSD-3).
  *
- * Strictly zero national/disputed borders ("国界线不要画"):
- *  - No `boundary` source-layer is ever added.
- *  - `place` labels exclude country/state/province classes and mask disputed zones via `within`.
+ * Visual Grammar (05 Section 3):
+ *  - Default "copperplate" mode: desaturated Sentinel-2 etched over #0a1890 Klein blue + white hairlines.
+ *  - Switchable "realistic" true-color toggle, monochrome Klein-blue "paper", & silver-white "night" modes.
+ *  - Roman numerals (I–XIV) + monochrome planetary symbols (☉ ☽ ♄ ☿, U+FE0E text presentation).
+ *  - Strictly zero national/disputed borders ("国界线不要画") & disputed-zone `within` label mask.
  */
-import {
-  Map as MapLibreMap,
-  NavigationControl,
-  AttributionControl,
-  ScaleControl,
-} from "../vendor/maplibre-gl@6.18.0/maplibre-gl.mjs";
+import { Map as MapLibreMap, ScaleControl } from "../vendor/maplibre-gl@6.18.0/maplibre-gl.mjs";
 import { escapeHtml } from "./sanitize.js";
 
-const DEFAULT_BASEMAP = "satellite";
+const DEFAULT_BASEMAP = "copperplate";
 
-const EOX_ATTRIB =
-  'Sentinel-2 cloudless - <a href="https://s2maps.eu" target="_blank" rel="noopener">https://s2maps.eu</a> by EOX IT Services GmbH (Contains modified Copernicus Sentinel data 2016 &amp; 2017, CC BY 4.0)';
-const OFM_ATTRIB =
-  '<a href="https://openfreemap.org" target="_blank" rel="noopener">OpenFreeMap</a> &copy; <a href="https://www.openmaptiles.org/" target="_blank" rel="noopener">OpenMapTiles</a> Data from <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a>';
-const MAPTERHORN_ATTRIB =
-  '<a href="https://mapterhorn.com/attribution" target="_blank" rel="noopener">&copy; Mapterhorn</a>';
-const NASA_ATTRIB =
-  'Imagery: <a href="https://earthobservatory.nasa.gov/features/NightLights" target="_blank" rel="noopener">NASA Black Marble / Blue Marble</a>';
-
-// 4.2.6: Add name:en / name:latin as 3rd tier before raw native script
 const CJK_NAME_EXPR = [
   "coalesce",
   ["get", "name:zh-Hans"],
@@ -36,29 +23,48 @@ const CJK_NAME_EXPR = [
   ["get", "name"],
 ];
 
-// 4.2.7: Disputed-area polygon mask (Zangnan / South Tibet, Aksai Chin, Diaoyu Islands, South China Sea Islands)
+// Planetary symbols with U+FE0E Variation Selector-15 (strictly monochrome glyph, never emoji)
+export const LAYER_GLYPH = {
+  theology: "☉\uFE0E",
+  mythos: "☽\uFE0E",
+  scp: "♄\uFE0E",
+  goi: "☿\uFE0E",
+};
+
+const SITE_LATIN_SLUG = {
+  "site-rlyeh": "R'LYEH",
+  "site-alexandria": "ALEXANDRIA",
+  "site-2000": "YELLOWSTONE · SCP-MM",
+  "site-001": "MESOPOTAMIA · PORTA",
+  "site-prague": "PRAGA · ALAGADDA",
+  "site-13": "BIG BEND · SITE-XIII",
+  "site-cairo": "MEMPHIS · GIZA",
+  "site-antarctica": "MONTES INSANIAE",
+  "site-penglai": "PENGLAI · MARE",
+  "site-baikal": "BAIKAL · SCP-DCX",
+  "site-arkham": "ARKHAM · OSTIVM",
+  "site-innsmouth": "INNSMOVTH · SCOPVLVS",
+  "site-leng": "PAMIR · LENG",
+  "site-3000-bengal": "SINVS GANGETICVS",
+};
+
 const DISPUTED_LABEL_MASK = {
   type: "MultiPolygon",
   coordinates: [
-    // Zangnan / South Tibet (south of Lhasa & Nyingchi)
     [[[91.5, 26.8], [97.6, 26.8], [97.6, 29.45], [91.5, 29.45], [91.5, 26.8]]],
-    // Aksai Chin / eastern border sector
     [[[77.4, 33.2], [80.6, 33.2], [80.6, 36.1], [77.4, 36.1], [77.4, 33.2]]],
-    // Diaoyu Islands
     [[[123.1, 25.5], [124.8, 25.5], [124.8, 26.1], [123.1, 26.1], [123.1, 25.5]]],
-    // South China Sea Islands
     [[[109.6, 3.5], [119.5, 3.5], [119.5, 21.1], [116.0, 21.1], [111.0, 17.5], [109.6, 3.5]]],
   ],
 };
 
-// Synchronous site camera lookup so #/map/<siteId> starts MapLibre at t=0ms without waiting on places.geojson
 const QUICK_SITE_CAM = {
   "site-rlyeh": [-126.7167, -47.15, 5, 0],
   "site-alexandria": [29.8856, 31.214, 12, 0],
   "site-2000": [-110.498, 44.462, 10, 60],
   "site-001": [47.4395, 31.0044, 12, 0],
   "site-prague": [14.3965, 50.0933, 13, 0],
-  "site-13": [-103.965, 29.475, 10, 45],
+  "site-13": [-103.965, 29.475, 10.5, 28],
   "site-cairo": [31.1308, 29.976, 13, 0],
   "site-antarctica": [113.1667, -76.25, 5, 0],
   "site-penglai": [120.7522, 37.8283, 12, 0],
@@ -86,7 +92,27 @@ const LEGACY_TO_SITE_ID = {
 
 const EMPTY_FC = { type: "FeatureCollection", features: [] };
 
-function geodesicCircleRing([lonDeg, latDeg], radiusKm, steps = 40) {
+// Roman numeral expression for cluster point_count (II .. XIV)
+const CLUSTER_ROMAN_EXPR = [
+  "match",
+  ["get", "point_count"],
+  2, "II",
+  3, "III",
+  4, "IV",
+  5, "V",
+  6, "VI",
+  7, "VII",
+  8, "VIII",
+  9, "IX",
+  10, "X",
+  11, "XI",
+  12, "XII",
+  13, "XIII",
+  14, "XIV",
+  ["to-string", ["get", "point_count"]],
+];
+
+function geodesicCircleRing([lonDeg, latDeg], radiusKm, steps = 48) {
   const R = 6371;
   const lat1 = (latDeg * Math.PI) / 180;
   const lon1 = (lonDeg * Math.PI) / 180;
@@ -114,14 +140,12 @@ function buildPrecisionRangeGeoJSON(places) {
       properties: {
         id: p.id,
         entryId: p.entryId,
-        name_zh: p.name_zh,
         layer: p.layer,
         precision: p.precision,
-        rangeLabel: `${p.name_zh}\n（${p.precision === "city" ? "城市级范围" : "区域级范围"}）`,
       },
       geometry: {
         type: "Polygon",
-        coordinates: [geodesicCircleRing([p.lon, p.lat], radKm, 40)],
+        coordinates: [geodesicCircleRing([p.lon, p.lat], radKm, 48)],
       },
     });
   }
@@ -132,7 +156,7 @@ export function formatSiteCoord(lat, lon, precision) {
   const digits = precision === "exact" ? 4 : 1;
   const ns = lat >= 0 ? "N" : "S";
   const ew = lon >= 0 ? "E" : "W";
-  return `${Math.abs(lat).toFixed(digits)}°${ns}, ${Math.abs(lon).toFixed(digits)}°${ew}`;
+  return `${Math.abs(lat).toFixed(digits)}°${ns} · ${Math.abs(lon).toFixed(digits)}°${ew}`;
 }
 
 export function buildSolarTerminatorGeoJSON(date = new Date()) {
@@ -186,7 +210,10 @@ export function buildSolarTerminatorGeoJSON(date = new Date()) {
   };
 }
 
-function createArchivalIconData(kind) {
+/**
+ * 05 Section 3.1: Small solid dot + two concentric hairline rings (no glow sticker).
+ */
+function createHairlineMarkerIcon(strokeHex) {
   const size = 64;
   const c = document.createElement("canvas");
   c.width = size;
@@ -195,144 +222,94 @@ function createArchivalIconData(kind) {
   const cx = size / 2;
   const cy = size / 2;
 
-  const grad = ctx.createRadialGradient(cx, cy, 8, cx, cy, 30);
-  grad.addColorStop(0, "rgba(19, 38, 230, 0.42)");
-  grad.addColorStop(1, "rgba(19, 38, 230, 0)");
-  ctx.fillStyle = grad;
+  // Outer hairline ring (0.8px @ 1x -> 1.5px @ 2x)
+  ctx.strokeStyle = strokeHex === "#ffffff" ? "rgba(255, 255, 255, 0.40)" : "rgba(10, 24, 144, 0.42)";
+  ctx.lineWidth = 1.4;
   ctx.beginPath();
-  ctx.arc(cx, cy, 30, 0, Math.PI * 2);
-  ctx.fill();
-
-  ctx.fillStyle =
-    kind === "scp" ? "#0d1cb8" : kind === "mythos" ? "#1326e6" : kind === "theology" ? "#1633f0" : "#1b38c8";
-  ctx.strokeStyle = "#fbf8f1";
-  ctx.lineWidth = 3;
-  ctx.beginPath();
-  ctx.arc(cx, cy, 19, 0, Math.PI * 2);
-  ctx.fill();
+  ctx.arc(cx, cy, 22, 0, Math.PI * 2);
   ctx.stroke();
 
-  ctx.strokeStyle = "rgba(251, 248, 241, 0.55)";
+  // Inner hairline ring
+  ctx.strokeStyle = strokeHex === "#ffffff" ? "rgba(255, 255, 255, 0.82)" : "rgba(10, 24, 144, 0.85)";
+  ctx.lineWidth = 1.6;
+  ctx.beginPath();
+  ctx.arc(cx, cy, 13, 0, Math.PI * 2);
+  ctx.stroke();
+
+  // Crisp 4 cardinal tick marks on outer ring
   ctx.lineWidth = 1.2;
-  ctx.beginPath();
-  ctx.arc(cx, cy, 14.5, 0, Math.PI * 2);
-  ctx.stroke();
-
-  ctx.strokeStyle = "#ffffff";
-  ctx.fillStyle = "#ffffff";
-  ctx.lineWidth = 2;
-  ctx.lineCap = "round";
-  ctx.lineJoin = "round";
-
-  if (kind === "scp") {
+  for (let k = 0; k < 4; k++) {
+    const a = (k * Math.PI) / 2;
     ctx.beginPath();
-    ctx.arc(cx, cy, 4.5, 0, Math.PI * 2);
+    ctx.moveTo(cx + Math.cos(a) * 22, cy + Math.sin(a) * 22);
+    ctx.lineTo(cx + Math.cos(a) * 26, cy + Math.sin(a) * 26);
     ctx.stroke();
-    for (let k = 0; k < 3; k++) {
-      const a = (k / 3) * Math.PI * 2 - Math.PI / 2;
-      ctx.beginPath();
-      ctx.moveTo(cx + Math.cos(a) * 12.5, cy + Math.sin(a) * 12.5);
-      ctx.lineTo(cx + Math.cos(a) * 6.5, cy + Math.sin(a) * 6.5);
-      ctx.stroke();
-    }
-  } else if (kind === "mythos") {
-    ctx.beginPath();
-    ctx.moveTo(cx - 10, cy);
-    ctx.quadraticCurveTo(cx, cy - 8, cx + 10, cy);
-    ctx.quadraticCurveTo(cx, cy + 8, cx - 10, cy);
-    ctx.stroke();
-    ctx.beginPath();
-    ctx.arc(cx, cy, 2.6, 0, Math.PI * 2);
-    ctx.fill();
-  } else if (kind === "theology") {
-    ctx.beginPath();
-    ctx.moveTo(cx, cy - 11);
-    ctx.lineTo(cx + 9, cy);
-    ctx.lineTo(cx, cy + 11);
-    ctx.lineTo(cx - 9, cy);
-    ctx.closePath();
-    ctx.stroke();
-    ctx.beginPath();
-    ctx.arc(cx, cy, 2.8, 0, Math.PI * 2);
-    ctx.fill();
-  } else {
-    ctx.beginPath();
-    for (let i = 0; i < 6; i++) {
-      const a = (i / 6) * Math.PI * 2 - Math.PI / 6;
-      const x = cx + Math.cos(a) * 9.5;
-      const y = cy + Math.sin(a) * 9.5;
-      if (i === 0) ctx.moveTo(x, y);
-      else ctx.lineTo(x, y);
-    }
-    ctx.closePath();
-    ctx.stroke();
-    ctx.beginPath();
-    ctx.arc(cx, cy, 2.5, 0, Math.PI * 2);
-    ctx.fill();
   }
+
+  // Solid center point
+  ctx.fillStyle = strokeHex;
+  ctx.beginPath();
+  ctx.arc(cx, cy, 4.4, 0, Math.PI * 2);
+  ctx.fill();
 
   return ctx.getImageData(0, 0, size, size);
 }
 
-// 4.2.6 + 4.2.7: Rank-controlled place filter with z4-10 major cities/capitals, z>=13 minor places, & disputed mask
+// 05 Section 3.1 + 4.2.6 + 4.2.7: Only city & town, rank-controlled, with z4-10 capitals/major cities & disputed mask
 const PLACE_FILTER_EXPR = [
   "all",
   ["!", ["within", DISPUTED_LABEL_MASK]],
   [
     "step",
     ["zoom"],
-    // z < 6: capitals and global tier-1..3 cities only
+    // z < 6: capitals & global rank <= 3 cities
     [
       "all",
       ["==", ["get", "class"], "city"],
       ["any", ["==", ["get", "capital"], 2], ["<=", ["coalesce", ["get", "rank"], 99], 3]],
     ],
     6,
-    // 6 <= z < 8: capitals and rank <= 4 cities
+    // 6 <= z < 8: capitals & rank <= 4 cities
     [
       "all",
       ["==", ["get", "class"], "city"],
       ["any", ["==", ["get", "capital"], 2], ["<=", ["coalesce", ["get", "rank"], 99], 4]],
     ],
     8,
-    // 8 <= z < 10: capitals and rank <= 6 cities
+    // 8 <= z < 10: capitals & rank <= 6 cities
     [
       "all",
       ["==", ["get", "class"], "city"],
       ["any", ["==", ["get", "capital"], 2], ["<=", ["coalesce", ["get", "rank"], 99], 6]],
     ],
     10,
-    // 10 <= z < 13: cities and major towns (rank <= 10), NO hamlets/villages/neighbourhoods
+    // 10 <= z < 13: city & major town (rank <= 9)
     [
       "all",
       ["in", ["get", "class"], ["literal", ["city", "town"]]],
-      ["<=", ["coalesce", ["get", "rank"], 9], 10],
+      ["<=", ["coalesce", ["get", "rank"], 9], 9],
     ],
     13,
-    // z >= 13: allow towns, villages, suburbs, neighbourhoods, islands (still zero country/state/province)
-    [
-      "in",
-      ["get", "class"],
-      ["literal", ["city", "town", "village", "suburb", "quarter", "neighbourhood", "hamlet", "island"]],
-    ],
+    // z >= 13: city & town only (keeps copperplate street map clean & airy per 05 Section 3.1)
+    ["in", ["get", "class"], ["literal", ["city", "town"]]],
   ],
 ];
 
 function buildUnifiedStyle(initialTerminator) {
   return {
     version: 8,
-    name: "Theologia Caerulea Realistic & Archival Atlas",
+    name: "Theologia Caerulea Copperplate & Realistic Atlas",
     projection: {
       type: ["interpolate", ["linear"], ["zoom"], 5.5, "vertical-perspective", 6.8, "mercator"],
     },
     sky: {
-      "sky-color": "#050a1c",
-      "sky-horizon-blend": 0.38,
-      "horizon-color": "#4f7ff7",
-      "horizon-fog-blend": 0.55,
-      "fog-color": "#0c1738",
-      "fog-ground-blend": 0.25,
-      "atmosphere-blend": ["interpolate", ["linear"], ["zoom"], 0, 0.88, 5, 0.45, 8, 0],
+      "sky-color": "#061066",
+      "sky-horizon-blend": 0.48,
+      "horizon-color": "#1c3fd6",
+      "horizon-fog-blend": 0.68,
+      "fog-color": "#0a1890",
+      "fog-ground-blend": 0.48,
+      "atmosphere-blend": ["interpolate", ["linear"], ["zoom"], 0, 0.90, 5, 0.45, 8, 0],
     },
     glyphs: "https://tiles.openfreemap.org/fonts/{fontstack}/{range}.pbf",
     sources: {
@@ -356,7 +333,6 @@ function buildUnifiedStyle(initialTerminator) {
         ],
         tileSize: 256,
         maxzoom: 15,
-        attribution: EOX_ATTRIB,
       },
       "viirs-night": {
         type: "raster",
@@ -365,12 +341,10 @@ function buildUnifiedStyle(initialTerminator) {
         ],
         tileSize: 256,
         maxzoom: 8,
-        attribution: NASA_ATTRIB,
       },
       openmaptiles: {
         type: "vector",
         url: "https://tiles.openfreemap.org/planet",
-        attribution: OFM_ATTRIB,
       },
       "terrain-dem": {
         type: "raster-dem",
@@ -378,7 +352,6 @@ function buildUnifiedStyle(initialTerminator) {
         encoding: "terrarium",
         tileSize: 512,
         maxzoom: 14,
-        attribution: MAPTERHORN_ATTRIB,
       },
       "hillshade-dem": {
         type: "raster-dem",
@@ -393,7 +366,6 @@ function buildUnifiedStyle(initialTerminator) {
         encoding: "terrarium",
         tileSize: 256,
         maxzoom: 14,
-        attribution: "Terrain: Mapzen / AWS Open Data",
       },
       "solar-terminator": {
         type: "geojson",
@@ -428,18 +400,24 @@ function buildUnifiedStyle(initialTerminator) {
       },
     },
     layers: [
+      // Deep Klein-Blue Ground Plate (#0a1890 default)
       {
         id: "bg-base",
         type: "background",
-        paint: { "background-color": "#060b19" },
+        paint: { "background-color": "#0a1890" },
       },
       {
         id: "fallback-blue-marble",
         type: "raster",
         source: "blue-marble-fallback",
         layout: { visibility: "none" },
-        paint: { "raster-opacity": 1 },
+        paint: {
+          "raster-saturation": -1,
+          "raster-contrast": 0.28,
+          "raster-opacity": 0.58,
+        },
       },
+      // Default Copperplate Desaturated Satellite over #0a1890 (fades to 0.35 at z>=14 per 3.2.F!)
       {
         id: "sat-eox-layer",
         type: "raster",
@@ -447,10 +425,13 @@ function buildUnifiedStyle(initialTerminator) {
         layout: { visibility: "visible" },
         paint: {
           "raster-fade-duration": 0,
-          "raster-contrast": 0.06,
-          "raster-saturation": 0.04,
+          "raster-saturation": -1,
+          "raster-contrast": 0.28,
+          "raster-brightness-min": 0.03,
+          "raster-opacity": ["interpolate", ["linear"], ["zoom"], 0, 0.58, 13, 0.56, 14.2, 0.35],
         },
       },
+      // Desaturated Silver-White Night Lights over Deep Klein Blue (05 Section 3.1/3.2.A)
       {
         id: "night-viirs-layer",
         type: "raster",
@@ -458,28 +439,20 @@ function buildUnifiedStyle(initialTerminator) {
         layout: { visibility: "none" },
         paint: {
           "raster-fade-duration": 0,
+          "raster-saturation": -1,
+          "raster-contrast": 0.36,
           "raster-brightness-min": 0.02,
-          "raster-contrast": 0.15,
+          "raster-opacity": 0.82,
         },
       },
-      {
-        id: "paper-landcover",
-        type: "fill",
-        source: "openmaptiles",
-        "source-layer": "landcover",
-        layout: { visibility: "none" },
-        paint: {
-          "fill-color": "#ece5d5",
-          "fill-opacity": 0.45,
-        },
-      },
+      // Monochrome Paper & Night Water / Coastlines (Strictly Blue + White, NO boundary layers!)
       {
         id: "vector-water-fill",
         type: "fill",
         source: "openmaptiles",
         "source-layer": "water",
         layout: { visibility: "none" },
-        paint: { "fill-color": "#dfe5f2" },
+        paint: { "fill-color": "#e6ecfa" },
       },
       {
         id: "vector-coastline",
@@ -488,22 +461,24 @@ function buildUnifiedStyle(initialTerminator) {
         "source-layer": "water",
         layout: { visibility: "none" },
         paint: {
-          "line-color": "rgba(19, 38, 230, 0.35)",
-          "line-width": 0.9,
+          "line-color": "rgba(10, 24, 144, 0.45)",
+          "line-width": 0.8,
         },
       },
+      // Monochrome Klein-Blue Hillshade for Paper Mode
       {
         id: "terrain-hillshade",
         type: "hillshade",
         source: "hillshade-dem",
         layout: { visibility: "none" },
         paint: {
-          "hillshade-exaggeration": 0.28,
-          "hillshade-shadow-color": "#0b132b",
+          "hillshade-exaggeration": 0.24,
+          "hillshade-shadow-color": "#0d1cb8",
           "hillshade-highlight-color": "#ffffff",
-          "hillshade-accent-color": "#1326e6",
+          "hillshade-accent-color": "#0a1890",
         },
       },
+      // Semi-transparent Deep Klein-Blue Solar Terminator
       {
         id: "terminator-night-fill",
         type: "fill",
@@ -512,8 +487,8 @@ function buildUnifiedStyle(initialTerminator) {
         filter: ["==", ["get", "kind"], "night-hemisphere"],
         layout: { visibility: "visible" },
         paint: {
-          "fill-color": "#040818",
-          "fill-opacity": ["interpolate", ["linear"], ["zoom"], 0, 0.36, 5, 0.22, 7, 0],
+          "fill-color": "#030838",
+          "fill-opacity": ["interpolate", ["linear"], ["zoom"], 0, 0.38, 5, 0.22, 7, 0],
         },
       },
       {
@@ -524,11 +499,11 @@ function buildUnifiedStyle(initialTerminator) {
         filter: ["==", ["get", "kind"], "terminator-line"],
         layout: { visibility: "visible" },
         paint: {
-          "line-color": "rgba(138, 178, 255, 0.42)",
-          "line-width": 1.2,
-          "line-dasharray": [3, 3],
+          "line-color": "rgba(255, 255, 255, 0.28)",
+          "line-width": 0.75,
         },
       },
+      // Hairline Waterways & Roads (Etched White Lines on Copperplate, Klein-Blue on Paper)
       {
         id: "vector-waterways",
         type: "line",
@@ -536,8 +511,8 @@ function buildUnifiedStyle(initialTerminator) {
         "source-layer": "waterway",
         minzoom: 10,
         paint: {
-          "line-color": "rgba(82, 148, 255, 0.68)",
-          "line-width": ["interpolate", ["linear"], ["zoom"], 8, 0.7, 14, 2.2],
+          "line-color": "rgba(255, 255, 255, 0.42)",
+          "line-width": ["interpolate", ["linear"], ["zoom"], 10, 0.6, 15, 1.4],
         },
       },
       {
@@ -546,9 +521,10 @@ function buildUnifiedStyle(initialTerminator) {
         source: "openmaptiles",
         "source-layer": "transportation",
         minzoom: 10,
+        layout: { visibility: "none" },
         paint: {
-          "line-color": "rgba(10, 16, 34, 0.55)",
-          "line-width": ["interpolate", ["exponential", 1.4], ["zoom"], 10, 1.2, 14, 4.2, 17, 11],
+          "line-color": "rgba(6, 12, 32, 0.50)",
+          "line-width": ["interpolate", ["exponential", 1.35], ["zoom"], 10, 1.1, 14, 3.6, 17, 9],
         },
       },
       {
@@ -558,18 +534,23 @@ function buildUnifiedStyle(initialTerminator) {
         "source-layer": "transportation",
         minzoom: 10,
         paint: {
-          "line-color": [
-            "match",
-            ["get", "class"],
-            ["motorway", "trunk", "primary"],
-            "rgba(255, 244, 214, 0.88)",
-            ["secondary", "tertiary"],
-            "rgba(244, 247, 255, 0.78)",
-            "rgba(232, 238, 252, 0.62)",
-          ],
-          "line-width": ["interpolate", ["exponential", 1.4], ["zoom"], 10, 0.7, 14, 2.6, 17, 8],
+          "line-color": "rgba(255, 255, 255, 0.58)",
+          "line-width": ["interpolate", ["exponential", 1.35], ["zoom"], 10, 0.5, 14, 1.0, 17, 2.2],
         },
       },
+      // 05 Section 3.2.F: Street-Level White Hairline Building Footprints (z >= 14)
+      {
+        id: "vector-building-outlines",
+        type: "line",
+        source: "openmaptiles",
+        "source-layer": "building",
+        minzoom: 14,
+        paint: {
+          "line-color": "rgba(255, 255, 255, 0.46)",
+          "line-width": 0.75,
+        },
+      },
+      // 05 Section 3.2.F: Uniform Pale Ice-Blue-White 3D Extruded Buildings at 0.55 Opacity (z >= 15)
       {
         id: "vector-buildings-3d",
         type: "fill-extrusion",
@@ -578,22 +559,13 @@ function buildUnifiedStyle(initialTerminator) {
         minzoom: 15,
         filter: ["!=", ["get", "hide_3d"], true],
         paint: {
-          "fill-extrusion-color": [
-            "interpolate",
-            ["linear"],
-            ["coalesce", ["get", "render_height"], 10],
-            0,
-            "#dfd9cc",
-            30,
-            "#cfd9f2",
-            80,
-            "#9eb4f5",
-          ],
+          "fill-extrusion-color": "#dce6ff",
           "fill-extrusion-height": ["coalesce", ["get", "render_height"], 10],
           "fill-extrusion-base": ["coalesce", ["get", "render_min_height"], 0],
-          "fill-extrusion-opacity": 0.84,
+          "fill-extrusion-opacity": 0.55,
         },
       },
+      // Labels: Noto Sans Regular, wide tracking, soft subtle halo (NO country/state/boundary!)
       {
         id: "vector-road-labels",
         type: "symbol",
@@ -604,12 +576,13 @@ function buildUnifiedStyle(initialTerminator) {
           "symbol-placement": "line",
           "text-field": CJK_NAME_EXPR,
           "text-font": ["Noto Sans Regular"],
-          "text-size": 12,
+          "text-size": 11.5,
+          "text-letter-spacing": 0.08,
         },
         paint: {
-          "text-color": "#f5f7ff",
-          "text-halo-color": "rgba(10, 15, 30, 0.88)",
-          "text-halo-width": 1.4,
+          "text-color": "rgba(255, 255, 255, 0.85)",
+          "text-halo-color": "rgba(8, 18, 112, 0.82)",
+          "text-halo-width": 0.9,
         },
       },
       {
@@ -622,12 +595,13 @@ function buildUnifiedStyle(initialTerminator) {
         layout: {
           "text-field": CJK_NAME_EXPR,
           "text-font": ["Noto Sans Italic"],
-          "text-size": 12.5,
+          "text-size": 12,
+          "text-letter-spacing": 0.14,
         },
         paint: {
-          "text-color": "#b8d4ff",
-          "text-halo-color": "rgba(8, 16, 42, 0.85)",
-          "text-halo-width": 1.4,
+          "text-color": "rgba(255, 255, 255, 0.78)",
+          "text-halo-color": "rgba(8, 18, 112, 0.78)",
+          "text-halo-width": 0.9,
         },
       },
       {
@@ -639,26 +613,28 @@ function buildUnifiedStyle(initialTerminator) {
         filter: PLACE_FILTER_EXPR,
         layout: {
           "text-field": CJK_NAME_EXPR,
-          "text-font": ["Noto Sans Bold"],
-          "text-size": ["match", ["get", "class"], "city", 14.5, "town", 13, 12.2],
+          "text-font": ["Noto Sans Regular"],
+          "text-size": ["match", ["get", "class"], "city", 13.5, 12],
+          "text-letter-spacing": 0.14,
           "text-max-width": 8,
         },
         paint: {
-          "text-color": "#ffffff",
-          "text-halo-color": "rgba(10, 18, 48, 0.9)",
-          "text-halo-width": 1.6,
+          "text-color": "rgba(255, 255, 255, 0.88)",
+          "text-halo-color": "rgba(6, 15, 96, 0.82)",
+          "text-halo-width": 0.9,
         },
       },
+
       // =====================================================================
-      // KLEIN-BLUE ARCHIVAL OVERLAY LAYERS (Zones, Great-Circle Routes, Sites)
+      // HAIRLINE ARCHIVAL OVERLAY LAYERS (Zones, Precision Rings, 0.8px Routes, Roman Markers)
       // =====================================================================
       {
         id: "archive-zones-fill",
         type: "fill",
         source: "archive-zones",
         paint: {
-          "fill-color": "#1326e6",
-          "fill-opacity": 0.14,
+          "fill-color": "#ffffff",
+          "fill-opacity": 0.06,
         },
       },
       {
@@ -666,20 +642,19 @@ function buildUnifiedStyle(initialTerminator) {
         type: "line",
         source: "archive-zones",
         paint: {
-          "line-color": "#4d73ff",
-          "line-width": 1.6,
-          "line-dasharray": [4, 3],
+          "line-color": "rgba(255, 255, 255, 0.42)",
+          "line-width": 0.85,
         },
       },
-      // 4.2.9: Precision range rings for city/region points at z >= 11
+      // 4.2.9: Semi-transparent uncertainty circle at z >= 11 for city/region points (no duplicate text!)
       {
         id: "archive-precision-fill",
         type: "fill",
         source: "archive-precision-ranges",
         minzoom: 11,
         paint: {
-          "fill-color": "#1326e6",
-          "fill-opacity": 0.13,
+          "fill-color": "#ffffff",
+          "fill-opacity": 0.09,
         },
       },
       {
@@ -688,44 +663,31 @@ function buildUnifiedStyle(initialTerminator) {
         source: "archive-precision-ranges",
         minzoom: 11,
         paint: {
-          "line-color": "rgba(160, 192, 255, 0.85)",
-          "line-width": 1.4,
-          "line-dasharray": [4, 3],
+          "line-color": "rgba(255, 255, 255, 0.62)",
+          "line-width": 0.9,
         },
       },
-      {
-        id: "archive-precision-label",
-        type: "symbol",
-        source: "archive-precision-ranges",
-        minzoom: 11,
-        layout: {
-          "text-field": ["get", "rangeLabel"],
-          "text-font": ["Noto Sans Bold"],
-          "text-size": 13,
-        },
-        paint: {
-          "text-color": "#ffffff",
-          "text-halo-color": "#0d1cb8",
-          "text-halo-width": 1.6,
-        },
-      },
-      {
-        id: "archive-routes-glow",
-        type: "line",
-        source: "archive-routes",
-        paint: {
-          "line-color": "rgba(19, 38, 230, 0.34)",
-          "line-width": 4.2,
-        },
-      },
+      // 05 Section 3.1: 0.8px 50%-opacity solid white great-circle routes (NO glow layer!)
       {
         id: "archive-routes-line",
         type: "line",
         source: "archive-routes",
         paint: {
-          "line-color": "#7aa2ff",
-          "line-width": 1.5,
-          "line-dasharray": [3, 3],
+          "line-color": "rgba(255, 255, 255, 0.50)",
+          "line-width": 0.85,
+        },
+      },
+      // Clustered Double-Hairline Rings with Roman Numeral Counts (II .. XIV)
+      {
+        id: "archive-clusters-outer",
+        type: "circle",
+        source: "archive-places",
+        filter: ["has", "point_count"],
+        paint: {
+          "circle-color": "rgba(8, 20, 128, 0.55)",
+          "circle-radius": ["step", ["get", "point_count"], 17, 4, 21],
+          "circle-stroke-width": 0.85,
+          "circle-stroke-color": "rgba(255, 255, 255, 0.45)",
         },
       },
       {
@@ -734,10 +696,10 @@ function buildUnifiedStyle(initialTerminator) {
         source: "archive-places",
         filter: ["has", "point_count"],
         paint: {
-          "circle-color": "#0d1cb8",
-          "circle-radius": ["step", ["get", "point_count"], 16, 4, 20],
-          "circle-stroke-width": 2.4,
-          "circle-stroke-color": "#fbf8f1",
+          "circle-color": "rgba(8, 20, 128, 0.82)",
+          "circle-radius": ["step", ["get", "point_count"], 13, 4, 16],
+          "circle-stroke-width": 0.95,
+          "circle-stroke-color": "#ffffff",
         },
       },
       {
@@ -746,76 +708,62 @@ function buildUnifiedStyle(initialTerminator) {
         source: "archive-places",
         filter: ["has", "point_count"],
         layout: {
-          "text-field": ["to-string", ["get", "point_count"]],
-          "text-font": ["Noto Sans Bold"],
-          "text-size": 13,
+          "text-field": CLUSTER_ROMAN_EXPR,
+          "text-font": ["Noto Sans Regular"],
+          "text-size": 11.5,
+          "text-letter-spacing": 0.08,
           "text-allow-overlap": true,
         },
         paint: { "text-color": "#ffffff" },
       },
-      // 4.2.9: Hide pinpoint marker at z >= 11 when precision != "exact" (replaced by range circle!)
-      {
-        id: "archive-places-pulse",
-        type: "circle",
-        source: "archive-places",
-        filter: [
-          "all",
-          ["!", ["has", "point_count"]],
-          ["any", ["==", ["get", "precision"], "exact"], ["<", ["zoom"], 11]],
-        ],
-        paint: {
-          "circle-radius": ["interpolate", ["linear"], ["zoom"], 1, 13, 8, 18, 14, 22],
-          "circle-color": "rgba(19, 38, 230, 0.22)",
-          "circle-stroke-color": "rgba(140, 178, 255, 0.65)",
-          "circle-stroke-width": 1.2,
-        },
-      },
+      // Individual Hairline Double-Ring Markers (dot hides at z>=11 when precision != exact, label stays centered!)
       {
         id: "archive-places-icon",
         type: "symbol",
         source: "archive-places",
-        filter: [
-          "all",
-          ["!", ["has", "point_count"]],
-          ["any", ["==", ["get", "precision"], "exact"], ["<", ["zoom"], 11]],
-        ],
+        filter: ["!", ["has", "point_count"]],
         layout: {
-          "icon-image": [
-            "match",
-            ["get", "layer"],
-            "scp",
-            "arch-scp",
-            "mythos",
-            "arch-mythos",
-            "theology",
-            "arch-theology",
-            "arch-goi",
-          ],
-          "icon-size": ["interpolate", ["linear"], ["zoom"], 1, 0.78, 8, 0.94, 14, 1.06],
+          "icon-image": "arch-dot-light",
+          "icon-size": ["interpolate", ["linear"], ["zoom"], 1, 0.72, 8, 0.88, 14, 0.96],
           "icon-allow-overlap": true,
-          "text-field": ["step", ["zoom"], ["get", "name_zh"], 4, ["get", "labelWithDepth"]],
-          "text-font": ["Noto Sans Bold"],
-          "text-size": ["interpolate", ["linear"], ["zoom"], 1, 12.5, 8, 13.5, 13, 14.5],
-          "text-offset": [0, 1.35],
+          "text-field": [
+            "step",
+            ["zoom"],
+            ["concat", ["get", "roman"], " · ", ["get", "name_zh"]],
+            5,
+            ["concat", ["get", "roman"], " · ", ["get", "labelWithDepth"]],
+          ],
+          "text-font": ["Noto Sans Regular"],
+          "text-size": ["interpolate", ["linear"], ["zoom"], 1, 11.5, 8, 12.5, 13, 13],
+          "text-letter-spacing": 0.12,
+          "text-offset": [0, 1.25],
           "text-anchor": "top",
           "text-allow-overlap": true,
         },
         paint: {
+          "icon-opacity": [
+            "step",
+            ["zoom"],
+            1,
+            11,
+            ["case", ["==", ["get", "precision"], "exact"], 1, 0],
+          ],
           "text-color": "#ffffff",
-          "text-halo-color": "#0d1cb8",
-          "text-halo-width": 1.8,
+          "text-halo-color": "rgba(7, 18, 118, 0.78)",
+          "text-halo-width": 0.9,
         },
       },
     ],
   };
 }
 
-// 4.2.3: Omitted parameters ALWAYS reset to defaults (never sticky!)
 export function parseMapSubRoute(rest = "") {
   const [pathPart, queryPart = ""] = String(rest || "").split("?");
   const params = new URLSearchParams(queryPart);
   const rawMode = params.get("mode");
-  const mode = rawMode && ["satellite", "paper", "night"].includes(rawMode) ? rawMode : DEFAULT_BASEMAP;
+  const normMode = rawMode === "satellite" ? "realistic" : rawMode;
+  const mode =
+    normMode && ["copperplate", "realistic", "paper", "night"].includes(normMode) ? normMode : DEFAULT_BASEMAP;
   const layer = params.get("layer") || "all";
   const terrainParam = params.get("terrain");
   const terrain = terrainParam === null ? true : terrainParam !== "0";
@@ -860,17 +808,18 @@ export function parseMapSubRoute(rest = "") {
 }
 
 export async function createRealisticEarthController({ onOpenEntry }) {
-  // 4.2.1: Fetch places.geojson IN PARALLEL with MapLibre initialization!
   const placesPromise = fetch("./data/map/places.geojson").then((r) => r.json());
   let places = [];
 
-  let basemapMode = DEFAULT_BASEMAP;
+  let basemapMode = DEFAULT_BASEMAP; // copperplate | realistic | paper | night
+  let lastNonRealisticMode = "copperplate";
   let terrainOn = true;
+  let scanlinesOn = true;
   let activeLayerFilter = "all";
   let selectedSiteId = null;
   let suppressHashWrite = false;
+  let heroOffsetApplied = null;
 
-  // 4.2.5: Consecutive failure counters + 60s auto-recovery timers
   let s2ConsecErr = 0;
   let ofmConsecErr = 0;
   let mhConsecErr = 0;
@@ -888,7 +837,7 @@ export async function createRealisticEarthController({ onOpenEntry }) {
   terrainOn = parsedInit.terrain;
 
   let initCenter = [22.0, 20.0];
-  let initZoom = 1.45;
+  let initZoom = 1.46;
   let initPitch = 0;
   let initBearing = 0;
 
@@ -912,8 +861,6 @@ export async function createRealisticEarthController({ onOpenEntry }) {
   const tStart = performance.now();
   const initialTerminator = buildSolarTerminatorGeoJSON(new Date());
   const isMobile = window.matchMedia("(max-width: 860px), (pointer: coarse)").matches;
-
-  // 4.2.2: Start pixelRatio at min(devicePixelRatio, 2) on ALL devices; adapt 2 -> 1.5 -> 1 if flight p50 > 33ms
   let currentMaxPixelRatio = Math.min(window.devicePixelRatio || 1, 2);
 
   const map = new MapLibreMap({
@@ -933,31 +880,79 @@ export async function createRealisticEarthController({ onOpenEntry }) {
     refreshExpiredTiles: false,
     maxParallelImageRequests: isMobile ? 8 : 16,
     workerCount: isMobile ? 2 : 4,
+    transformRequest: (url, resourceType) => {
+      if (resourceType === "Glyphs" && url.includes("Noto%20Sans%20Regular/0-255.pbf")) {
+        return { url: new URL("./vendor/fonts/Noto-Sans-Regular-0-255.pbf", window.location.href).href };
+      }
+      return { url };
+    },
   });
 
-  map.addControl(
-    new AttributionControl({
-      compact: isMobile,
-      customAttribution: [
-        OFM_ATTRIB,
-        MAPTERHORN_ATTRIB,
-        NASA_ATTRIB,
-        "档案图层: 蓝色神学档案馆 (CC BY-SA 3.0)",
-      ],
-    }),
-    "bottom-right"
-  );
-  map.addControl(new ScaleControl({ maxWidth: 110, unit: "metric" }), "bottom-left");
-  map.addControl(new NavigationControl({ visualizePitch: true, showCompass: true }), "bottom-right");
+  // Custom hairline ScaleControl only (zero MapLibre default white Navigation/Attribution widgets!)
+  map.addControl(new ScaleControl({ maxWidth: 96, unit: "metric" }), "bottom-left");
 
-  for (const kind of ["scp", "mythos", "theology", "goi"]) {
-    map.addImage(`arch-${kind}`, createArchivalIconData(kind), { pixelRatio: 2 });
+  map.addImage("arch-dot-light", createHairlineMarkerIcon("#ffffff"), { pixelRatio: 2 });
+  map.addImage("arch-dot-ink", createHairlineMarkerIcon("#0a1890"), { pixelRatio: 2 });
+
+  // Global Hero & Left-1/3 Globe Offset Choreography (Hermes 0:04 Framing)
+  function syncGlobalHeroAndFigureTag(targetZoom = map.getZoom()) {
+    const hero = document.getElementById("map-global-hero");
+    const figEl = document.getElementById("corner-fig-label");
+    const wideDesktop = window.innerWidth > 960;
+    const showGlobalHero = targetZoom < 3.1 && !selectedSiteId;
+
+    if (hero) {
+      hero.classList.toggle("hidden-hero", !showGlobalHero);
+    }
+
+    const wantLeftPad = wideDesktop && showGlobalHero ? 320 : 0;
+    if (heroOffsetApplied !== wantLeftPad) {
+      heroOffsetApplied = wantLeftPad;
+      map.setPadding({ left: wantLeftPad, top: 0, right: 0, bottom: 0 });
+    }
+
+    if (figEl) {
+      if (selectedSiteId && places.length) {
+        const hit = places.find((p) => p.id === selectedSiteId || p.entryId === selectedSiteId);
+        if (hit) {
+          const slug = SITE_LATIN_SLUG[hit.id] || hit.id.toUpperCase();
+          figEl.textContent = `FIG. ${hit.roman || "I"} — ${slug} · ${LAYER_GLYPH[hit.layer] || ""}`;
+          return;
+        }
+      }
+      if (basemapMode === "night") {
+        figEl.textContent = "FIG. IV — NOX ORBIS";
+      } else if (basemapMode === "paper") {
+        figEl.textContent = "FIG. V — CHARTA ARCHIVI";
+      } else if (targetZoom >= 8 && places.length) {
+        const c = map.getCenter();
+        let nearest = null;
+        let bestD = Infinity;
+        for (const p of places) {
+          const d = Math.hypot(p.lon - c.lng, p.lat - c.lat);
+          if (d < bestD) {
+            bestD = d;
+            nearest = p;
+          }
+        }
+        if (nearest && bestD < 2.2) {
+          const slug = SITE_LATIN_SLUG[nearest.id] || nearest.id.toUpperCase();
+          figEl.textContent = `FIG. ${nearest.roman || "I"} — ${slug} · ${LAYER_GLYPH[nearest.layer] || ""}`;
+          return;
+        }
+        figEl.textContent = "FIG. I — ORBIS TERRARVM";
+      } else {
+        figEl.textContent = "FIG. I — ORBIS TERRARVM";
+      }
+    }
   }
 
-  // Populate places GeoJSON as soon as parallel fetch finishes
+  syncGlobalHeroAndFigureTag(initZoom);
+
   const applyPlacesData = (placesGeo) => {
-    places = placesGeo.features.map((f) => ({
+    places = placesGeo.features.map((f, idx) => ({
       ...f.properties,
+      roman: f.properties.roman || String(idx + 1),
       lon: f.geometry.coordinates[0],
       lat: f.geometry.coordinates[1],
     }));
@@ -970,6 +965,7 @@ export async function createRealisticEarthController({ onOpenEntry }) {
         const hit = places.find((p) => p.id === selectedSiteId || p.entryId === selectedSiteId);
         if (hit) renderSiteCard(hit, true);
       }
+      syncGlobalHeroAndFigureTag();
     };
     if (map.getSource("archive-places")) setSources();
     else map.once("styledata", setSources);
@@ -988,7 +984,6 @@ export async function createRealisticEarthController({ onOpenEntry }) {
     }
   };
 
-  // 4.2.5: Reset consecutive failure count whenever any tile from that source succeeds
   map.on("data", (e) => {
     if (e.dataType !== "source" || !e.tile) return;
     if (e.sourceId === "s2cloudless-2016") s2ConsecErr = 0;
@@ -996,7 +991,6 @@ export async function createRealisticEarthController({ onOpenEntry }) {
     else if (e.sourceId === "terrain-dem" || e.sourceId === "hillshade-dem") mhConsecErr = 0;
   });
 
-  // 4.2.5: Consecutive failure fallback + 60s auto-retry + console.warn for unexpected errors
   map.on("error", (ev) => {
     const msg = String(ev?.error?.message || "");
     const srcId = ev?.sourceId || "";
@@ -1026,6 +1020,7 @@ export async function createRealisticEarthController({ onOpenEntry }) {
             "vector-waterways",
             "vector-roads-casing",
             "vector-roads-inner",
+            "vector-building-outlines",
             "vector-buildings-3d",
             "vector-road-labels",
             "vector-water-labels",
@@ -1033,15 +1028,15 @@ export async function createRealisticEarthController({ onOpenEntry }) {
           ]) {
             if (map.getLayer(lid)) map.setLayoutProperty(lid, "visibility", "none");
           }
-          showBanner("OpenFreeMap 矢量服务连续超时，已临时降级为纯卫星影像（60 秒后自动重试）。");
+          showBanner("OpenFreeMap 矢量服务连续超时，已临时降级为纯影像底图（60 秒后自动重试）。");
           clearTimeout(ofmRetryTimer);
           ofmRetryTimer = setTimeout(() => {
             fallbackOfmTriggered = false;
             ofmConsecErr = 0;
             for (const lid of [
               "vector-waterways",
-              "vector-roads-casing",
               "vector-roads-inner",
+              "vector-building-outlines",
               "vector-buildings-3d",
               "vector-road-labels",
               "vector-water-labels",
@@ -1076,7 +1071,6 @@ export async function createRealisticEarthController({ onOpenEntry }) {
     }
   });
 
-  // 4.2.4: Engage 3D terrain BEFORE flight starts whenever destination zoom >= 4.2 or pitch >= 8
   function ensureTerrainForTarget(targetZoom = map.getZoom(), targetPitch = map.getPitch()) {
     if (!map.getLayer("bg-base")) return;
     const demSource = fallbackDemTriggered ? "terrain-aws" : "terrain-dem";
@@ -1093,7 +1087,6 @@ export async function createRealisticEarthController({ onOpenEntry }) {
     }
   }
 
-  // 4.2.2 + 4.2.4: Wrap flyTo & easeTo so terrain engages before takeoff AND pixelRatio adapts 2 -> 1.5 -> 1 if p50 > 33ms
   const origFlyTo = map.flyTo.bind(map);
   const origEaseTo = map.easeTo.bind(map);
 
@@ -1123,13 +1116,17 @@ export async function createRealisticEarthController({ onOpenEntry }) {
   }
 
   map.flyTo = function (options = {}, eventData) {
-    ensureTerrainForTarget(options.zoom ?? map.getZoom(), options.pitch ?? map.getPitch());
+    const tz = options.zoom ?? map.getZoom();
+    ensureTerrainForTarget(tz, options.pitch ?? map.getPitch());
+    syncGlobalHeroAndFigureTag(tz);
     attachAdaptiveDprSampler(options.duration ?? 1500);
     return origFlyTo(options, eventData);
   };
 
   map.easeTo = function (options = {}, eventData) {
-    ensureTerrainForTarget(options.zoom ?? map.getZoom(), options.pitch ?? map.getPitch());
+    const tz = options.zoom ?? map.getZoom();
+    ensureTerrainForTarget(tz, options.pitch ?? map.getPitch());
+    syncGlobalHeroAndFigureTag(tz);
     attachAdaptiveDprSampler(options.duration ?? 800);
     return origEaseTo(options, eventData);
   };
@@ -1159,115 +1156,189 @@ export async function createRealisticEarthController({ onOpenEntry }) {
 
   function applyBasemapAndTerrain(targetZoom = map.getZoom(), targetPitch = map.getPitch()) {
     if (!map.isStyleLoaded() && !map.getLayer("bg-base")) return;
-    const isSat = basemapMode === "satellite";
+    const isCopper = basemapMode === "copperplate";
+    const isReal = basemapMode === "realistic";
     const isPaper = basemapMode === "paper";
     const isNight = basemapMode === "night";
+    const hasSat = isCopper || isReal;
+
+    if (basemapMode !== "realistic") lastNonRealisticMode = basemapMode;
+
     document.getElementById("stage-map")?.setAttribute("data-basemap", basemapMode);
+    document.body.setAttribute("data-map-basemap", basemapMode);
 
     document.querySelectorAll("[data-basemap]").forEach((btn) => {
       btn.classList.toggle("active", btn.dataset.basemap === basemapMode);
     });
+    document.getElementById("btn-map-realistic")?.classList.toggle("active", isReal);
     const terBtn = document.getElementById("btn-map-terrain");
-    if (terBtn) {
-      terBtn.classList.toggle("active", terrainOn);
-      terBtn.textContent = `3D 地形: ${terrainOn ? "开" : "关"}`;
-    }
+    if (terBtn) terBtn.classList.toggle("active", terrainOn);
 
-    map.setPaintProperty("bg-base", "background-color", isPaper ? "#f5f0e6" : "#050916");
+    // Background & Sky Atmosphere (Strictly Klein Blue + White in copperplate/paper/night)
+    map.setPaintProperty(
+      "bg-base",
+      "background-color",
+      isPaper ? "#f6f4ee" : isNight ? "#040a3d" : isReal ? "#040814" : "#0a1890"
+    );
     map.setSky(
       isPaper
         ? {
-            "sky-color": "#efe8d8",
+            "sky-color": "#eef1fa",
             "sky-horizon-blend": 0.45,
-            "horizon-color": "#cbd5f0",
+            "horizon-color": "#c5d1f5",
             "horizon-fog-blend": 0.5,
-            "fog-color": "#f5f0e6",
+            "fog-color": "#f6f4ee",
             "fog-ground-blend": 0.3,
-            "atmosphere-blend": ["interpolate", ["linear"], ["zoom"], 0, 0.55, 6, 0],
+            "atmosphere-blend": ["interpolate", ["linear"], ["zoom"], 0, 0.45, 6, 0],
           }
         : isNight
           ? {
-              "sky-color": "#03050c",
-              "sky-horizon-blend": 0.35,
-              "horizon-color": "#263c85",
+              "sky-color": "#020629",
+              "sky-horizon-blend": 0.36,
+              "horizon-color": "#1a35b8",
               "horizon-fog-blend": 0.6,
-              "fog-color": "#080d1c",
+              "fog-color": "#040a3d",
               "fog-ground-blend": 0.3,
-              "atmosphere-blend": ["interpolate", ["linear"], ["zoom"], 0, 0.78, 6, 0],
+              "atmosphere-blend": ["interpolate", ["linear"], ["zoom"], 0, 0.82, 6, 0],
             }
-          : {
-              "sky-color": "#050a1c",
-              "sky-horizon-blend": 0.38,
-              "horizon-color": "#4f7ff7",
-              "horizon-fog-blend": 0.55,
-              "fog-color": "#0c1738",
-              "fog-ground-blend": 0.25,
-              "atmosphere-blend": ["interpolate", ["linear"], ["zoom"], 0, 0.88, 5, 0.45, 8, 0],
-            }
+          : isReal
+            ? {
+                "sky-color": "#050a1c",
+                "sky-horizon-blend": 0.38,
+                "horizon-color": "#4f7ff7",
+                "horizon-fog-blend": 0.55,
+                "fog-color": "#0c1738",
+                "fog-ground-blend": 0.25,
+                "atmosphere-blend": ["interpolate", ["linear"], ["zoom"], 0, 0.88, 5, 0.45, 8, 0],
+              }
+            : {
+                "sky-color": "#061066",
+                "sky-horizon-blend": 0.48,
+                "horizon-color": "#1c3fd6",
+                "horizon-fog-blend": 0.68,
+                "fog-color": "#0a1890",
+                "fog-ground-blend": 0.48,
+                "atmosphere-blend": ["interpolate", ["linear"], ["zoom"], 0, 0.90, 5, 0.45, 8, 0],
+              }
     );
 
-    map.setLayoutProperty("sat-eox-layer", "visibility", isSat && !fallbackS2Triggered ? "visible" : "none");
-    map.setLayoutProperty("fallback-blue-marble", "visibility", isSat && fallbackS2Triggered ? "visible" : "none");
+    // Satellite raster properties (Copperplate desaturated vs Realistic true-color)
+    map.setLayoutProperty("sat-eox-layer", "visibility", hasSat && !fallbackS2Triggered ? "visible" : "none");
+    map.setLayoutProperty("fallback-blue-marble", "visibility", hasSat && fallbackS2Triggered ? "visible" : "none");
+    if (isCopper) {
+      map.setPaintProperty("sat-eox-layer", "raster-saturation", -1);
+      map.setPaintProperty("sat-eox-layer", "raster-contrast", 0.28);
+      map.setPaintProperty("sat-eox-layer", "raster-brightness-min", 0.03);
+      map.setPaintProperty("sat-eox-layer", "raster-opacity", [
+        "interpolate",
+        ["linear"],
+        ["zoom"],
+        0,
+        0.58,
+        13,
+        0.56,
+        14.2,
+        0.35,
+      ]);
+      map.setPaintProperty("fallback-blue-marble", "raster-saturation", -1);
+      map.setPaintProperty("fallback-blue-marble", "raster-opacity", 0.58);
+    } else if (isReal) {
+      map.setPaintProperty("sat-eox-layer", "raster-saturation", 0.04);
+      map.setPaintProperty("sat-eox-layer", "raster-contrast", 0.06);
+      map.setPaintProperty("sat-eox-layer", "raster-brightness-min", 0);
+      map.setPaintProperty("sat-eox-layer", "raster-opacity", 1);
+      map.setPaintProperty("fallback-blue-marble", "raster-saturation", 0);
+      map.setPaintProperty("fallback-blue-marble", "raster-opacity", 1);
+    }
+
     map.setLayoutProperty("night-viirs-layer", "visibility", isNight ? "visible" : "none");
 
-    map.setLayoutProperty("terminator-night-fill", "visibility", isSat ? "visible" : "none");
-    map.setLayoutProperty("terminator-twilight-line", "visibility", isSat ? "visible" : "none");
+    // Solar Terminator on Copperplate & Realistic globes
+    map.setLayoutProperty("terminator-night-fill", "visibility", hasSat ? "visible" : "none");
+    map.setLayoutProperty("terminator-twilight-line", "visibility", hasSat ? "visible" : "none");
 
-    map.setLayoutProperty("paper-landcover", "visibility", isPaper ? "visible" : "none");
+    // Monochrome Paper & Night Water / Coastlines
     map.setLayoutProperty("vector-water-fill", "visibility", isPaper || isNight ? "visible" : "none");
     map.setLayoutProperty("vector-coastline", "visibility", isPaper || isNight ? "visible" : "none");
     if (isPaper) {
-      map.setPaintProperty("vector-water-fill", "fill-color", "#dfe6f4");
-      map.setPaintProperty("vector-coastline", "line-color", "rgba(19, 38, 230, 0.42)");
+      map.setPaintProperty("vector-water-fill", "fill-color", "#e5ecfa");
+      map.setPaintProperty("vector-coastline", "line-color", "rgba(10, 24, 144, 0.45)");
     } else if (isNight) {
-      map.setPaintProperty("vector-water-fill", "fill-color", "rgba(7, 11, 22, 0.72)");
-      map.setPaintProperty("vector-coastline", "line-color", "rgba(115, 144, 250, 0.32)");
+      map.setPaintProperty("vector-water-fill", "fill-color", "rgba(4, 10, 61, 0.78)");
+      map.setPaintProperty("vector-coastline", "line-color", "rgba(255, 255, 255, 0.24)");
     }
 
+    // Vector Roads, Building Outlines, 3D Buildings & Archival Overlays
     if (!fallbackOfmTriggered) {
-      const roadMinZ = isSat ? 10 : 5;
+      const roadMinZ = hasSat ? 10 : 5;
       map.setLayerZoomRange("vector-roads-casing", roadMinZ, 24);
       map.setLayerZoomRange("vector-roads-inner", roadMinZ, 24);
-      map.setLayerZoomRange("vector-waterways", isSat ? 10 : 5, 24);
+      map.setLayerZoomRange("vector-waterways", hasSat ? 10 : 5, 24);
       map.setLayerZoomRange("vector-place-labels", 4, 24);
-      map.setLayerZoomRange("vector-water-labels", isSat ? 10 : 4, 24);
+      map.setLayerZoomRange("vector-water-labels", hasSat ? 10 : 4, 24);
+      map.setLayoutProperty("vector-roads-casing", "visibility", isReal ? "visible" : "none");
+      map.setLayoutProperty("vector-building-outlines", "visibility", "visible");
 
       if (isPaper) {
-        map.setPaintProperty("vector-roads-casing", "line-color", "rgba(29, 31, 36, 0.22)");
-        map.setPaintProperty("vector-roads-inner", "line-color", "#4a5060");
-        map.setPaintProperty("vector-waterways", "line-color", "rgba(19, 38, 230, 0.55)");
-        map.setPaintProperty("vector-place-labels", "text-color", "#1d1f24");
-        map.setPaintProperty("vector-place-labels", "text-halo-color", "rgba(245, 240, 230, 0.95)");
-        map.setPaintProperty("vector-road-labels", "text-color", "#2d323d");
-        map.setPaintProperty("vector-road-labels", "text-halo-color", "rgba(245, 240, 230, 0.95)");
-        map.setPaintProperty("vector-water-labels", "text-color", "#1326e6");
-        map.setPaintProperty("vector-water-labels", "text-halo-color", "rgba(245, 240, 230, 0.95)");
-        map.setPaintProperty("vector-buildings-3d", "fill-extrusion-color", "#dcd4c2");
-        map.setPaintProperty("archive-places-icon", "text-color", "#0d1cb8");
-        map.setPaintProperty("archive-places-icon", "text-halo-color", "#fbf8f1");
-        map.setPaintProperty("archive-precision-label", "text-color", "#0d1cb8");
-        map.setPaintProperty("archive-precision-label", "text-halo-color", "#fbf8f1");
-        map.setPaintProperty("archive-routes-line", "line-color", "#1326e6");
+        map.setPaintProperty("vector-roads-inner", "line-color", "rgba(10, 24, 144, 0.44)");
+        map.setPaintProperty("vector-waterways", "line-color", "rgba(10, 24, 144, 0.52)");
+        map.setPaintProperty("vector-building-outlines", "line-color", "rgba(10, 24, 144, 0.34)");
+        map.setPaintProperty("vector-buildings-3d", "fill-extrusion-color", "#dfe7fa");
+        map.setPaintProperty("vector-buildings-3d", "fill-extrusion-opacity", 0.62);
+        map.setPaintProperty("vector-place-labels", "text-color", "#0a1890");
+        map.setPaintProperty("vector-place-labels", "text-halo-color", "rgba(246, 244, 238, 0.94)");
+        map.setPaintProperty("vector-road-labels", "text-color", "rgba(10, 24, 144, 0.82)");
+        map.setPaintProperty("vector-road-labels", "text-halo-color", "rgba(246, 244, 238, 0.94)");
+        map.setPaintProperty("vector-water-labels", "text-color", "rgba(13, 28, 184, 0.80)");
+        map.setPaintProperty("vector-water-labels", "text-halo-color", "rgba(246, 244, 238, 0.94)");
+
+        map.setLayoutProperty("archive-places-icon", "icon-image", "arch-dot-ink");
+        map.setPaintProperty("archive-places-icon", "text-color", "#0a1890");
+        map.setPaintProperty("archive-places-icon", "text-halo-color", "rgba(246, 244, 238, 0.94)");
+        map.setPaintProperty("archive-routes-line", "line-color", "rgba(10, 24, 144, 0.44)");
+        map.setPaintProperty("archive-zones-fill", "fill-color", "#0a1890");
+        map.setPaintProperty("archive-zones-line", "line-color", "rgba(10, 24, 144, 0.44)");
+        map.setPaintProperty("archive-precision-fill", "fill-color", "#0a1890");
+        map.setPaintProperty("archive-precision-line", "line-color", "rgba(10, 24, 144, 0.58)");
+        map.setPaintProperty("archive-clusters-outer", "circle-color", "rgba(246, 244, 238, 0.72)");
+        map.setPaintProperty("archive-clusters-outer", "circle-stroke-color", "rgba(10, 24, 144, 0.42)");
+        map.setPaintProperty("archive-clusters", "circle-color", "#f6f4ee");
+        map.setPaintProperty("archive-clusters", "circle-stroke-color", "#0a1890");
+        map.setPaintProperty("archive-cluster-count", "text-color", "#0a1890");
       } else {
-        map.setPaintProperty("vector-roads-casing", "line-color", "rgba(10, 16, 34, 0.55)");
         map.setPaintProperty(
           "vector-roads-inner",
           "line-color",
-          isNight ? "rgba(148, 168, 224, 0.42)" : "rgba(248, 244, 228, 0.82)"
+          isNight ? "rgba(255, 255, 255, 0.34)" : "rgba(255, 255, 255, 0.62)"
         );
-        map.setPaintProperty("vector-waterways", "line-color", "rgba(82, 148, 255, 0.68)");
-        map.setPaintProperty("vector-place-labels", "text-color", isNight ? "#e4e9f5" : "#ffffff");
-        map.setPaintProperty("vector-place-labels", "text-halo-color", "rgba(10, 18, 48, 0.92)");
-        map.setPaintProperty("vector-road-labels", "text-color", "#f5f7ff");
-        map.setPaintProperty("vector-road-labels", "text-halo-color", "rgba(10, 15, 30, 0.88)");
-        map.setPaintProperty("vector-water-labels", "text-color", "#b8d4ff");
-        map.setPaintProperty("vector-water-labels", "text-halo-color", "rgba(8, 16, 42, 0.85)");
-        map.setPaintProperty("vector-buildings-3d", "fill-extrusion-color", isNight ? "#26314d" : "#d8deed");
+        map.setPaintProperty("vector-waterways", "line-color", "rgba(255, 255, 255, 0.42)");
+        map.setPaintProperty("vector-building-outlines", "line-color", "rgba(255, 255, 255, 0.46)");
+        map.setPaintProperty("vector-buildings-3d", "fill-extrusion-color", "#dce6ff");
+        map.setPaintProperty("vector-buildings-3d", "fill-extrusion-opacity", 0.55);
+        map.setPaintProperty("vector-place-labels", "text-color", "rgba(255, 255, 255, 0.88)");
+        map.setPaintProperty(
+          "vector-place-labels",
+          "text-halo-color",
+          isReal ? "rgba(8, 14, 32, 0.85)" : "rgba(6, 15, 96, 0.82)"
+        );
+        map.setPaintProperty("vector-road-labels", "text-color", "rgba(255, 255, 255, 0.85)");
+        map.setPaintProperty("vector-road-labels", "text-halo-color", "rgba(8, 18, 112, 0.82)");
+        map.setPaintProperty("vector-water-labels", "text-color", "rgba(255, 255, 255, 0.78)");
+        map.setPaintProperty("vector-water-labels", "text-halo-color", "rgba(8, 18, 112, 0.78)");
+
+        map.setLayoutProperty("archive-places-icon", "icon-image", "arch-dot-light");
         map.setPaintProperty("archive-places-icon", "text-color", "#ffffff");
-        map.setPaintProperty("archive-places-icon", "text-halo-color", "#0d1cb8");
-        map.setPaintProperty("archive-precision-label", "text-color", "#ffffff");
-        map.setPaintProperty("archive-precision-label", "text-halo-color", "#0d1cb8");
-        map.setPaintProperty("archive-routes-line", "line-color", "#7aa2ff");
+        map.setPaintProperty("archive-places-icon", "text-halo-color", "rgba(7, 18, 118, 0.80)");
+        map.setPaintProperty("archive-routes-line", "line-color", "rgba(255, 255, 255, 0.50)");
+        map.setPaintProperty("archive-zones-fill", "fill-color", "#ffffff");
+        map.setPaintProperty("archive-zones-line", "line-color", "rgba(255, 255, 255, 0.42)");
+        map.setPaintProperty("archive-precision-fill", "fill-color", "#ffffff");
+        map.setPaintProperty("archive-precision-line", "line-color", "rgba(255, 255, 255, 0.62)");
+        map.setPaintProperty("archive-clusters-outer", "circle-color", "rgba(8, 20, 128, 0.55)");
+        map.setPaintProperty("archive-clusters-outer", "circle-stroke-color", "rgba(255, 255, 255, 0.45)");
+        map.setPaintProperty("archive-clusters", "circle-color", "rgba(8, 20, 128, 0.85)");
+        map.setPaintProperty("archive-clusters", "circle-stroke-color", "#ffffff");
+        map.setPaintProperty("archive-cluster-count", "text-color", "#ffffff");
       }
     }
 
@@ -1275,11 +1346,11 @@ export async function createRealisticEarthController({ onOpenEntry }) {
 
     if (terrainOn && isPaper) {
       map.setLayoutProperty("terrain-hillshade", "visibility", "visible");
-      map.setPaintProperty("terrain-hillshade", "hillshade-exaggeration", 0.48);
-      map.setPaintProperty("terrain-hillshade", "hillshade-shadow-color", "#7a7262");
     } else {
       map.setLayoutProperty("terrain-hillshade", "visibility", "none");
     }
+
+    syncGlobalHeroAndFigureTag(targetZoom);
   }
 
   function applyArchiveLayerFilter(layerVal) {
@@ -1287,83 +1358,69 @@ export async function createRealisticEarthController({ onOpenEntry }) {
     document.querySelectorAll("[data-archlayer]").forEach((b) => {
       b.classList.toggle("active", b.dataset.archlayer === layerVal);
     });
-    const baseUnclustered = [
-      "all",
-      ["!", ["has", "point_count"]],
-      ["any", ["==", ["get", "precision"], "exact"], ["<", ["zoom"], 11]],
-    ];
+    const baseUnclustered = ["!", ["has", "point_count"]];
     const filterExpr =
       layerVal === "all"
         ? baseUnclustered
-        : layerVal === "theology-goi"
-          ? ["all", baseUnclustered, ["in", ["get", "layer"], ["literal", ["theology", "goi"]]]]
-          : ["all", baseUnclustered, ["==", ["get", "layer"], layerVal]];
+        : ["all", baseUnclustered, ["==", ["get", "layer"], layerVal]];
 
     if (map.getLayer("archive-places-icon")) map.setFilter("archive-places-icon", filterExpr);
-    if (map.getLayer("archive-places-pulse")) map.setFilter("archive-places-pulse", filterExpr);
 
-    const zoneRouteFilter =
-      layerVal === "all"
-        ? null
-        : layerVal === "theology-goi"
-          ? ["in", ["get", "layer"], ["literal", ["theology", "goi"]]]
-          : ["==", ["get", "layer"], layerVal];
+    const zoneRouteFilter = layerVal === "all" ? null : ["==", ["get", "layer"], layerVal];
     for (const lid of [
       "archive-zones-fill",
       "archive-zones-line",
       "archive-precision-fill",
       "archive-precision-line",
-      "archive-precision-label",
-      "archive-routes-glow",
       "archive-routes-line",
     ]) {
       if (map.getLayer(lid)) map.setFilter(lid, zoneRouteFilter);
     }
   }
 
+  // 05 Section 3.2.E: Copperplate Figure Plate Caption ("图版说明")
   function renderSiteCard(site, skipHashSync = false) {
     const card = document.getElementById("map-site-card");
     if (!card) return;
     if (!site) {
       selectedSiteId = null;
       card.classList.remove("open");
+      syncGlobalHeroAndFigureTag();
       if (!skipHashSync) syncUrlHash();
       return;
     }
     selectedSiteId = site.id;
-    const provLabel =
-      site.provenance === "scp-canon"
-        ? "SCP 维基原典 (CC BY-SA 3.0)"
-        : site.provenance === "cthulhu-canon"
-          ? "克苏鲁神话原典 (公有领域)"
-          : "本站原创设定 (CC BY-SA 3.0)";
-    const badgeCls =
-      site.provenance === "scp-canon"
-        ? "badge-gold"
-        : site.provenance === "cthulhu-canon"
-          ? "badge-cyan"
-          : "badge-crimson";
+    const isOrig = site.provenance === "original";
+    const badgeCls = isOrig ? "plate-badge-orig" : "plate-badge-canon";
+    const badgeTxt = isOrig
+      ? "本站设定"
+      : site.provenance === "scp-canon"
+        ? "SCP 原典"
+        : "洛氏原典";
+    const precTxt =
+      site.precision === "exact" ? "精确坐标" : site.precision === "city" ? "城市级范围" : "区域级范围";
     const coordDisplay = formatSiteCoord(site.lat, site.lon, site.precision);
+    const slug = SITE_LATIN_SLUG[site.id] || site.id.toUpperCase();
+    const glyph = LAYER_GLYPH[site.layer] || "";
     const entryHref = `#/entry/${encodeURIComponent(site.entryId)}`;
 
     card.innerHTML = `
-      <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:8px; border-bottom:1px solid var(--border); padding-bottom:8px;">
-        <div>
-          <span class="${badgeCls}">${escapeHtml(provLabel)}</span>
-          <h3 class="condensed-monument" style="font-size:20px; margin-top:6px; display:block;">${escapeHtml(site.name_zh)}</h3>
-          <div style="font-size:12.5px; color:var(--ink-sec);">${escapeHtml(site.name_en)}</div>
-        </div>
-        <button id="map-card-close" type="button" class="bp-btn" style="padding:4px 10px;">× 关闭</button>
+      <div class="plate-card-top">
+        <span class="plate-fig-label">FIG. ${escapeHtml(site.roman || "I")} — ${escapeHtml(slug)} · ${escapeHtml(glyph)}</span>
+        <button id="map-card-close" type="button" class="plate-close-btn" aria-label="关闭图版说明">×</button>
       </div>
-      <div class="infobox-list" style="margin-top:2px;">
-        <div class="infobox-item"><span class="infobox-label">经纬度：</span><span class="infobox-val">${escapeHtml(coordDisplay)}</span></div>
-        <div class="infobox-item"><span class="infobox-label">真实高程/水深：</span><span class="infobox-val">${escapeHtml(site.elevDisplay)}</span></div>
-        <div class="infobox-item" style="grid-column:1 / -1;"><span class="infobox-label">坐标依据：</span><span class="infobox-val">${escapeHtml(site.coordSource)}</span>${site.provenance === "original" ? '<span class="orig-field-tag">本站设定</span>' : ""}</div>
+      <h3 class="plate-zh-title">${escapeHtml(site.name_zh)}</h3>
+      <div class="plate-coords-line">${escapeHtml(coordDisplay)}</div>
+      <p class="plate-summary">${escapeHtml(site.summary)}</p>
+      <div class="plate-actions">
+        <button id="map-card-zoom-street" type="button" class="plate-btn">拉近观测 (${site.realElevationM < -100 ? "z7" : "z15"})</button>
+        <a id="map-card-open-entry" class="plate-btn primary" href="${escapeHtml(entryHref)}">查阅卷宗 →</a>
       </div>
-      <p class="desc-copy">${escapeHtml(site.summary)}</p>
-      <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px;">
-        <button id="map-card-zoom-street" type="button" class="bp-btn">拉近查看地貌 (${site.realElevationM < -100 ? "z7" : "z15"})</button>
-        <a id="map-card-open-entry" class="bp-btn active" style="text-decoration:none; text-align:center;" href="${escapeHtml(entryHref)}">打开档案 →</a>
+      <div class="plate-footnote">
+        <span class="${badgeCls}">${escapeHtml(badgeTxt)}</span>
+        <span>${escapeHtml(precTxt)}</span>
+        <span>·</span>
+        <span>${escapeHtml(site.elevDisplay)}</span>
       </div>
     `;
     card.classList.add("open");
@@ -1374,9 +1431,10 @@ export async function createRealisticEarthController({ onOpenEntry }) {
         center: [site.lon, site.lat],
         zoom: targetZ,
         pitch: site.realElevationM < -100 ? 0 : 55,
-        duration: 1600,
+        duration: 1500,
       });
     });
+    syncGlobalHeroAndFigureTag();
     if (!skipHashSync) syncUrlHash();
   }
 
@@ -1396,9 +1454,19 @@ export async function createRealisticEarthController({ onOpenEntry }) {
     if (src) src.setData(buildSolarTerminatorGeoJSON(new Date()));
   }, 60000);
 
+  map.on("zoom", () => {
+    const z = map.getZoom();
+    const hero = document.getElementById("map-global-hero");
+    if (hero) hero.classList.toggle("hidden-hero", z >= 3.1 || Boolean(selectedSiteId));
+  });
+
   map.on("moveend", () => {
     applyBasemapAndTerrain();
     syncUrlHash();
+  });
+
+  window.addEventListener("resize", () => {
+    syncGlobalHeroAndFigureTag();
   });
 
   const handleMarkerClick = (e) => {
@@ -1435,6 +1503,7 @@ export async function createRealisticEarthController({ onOpenEntry }) {
     });
   }
 
+  // Bind Compact Hairline Controls & Popovers
   document.querySelectorAll("[data-basemap]").forEach((btn) => {
     btn.addEventListener("click", () => {
       basemapMode = btn.dataset.basemap;
@@ -1443,21 +1512,25 @@ export async function createRealisticEarthController({ onOpenEntry }) {
     });
   });
 
+  document.getElementById("btn-map-realistic")?.addEventListener("click", () => {
+    basemapMode = basemapMode === "realistic" ? lastNonRealisticMode || "copperplate" : "realistic";
+    applyBasemapAndTerrain();
+    syncUrlHash();
+  });
+
   document.getElementById("btn-map-terrain")?.addEventListener("click", () => {
     terrainOn = !terrainOn;
     applyBasemapAndTerrain();
     syncUrlHash();
   });
 
-  document.querySelectorAll("[data-archlayer]").forEach((btn) => {
-    btn.addEventListener("click", () => {
-      applyArchiveLayerFilter(btn.dataset.archlayer);
-      syncUrlHash();
-    });
-  });
-
+  const popLayers = document.getElementById("popover-layers");
+  const popSearch = document.getElementById("popover-search");
+  const btnLayers = document.getElementById("btn-pop-layers");
+  const btnSearch = document.getElementById("btn-pop-search");
   const searchInput = document.getElementById("map-place-search");
   const searchResults = document.getElementById("map-search-results");
+
   function updateSearchDropdown(raw) {
     if (!searchResults) return;
     const q = String(raw || "").trim().toLowerCase();
@@ -1465,6 +1538,7 @@ export async function createRealisticEarthController({ onOpenEntry }) {
       ? places
       : places.filter(
           (p) =>
+            String(p.roman || "").toLowerCase() === q ||
             p.name_zh.toLowerCase().includes(q) ||
             p.name_en.toLowerCase().includes(q) ||
             p.code.toLowerCase().includes(q) ||
@@ -1475,17 +1549,18 @@ export async function createRealisticEarthController({ onOpenEntry }) {
           .map(
             (p) => `
           <button type="button" class="map-search-item" data-pid="${escapeHtml(p.id)}">
-            <span><b>${escapeHtml(p.name_zh)}</b> <span style="font-size:12px; color:var(--ink-sec);">${escapeHtml(p.code)}</span></span>
-            <span style="font-size:12px; color:var(--klein);">${escapeHtml(p.elevDisplay)}</span>
+            <span><span style="font-family:var(--font-latin-inscr); margin-right:6px;">${escapeHtml(p.roman)}.</span>${escapeHtml(p.name_zh)}</span>
+            <span style="font-size:11.5px; opacity:0.72;">${escapeHtml(LAYER_GLYPH[p.layer] || "")}</span>
           </button>`
           )
           .join("")
-      : `<div style="padding:8px 10px; font-size:13.5px; color:var(--ink-sec);">未匹配到档案地点</div>`;
+      : `<div style="padding:8px 6px; font-size:13px; opacity:0.72;">未匹配到档案坐标</div>`;
 
     searchResults.querySelectorAll(".map-search-item").forEach((b) => {
       b.addEventListener("click", () => {
         const hit = places.find((x) => x.id === b.dataset.pid);
-        searchResults.classList.remove("open");
+        popSearch?.classList.remove("open");
+        btnSearch?.classList.remove("active");
         if (hit) {
           renderSiteCard(hit);
           map.flyTo({
@@ -1499,23 +1574,69 @@ export async function createRealisticEarthController({ onOpenEntry }) {
     });
   }
 
-  if (searchInput && searchResults) {
-    searchInput.addEventListener("focus", () => {
-      updateSearchDropdown(searchInput.value);
-      searchResults.classList.add("open");
-    });
-    searchInput.addEventListener("input", () => {
-      updateSearchDropdown(searchInput.value);
-      searchResults.classList.add("open");
-    });
-    document.addEventListener("click", (e) => {
-      if (!e.target.closest("#map-search-wrap")) {
-        searchResults.classList.remove("open");
-      }
-    });
-  }
+  btnLayers?.addEventListener("click", (e) => {
+    e.stopPropagation();
+    const next = !popLayers?.classList.contains("open");
+    popLayers?.classList.toggle("open", next);
+    btnLayers.classList.toggle("active", next);
+    popSearch?.classList.remove("open");
+    btnSearch?.classList.remove("active");
+  });
 
-  // 4.2.3: Every omitted parameter resets cleanly to default
+  btnSearch?.addEventListener("click", (e) => {
+    e.stopPropagation();
+    const next = !popSearch?.classList.contains("open");
+    popSearch?.classList.toggle("open", next);
+    btnSearch.classList.toggle("active", next);
+    popLayers?.classList.remove("open");
+    btnLayers?.classList.remove("active");
+    if (next) {
+      updateSearchDropdown(searchInput?.value || "");
+      setTimeout(() => searchInput?.focus(), 40);
+    }
+  });
+
+  searchInput?.addEventListener("input", () => updateSearchDropdown(searchInput.value));
+
+  document.addEventListener("click", (e) => {
+    if (!e.target.closest("#map-ctrl-cluster")) {
+      popLayers?.classList.remove("open");
+      popSearch?.classList.remove("open");
+      btnLayers?.classList.remove("active");
+      btnSearch?.classList.remove("active");
+    }
+    if (!e.target.closest("#btn-attrib-mobile") && !e.target.closest("#map-attrib-bar")) {
+      document.getElementById("map-attrib-bar")?.classList.remove("mob-open");
+    }
+  });
+
+  document.querySelectorAll("[data-archlayer]").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      applyArchiveLayerFilter(btn.dataset.archlayer);
+      syncUrlHash();
+    });
+  });
+
+  document.getElementById("btn-map-scanlines")?.addEventListener("click", (e) => {
+    scanlinesOn = !scanlinesOn;
+    document.getElementById("stage-map")?.setAttribute("data-scanlines", scanlinesOn ? "on" : "off");
+    e.currentTarget.classList.toggle("active", scanlinesOn);
+    e.currentTarget.textContent = `铜版扫描线: ${scanlinesOn ? "开" : "关"}`;
+  });
+
+  // Custom Hairline Zoom & Compass Stack
+  document.getElementById("btn-zoom-in")?.addEventListener("click", () => map.zoomIn({ duration: 300 }));
+  document.getElementById("btn-zoom-out")?.addEventListener("click", () => map.zoomOut({ duration: 300 }));
+  document.getElementById("btn-reset-north")?.addEventListener("click", () =>
+    map.easeTo({ bearing: 0, pitch: 0, duration: 450 })
+  );
+
+  // Mobile ⓘ Attribution Toggle
+  document.getElementById("btn-attrib-mobile")?.addEventListener("click", (e) => {
+    e.stopPropagation();
+    document.getElementById("map-attrib-bar")?.classList.toggle("mob-open");
+  });
+
   function applySubRoute(rest) {
     const parsed = parseMapSubRoute(rest);
     suppressHashWrite = true;
@@ -1559,8 +1680,8 @@ export async function createRealisticEarthController({ onOpenEntry }) {
         if (hit) renderSiteCard(hit, true);
       } else {
         renderSiteCard(null, true);
-        applyBasemapAndTerrain(1.45, 0);
-        map.jumpTo({ center: [22.0, 20.0], zoom: 1.45, pitch: 0, bearing: 0 });
+        applyBasemapAndTerrain(1.46, 0);
+        map.jumpTo({ center: [22.0, 20.0], zoom: 1.46, pitch: 0, bearing: 0 });
       }
     } finally {
       suppressHashWrite = false;
@@ -1581,7 +1702,7 @@ export async function createRealisticEarthController({ onOpenEntry }) {
       renderSiteCard(null);
     },
     setBasemap(m) {
-      basemapMode = m;
+      basemapMode = m === "satellite" ? "realistic" : m;
       applyBasemapAndTerrain();
       syncUrlHash();
     },

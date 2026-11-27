@@ -45,8 +45,12 @@ document.addEventListener("keydown", (e) => {
   }
 });
 
+const CORNER_LATIN = {"prologus":"PROLOGVS — INDEX","map":"LIBER I — DE TERRA","pantheon":"LIBER II — NVMEN","scp":"LIBER III — ARCANVM","architectura":"LIBER IV — LOCI","oraculum":"LIBER V — ORACVLVM","gallery":"LIBER VI — SPHAERA","colophon":"COLOPHON — LICENTIA","entry":"CODEX — FOLIVM"};
 function basicSwitchStage(view) {
   const name = view === "terra" ? "gallery" : view;
+  document.body.setAttribute("data-view", name);
+  const tr = document.getElementById("corner-tr");
+  if (tr) tr.textContent = CORNER_LATIN[name] || "LIBER I — DE TERRA";
   document.querySelectorAll(".liber-nav-btn[data-liber]").forEach((b) =>
     b.classList.toggle("active", b.dataset.liber === name)
   );
@@ -116,8 +120,8 @@ function renderEntryDetailView(entryId) {
   root.innerHTML = `
     <article class="archive-card" style="padding:28px;">
       <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; border-bottom:1px solid var(--border); padding-bottom:12px;">
-        <span class="${escapeHtml(item.badge || "badge-gold")}">${escapeHtml(item.code || item.category.toUpperCase())}</span>
-        <span class="badge-cyan">出处：${escapeHtml(item.provenanceLabel || item.provenance)}</span>
+        <span class="${item.provenance === "original" ? "badge-original" : "badge-canon"}">${escapeHtml(item.code || item.category.toUpperCase())}</span>
+        <span class="${item.provenance === "original" ? "badge-original" : "badge-canon"}">出处：${escapeHtml(item.provenanceLabel || item.provenance)}</span>
       </div>
       <h1 class="condensed-monument" style="font-size:30px; margin-top:6px;">${escapeHtml(item.title)}</h1>
       ${infoboxHtml}

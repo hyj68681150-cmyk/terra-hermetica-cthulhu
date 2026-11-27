@@ -26,9 +26,10 @@ Verified SCP Foundation Wiki Canon Works & Original Authors (verified via Crom A
 - Sarkicism Hub — created by Metaphysician & contributors (https://scp-wiki.wikidot.com/sarkicism-hub)
 - Serpent's Hand Hub — created by thedeadlymoose & contributors (https://scp-wiki.wikidot.com/serpent-s-hand-hub)
 
-Public Domain Mythos Sources:
-- Cthulhu, R'lyeh, Yog-Sothoth, Azathoth, Nyarlathotep, Arkham, Innsmouth, Leng, and the
-  Antarctic Elder City derive from public-domain works by H. P. Lovecraft (1920–1936).
+Public Domain Mythos & Classical Sources:
+- Cthulhu, R'lyeh, Yog-Sothoth, Azathoth, Nyarlathotep, Under the Pyramids (1924), Arkham,
+  Innsmouth, Leng, and the Antarctic Elder City derive from public-domain works by H. P. Lovecraft.
+- Latin inscriptions derive from public-domain editions of the Tabula Smaragdina and Corpus Hermeticum.
 
 Original Extensions ("本站原创设定"):
 - "Theologia Caerulea / 赫尔墨斯蓝色神学" cross-canon synthesis, Site-01 Alexandria Pharos
@@ -50,3 +51,9 @@ Original Extensions ("本站原创设定"):
 - Nighttime Lights & Offline Globe Fallback Imagery:
   Imagery: NASA Black Marble / VIIRS City Lights & NASA Blue Marble Next Generation,
   courtesy of NASA EOSDIS GIBS / NASA Earth Observatory (Public Domain).
+
+3. Self-Hosted Typefaces (SIL Open Font License 1.1)
+----------------------------------------------------
+- Cinzel (vendor/fonts/cinzel-latin-*.woff2) — Copyright (c) Natanael Gama, SIL OFL 1.1 (vendor/fonts/cinzel-LICENSE.txt).
+- Antonio (vendor/fonts/antonio-latin-*.woff2) — Copyright (c) Vernon Adams, SIL OFL 1.1 (vendor/fonts/antonio-LICENSE.txt).
+- Noto Sans Regular 0-255 SDF PBF (vendor/fonts/Noto-Sans-Regular-0-255.pbf) — Copyright Google LLC, SIL OFL 1.1.

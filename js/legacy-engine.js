@@ -727,7 +727,7 @@ export function mountArchiveEngine({ PANTHEON, SCP_FILES, CITIES, FACTIONS, AIC_
             const altP = 1.0 + Math.sin(uPulse * Math.PI) * 0.115 * state.seal;
             const vcP = rotateToCamera(pP, state.rotY, state.rotX);
             if (vcP[2] > 0) {
-              ctx.fillStyle = rIdx % 2 === 0 ? '#ffe596' : '#88f0ff';
+              ctx.fillStyle = rIdx % 2 === 0 ? '#ffe596' : '#ffffff';
               ctx.beginPath(); ctx.arc(cx + vcP[0] * surfRadius * altP, cy - vcP[1] * surfRadius * altP, 2.3, 0, Math.PI * 2); ctx.fill();
             }
           }
@@ -1687,7 +1687,7 @@ export function mountArchiveEngine({ PANTHEON, SCP_FILES, CITIES, FACTIONS, AIC_
       ctxCosmo.clearRect(0, 0, 420, 240);
       ctxCosmo.save(); ctxCosmo.translate(210, 120);
       const spheres = [
-        { r: 22, col: isDay ? '#1326e6' : '#88f0ff' },
+        { r: 22, col: isDay ? '#1326e6' : '#ffffff' },
         { r: 44, col: isDay ? 'rgba(19,38,230,0.45)' : 'rgba(244,247,255,0.45)' },
         { r: 68, col: isDay ? '#8a5a00' : '#ebd08a' },
         { r: 92, col: isDay ? 'rgba(14,98,154,0.55)' : 'rgba(136,240,255,0.45)' },
@@ -1827,7 +1827,7 @@ export function mountArchiveEngine({ PANTHEON, SCP_FILES, CITIES, FACTIONS, AIC_
       document.documentElement.setAttribute('data-theme', theme);
       try { localStorage.setItem('tc_theme', theme); } catch (_) {}
       const lbl = document.getElementById('theme-label');
-      if (lbl) lbl.textContent = theme === 'day' ? '夜间模式' : '日间纸本';
+      if (lbl) lbl.textContent = theme === 'day' ? '夜间' : '纸本';
       if (PANTHEON[state.pantheonIdx]) drawPantheonRadar(PANTHEON[state.pantheonIdx].stats);
       const curCity = state.selectedId || 'alexandria';
       const profEl = document.getElementById('codex-profile-svg');
@@ -1917,6 +1917,10 @@ export function mountArchiveEngine({ PANTHEON, SCP_FILES, CITIES, FACTIONS, AIC_
       if (!inTerra) leftPanel.classList.remove('mobile-sheet-open');
       leftPanel.classList.toggle('panel-hidden-left', !inTerra || state.uiHidden);
       rightPanel.classList.toggle('panel-hidden-right', !inTerra || state.uiHidden);
+      document.body.setAttribute('data-view', name);
+      const cornerMap = {"prologus":"PROLOGVS — INDEX","map":"LIBER I — DE TERRA","pantheon":"LIBER II — NVMEN","scp":"LIBER III — ARCANVM","architectura":"LIBER IV — LOCI","oraculum":"LIBER V — ORACVLVM","gallery":"LIBER VI — SPHAERA","colophon":"COLOPHON — LICENTIA","entry":"CODEX — FOLIVM"};
+      const trEl = document.getElementById('corner-tr');
+      if (trEl) trEl.textContent = cornerMap[name] || 'LIBER I — DE TERRA';
       const meta = LIBER_META[name] || LIBER_META.map;
       document.getElementById('top-right-pill').textContent = meta.right;
       if (name === 'prologus') drawPrologus(state.time);
@@ -2006,8 +2010,8 @@ export function mountArchiveEngine({ PANTHEON, SCP_FILES, CITIES, FACTIONS, AIC_
     function buildElevationProfileSVG(cityId, h = 38) {
       const m = CITY_META_EXTRA[cityId] || CITY_META_EXTRA.alexandria;
       const isDay = state.theme === 'day';
-      const lineCol = isDay ? '#1326e6' : '#88f0ff';
-      const fillCol = isDay ? 'rgba(19,38,230,0.12)' : 'rgba(116,232,255,0.16)';
+      const lineCol = isDay ? '#1326e6' : '#ffffff';
+      const fillCol = isDay ? 'rgba(19,38,230,0.12)' : 'rgba(255,255,255,0.14)';
       const pts = m.prof;
       const Wp = 260;
       const coords = pts.map((v, i) => `${(i / (pts.length - 1)) * Wp},${(h - 4) - (v / 100) * (h - 9)}`);
@@ -2047,8 +2051,8 @@ export function mountArchiveEngine({ PANTHEON, SCP_FILES, CITIES, FACTIONS, AIC_
         <article class="archive-card">
           <div>
             <div style="display:flex; justify-content:space-between; align-items:center; gap:6px; flex-wrap:wrap; border-bottom:1px solid var(--border-soft); padding-bottom:8px;">
-              <span class="${escapeHtml(f.badge || 'badge-gold')}">${escapeHtml(f.code)}</span>
-              <span class="badge-cyan">${escapeHtml(f.hume)} <span style="opacity:0.8;">(本站设定)</span></span>
+              <span class="${f.cat === 'codex' ? 'badge-original' : 'badge-canon'}">${escapeHtml(f.code)}</span>
+              <span class="badge-original">${escapeHtml(f.hume)} · 本站设定</span>
             </div>
             <h3 style="font-size:18.5px; font-weight:700; margin-top:10px; color:var(--klein); line-height:1.4;">${escapeHtml(f.title)}</h3>
             <div style="font-size:12.5px; color:var(--ink-sec); margin-top:4px;">${escapeHtml(f.authorCredit || FILE_PROVENANCE[f.cat] || FILE_PROVENANCE.scp)}</div>
@@ -2082,8 +2086,8 @@ export function mountArchiveEngine({ PANTHEON, SCP_FILES, CITIES, FACTIONS, AIC_
       <article class="archive-card" style="padding:18px;">
         <div>
           <div style="display:flex; justify-content:space-between; align-items:center; gap:6px; flex-wrap:wrap;">
-            <span class="${escapeHtml(m.badge)}">${escapeHtml(m.cls)}</span>
-            <span class="badge-cyan">${escapeHtml(m.hume)} · 本站设定</span>
+            <span class="${c.id === 'alexandria' || c.id === 'penglai' ? 'badge-original' : 'badge-canon'}">${escapeHtml(m.cls)}</span>
+            <span class="badge-original">${escapeHtml(m.hume)} · 本站设定</span>
           </div>
           <h3 class="condensed-monument" style="font-size:19px; margin-top:10px; margin-bottom:4px;">${escapeHtml(c.name)}</h3>
           <div style="font-size:12.5px; color:var(--ink-sec); font-family:monospace,sans-serif;">${escapeHtml(c.coords)}</div>

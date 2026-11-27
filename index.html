@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <title>蓝色神学档案馆 · 克苏鲁神话 × SCP基金会 × 赫尔墨斯文献百科</title>
+  <title>蓝色神学档案馆 · THEOLOGIA CAERVLEA</title>
   <script>
     (function() {
       try {
@@ -33,37 +33,35 @@
   <link rel="stylesheet" href="./css/wiki.css" />
   <link rel="stylesheet" href="./css/modules.css" />
 </head>
-<body>
+<body data-view="map" data-map-basemap="copperplate">
+  <!-- 14px Inset Hairline Manuscript Frame & Four-Corner Running Headers -->
   <div id="marginalia-outer"></div>
   <div id="marginalia-inner"></div>
 
-  <!-- Top-Left Brand Pill -->
-  <a id="top-left-brand" class="margin-pill" style="top: 22px; left: 26px; text-decoration: none;" href="#/prologus">
-    蓝色神学档案馆
-  </a>
+  <a id="corner-tl" class="corner-header" href="#/prologus">THEOLOGIA CAERVLEA · ARCHIVVM</a>
+  <div id="corner-tr" class="corner-header">LIBER I — DE TERRA</div>
+  <div id="corner-bl" class="corner-header"><span id="corner-fig-label">FIG. I — ORBIS TERRARVM</span></div>
 
-  <!-- Top-Center Single-Row Archival Navigation Bar -->
-  <nav id="top-nav" class="no-scrollbar blueprint-panel" style="position:fixed; top:16px; left:50%; transform:translateX(-50%); z-index:55; display:flex; flex-wrap:nowrap; white-space:nowrap; overflow-x:auto; max-width:calc(100vw - 36px); align-items:center; gap:4px; padding:4px 8px;">
-    <button class="liber-nav-btn" data-liber="prologus">馆藏导览</button>
-    <button class="liber-nav-btn active" data-liber="map">写实地球</button>
-    <button class="liber-nav-btn" data-liber="pantheon">神祇与实体图鉴</button>
-    <button class="liber-nav-btn" data-liber="scp">收容档案 (12)</button>
-    <button class="liber-nav-btn" data-liber="architectura">十二站点志</button>
-    <button class="liber-nav-btn" data-liber="oraculum">神学检索台</button>
-    <button class="liber-nav-btn" data-liber="gallery">神学星象仪</button>
-    <button class="liber-nav-btn" data-liber="colophon">版权与铭记</button>
-    <span style="color:var(--border); padding:0 2px;">|</span>
-    <button id="btn-theme" class="liber-nav-btn" style="color:var(--klein); font-weight:600; display:inline-flex; align-items:center;"><svg class="ico" viewBox="0 0 14 14"><circle cx="7" cy="7" r="4"/><line x1="7" y1="1" x2="7" y2="2.4"/><line x1="7" y1="11.6" x2="7" y2="13"/><line x1="1" y1="7" x2="2.4" y2="7"/><line x1="11.6" y1="7" x2="13" y2="7"/></svg><span id="theme-label">夜间模式</span></button>
-    <button id="btn-audio" class="liber-nav-btn" style="display:inline-flex; align-items:center;"><svg class="ico" viewBox="0 0 14 14"><polygon points="2,5.2 4.8,5.2 8,2.5 8,11.5 4.8,8.8 2,8.8"/><line x1="10" y1="5" x2="13" y2="9"/><line x1="13" y1="5" x2="10" y2="9"/></svg><span>声景: 关</span></button>
-    <button id="btn-cinema" class="liber-nav-btn" style="display:inline-flex; align-items:center;"><svg class="ico" viewBox="0 0 14 14"><polygon points="3.5,2.2 11.5,7 3.5,11.8"/></svg><span>巡礼放映</span></button>
+  <!-- Legacy IDs retained invisibly so legacy-engine.js hooks never throw -->
+  <div id="top-left-brand" style="display:none;"></div>
+  <div id="top-right-pill" style="display:none;"></div>
+  <div id="bottom-roman-pill" style="display:none;"></div>
+
+  <!-- Top-Center Pure Text Archival Navigation (Cleanly separated from TL/TR headers) -->
+  <nav id="top-nav" class="no-scrollbar" aria-label="主导航">
+    <button class="liber-nav-btn" data-liber="prologus">导览</button>
+    <button class="liber-nav-btn active" data-liber="map">舆图</button>
+    <button class="liber-nav-btn" data-liber="pantheon">神祇图鉴</button>
+    <button class="liber-nav-btn" data-liber="scp">收容卷宗</button>
+    <button class="liber-nav-btn" data-liber="architectura">站点志</button>
+    <button class="liber-nav-btn" data-liber="oraculum">检索台</button>
+    <button class="liber-nav-btn" data-liber="gallery">星象仪</button>
+    <button class="liber-nav-btn" data-liber="colophon">铭记</button>
+    <span class="nav-sep">·</span>
+    <button id="btn-theme" class="liber-nav-btn"><span id="theme-label">夜间</span></button>
+    <button id="btn-audio" class="liber-nav-btn"><span>声景: 关</span></button>
+    <button id="btn-cinema" class="liber-nav-btn"><span>巡礼</span></button>
   </nav>
-
-  <!-- Top-Right Dynamic Chapter Tag -->
-  <div id="top-right-pill" class="margin-pill" style="top: 22px; right: 26px; pointer-events:none;">
-    第一卷 · 圣城地图
-  </div>
-
-  <div id="bottom-roman-pill" class="margin-pill" style="display:none !important;"></div>
 
   <!-- ===================================================================== -->
   <!-- STAGE 0: 馆藏导览 (PROLOGVS)                                           -->
@@ -71,19 +69,19 @@
   <section id="stage-prologus" class="chapter-stage" style="align-items:center; justify-content:center; position:fixed; padding:72px 24px 80px 24px;">
     <canvas id="prologus-canvas" style="position:absolute; inset:0; width:100%; height:100%; pointer-events:none;"></canvas>
     <div class="archive-card" style="position:relative; z-index:5; text-align:center; max-width:740px; padding:36px 32px; align-items:center;">
-      <div class="lapidary-serif">THEOLOGIA CAERULEA · 跨体系文献与地图百科</div>
-      <h1 class="condensed-monument" style="font-size:clamp(30px, 4.8vw, 48px); margin-top:8px;">
+      <div class="lapidary-serif">THEOLOGIA CAERVLEA · MONVMENTA ARCHIVI</div>
+      <h1 class="condensed-monument" style="font-size:clamp(30px, 4.8vw, 46px); margin-top:8px;">
         蓝色神学档案馆
       </h1>
       <p class="prose-read" style="margin-top:12px; text-align:left;">
-        本馆汇整<b>克苏鲁神话原典</b>、<b>SCP 基金会维基文献（CC BY-SA 3.0）</b>与<b>本站原创赫尔墨斯蓝色神学设定</b>。您可在护眼纸本或夜间模式下查阅收容卷宗、探索实录、神祇铜版图鉴与三维圣城地图。
+        本馆汇整<b>克苏鲁神话原典</b>、<b>SCP 基金会维基文献（CC BY-SA 3.0）</b>与<b>本站原创赫尔墨斯蓝色神学设定</b>。您可在护眼纸本或深蓝夜间模式下查阅收容卷宗、探索实录、铜版神像与全球舆图。
       </p>
       <div style="margin-top:18px; display:flex; justify-content:center; gap:12px; flex-wrap:wrap;">
         <a class="bp-btn active" style="padding:10px 22px; font-size:15px; text-decoration:none;" href="#/scp">
           查阅机密收容档案 (12卷) →
         </a>
         <a class="bp-btn" style="padding:10px 20px; font-size:15px; text-decoration:none;" href="#/map">
-          打开三维圣城地图
+          进入铜版蓝色舆图
         </a>
         <a class="bp-btn" style="padding:10px 20px; font-size:15px; text-decoration:none;" href="#/oraculum">
           打开神学检索台
@@ -92,36 +90,72 @@
     </div>
   </section>
 
-  
   <!-- ===================================================================== -->
-  <!-- STAGE MAP: REALISTIC SATELLITE & ARCHIVAL GLOBE (#/map)               -->
+  <!-- STAGE MAP: COPPERPLATE KLEIN-BLUE & REALISTIC 3D GLOBE (#/map)        -->
   <!-- ===================================================================== -->
-  <section id="stage-map" class="open">
+  <section id="stage-map" class="open" data-basemap="copperplate" data-scanlines="on">
     <div id="maplibre-canvas-host"></div>
+    <div id="map-scanlines" aria-hidden="true"></div>
 
-    <div id="map-hud-bar" class="blueprint-panel no-scrollbar">
-      <button class="bp-btn active" data-basemap="satellite">卫星写实</button>
-      <button class="bp-btn" data-basemap="paper">纸本档案</button>
-      <button class="bp-btn" data-basemap="night">夜间夜灯</button>
-      <span style="color:var(--border); padding:0 2px;">|</span>
-      <button id="btn-map-terrain" class="bp-btn active">3D 地形: 开</button>
-      <span style="color:var(--border); padding:0 2px;">|</span>
-      <button class="bp-btn active" data-archlayer="all">全部档案点</button>
-      <button class="bp-btn" data-archlayer="scp">SCP</button>
-      <button class="bp-btn" data-archlayer="mythos">克苏鲁</button>
-      <button class="bp-btn" data-archlayer="theology-goi">神学/组织</button>
+    <!-- Global View Left-1/3 Editorial Title Block (Hermes 0:04 Framing) -->
+    <header id="map-global-hero">
+      <div class="hero-kicker">LIBER PRIMVS — DE TERRA</div>
+      <div class="hero-latin-display">ORBIS CAERVLEVS</div>
+      <h1 class="hero-zh-title">蓝色神学舆图</h1>
+      <div class="hero-rule"></div>
+      <p class="hero-desc">十四处收容与神话坐标 · 真实卫星与高程铜版卷</p>
+      <div class="hero-epigraph">OMNIA AB VNO MEDITATIONE VNIVS · ITA MVNDVS CREATVS EST</div>
+    </header>
+
+    <!-- Single Compact Hairline Control Group (Replaces GIS Toolbar) -->
+    <div id="map-ctrl-cluster">
+      <div class="hairline-strip" role="toolbar" aria-label="地图控制">
+        <button type="button" class="hl-btn active" data-basemap="copperplate">铜版蓝</button>
+        <button type="button" class="hl-btn" data-basemap="paper">纸本</button>
+        <button type="button" class="hl-btn" data-basemap="night">夜灯</button>
+        <button type="button" id="btn-map-realistic" class="hl-btn" title="开启或关闭彩色写实卫星色彩">彩色写实</button>
+        <button type="button" id="btn-map-terrain" class="hl-btn active">地形</button>
+        <button type="button" id="btn-pop-layers" class="hl-btn" aria-expanded="false">图层</button>
+        <button type="button" id="btn-pop-search" class="hl-btn" aria-expanded="false">检索</button>
+      </div>
+
+      <div id="popover-layers" class="map-popover">
+        <div style="font-family:var(--font-latin-inscr); font-size:11px; letter-spacing:0.2em; color:var(--chrome-muted);">STRATA · 图层与扫描线</div>
+        <div class="popover-row">
+          <button type="button" class="popover-chip active" data-archlayer="all">I–XIV 全部</button>
+          <button type="button" class="popover-chip" data-archlayer="scp">♄&#xFE0E; SCP</button>
+          <button type="button" class="popover-chip" data-archlayer="mythos">☽&#xFE0E; 旧日</button>
+          <button type="button" class="popover-chip" data-archlayer="theology">☉&#xFE0E; 神学</button>
+          <button type="button" class="popover-chip" data-archlayer="goi">☿&#xFE0E; 组织</button>
+        </div>
+        <div class="popover-row" style="border-top:1px solid var(--chrome-line); padding-top:6px; margin-top:2px;">
+          <button type="button" id="btn-map-scanlines" class="popover-chip active">铜版扫描线: 开</button>
+        </div>
+      </div>
+
+      <div id="popover-search" class="map-popover">
+        <input id="map-place-search" type="search" autocomplete="off" placeholder="检索罗马编号或地名 (I–XIV / 拉莱耶 / 亚历山大)..." />
+        <div id="map-search-results" class="custom-scroll"></div>
+      </div>
     </div>
 
-    <div id="map-search-wrap">
-      <input id="map-place-search" type="search" autocomplete="off" placeholder="搜索档案地点（拉莱耶 / 亚历山大 / 黄石 / 阿卡姆）..." />
-      <div id="map-search-results" class="blueprint-panel custom-scroll"></div>
+    <!-- Custom Hairline Zoom & Compass Stack (Replaces MapLibre default white buttons) -->
+    <div id="map-zoom-stack">
+      <button type="button" id="btn-zoom-in" title="放大" aria-label="放大">+</button>
+      <button type="button" id="btn-zoom-out" title="缩小" aria-label="缩小">−</button>
+      <button type="button" id="btn-reset-north" title="重置正北与俯仰" aria-label="重置正北">∧</button>
     </div>
 
-    <div id="map-fallback-banner" class="blueprint-panel badge-gold"></div>
+    <div id="map-fallback-banner"></div>
 
-    <aside id="map-site-card" class="blueprint-panel custom-scroll"></aside>
+    <!-- Copperplate Figure Plate Caption Card ("图版说明") -->
+    <aside id="map-site-card" class="custom-scroll"></aside>
 
-    <div id="map-fiction-pill">本站为虚构作品，地图标注地点与真实机构无关</div>
+    <!-- Bottom-Edge Single-Line Attribution + Fiction Disclaimer (Collapsed to ⓘ on Mobile) -->
+    <button type="button" id="btn-attrib-mobile" aria-label="展开数据来源与免责声明">ⓘ</button>
+    <div id="map-attrib-bar">
+      本站为虚构作品，地点与真实机构无关 · 卫星 <a href="https://s2maps.eu" target="_blank" rel="noopener">Sentinel-2 cloudless © EOX (2016 CC BY 4.0)</a> · 矢量 <a href="https://openfreemap.org" target="_blank" rel="noopener">OpenFreeMap</a> © <a href="https://www.openmaptiles.org/" target="_blank" rel="noopener">OpenMapTiles</a> / <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OSM</a> · 高程 <a href="https://mapterhorn.com/attribution" target="_blank" rel="noopener">© Mapterhorn</a> · 夜光 <a href="https://earthobservatory.nasa.gov/features/NightLights" target="_blank" rel="noopener">NASA</a>
+    </div>
   </section>
 
   <!-- ===================================================================== -->
@@ -132,17 +166,16 @@
   </section>
 
   <!-- ===================================================================== -->
-  <!-- STAGE GALLERY: COPPERPLATE ASTROLABE EXHIBIT (#/gallery)                                               -->
+  <!-- STAGE GALLERY: COPPERPLATE ASTROLABE EXHIBIT (#/gallery)              -->
   <!-- ===================================================================== -->
-  <div id="globe-stage-wrap" class="canvas-stack" style="opacity:0; pointer-events:none;">
+  <div id="globe-stage-wrap" class="canvas-stack" style="display:none; opacity:0; pointer-events:none;">
     <canvas id="canvas-back"></canvas>
     <canvas id="canvas-webgl"></canvas>
     <canvas id="canvas-front"></canvas>
     <div class="art-scanlines" style="opacity:0.45;"></div>
   </div>
 
-  <!-- Camera Scale Sub-bar -->
-  <div id="globe-cam-bar" class="no-scrollbar blueprint-panel" style="display:none; position:fixed; top:60px; left:50%; transform:translateX(-50%); z-index:46; display:flex; flex-wrap:nowrap; white-space:nowrap; overflow-x:auto; max-width:calc(100vw - 36px); gap:6px; padding:4px 8px; font-size:13px;">
+  <div id="globe-cam-bar" class="no-scrollbar blueprint-panel" style="display:none; position:fixed; top:60px; left:50%; transform:translateX(-50%); z-index:46; flex-wrap:nowrap; white-space:nowrap; overflow-x:auto; max-width:calc(100vw - 36px); gap:6px; padding:4px 8px; font-size:13px;">
     <button id="mobile-drawer-btn" class="bp-btn active"><svg class="ico" viewBox="0 0 14 14"><line x1="2" y1="4" x2="12" y2="4"/><circle cx="5" cy="4" r="1.5"/><line x1="2" y1="10" x2="12" y2="10"/><circle cx="9" cy="10" r="1.5"/></svg>站点与地形控制</button>
     <button class="bp-btn" data-cam="cosmos"><svg class="ico" viewBox="0 0 14 14"><circle cx="7" cy="7" r="5.2"/><ellipse cx="7" cy="7" rx="5.2" ry="2.1" transform="rotate(-28 7 7)"/><circle cx="7" cy="7" r="1"/></svg>外神星盘 (0.7x)</button>
     <button class="bp-btn" data-cam="planet"><svg class="ico" viewBox="0 0 14 14"><circle cx="7" cy="7" r="5.2"/><ellipse cx="7" cy="7" rx="2.4" ry="5.2"/><line x1="1.8" y1="7" x2="12.2" y2="7"/></svg>全球水系 (1.2x)</button>
@@ -152,7 +185,6 @@
     <button id="btn-toggle-ui" class="bp-btn">隐藏两侧面板</button>
   </div>
 
-  <!-- Live Global Overwatch Incident Ticker -->
   <div id="live-ticker" style="display:none;">
     <span style="background:var(--klein-strong); color:#ffffff; font-weight:700; padding:0 10px; height:100%; display:inline-flex; align-items:center; font-size:12px; flex-shrink:0;">异常监测简报</span>
     <div style="overflow:hidden; flex:1;">
@@ -160,8 +192,7 @@
     </div>
   </div>
 
-  <!-- Left Instrument Plate -->
-  <aside id="left-panel" class="blueprint-panel custom-scroll panel-hidden-left" style="position:fixed; left:22px; top:104px; bottom:56px; width:284px; z-index:42; padding:14px; display:flex; flex-direction:column; gap:10px; font-size:13px; overflow-y:auto;">
+  <aside id="left-panel" class="blueprint-panel custom-scroll panel-hidden-left" style="display:none; position:fixed; left:22px; top:104px; bottom:56px; width:284px; z-index:42; padding:14px; flex-direction:column; gap:10px; font-size:13px; overflow-y:auto;">
     <div style="display:flex; align-items:center; justify-content:space-between;">
       <span style="font-size:13px; font-weight:700; color:var(--klein);">地形与收容参数控制</span>
       <div style="display:flex; align-items:center; gap:6px;">
@@ -170,9 +201,8 @@
       </div>
     </div>
 
-    <!-- Real-time Dual Hume / Akiva / Sanity Seismograph Oscilloscope -->
     <div style="border:1px solid var(--border); background:var(--bg-sub); padding:8px;">
-      <div style="display:flex; justify-content:space-between; font-family:monospace,sans-serif; font-size:12px; margin-bottom:4px; color:var(--ink);">
+      <div style="display:flex; justify-content:space-between; font-size:12px; margin-bottom:4px; color:var(--ink);">
         <span id="osc-hume">休谟: 1.12</span>
         <span id="osc-akiva">阿基瓦: 94</span>
         <span id="osc-san">理智: 89%</span>
@@ -186,7 +216,7 @@
       <div>
         <div style="display:flex; justify-content:space-between; font-size:13px; margin-bottom:3px;">
           <span><svg class="ico" viewBox="0 0 14 14"><path d="M1.5 11.2 L5.5 3.2 L8.3 8.2 L10.2 5.2 L12.8 11.2 Z"/></svg>地势高低差落差</span>
-          <span id="relief-val" style="font-family:monospace;">100%</span>
+          <span id="relief-val">100%</span>
         </div>
         <input id="relief-slider" type="range" min="0" max="150" value="100" />
       </div>
@@ -194,7 +224,7 @@
       <div>
         <div style="display:flex; justify-content:space-between; font-size:13px; margin-bottom:3px;">
           <span><svg class="ico" viewBox="0 0 14 14"><circle cx="7" cy="7" r="4.6"/><line x1="7" y1="1.2" x2="7" y2="4.2"/><line x1="2" y1="9.9" x2="4.6" y2="8.4"/><line x1="12" y1="9.9" x2="9.4" y2="8.4"/><circle cx="7" cy="7" r="1.2"/></svg>现实稳定锚功率</span>
-          <span id="seal-val" style="font-family:monospace;">88%</span>
+          <span id="seal-val">88%</span>
         </div>
         <input id="seal-slider" type="range" min="0" max="100" value="88" />
       </div>
@@ -202,7 +232,7 @@
       <div>
         <div style="display:flex; justify-content:space-between; font-size:13px; margin-bottom:3px;">
           <span><svg class="ico" viewBox="0 0 14 14"><path d="M2 8.5 C2 4.5, 12 4.5, 12 8.5"/><path d="M4.2 8.2 C3.2 10.5, 4.5 12, 5.5 11.5 M7 8.2 L7 12.2 M9.8 8.2 C10.8 10.5, 9.5 12, 8.5 11.5"/><circle cx="7" cy="6.2" r="1"/></svg>旧日异常突破度</span>
-          <span id="abyss-val" style="font-family:monospace;">86%</span>
+          <span id="abyss-val">86%</span>
         </div>
         <input id="abyss-slider" type="range" min="0" max="100" value="86" />
       </div>
@@ -210,7 +240,7 @@
       <div>
         <div style="display:flex; justify-content:space-between; font-size:13px; margin-bottom:3px;">
           <span><svg class="ico" viewBox="0 0 14 14"><path d="M1.4 7 Q7 2.2 12.6 7 Q7 11.8 1.4 7 Z"/><circle cx="7" cy="7" r="2"/><line x1="7" y1="5.3" x2="7" y2="8.7"/></svg>外神天球显圣度</span>
-          <span id="outer-val" style="font-family:monospace;">88%</span>
+          <span id="outer-val">88%</span>
         </div>
         <input id="outer-slider" type="range" min="0" max="100" value="88" />
       </div>
@@ -239,8 +269,7 @@
     <div id="node-list" class="custom-scroll" style="flex:1; min-height:0; overflow-y:auto; display:flex; flex-direction:column; gap:3px; padding-right:3px;"></div>
   </aside>
 
-  <!-- Right Dossier & Topography Inspector -->
-  <aside id="right-panel" class="blueprint-panel custom-scroll panel-hidden-right" style="position:fixed; right:22px; top:104px; max-height:calc(100dvh - 160px); overflow-y:auto; width:324px; z-index:42; padding:16px; display:flex; flex-direction:column; gap:10px; font-size:14px;">
+  <aside id="right-panel" class="blueprint-panel custom-scroll panel-hidden-right" style="display:none; position:fixed; right:22px; top:104px; max-height:calc(100dvh - 160px); overflow-y:auto; width:324px; z-index:42; padding:16px; flex-direction:column; gap:10px; font-size:14px;">
     <div style="text-align:center; border-bottom:1px solid var(--border); padding-bottom:10px;">
       <div id="codex-tag" style="font-size:12px; color:var(--ink-sec); font-weight:600;">
         原创设定 · 亚历山大圣座
@@ -251,8 +280,8 @@
       <div id="codex-title" style="font-size:14px; font-weight:600; color:var(--ink);">
         法罗斯大灯塔与翠玉文献馆
       </div>
-      <div id="codex-coords" style="font-family:monospace,sans-serif; font-size:12.5px; color:var(--ink-sec); margin-top:3px;">
-        31°12'N · 29°55'E · 尼罗河入海口
+      <div id="codex-coords" style="font-size:12.5px; color:var(--ink-sec); margin-top:3px;">
+        31.2140°N · 29.8856°E · 港外岬角
       </div>
       <div id="codex-badges" style="display:flex; justify-content:center; gap:6px; flex-wrap:wrap; margin-top:8px;"></div>
     </div>
@@ -265,15 +294,15 @@
       <div id="codex-profile-svg"></div>
     </div>
 
-    <blockquote id="codex-motto" style="font-style:italic; font-size:15px; color:var(--ink-sec); border-left:3px solid var(--klein); padding-left:10px; line-height:1.7;">
-      “如其在上，如其在下。”
+    <blockquote id="codex-motto" style="font-style:italic; font-size:15px; color:var(--ink-sec); border-left:2px solid var(--klein); padding-left:10px; line-height:1.7;">
+      “OMNIA AB VNO MEDITATIONE VNIVS — 万物由一观照而生。”
     </blockquote>
 
     <p id="codex-desc" style="font-size:15px; color:var(--ink); line-height:1.78;">
       尼罗河三角洲主航道穿城入海，高台耸立三层法罗斯大灯塔与秘仪穹顶。
     </p>
 
-    <div style="border:1px solid var(--border-soft); padding:9px 10px; background:var(--bg-sub); display:flex; flex-direction:column; gap:6px; font-size:15px;">
+    <div style="border-top:1px solid var(--border-soft); border-bottom:1px solid var(--border-soft); padding:9px 0; display:flex; flex-direction:column; gap:6px; font-size:15px;">
       <div>
         <span style="color:var(--ink-sec);"><svg class="ico" viewBox="0 0 14 14"><path d="M1.8 8.8 L5.2 3 L8.2 7.2 L10.2 4.6 L12.4 8.8"/><path d="M1.5 11.2 Q4.5 9.6 7 11.2 T12.5 11.2"/></svg>地势水文：</span>
         <span id="codex-terrain" style="font-weight:600;">尼罗河宽阔水道 · 河口冲积洲</span>
@@ -289,8 +318,8 @@
     </div>
 
     <div style="display:grid; grid-template-columns:1fr 1fr; gap:6px;">
-      <button id="btn-skyline" class="bp-btn"><svg class="ico" viewBox="0 0 14 14"><path d="M1.5 11.8 L12.5 11.8 M3 11.8 L3 7.5 L5.5 7.5 L5.5 11.8 M5.5 11.8 L5.5 4.2 L8.5 2.2 L8.5 11.8 M8.5 6.5 L11 6.5 L11 11.8"/></svg>卫城全景 (5.2x)</button>
-      <button id="btn-street" class="bp-btn"><svg class="ico" viewBox="0 0 14 14"><path d="M2 11.8 L2 6.5 A5 5 0 0 1 12 6.5 L12 11.8"/><circle cx="5.5" cy="7.2" r="1"/><path d="M5.5 8.4 L5.5 11.8"/><circle cx="8.5" cy="7.8" r="0.9"/><path d="M8.5 8.9 L8.5 11.8"/></svg>街道近景 (8.8x)</button>
+      <button id="btn-skyline" class="bp-btn">卫城全景 (5.2x)</button>
+      <button id="btn-street" class="bp-btn">街道近景 (8.8x)</button>
     </div>
     <button id="btn-open-dossier" class="bp-btn active" style="width:100%;">阅读该站点收容卷宗 →</button>
   </aside>
@@ -317,26 +346,25 @@
       </div>
 
       <div id="pan-selector" style="display:flex; gap:6px; margin-top:12px; flex-wrap:wrap; justify-content:center;"></div>
-
       <p id="pan-lore" class="prose-read" style="margin-top:14px; text-align:left;"></p>
 
       <div style="display:flex; align-items:center; gap:14px; margin-top:14px; border:1px solid var(--border); background:var(--bg-card); padding:12px 14px; width:100%; text-align:left;">
         <canvas id="pantheon-radar-canvas" width="168" height="148" style="width:154px; height:136px; flex-shrink:0;"></canvas>
         <div style="display:flex; flex-direction:column; gap:8px;">
           <div id="pan-metrics" style="display:flex; gap:6px; flex-wrap:wrap;"></div>
-          <blockquote id="pan-scripture" style="font-style:italic; color:var(--ink-sec); font-size:14.5px; line-height:1.72; border-left:3px solid var(--klein); padding-left:10px;"></blockquote>
+          <blockquote id="pan-scripture" style="font-style:italic; color:var(--ink-sec); font-size:14.5px; line-height:1.72; border-left:2px solid var(--klein); padding-left:10px;"></blockquote>
         </div>
       </div>
 
       <button id="pan-jump-btn" class="bp-btn active" style="margin-top:14px; padding:9px 24px; font-size:14.5px;">
-        前往地图查看关联站点 →
+        前往星象仪查看关联站点 →
       </button>
     </div>
 
     <div style="flex:1; max-width:450px; display:flex; flex-direction:column; align-items:center;">
-      <div style="font-size:13px; letter-spacing:0.16em; color:var(--ink-sec); margin-bottom:8px; font-weight:600;">铜版扫描线刻圣像</div>
-      <div style="width:min(410px, 88vw); height:465px; border:1px solid var(--border); padding:6px; border-radius:210px 210px 0 0; background:var(--bg-card); box-shadow:0 10px 32px var(--shadow);">
-        <div style="position:relative; width:100%; height:100%; border:1px solid var(--border); border-radius:204px 204px 0 0; overflow:hidden; background:#0916b8;">
+      <div class="lapidary-serif" style="margin-bottom:8px;">FIGVRAE · 铜版扫描线刻圣像</div>
+      <div style="width:min(410px, 88vw); height:465px; border:1px solid var(--border); padding:6px; border-radius:210px 210px 0 0; background:var(--bg-card);">
+        <div style="position:relative; width:100%; height:100%; border:1px solid var(--border); border-radius:204px 204px 0 0; overflow:hidden; background:#0a1890;">
           <canvas id="woodcut-canvas" width="520" height="580" style="width:100%; height:100%; display:block;"></canvas>
           <div class="art-scanlines"></div>
         </div>
@@ -352,12 +380,12 @@
   <!-- ===================================================================== -->
   <section id="stage-scp" class="chapter-stage custom-scroll" style="flex-direction:column; padding:78px 36px 88px 36px;">
     <div style="text-align:center; margin-bottom:22px;">
-      <div class="lapidary-serif">SCP FOUNDATION (CC BY-SA 3.0) &times; 克苏鲁神话原典 &times; 本站原创神学</div>
+      <div class="lapidary-serif">LIBER TERTIVS · CODICES ARCANORVM</div>
       <h1 class="condensed-monument" style="font-size:34px; margin-top:6px; margin-bottom:10px;">
         机密收容与神学档案库
       </h1>
       <p class="prose-read" style="margin:0 auto;">
-        馆藏共 <b>12 份</b>完整卷宗，均已明确标注<b>文献出处（原典或本站原创）</b>。点击正文中的墨色遮蔽条 <span class="scp-redact" role="button" tabindex="0">[机密文本已显影]</span> 可解密隐藏记录，点击下方折叠栏可阅读现场探索与手记实录。
+        馆藏共 <b>12 份</b>完整卷宗，实心徽章表示<b>原典出处</b>，线框徽章表示<b>本站设定</b>。点击正文中的遮蔽条 <span class="scp-redact" role="button" tabindex="0">[机密文本已显影]</span> 可解密隐藏记录。
       </p>
       <div id="scp-filter-bar" style="display:flex; justify-content:center; gap:8px; flex-wrap:wrap; margin-top:16px;">
         <button class="bp-btn active" data-scpcat="all">全部卷宗 (12)</button>
@@ -371,7 +399,7 @@
     <div id="scp-grid" class="scp-grid" style="display:grid; grid-template-columns:repeat(2, minmax(0, 1fr)); gap:18px; max-width:1160px; margin:0 auto; width:100%;"></div>
 
     <footer class="cc-footer">
-      版权声明：本页凡标有“SCP原典”之词条基于 <a href="https://scp-wiki.wikidot.com/" target="_blank" rel="noopener">SCP Foundation Wiki</a> 及 <a href="https://scp-wiki-cn.wikidot.com/" target="_blank" rel="noopener">SCP基金会中文维基</a> 创作，遵循 <a href="https://creativecommons.org/licenses/by-sa/3.0/deed.zh-hans" target="_blank" rel="noopener">CC BY-SA 3.0 协议</a> 发布；标有“原创设定”之蓝色神学合流内容为本站自创设定，同样以 CC BY-SA 3.0 共享。本站为虚构作品，地点与真实机构无关。
+      版权声明：凡标有实心“原典”徽章之词条基于 <a href="https://scp-wiki.wikidot.com/" target="_blank" rel="noopener">SCP Foundation Wiki</a> 及 <a href="https://scp-wiki-cn.wikidot.com/" target="_blank" rel="noopener">SCP基金会中文维基</a> 创作，遵循 <a href="https://creativecommons.org/licenses/by-sa/3.0/deed.zh-hans" target="_blank" rel="noopener">CC BY-SA 3.0 协议</a> 发布；标有线框“本站设定”之内容为本站原创衍生，同样以 CC BY-SA 3.0 共享。本站为虚构作品，地点与真实机构无关。
     </footer>
   </section>
 
@@ -380,19 +408,19 @@
   <!-- ===================================================================== -->
   <section id="stage-architectura" class="chapter-stage custom-scroll" style="flex-direction:column; padding:78px 36px 88px 36px;">
     <div style="text-align:center; margin-bottom:22px;">
-      <div class="lapidary-serif">第四卷 · 地理、水文与建筑形制</div>
+      <div class="lapidary-serif">LIBER QVARTVS · TOPOGRAPHIA SANCTORVM</div>
       <h1 class="condensed-monument" style="font-size:34px; margin-top:6px; margin-bottom:10px;">
         十二圣城与收容站点志
       </h1>
       <p class="prose-read" style="margin:0 auto;">
-        收录全球十二处神话圣城与基金会收容巨构的地形高差剖面、穿城水系与驻防编制，可一键跳转至三维地图对应视角。
+        收录全球神话圣城与基金会收容巨构的地形剖面、穿城水系与驻防编制，可一键定位至铜版蓝色地球对应坐标。
       </p>
     </div>
 
     <div id="atlas-grid" class="atlas-grid" style="display:grid; grid-template-columns:repeat(3, minmax(0, 1fr)); gap:18px; max-width:1160px; margin:0 auto; width:100%;"></div>
 
     <footer class="cc-footer">
-      文献来源：拉莱耶、阿卡姆、疯狂山脉、冷原源自 H.P. 洛夫克拉夫特公有领域作品；SCP-2000、SCP-001、Site-13、SCP-610、阿拉卡达、SCP-2317 源自 <a href="https://scp-wiki.wikidot.com/" target="_blank" rel="noopener">SCP Wiki</a>（CC BY-SA 3.0）；亚历山大圣座与蓬莱镇海塔融合设定为本站原创。本站为虚构作品，地点与真实机构无关。
+      文献来源：拉莱耶、阿卡姆、疯狂山脉、吉萨金字塔下源自 H.P. 洛夫克拉夫特公有领域作品；SCP-2000、SCP-001、Site-13（得州大本德）、SCP-610、阿拉卡达、SCP-2317 源自 <a href="https://scp-wiki.wikidot.com/" target="_blank" rel="noopener">SCP Wiki</a>（CC BY-SA 3.0）；亚历山大圣座与蓬莱镇海塔融合设定为本站原创。本站为虚构作品，地点与真实机构无关。
     </footer>
   </section>
 
@@ -401,12 +429,12 @@
   <!-- ===================================================================== -->
   <section id="stage-oraculum" class="chapter-stage custom-scroll" style="flex-direction:column; padding:78px 36px 88px 36px;">
     <div style="text-align:center; margin-bottom:20px;">
-      <div class="lapidary-serif">第五卷 · 馆藏词条精确检索与势力图谱</div>
+      <div class="lapidary-serif">LIBER QVINTVS · INDEX ORACVLI</div>
       <h1 class="condensed-monument" style="font-size:34px; margin-top:6px; margin-bottom:8px;">
         神学检索终端与势力星图
       </h1>
       <p class="prose-read" style="margin:0 auto;">
-        支持按 SCP 完整编号、神祇名称、地名或同行组织检索馆藏全部词条（未收录条目将如实提示并推荐相近档案），亦可触发地图态势预设。
+        支持按 SCP 完整编号、神祇名称、地名或同行组织检索馆藏全部词条（未收录条目将如实提示并推荐相近档案）。
       </p>
     </div>
 
@@ -414,25 +442,25 @@
       <div class="archive-card" style="padding:18px;">
         <div style="display:flex; flex-direction:column; gap:12px; flex:1;">
           <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid var(--border); padding-bottom:8px;">
-            <span style="font-weight:700; color:var(--klein); font-size:14px;">馆藏检索终端 · TRISMEGISTUS.AIC</span>
-            <span id="aic-status-badge" class="badge-gold">全库索引就绪</span>
+            <span style="font-weight:700; color:var(--klein); font-size:14px;">馆藏检索终端 · TRISMEGISTVS.AIC</span>
+            <span id="aic-status-badge" class="badge-gold">索引就绪</span>
           </div>
 
           <div id="aic-output" class="custom-scroll" style="height:270px; overflow-y:auto; background:var(--bg-sub); border:1px solid var(--border-soft); padding:14px; font-size:15.5px; line-height:1.8; color:var(--ink);"></div>
 
           <div style="display:flex; gap:8px;">
-            <input id="aic-input" type="text" placeholder="输入检索词（如：拉莱耶在哪 / SCP-2000 / 破碎之神 / 克苏鲁）..." style="flex:1; background:var(--bg-card); border:1px solid var(--border); color:var(--ink); padding:9px 12px; font-size:15px; outline:none; border-radius:2px;" />
+            <input id="aic-input" type="text" placeholder="输入检索词（如：拉莱耶在哪 / SCP-2000 / 破碎之神 / 克苏鲁）..." style="flex:1; background:var(--bg-card); border:1px solid var(--border); color:var(--ink); padding:9px 12px; font-size:15px; outline:none; border-radius:0;" />
             <button id="aic-send-btn" class="bp-btn active" style="padding:9px 18px; font-size:14.5px;">检索档案</button>
           </div>
 
-          <div style="font-size:15px; color:var(--ink-sec); font-weight:600;">常用专题检索与地图态势演示：</div>
+          <div style="font-size:15px; color:var(--ink-sec); font-weight:600;">常用专题检索与星象仪推演：</div>
           <div style="display:grid; grid-template-columns:repeat(2, minmax(0,1fr)); gap:8px;">
-            <button class="bp-btn aic-quick" style="text-align:left; font-size:14.5px;" data-q="蓝色神学与休谟场论">◈ 原理：蓝色神学与斯克兰顿锚</button>
-            <button class="bp-btn aic-quick" style="text-align:left; font-size:14.5px;" data-q="旧日支配者与基金会分级">◈ 谱系：外神旧日与分级对照</button>
-            <button class="bp-btn aic-quick" style="text-align:left; font-size:14.5px;" data-q="六大秘教与同行组织">◈ 势力：破碎之神·欲肉·蛇之手</button>
-            <button class="bp-btn aic-quick" style="text-align:left; font-size:14.5px;" data-ritual="calabasas"><svg class="ico" viewBox="0 0 14 14"><circle cx="7" cy="7" r="4.8"/><polygon points="7,2.2 11.2,9.5 2.8,9.5"/></svg>态势：220-Calabasas 锁链加固</button>
-            <button class="bp-btn aic-quick" style="text-align:left; font-size:14.5px;" data-ritual="overdrive"><svg class="ico" viewBox="0 0 14 14"><circle cx="7" cy="7" r="4.8"/><circle cx="7" cy="7" r="1.8"/></svg>态势：全球现实稳定锚满功率</button>
-            <button class="bp-btn aic-quick" style="text-align:left; font-size:14.5px;" data-ritual="starsright"><svg class="ico" viewBox="0 0 14 14"><polygon points="7,1.5 8.6,5.4 12.6,5.6 9.5,8.2 10.5,12.2 7,9.9 3.5,12.2 4.5,8.2 1.4,5.6 5.4,5.4"/></svg>态势：群星归位末日突破推演</button>
+            <button class="bp-btn aic-quick" style="text-align:left; font-size:14.5px;" data-q="蓝色神学与休谟场论">☉&#xFE0E; 原理：蓝色神学与斯克兰顿锚</button>
+            <button class="bp-btn aic-quick" style="text-align:left; font-size:14.5px;" data-q="旧日支配者与基金会分级">☽&#xFE0E; 谱系：外神旧日与分级对照</button>
+            <button class="bp-btn aic-quick" style="text-align:left; font-size:14.5px;" data-q="六大秘教与同行组织">☿&#xFE0E; 势力：破碎之神·欲肉·蛇之手</button>
+            <button class="bp-btn aic-quick" style="text-align:left; font-size:14.5px;" data-ritual="calabasas">♄&#xFE0E; 态势：220-Calabasas 锁链加固</button>
+            <button class="bp-btn aic-quick" style="text-align:left; font-size:14.5px;" data-ritual="overdrive">☉&#xFE0E; 态势：全球现实稳定锚满功率</button>
+            <button class="bp-btn aic-quick" style="text-align:left; font-size:14.5px;" data-ritual="starsright">☽&#xFE0E; 态势：群星归位末日突破推演</button>
           </div>
         </div>
       </div>
@@ -457,7 +485,8 @@
       <div style="width:180px; height:180px; position:relative; margin-bottom:8px;">
         <canvas id="seal-emblem-canvas" width="420" height="420" style="width:100%; height:100%;"></canvas>
       </div>
-      <h1 class="condensed-monument" style="font-size:clamp(30px, 4.5vw, 46px);">
+      <div class="lapidary-serif">COLOPHON · LICENTIA ET FONTES</div>
+      <h1 class="condensed-monument" style="font-size:clamp(28px, 4.2vw, 42px); margin-top:6px;">
         蓝色神学档案馆 · 版权与馆藏说明
       </h1>
       <div class="prose-read" style="text-align:left; margin-top:16px; display:flex; flex-direction:column; gap:12px;">
@@ -466,17 +495,17 @@
           本站收录及引用的 SCP 基金会相关概念、编号与设定（包括 SCP-001 守门人 [DrClef]、SCP-610 憎恶血肉 [NekoChris]、SCP-1730 第十三号站点 [djkaktus]、SCP-2000 机械降神 [HammerMaiden]、SCP-2264 阿拉卡达宫廷 [Metaphysician]、SCP-2317 异界之门 [DrClef]、SCP-2662 [SoullessSingularity]、SCP-3000 阿难陀舍沙 [djkaktus / Joreth / A Random Day] 以及破碎之神教会中心页 [HammerMaiden 等]、欲肉教中心页 [Metaphysician 等]、蛇之手中心页 [thedeadlymoose 等]）均源自 <a href="https://scp-wiki.wikidot.com/" target="_blank" rel="noopener">SCP Foundation Wiki</a> 与 <a href="https://scp-wiki-cn.wikidot.com/" target="_blank" rel="noopener">SCP基金会中文维基</a>。
         </p>
         <p>
-          <b>2. 写实地球引擎与地理数据源署名：</b><br/>
-          地图引擎采用自托管 <a href="https://maplibre.org/" target="_blank" rel="noopener">MapLibre GL JS v6.18.0</a>（BSD-3 协议）。卫星底图：<i>Sentinel-2 cloudless - <a href="https://s2maps.eu" target="_blank" rel="noopener">https://s2maps.eu</a> by EOX IT Services GmbH (Contains modified Copernicus Sentinel data 2016 &amp; 2017)</i>（2016 版 CC BY 4.0）；道路、建筑与地名矢量瓦片：<a href="https://openfreemap.org" target="_blank" rel="noopener">OpenFreeMap</a> &copy; <a href="https://www.openmaptiles.org/" target="_blank" rel="noopener">OpenMapTiles</a> Data from <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a>；三维高程与山体阴影：<a href="https://mapterhorn.com/attribution" target="_blank" rel="noopener">&copy; Mapterhorn</a>（备用源：Mapzen / AWS Open Data）；夜间灯光与离线兜底地球影像：<i>Imagery: NASA Black Marble / NASA Blue Marble Next Generation</i>（公有领域）。
+          <b>2. 舆图引擎、地理数据源与自托管字体署名：</b><br/>
+          地图引擎采用自托管 <a href="https://maplibre.org/" target="_blank" rel="noopener">MapLibre GL JS v6.18.0</a>（BSD-3 协议）；自托管拉丁铭文与展示字体采用 <i>Cinzel</i>（Natanael Gama）与 <i>Antonio</i>（Vernon Adams），遵循 SIL Open Font License 1.1。卫星底图：<i>Sentinel-2 cloudless - <a href="https://s2maps.eu" target="_blank" rel="noopener">https://s2maps.eu</a> by EOX IT Services GmbH (Contains modified Copernicus Sentinel data 2016 &amp; 2017)</i>（2016 版 CC BY 4.0）；矢量瓦片：<a href="https://openfreemap.org" target="_blank" rel="noopener">OpenFreeMap</a> &copy; <a href="https://www.openmaptiles.org/" target="_blank" rel="noopener">OpenMapTiles</a> Data from <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a>；三维高程：<a href="https://mapterhorn.com/attribution" target="_blank" rel="noopener">&copy; Mapterhorn</a>（备用：Mapzen / AWS Open Data）；夜光与离线兜底影像：<i>Imagery: NASA Black Marble / NASA Blue Marble Next Generation</i>（公有领域）。
         </p>
         <p>
           <b>3. 原典与原创区分及虚构免责声明：</b><br/>
-          克苏鲁神话部分源自 H.P. 洛夫克拉夫特公有领域作品；“赫尔墨斯蓝色神学（Theologia Caerulea）”跨世界观桥接叙事、亚历山大法罗斯圣座与蓬莱镇海塔合流设定均为<b>本站原创衍生设定</b>，已在各词条显要位置标明出处，绝不混淆原典事实与自创演绎。全站图文与衍生文本遵循 <a href="https://creativecommons.org/licenses/by-sa/3.0/deed.zh-hans" target="_blank" rel="noopener">CC BY-SA 3.0</a> 协议开放共享。<b>免责声明：本站为虚构创作百科，地图所标虚构站点与任何真实学校、医院、机构或民宅无关。</b>
+          克苏鲁神话部分源自 H.P. 洛夫克拉夫特公有领域作品（含《克苏鲁的呼唤》《疯狂山脉》《印斯茅斯之影》《金字塔下》）；拉丁题铭引自公有领域《翠玉录》与《赫尔墨斯秘籍》古本。“赫尔墨斯蓝色神学”跨世界观桥接叙事、亚历山大法罗斯圣座与蓬莱镇海塔合流设定均为<b>本站原创衍生设定</b>（以线框徽章标示）。全站图文遵循 <a href="https://creativecommons.org/licenses/by-sa/3.0/deed.zh-hans" target="_blank" rel="noopener">CC BY-SA 3.0</a> 协议共享。<b>免责声明：本站为虚构创作百科，地图所标虚构站点与任何真实学校、医院、机构或民宅无关。</b>
         </p>
       </div>
       <div style="margin-top:20px; display:flex; gap:12px; flex-wrap:wrap; justify-content:center;">
         <a class="bp-btn active" style="text-decoration:none;" href="#/scp">返回机密档案库</a>
-        <a class="bp-btn" style="text-decoration:none;" href="#/map">返回写实卫星地球</a>
+        <a class="bp-btn" style="text-decoration:none;" href="#/map">返回铜版蓝色舆图</a>
       </div>
     </div>
   </section>

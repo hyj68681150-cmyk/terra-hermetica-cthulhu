@@ -1,47 +1,119 @@
-/* css/tokens.css — Day/Night Archival Palette & Base Typography */
-:root, html[data-theme="day"] {
-  --bg: #f5f0e6;
-  --bg-card: #fbf8f1;
-  --bg-panel: rgba(251, 248, 241, 0.96);
-  --bg-sub: #ebe4d5;
-  --ink: #1d1f24;
-  --ink-sec: #4a5060;
-  --klein: #1326e6;
-  --klein-strong: #0d1cb8;
-  --klein-soft: rgba(19, 38, 230, 0.09);
-  --border: rgba(19, 38, 230, 0.24);
-  --border-soft: rgba(29, 31, 36, 0.14);
-  --shadow: rgba(20, 24, 40, 0.10);
-  --badge-gold-bg: #f6ecd2; --badge-gold-fg: #6e4800; --badge-gold-bd: rgba(155, 106, 8, 0.42);
-  --badge-cyan-bg: #e5f1fa; --badge-cyan-fg: #0b4a73; --badge-cyan-bd: rgba(14, 98, 154, 0.36);
-  --badge-crim-bg: #fae8ec; --badge-crim-fg: #961b32; --badge-crim-bd: rgba(172, 32, 58, 0.38);
-  --redact-bg: #262932;
-  --redact-rev-bg: rgba(19, 38, 230, 0.10);
-  --redact-rev-fg: #0d1cb8;
+/* css/tokens.css — Monochrome Klein-Blue & White Visual System, Three-Tier Typography & Hairline Tokens */
+
+@font-face {
+  font-family: "Cinzel";
+  src: url("../vendor/fonts/cinzel-latin-400-normal.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
 }
-html[data-theme="night"] {
-  --bg: #12151c;
-  --bg-card: #181c26;
-  --bg-panel: rgba(24, 28, 38, 0.96);
-  --bg-sub: #202634;
-  --ink: #d9dde6;
-  --ink-sec: #98a2b3;
-  --klein: #7390fa;
-  --klein-strong: #4162e0; /* 5.49:1 WCAG AA contrast with #ffffff */
-  --klein-soft: rgba(115, 144, 250, 0.14);
-  --border: rgba(126, 150, 224, 0.26);
-  --border-soft: rgba(217, 221, 230, 0.14);
-  --shadow: rgba(0, 0, 0, 0.42);
-  --badge-gold-bg: rgba(232, 192, 100, 0.13); --badge-gold-fg: #ebd08a; --badge-gold-bd: rgba(232, 192, 100, 0.36);
-  --badge-cyan-bg: rgba(108, 194, 232, 0.13); --badge-cyan-fg: #92d8f5; --badge-cyan-bd: rgba(108, 194, 232, 0.36);
-  --badge-crim-bg: rgba(232, 102, 126, 0.15); --badge-crim-fg: #f49eb0; --badge-crim-bd: rgba(232, 102, 126, 0.40);
-  --redact-bg: #c8cfdc;
-  --redact-rev-bg: rgba(115, 144, 250, 0.18);
-  --redact-rev-fg: #9db4ff;
+@font-face {
+  font-family: "Cinzel";
+  src: url("../vendor/fonts/cinzel-latin-600-normal.woff2") format("woff2");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Antonio";
+  src: url("../vendor/fonts/antonio-latin-400-normal.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Antonio";
+  src: url("../vendor/fonts/antonio-latin-700-normal.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
 }
 
-* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-html, body {
+:root {
+  /* Three-Tier Typography System (05 Section 3.2.B) */
+  --font-latin-inscr: "Cinzel", "Times New Roman", "Georgia", serif;
+  --font-latin-display: "Antonio", "Impact", "Arial Narrow", sans-serif;
+  --font-zh-serif: "Noto Serif SC", "Source Han Serif SC", "Songti SC", "STSong", "Georgia", serif;
+
+  --track-inscr: 0.30em;
+  --track-micro: 0.24em;
+  --track-zh-title: 0.15em;
+  --track-display: 0.05em;
+
+  /* Frame, Hairline & Scanline Geometry (05 Section 3.2.C & G) */
+  --frame-inset: 14px;
+  --hairline-w: 1px;
+  --scanline-alpha: 0.032; /* <= 4% subtle copperplate scanline */
+
+  /* Copperplate Klein-Blue Plate Tokens ( strictly 1 hue: Klein Blue + White ) */
+  --plate-bg: #0a1890;
+  --plate-deep: #060e58;
+  --plate-night: #040a3d;
+  --plate-card: rgba(7, 18, 118, 0.90);
+  --plate-fg: #ffffff;
+  --plate-fg-sec: rgba(255, 255, 255, 0.76);
+  --plate-fg-muted: rgba(255, 255, 255, 0.52);
+  --plate-line: rgba(255, 255, 255, 0.28);
+  --plate-line-strong: rgba(255, 255, 255, 0.68);
+
+  /* Planetary Symbols per Archival Layer — text presentation forced via U+FE0E, zero emoji (05 Section 3.2.D) */
+  --glyph-theology: "☉\FE0E";
+  --glyph-mythos: "☽\FE0E";
+  --glyph-scp: "♄\FE0E";
+  --glyph-goi: "☿\FE0E";
+}
+
+/* Day Archival Paper Mode (White/Ivory + Klein Blue ONLY) */
+:root,
+html[data-theme="day"] {
+  --bg: #f6f4ee;
+  --bg-card: #fcfbf8;
+  --bg-panel: rgba(252, 251, 248, 0.96);
+  --bg-sub: rgba(10, 24, 144, 0.035);
+  --ink: #111833;
+  --ink-sec: #3e4b7a;
+  --klein: #0d1cb8;
+  --klein-strong: #0a1890;
+  --klein-soft: rgba(10, 24, 144, 0.08);
+  --border: rgba(10, 24, 144, 0.28);
+  --border-soft: rgba(10, 24, 144, 0.14);
+  --shadow: rgba(8, 16, 80, 0.08);
+  --redact-bg: #0a1890;
+  --redact-rev-bg: rgba(10, 24, 144, 0.09);
+  --redact-rev-fg: #0a1890;
+}
+
+/* Night Archival Mode (Deep Nocturnal Klein Blue + Crisp White ONLY) */
+html[data-theme="night"] {
+  --bg: #060e4a;
+  --bg-card: #091569;
+  --bg-panel: rgba(7, 17, 88, 0.95);
+  --bg-sub: rgba(255, 255, 255, 0.05);
+  --ink: #f2f5ff;
+  --ink-sec: rgba(242, 245, 255, 0.72);
+  --klein: #ffffff;
+  --klein-strong: #2445de; /* >= 5.2:1 contrast with #ffffff */
+  --klein-soft: rgba(255, 255, 255, 0.11);
+  --border: rgba(255, 255, 255, 0.26);
+  --border-soft: rgba(255, 255, 255, 0.14);
+  --shadow: rgba(2, 5, 28, 0.45);
+  --redact-bg: #dce4ff;
+  --redact-rev-bg: rgba(255, 255, 255, 0.14);
+  --redact-rev-fg: #ffffff;
+}
+
+@media (max-width: 860px) {
+  :root {
+    --frame-inset: 8px;
+  }
+}
+
+* {
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+}
+html,
+body {
   margin: 0;
   padding: 0;
   width: 100%;
@@ -53,9 +125,27 @@ html, body {
   color: var(--ink);
   font-size: 15.5px;
   line-height: 1.8;
-  font-family: "Noto Serif SC", "Source Han Serif SC", "Songti SC", "STSong", "Georgia", serif;
+  font-family: var(--font-zh-serif);
   user-select: text;
 }
-button { font: inherit; color: inherit; cursor: pointer; background: none; border: none; user-select: none; }
-blockquote, h1, h2, h3, h4, p { margin: 0; }
-a { color: var(--klein); text-decoration: underline; }
+button {
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+  background: none;
+  border: none;
+  user-select: none;
+}
+blockquote,
+h1,
+h2,
+h3,
+h4,
+p {
+  margin: 0;
+}
+a {
+  color: var(--klein);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
