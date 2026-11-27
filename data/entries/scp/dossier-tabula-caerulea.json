@@ -18,6 +18,9 @@
   "hume": "1.80 Hm · 基准圣律",
   "legacyCityId": "alexandria",
   "mapSiteId": "site-alexandria",
+  "overview": "《翠玉录·第八重神圣群青补遗》与《战术神学宪章》是本站原创“蓝色神学”世界观的理论母本。卷宗一方面严格锚定真实文献史——包括 1463 年马尔西利奥·费奇诺在佛罗伦萨完成的《赫尔墨斯文集》拉丁译本、阿拉伯文《造化秘籍》及 1541 年纽伦堡初印标准拉丁本《翠玉录》；另一方面展开本站核心原创设定：封存于法罗斯海岬水下三十米的青金石原碑，如何于 1998 年与斯克兰顿现实稳定锚（SRA）合流，划定大浸染纪元七曜圣城的满额铁律，并在背面暗藏第八重天球折叠弦的现实借贷警示。",
+  "bodyPath": "data/dossiers/dossier-tabula-caerulea.md",
+  "readingMinutes": 19,
   "summary": "出土于亚历山大法罗斯大灯塔地基下的绿松石-青金石合铸碑板，揭示宇宙并非善恶二元，而是由“盲目熵增的旧日深渊”与“赋予秩序的第八重天球群青圣律”构成；这正是现代 {{redact:1:[斯克兰顿现实稳定锚与战术神学部]}} 的真正理论源头。",
   "proc": "全文铭刻于 Site-01 十二肋大穹顶内壁，作为全球休谟基准场的频率校准母本。",
   "log": "【碑文首句】“Verum sine mendacio, certum et verissimum: 如其在上之星盘，如其在下之海渊；执群青之规尺者，可丈量不可名状之神。”",
@@ -80,10 +83,22 @@
   ],
   "relatedIds": [
     "site-alexandria",
+    "sanct-sol",
+    "sanct-mercurius",
+    "sanct-luna",
+    "sanct-venus",
+    "sanct-mars",
+    "sanct-iuppiter",
+    "sanct-saturnus",
     "goi-ordo-caeruleus",
+    "goi-tactical-theology",
+    "goi-foedus-caeruleum",
     "codex-hume-theory",
+    "codex-tinctura",
     "era-alexandria-pharos-concord",
-    "era-modern-blue-theology-convergence"
+    "era-modern-blue-theology-convergence",
+    "dossier-scp-2317",
+    "entity-yog-sothoth"
   ],
   "updatedAt": "2026-11-27"
 }
