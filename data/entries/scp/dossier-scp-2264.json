@@ -4,32 +4,37 @@
   "category": "scp",
   "subCat": "scp",
   "badge": "badge-cyan",
-  "code": "SCP-2264 · ARCHON / ALAGADDA",
-  "title": "阿拉卡达宫廷门扉 · 布拉格炼金星堡地宫",
+  "code": "SCP-2264 · SAFE / ALAGADDA",
+  "title": "阿拉卡达宫廷门扉 · 伦敦马丁塔原门与布拉格星堡次级地宫",
   "aliases": [
+    "SCP-2264 · SAFE / ALAGADDA",
     "SCP-2264 · ARCHON / ALAGADDA",
     "阿拉卡达宫廷门扉 · 布拉格炼金星堡地宫",
+    "阿拉卡达宫廷门扉 · 伦敦马丁塔原门与布拉格星堡次级地宫",
     "prague",
     "SCP-2264"
   ],
   "clearance": 1,
   "provenance": "scp-canon",
-  "authorCredit": "Metaphysician (SCP-2264, CC BY-SA 3.0)",
+  "authorCredit": "Metaphysician (SCP-2264, CC BY-SA 3.0, https://scp-wiki.wikidot.com/scp-2264) + 本站布拉格次级门设定",
   "hume": "0.62 Hm · 多维折叠",
   "legacyCityId": "prague",
   "mapSiteId": "site-prague",
-  "summary": "隐藏于布拉格哥特大教堂与炼金术士黄金巷地底的铅制秘门，仅可通过特定炼金密语开启，通往与所有维度接壤的狂欢城邦“阿拉卡达”。门内耸立着 {{redact:1:[被锁于王座的吊王与黑衣无面大使]}}。",
-  "proc": "蔷薇十字圣殿骑士与基金会秘传学分部联合驻守查理大桥与十二角星芒城垣。",
-  "log": "【探索日志 2264-4】温克勒博士：“温莎宫廷学者告诉我，吊王的王座下压着通往卡美洛与幻梦境卡达斯的裂缝，而黑衣大使正是伏行混沌的投影。”",
+  "summary": "SCP-2264 原典主门（Safe 级）为英国伦敦塔马丁塔地下密室的一扇铁门，附炼金大作业器械，系诺森伯兰第九代伯爵亨利·珀西所建，通往四色假面城邦“阿拉卡达”（{{redact:1:[受缚于王座的吊王与黑衣无面大使]}}）。本站原创延伸设定在布拉格城堡北侧鹿护城河地窖（0.62 Hm）增设 1609 年铅封次级共鸣门分支。",
+  "overview": "SCP-2264（Safe 级，Metaphysician，2015）原典主门系英国伦敦塔马丁塔地下密室的铁门，由十六世纪“巫师伯爵”亨利·珀西借炼金大作业开启，通往仅存黑白黄红四色、面具不可摘除的跨维城邦“阿拉卡达”。在 MTF Psi-9 惨遭无面大使毁灭后，一切探索已无限期中止。本站世界观将 1609 年布拉格鲁道夫二世宫廷铅门设为次级共鸣分支（0.62 Hm，本站设定），由蓝色修会与南方佛罗伦萨圣城协同防渗。",
+  "bodyPath": "data/dossiers/dossier-scp-2264.md",
+  "readingMinutes": 20,
+  "proc": "伦敦塔马丁塔原门已砌墙封堵并按月轮换看守，全部入城行动于 MTF Psi-9 惨案后无限期中止（原典）；布拉格次级共鸣门由蔷薇十字学派、赫尔墨斯蓝色修会与基金会秘传学分部联合维持三楔铅封泄压监控（本站设定）。",
+  "log": "【探索报告 2264-2 摘意】卡利克斯托·纳瓦埃斯博士于阿拉卡达无尽图书馆遇库尔-马纳斯魔杖人（SCP-2264-2）警告：“阿拉卡达大使即将从内殿（Adytum）返回，届时唯有疯子留驻于此。”（原典转述，CC BY-SA 3.0；原旧档“温克勒博士/温莎学者”已依原典勘正）",
   "infobox": [
     {
       "label": "档案编号",
-      "value": "SCP-2264 · ARCHON / ALAGADDA",
+      "value": "SCP-2264 · SAFE / ALAGADDA",
       "original": false
     },
     {
       "label": "原典署名",
-      "value": "Metaphysician (SCP-2264, CC BY-SA 3.0)",
+      "value": "Metaphysician (SCP-2264, CC BY-SA 3.0, https://scp-wiki.wikidot.com/scp-2264)",
       "original": false
     },
     {
@@ -39,13 +44,28 @@
     },
     {
       "label": "驻防与收容",
-      "value": "蔷薇十字 × 秘传学分部",
+      "value": "蔷薇十字 × 秘传学分部（布拉格分支）",
       "original": true
     }
   ],
-  "relatedIds": [
-    "site-prague"
+  "cluesGranted": [
+    {
+      "id": "clue-2264-martin-tower-canon",
+      "title": "伦敦塔马丁塔铁门考据与1593年马洛绝笔信线索",
+      "xp": 25
+    }
   ],
-  "updatedAt": "2026-11-26",
-  "provenanceLabel": "Metaphysician (SCP-2264, CC BY-SA 3.0)"
+  "relatedIds": [
+    "site-prague",
+    "era-1609-prague-alagadda",
+    "entity-nyarlathotep-alagadda",
+    "sanct-mercurius",
+    "goi-ordo-caeruleus",
+    "dossier-codex-al-azif",
+    "goi-serpents-hand",
+    "codex-hume-theory",
+    "codex-tinctura"
+  ],
+  "updatedAt": "2026-11-27",
+  "provenanceLabel": "Metaphysician (SCP-2264, CC BY-SA 3.0) + 本站布拉格次级门设定"
 }
