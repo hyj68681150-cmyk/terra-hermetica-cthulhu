@@ -1,0 +1,105 @@
+{
+  "id": "sanct-venus",
+  "category": "sites",
+  "code": "SANCTVM · ♀︎ VENVS",
+  "title": "京都 · 铜之城（CIVITAS VENERIS）",
+  "aliases": [
+    "京都",
+    "铜之城",
+    "金星圣城",
+    "平安京",
+    "铜版测绘局总署",
+    "CIVITAS VENERIS",
+    "sanct-venus"
+  ],
+  "clearance": 1,
+  "provenance": "original",
+  "provenanceLabel": "本站原创设定",
+  "geo": {
+    "lat": 35.011,
+    "lon": 135.768,
+    "precision": "city"
+  },
+  "summary": "七曜圣城之三（♀︎ 金星·铜），蓝印盟约铜版测绘局总署所在地。借平安京山水四方格局铺设 360 公里电解紫铜地网，镌刻通行全球的浸染等级铜版舆图。",
+  "sections": [
+    {
+      "heading": "城市",
+      "paragraphs": [
+        "京都地处本州岛中西部盆地，三面环山，鸭川与桂川穿城南流。传统营造说法中，古代平安京依“四神相应”之山川形胜选址：北倚山地、东临清流、西通大道、南控水泽。大浸染纪元里，[[goi-foedus-caeruleum|蓝印盟约]] 将铜版测绘局（OFFICINA CHALCOGRAPHICA）总署设于此城，四条大圆结界航线在此交汇。"
+      ]
+    },
+    {
+      "heading": "行星与金属",
+      "paragraphs": [
+        "圣城对应太白金星（♀︎ VENVS），导流金属为赤铜。金星司掌晨昏界限与器物精工，紫铜则兼具优良导电性与蚀刻延展性。每逢长庚星西沉或启明星东升的仪轨时辰，全城工坊的电解铜槽与地下铜网同步校准谐波，城内屋檐滴水铜链会发出齐整的细微嗡鸣。"
+      ]
+    },
+    {
+      "heading": "拉丁铭文",
+      "paragraphs": [
+        "测绘局雕版大厅门楣刻有《翠玉录》拉丁铭文：“SEPARABIS TERRAM AB IGNE, SVBTILE A SPISSO”（汝当析土于火，辨精微于粗浊）。测绘官以此为业训：在混沌模糊的浸染边界上，用毫厘不差的铜版刀线分清生路与死地。"
+      ]
+    },
+    {
+      "heading": "结界怎么运作",
+      "paragraphs": [
+        "京都结界半径 360 公里，覆盖近畿至濑户内海东段，并由南侧德岛（Site-79，SCP 维基设施原典）充当梦境监测前门。工程团顺着盆地原有的北山、东川、西道、南泽四向水土脉络，在地下深埋四重同心紫铜接地环，配合斯克兰顿稳定锚将休谟场稳固在 1.25 Hm 以上，析离并导出海风挟带的低休谟杂波。"
+      ]
+    },
+    {
+      "heading": "守着哪个方向的威胁",
+      "paragraphs": [
+        "京都向东南直面西太平洋深海海沟（V 级禁区“渊”），向西北衔接西伯利亚铁线以分担 [[site-baikal|贝加尔封锁区]] 外围压力，向西经“东海潮路”呼应 [[site-penglai|东海蓬莱]] 与 [[sanct-iuppiter|西安锡之城]]，向东北经阿留申雾链连通诺顿湾数据中枢。"
+      ]
+    },
+    {
+      "heading": "日常",
+      "paragraphs": [
+        "鸭川两岸遍布制版房、腐刻酸洗槽与晾纸廊。雕版匠人白日俯身在放大镜下修刻最新一版全球危险等值线，傍晚提着嵌有细铜网风罩的纸灯笼散步归家；旧铜版磨平重铸前留下的铜屑，会被熔成小枚的金星护符分发给即将登上太平洋长链货轮的水手。"
+      ]
+    }
+  ],
+  "infobox": [
+    {
+      "label": "所属城市",
+      "value": "日本京都（山城盆地）",
+      "original": false
+    },
+    {
+      "label": "选址形胜",
+      "value": "传统平安京“四神相应”山水格局改造为四重铜网结界",
+      "original": true
+    },
+    {
+      "label": "七曜与金属",
+      "value": "♀︎ 金星（VENVS）· 铜",
+      "original": true
+    },
+    {
+      "label": "翠玉铭文",
+      "value": "SEPARABIS TERRAM AB IGNE, SVBTILE A SPISSO",
+      "original": false
+    },
+    {
+      "label": "结界半径与职能",
+      "value": "360 km · 铜版测绘局（OFFICINA CHALCOGRAPHICA）总署",
+      "original": true
+    }
+  ],
+  "cluesGranted": [
+    {
+      "id": "clue-sanct-venus-copperplate",
+      "title": "京都铜版测绘局等休谟刀线腐刻规程",
+      "xp": 15
+    }
+  ],
+  "relatedIds": [
+    "codex-tinctura",
+    "goi-foedus-caeruleum",
+    "sanct-iuppiter",
+    "sanct-luna",
+    "site-penglai",
+    "site-baikal"
+  ],
+  "updatedAt": "2026-11-27"
+}

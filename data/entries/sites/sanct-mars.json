@@ -1,0 +1,106 @@
+{
+  "id": "sanct-mars",
+  "category": "sites",
+  "code": "SANCTVM · ♂︎ MARS",
+  "title": "魁北克城 · 铁之城（CIVITAS MARTIS）",
+  "aliases": [
+    "魁北克城",
+    "魁北克",
+    "铁之城",
+    "火星圣城",
+    "北大西洋铁壁",
+    "CIVITAS MARTIS",
+    "sanct-mars"
+  ],
+  "clearance": 1,
+  "provenance": "original",
+  "provenanceLabel": "本站原创设定",
+  "geo": {
+    "lat": 46.813,
+    "lon": -71.208,
+    "precision": "city"
+  },
+  "summary": "七曜圣城之五（♂︎ 火星·铁），扼守圣劳伦斯河口的北大西洋铁壁。以北美仅存的古城垣锻铁铆钉阵撑开 250 公里刚性结界，阻截印斯茅斯与北大西洋深海异物内侵。",
+  "sections": [
+    {
+      "heading": "城市",
+      "paragraphs": [
+        "魁北克城高踞圣劳伦斯河北岸的迪亚芒角断崖之上，控扼大西洋深入北美大陆腹地的水道咽喉。史实中，它是北美洲墨西哥以北唯一完整保留古典防御城墙与星形棱堡的城市。[[goi-foedus-caeruleum|蓝印盟约]] 将其定为北美东翼主堡，同时作为“北大西洋铁桥”与纵贯南北美洲的“美洲脊线”北端起点。"
+      ]
+    },
+    {
+      "heading": "行星与金属",
+      "paragraphs": [
+        "圣城对应荧惑火星（♂︎ MARS），导流金属为锻铁。火星主司壁垒、斥力与锋刃；四点六公里长的旧城石墙及星形要塞内侧，密布着数以万计镌有几何刻槽的熟铁长钉与磁致伸缩铁梁，每逢火星东升时辰通电励磁。"
+      ]
+    },
+    {
+      "heading": "拉丁铭文",
+      "paragraphs": [
+        "星形要塞圣路易门内壁镶铸《翠玉录》生铁铭文：“VIS EIVS INTEGRA EST, SI VERSA FVERIT IN TERRAM”（若归于大地，其力乃全）。工程官取其字面义：必须将稳定锚的接地锻铁桩打入劳伦琴古老花岗岩盾深处，结界斥力方能涓滴不漏。"
+      ]
+    },
+    {
+      "heading": "结界怎么运作",
+      "paragraphs": [
+        "魁北克城结界半径 250 公里，与外海新斯科舍海军船坞（Site-184，SCP 维基设施原典，作者 DodoDevil，CC BY-SA 3.0）互为犄角。不同于惠灵顿的柔性卸力，铁之城采用高梯度刚性磁—休谟屏障：城墙铁钉每年秋季必须在火星时辰逐批拔出重锻更换，因为旧钉尖端已吸饱海雾里的低休谟应力而脆化如炭。"
+      ]
+    },
+    {
+      "heading": "守着哪个方向的威胁",
+      "paragraphs": [
+        "出圣劳伦斯湾向南不远，便是马萨诸塞湾的 [[site-innsmouth|印斯茅斯魔鬼礁]]（V 级禁区）与浸染缠身的 [[site-arkham|米斯卡托尼克河谷]]；向东则是北大西洋深处的“幽暗之海”。铁壁死死封住大河逆流通道，使深潜者群落与海渊潮气无法顺水路渗入五大湖及北美内陆平原。"
+      ]
+    },
+    {
+      "heading": "日常",
+      "paragraphs": [
+        "冬夜漫长，上城区的石板路结着厚冰，铁匠炉火彻夜不熄。每年十月“换钉周”是全城头等大事，工匠、清道队员与市民分片包干城垣，把锈蚀发黑的旧铁钉敲进回收木桶，再将滚烫涂油的新铁钉一锤锤砸进岩缝；孩子们听着满城清脆的叮当锤声入睡，便知今冬河冰之下无事。"
+      ]
+    }
+  ],
+  "infobox": [
+    {
+      "label": "所属城市",
+      "value": "加拿大魁北克城（圣劳伦斯河北岸断崖）",
+      "original": false
+    },
+    {
+      "label": "历史锚点",
+      "value": "北美墨西哥以北唯一保有完整防御城墙之城市（史实）",
+      "original": false
+    },
+    {
+      "label": "七曜与金属",
+      "value": "♂︎ 火星（MARS）· 铁",
+      "original": true
+    },
+    {
+      "label": "翠玉铭文",
+      "value": "VIS EIVS INTEGRA EST, SI VERSA FVERIT IN TERRAM",
+      "original": false
+    },
+    {
+      "label": "结界半径与航线",
+      "value": "250 km · 北大西洋铁桥、美洲脊线北端",
+      "original": true
+    }
+  ],
+  "cluesGranted": [
+    {
+      "id": "clue-sanct-mars-iron-spike",
+      "title": "魁北克铁之城城垣熟铁铆钉年度更换记录",
+      "xp": 15
+    }
+  ],
+  "relatedIds": [
+    "codex-tinctura",
+    "goi-foedus-caeruleum",
+    "sanct-mercurius",
+    "sanct-saturnus",
+    "site-innsmouth",
+    "site-arkham",
+    "dossier-innsmouth-1928"
+  ],
+  "updatedAt": "2026-11-27"
+}

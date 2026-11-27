@@ -1,0 +1,110 @@
+{
+  "id": "goi-foedus-caeruleum",
+  "order": 9,
+  "category": "goi",
+  "code": "FOEDVS CAERVLEVM",
+  "title": "蓝印盟约 · 七曜议会与清道公署",
+  "aliases": [
+    "蓝印盟约",
+    "FOEDVS CAERVLEVM",
+    "七曜议会",
+    "铜版测绘局",
+    "OFFICINA CHALCOGRAPHICA",
+    "清道队",
+    "PVRGATORES",
+    "结界航线",
+    "VIAE PVRGATAE"
+  ],
+  "clearance": 1,
+  "provenance": "original",
+  "provenanceLabel": "本站原创设定",
+  "badge": "badge-original",
+  "legacyCityId": "alexandria",
+  "mapSiteId": "site-alexandria",
+  "summary": "大浸染纪元维系人类生存版图的最高联席盟约，由 SCP 基金会战术神学部牵头，联合赫尔墨斯蓝色修会、密斯卡托尼克大学与中华异学会、全球超自然联盟（GOC）及各国共同缔结，统辖七曜议会、铜版测绘局、清道队与全球结界航线。",
+  "sections": [
+    {
+      "heading": "缔约成员与帷幕转轨",
+      "paragraphs": [
+        "当全球超过八成水陆退入警戒与浸染状态（见 [[codex-tinctura|大浸染纪元总述]]），旧时代的隐秘帷幕已无处遮掩。原执掌收容与封锁的几大机构遂在亚历山大港与佛罗伦萨两度会盟，于文书末尾加盖青金石蜡印，定名“蓝印盟约（FOEDVS CAERVLEVM）”。",
+        "盟约核心由四方支柱与世俗政权共同构成：其一为 SCP 基金会，由精通阿基瓦计量与现实锚工程的 [[goi-tactical-theology|战术神学部]] 牵头（源自 SCP 维基原典，CC BY-SA 3.0，scp-wiki.wikidot.com/tactical-theology-hub）；其二为执掌《翠玉录》弦律的 [[goi-ordo-caeruleus|赫尔墨斯蓝色修会]]；其三为东西方异常文献学府 [[goi-miskatonic-yixuehui|密斯卡托尼克大学与中华异学会]]；其四为提供重装奇术火力与远征编队的全球超自然联盟（GOC，源自 SCP 维基同行组织原典，CC BY-SA 3.0，scp-wiki.wikidot.com/goc-hub-page）。各国则负责维持圣城与平靖走廊内的市政、粮储、铁道与船队征调。"
+      ]
+    },
+    {
+      "heading": "七曜议会与铜版测绘局（OFFICINA CHALCOGRAPHICA）",
+      "paragraphs": [
+        "盟约最高决策机构为“七曜议会”，由 [[sanct-luna|惠灵顿]]、[[sanct-mercurius|佛罗伦萨]]、[[sanct-venus|京都]]、[[sanct-sol|亚历山大]]、[[sanct-mars|魁北克城]]、[[sanct-iuppiter|西安]]、[[sanct-saturnus|布宜诺斯艾利斯]] 七座圣城各推举一名执政官组成。议会常设于水星与信使之城佛罗伦萨，负责裁定全球稳定锚功率配额、禁书封存令与人口迁徙路线。",
+        "蓝色修会下辖的“铜版测绘局（OFFICINA CHALCOGRAPHICA）”总署设于金星与铜之城京都。测绘官汇集各站点休谟浮标回传的读数，在电解紫铜板上逐刀镌刻危险等值线、据点结界圈与航线走向，刷以群青油墨印行各城——本档案馆所载的铜版蓝白世界舆图，即出自该局现行官方图式。"
+      ]
+    },
+    {
+      "heading": "结界航线（VIAE PVRGATAE）与清道队（PVRGATORES）",
+      "paragraphs": [
+        "孤立的圣城无法独自存续。盟约工程团沿着连接圣城与前哨据点的大圆测地线，分段竖起斯克兰顿现实稳定锚中继塔，辟出十余条“结界航线（VIAE PVRGATAE）”——如佛罗伦萨至亚历山大的子午清道、亚历山大经撒马尔罕至西安的丝路结界、魁北克经达特穆尔至佛罗伦萨的北大西洋铁桥，以及横跨南半球的南方银线。稳定塔运转时，可将航线两侧各约 120 公里宽的带状走廊压回 I 级平靖态（0.95–1.20 Hm），供铁道列车与远洋船队通行。",
+        "航线日常巡护由直属盟约的“清道队（PVRGATORES）”承担。清道队员佩戴钨钢音叉与重型休谟计，常年驻守荒原中继塔，护送武装补给车队穿过 III 级浸染区，并定期潜入已撤空人口的 IV 级失落区检修界碑、回收散逸手稿。"
+      ]
+    }
+  ],
+  "logs": [
+    {
+      "title": "【蓝印盟约护航编组铁律 · VIA-REGVLA-07】",
+      "minClearance": 1,
+      "content": "凡驶入 III 级浸染走廊之陆上车队，首尾两车须各载一台处于热机状态的便携式稳定锚。途中若遇路旁出现地图未载之驿站、灯火或熟人呼唤，全队严禁减速，一律按罗盘大圆方位角直行通过。[本站原创设定]"
+    },
+    {
+      "title": "【京都测绘总署致佛罗伦萨议会季报 · CHALCO-2026-Q4】",
+      "minClearance": 2,
+      "content": "本季重刻铜版四十八块。北大西洋铁桥雷克雅未克段因冬季磁暴内缩九公里，已由清道队增补三座铁桩副塔恢复原宽；孟加拉湾外缘 V 级禁区线无外扩，马六甲海峡锁运转正常。[本站原创设定]"
+    }
+  ],
+  "infobox": [
+    {
+      "label": "拉丁全称",
+      "value": "FOEDVS CAERVLEVM（蓝印盟约）",
+      "original": true
+    },
+    {
+      "label": "核心缔约方",
+      "value": "SCP 基金会（战术神学部）、赫尔墨斯蓝色修会、密大与异学会、GOC 及各国",
+      "original": true
+    },
+    {
+      "label": "议会与测绘总署",
+      "value": "七曜议会驻佛罗伦萨（☿︎）；铜版测绘局驻京都（♀︎）",
+      "original": true
+    },
+    {
+      "label": "走廊净空标准",
+      "value": "结界航线两侧各约 120 km 维持 I 级平靖（0.95–1.20 Hm）",
+      "original": true
+    },
+    {
+      "label": "原典许可",
+      "value": "基金会、DoTT、GOC 源自 SCP 维基（CC BY-SA 3.0）；密大源自洛氏原典",
+      "original": false
+    }
+  ],
+  "cluesGranted": [
+    {
+      "id": "clue-foedus-corridor-width",
+      "title": "蓝印盟约结界航线120公里双侧净空标准",
+      "xp": 15
+    }
+  ],
+  "relatedIds": [
+    "codex-tinctura",
+    "codex-hume-theory",
+    "goi-tactical-theology",
+    "goi-ordo-caeruleus",
+    "goi-miskatonic-yixuehui",
+    "site-alexandria",
+    "sanct-mercurius",
+    "sanct-venus",
+    "sanct-sol",
+    "sanct-luna",
+    "sanct-mars",
+    "sanct-iuppiter",
+    "sanct-saturnus"
+  ],
+  "updatedAt": "2026-11-27"
+}

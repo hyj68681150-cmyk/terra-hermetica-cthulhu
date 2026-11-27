@@ -2,7 +2,7 @@
   "generatedBy": "tools/build-manifest.mjs",
   "updatedAt": "2026-11-27",
   "counts": {
-    "entries": 51,
+    "entries": 60,
     "novels": 1,
     "playCases": 2,
     "mapFiles": 3
@@ -67,6 +67,30 @@
       "geo": null,
       "mapSiteId": null,
       "path": "data/entries/codices/codex-taxonomy-matrix.json",
+      "updatedAt": "2026-11-27"
+    },
+    {
+      "id": "codex-tinctura",
+      "category": "codices",
+      "code": "CODEX · AEVVM TINCTVRAE",
+      "title": "大浸染纪元总述 · 五级危险与群青存续律",
+      "aliases": [
+        "大浸染",
+        "大浸染纪元",
+        "AEVVM TINCTVRAE",
+        "五级危险",
+        "圣域",
+        "平靖",
+        "禁区",
+        "tinctura"
+      ],
+      "clearance": 1,
+      "provenance": "original",
+      "provenanceLabel": "本站原创设定",
+      "summary": "大浸染纪元（AEVVM TINCTVRAE）始于 1925 年春的全球群梦。百年间多处深海与陆地异常彼此共振，致使全球休谟基准场持续下沉，八成以上地表退入警戒乃至禁区；人类依托蓝印盟约、七曜圣城与结界航线守住大于 1.20 Hm 的栖居圣域。",
+      "geo": null,
+      "mapSiteId": null,
+      "path": "data/entries/codices/codex-tinctura.json",
       "updatedAt": "2026-11-27"
     },
     {
@@ -242,6 +266,31 @@
       "mapSiteId": "site-baikal",
       "path": "data/entries/goi/goi-broken-god.json",
       "updatedAt": "2026-11-26"
+    },
+    {
+      "id": "goi-foedus-caeruleum",
+      "category": "goi",
+      "code": "FOEDVS CAERVLEVM",
+      "title": "蓝印盟约 · 七曜议会与清道公署",
+      "aliases": [
+        "蓝印盟约",
+        "FOEDVS CAERVLEVM",
+        "七曜议会",
+        "铜版测绘局",
+        "OFFICINA CHALCOGRAPHICA",
+        "清道队",
+        "PVRGATORES",
+        "结界航线",
+        "VIAE PVRGATAE"
+      ],
+      "clearance": 1,
+      "provenance": "original",
+      "provenanceLabel": "本站原创设定",
+      "summary": "大浸染纪元维系人类生存版图的最高联席盟约，由 SCP 基金会战术神学部牵头，联合赫尔墨斯蓝色修会、密斯卡托尼克大学与中华异学会、全球超自然联盟（GOC）及各国共同缔结，统辖七曜议会、铜版测绘局、清道队与全球结界航线。",
+      "geo": null,
+      "mapSiteId": "site-alexandria",
+      "path": "data/entries/goi/goi-foedus-caeruleum.json",
+      "updatedAt": "2026-11-27"
     },
     {
       "id": "goi-miskatonic-yixuehui",
@@ -575,6 +624,191 @@
       "geo": null,
       "mapSiteId": "site-alexandria",
       "path": "data/entries/scp/dossier-tabula-caerulea.json",
+      "updatedAt": "2026-11-27"
+    },
+    {
+      "id": "sanct-iuppiter",
+      "category": "sites",
+      "code": "SANCTVM · ♃︎ IVPPITER",
+      "title": "西安 · 锡之城（CIVITAS IOVIS）",
+      "aliases": [
+        "西安",
+        "长安",
+        "锡之城",
+        "木星圣城",
+        "一百零八坊",
+        "CIVITAS IOVIS",
+        "sanct-iuppiter"
+      ],
+      "clearance": 1,
+      "provenance": "original",
+      "provenanceLabel": "本站原创设定",
+      "summary": "七曜圣城之六（♃︎ 木星·锡），丝路结界航线的东端重镇。沿隋唐长安城一百零八坊棋盘旧基埋设白锡经纬阵列，撑起半径 300 公里圣域，扼守欧亚内陆门户。",
+      "geo": {
+        "lat": 34.34,
+        "lon": 108.94,
+        "precision": "city"
+      },
+      "mapSiteId": null,
+      "path": "data/entries/sites/sanct-iuppiter.json",
+      "updatedAt": "2026-11-27"
+    },
+    {
+      "id": "sanct-luna",
+      "category": "sites",
+      "code": "SANCTVM · ☽︎ LVNA",
+      "title": "惠灵顿 · 银之城（CIVITAS LVNAE）",
+      "aliases": [
+        "惠灵顿",
+        "银之城",
+        "月之圣城",
+        "CIVITAS LVNAE",
+        "MATER EIVS LVNA",
+        "sanct-luna"
+      ],
+      "clearance": 1,
+      "provenance": "original",
+      "provenanceLabel": "本站原创设定",
+      "summary": "七曜圣城之首（☽︎ 月·银），扼守库克海峡的南太平洋前线圣城。半径 420 公里的白银潮汐结界随太阴月相涨落，在夜间滤除自拉莱耶海渊漫向南半球的沉眠群梦。",
+      "geo": {
+        "lat": -41.289,
+        "lon": 174.777,
+        "precision": "city"
+      },
+      "mapSiteId": null,
+      "path": "data/entries/sites/sanct-luna.json",
+      "updatedAt": "2026-11-27"
+    },
+    {
+      "id": "sanct-mars",
+      "category": "sites",
+      "code": "SANCTVM · ♂︎ MARS",
+      "title": "魁北克城 · 铁之城（CIVITAS MARTIS）",
+      "aliases": [
+        "魁北克城",
+        "魁北克",
+        "铁之城",
+        "火星圣城",
+        "北大西洋铁壁",
+        "CIVITAS MARTIS",
+        "sanct-mars"
+      ],
+      "clearance": 1,
+      "provenance": "original",
+      "provenanceLabel": "本站原创设定",
+      "summary": "七曜圣城之五（♂︎ 火星·铁），扼守圣劳伦斯河口的北大西洋铁壁。以北美仅存的古城垣锻铁铆钉阵撑开 250 公里刚性结界，阻截印斯茅斯与北大西洋深海异物内侵。",
+      "geo": {
+        "lat": 46.813,
+        "lon": -71.208,
+        "precision": "city"
+      },
+      "mapSiteId": null,
+      "path": "data/entries/sites/sanct-mars.json",
+      "updatedAt": "2026-11-27"
+    },
+    {
+      "id": "sanct-mercurius",
+      "category": "sites",
+      "code": "SANCTVM · ☿︎ MERCVRIVS",
+      "title": "佛罗伦萨 · 汞之城（CIVITAS MERCVRII）",
+      "aliases": [
+        "佛罗伦萨",
+        "汞之城",
+        "水星圣城",
+        "信使之城",
+        "CIVITAS MERCVRII",
+        "sanct-mercurius"
+      ],
+      "clearance": 1,
+      "provenance": "original",
+      "provenanceLabel": "本站原创设定",
+      "summary": "七曜圣城之二（☿︎ 水星·汞），蓝印盟约七曜议会与文书院驻地。依托阿尔诺河谷 360 公里水银水平仪结界校核言语与契约真伪，守望中欧与地中海北岸。",
+      "geo": {
+        "lat": 43.77,
+        "lon": 11.255,
+        "precision": "city"
+      },
+      "mapSiteId": null,
+      "path": "data/entries/sites/sanct-mercurius.json",
+      "updatedAt": "2026-11-27"
+    },
+    {
+      "id": "sanct-saturnus",
+      "category": "sites",
+      "code": "SANCTVM · ♄︎ SATVRNVS",
+      "title": "布宜诺斯艾利斯 · 铅之城（CIVITAS SATVRNI）",
+      "aliases": [
+        "布宜诺斯艾利斯",
+        "铅之城",
+        "土星圣城",
+        "铅封禁书库",
+        "CIVITAS SATVRNI",
+        "sanct-saturnus"
+      ],
+      "clearance": 1,
+      "provenance": "original",
+      "provenanceLabel": "本站原创设定",
+      "summary": "七曜圣城之七（♄︎ 土星·铅），坐镇拉普拉塔河口的重铅禁书之城。以多层铅室封存南美《死灵之书》原典藏本，撑开 380 公里沉重结界守望南大西洋与南美南锥。",
+      "geo": {
+        "lat": -34.6,
+        "lon": -58.38,
+        "precision": "city"
+      },
+      "mapSiteId": null,
+      "path": "data/entries/sites/sanct-saturnus.json",
+      "updatedAt": "2026-11-27"
+    },
+    {
+      "id": "sanct-sol",
+      "category": "sites",
+      "code": "SANCTVM · ☉︎ SOL",
+      "title": "亚历山大 · 金之城（CIVITAS SOLIS）",
+      "aliases": [
+        "亚历山大圣城",
+        "金之城",
+        "太阳圣城",
+        "CIVITAS SOLIS",
+        "PATER EIVS EST SOL",
+        "sanct-sol"
+      ],
+      "clearance": 1,
+      "provenance": "original",
+      "provenanceLabel": "本站原创设定",
+      "summary": "七曜圣城之四（☉︎ 日·金），居迦勒底天球正中之神学中枢。半径 150 公里的黄金棱镜结界环抱法罗斯海岬，每日正午向全球播发 1.80 Hm 群青基准频率。",
+      "geo": {
+        "lat": 31.2,
+        "lon": 29.92,
+        "precision": "city"
+      },
+      "mapSiteId": null,
+      "path": "data/entries/sites/sanct-sol.json",
+      "updatedAt": "2026-11-27"
+    },
+    {
+      "id": "sanct-venus",
+      "category": "sites",
+      "code": "SANCTVM · ♀︎ VENVS",
+      "title": "京都 · 铜之城（CIVITAS VENERIS）",
+      "aliases": [
+        "京都",
+        "铜之城",
+        "金星圣城",
+        "平安京",
+        "铜版测绘局总署",
+        "CIVITAS VENERIS",
+        "sanct-venus"
+      ],
+      "clearance": 1,
+      "provenance": "original",
+      "provenanceLabel": "本站原创设定",
+      "summary": "七曜圣城之三（♀︎ 金星·铜），蓝印盟约铜版测绘局总署所在地。借平安京山水四方格局铺设 360 公里电解紫铜地网，镌刻通行全球的浸染等级铜版舆图。",
+      "geo": {
+        "lat": 35.011,
+        "lon": 135.768,
+        "precision": "city"
+      },
+      "mapSiteId": null,
+      "path": "data/entries/sites/sanct-venus.json",
       "updatedAt": "2026-11-27"
     },
     {

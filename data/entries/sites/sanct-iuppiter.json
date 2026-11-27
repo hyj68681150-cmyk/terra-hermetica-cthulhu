@@ -1,0 +1,107 @@
+{
+  "id": "sanct-iuppiter",
+  "category": "sites",
+  "code": "SANCTVM · ♃︎ IVPPITER",
+  "title": "西安 · 锡之城（CIVITAS IOVIS）",
+  "aliases": [
+    "西安",
+    "长安",
+    "锡之城",
+    "木星圣城",
+    "一百零八坊",
+    "CIVITAS IOVIS",
+    "sanct-iuppiter"
+  ],
+  "clearance": 1,
+  "provenance": "original",
+  "provenanceLabel": "本站原创设定",
+  "geo": {
+    "lat": 34.34,
+    "lon": 108.94,
+    "precision": "city"
+  },
+  "summary": "七曜圣城之六（♃︎ 木星·锡），丝路结界航线的东端重镇。沿隋唐长安城一百零八坊棋盘旧基埋设白锡经纬阵列，撑起半径 300 公里圣域，扼守欧亚内陆门户。",
+  "sections": [
+    {
+      "heading": "城市",
+      "paragraphs": [
+        "西安坐落于渭河平原腹地，南屏秦岭，北临泾渭。史实中，隋唐长安城以朱雀大街为中轴，按南北十三街、东西十四街严整划出一百零八坊，形如巨幅围棋局。[[goi-miskatonic-yixuehui|中华异学会]] 与基金会工程团据此地脉遗存，将其改建为“丝路结界”与“东海潮路”的内陆总枢纽。"
+      ]
+    },
+    {
+      "heading": "行星与金属",
+      "paragraphs": [
+        "圣城对应岁星木星（♃︎ IVPPITER），导流金属为精锡。木星周天十二载，主司律度、经纬与均衡；纯锡在低温相变临界点附近对休谟涨落极为敏感，埋入地下夯土层的一百零八座锡青铜配重枢，能够把无序的地脉横波整列为横平竖直的驻波网格。"
+      ]
+    },
+    {
+      "heading": "拉丁铭文",
+      "paragraphs": [
+        "明城墙南门瓮城内的测景圭表底座并刻篆书与《翠玉录》拉丁铭文：“ASCENDIT A TERRA IN CAELVM”（自地升天）。每逢岁星中天时辰，地底一百零八处锡枢谐波垂直上引，在关中平原上空织成肉眼不可见的穹庐天幕。"
+      ]
+    },
+    {
+      "heading": "结界怎么运作",
+      "paragraphs": [
+        "西安结界半径 300 公里，北括黄土高原南缘，南越秦岭主脊。整座结界以城内棋盘街巷为分格保险丝：纵使西线吹来的低休谟沙暴偶然蚀穿外环某一方格，相邻坊墙地基下的锡闸便会瞬时熔断隔离，将污染锁死在百步之内，绝不牵动全城。"
+      ]
+    },
+    {
+      "heading": "守着哪个方向的威胁",
+      "paragraphs": [
+        "它向西顺河西走廊与撒马尔罕观星台遥相接力，死死盯住帕米尔高原的 [[site-leng|冷原星门与七柱盐漠]]（[[dossier-scp-2317|SCP-2317]]，DrClef 撰，CC BY-SA 3.0）；向西北警戒巴丹吉林沙漠腹地的异常鸣沙带，向东则与 [[site-penglai|东海蓬莱]] 及 [[sanct-venus|京都铜之城]] 互成掎角。"
+      ]
+    },
+    {
+      "heading": "日常",
+      "paragraphs": [
+        "城里依旧按古坊方位编排街牌。清晨鼓楼响鼓开市，刚从丝路结界列车卸下的中亚干果与精密仪表运进西市货栈；老住户习惯在门楣挂一枚拇指大的白锡方牌——天寒时若锡牌表面无故起灰斑（灰锡相变），坊正便会提着铜锣巡巷，通知工务队来查地下管沟的休谟读数。"
+      ]
+    }
+  ],
+  "infobox": [
+    {
+      "label": "所属城市",
+      "value": "中国西安（关中渭河平原）",
+      "original": false
+    },
+    {
+      "label": "历史锚点",
+      "value": "隋唐长安城一百零八坊棋盘里坊规制（史实）",
+      "original": false
+    },
+    {
+      "label": "七曜与金属",
+      "value": "♃︎ 木星（IVPPITER）· 锡",
+      "original": true
+    },
+    {
+      "label": "翠玉铭文",
+      "value": "ASCENDIT A TERRA IN CAELVM（《翠玉录》拉丁本）",
+      "original": false
+    },
+    {
+      "label": "结界半径与航线",
+      "value": "300 km · 丝路结界东端、东海潮路西端",
+      "original": true
+    }
+  ],
+  "cluesGranted": [
+    {
+      "id": "clue-sanct-iuppiter-ward-grid",
+      "title": "西安锡之城一百零八坊分格熔断阵图",
+      "xp": 15
+    }
+  ],
+  "relatedIds": [
+    "codex-tinctura",
+    "goi-foedus-caeruleum",
+    "goi-miskatonic-yixuehui",
+    "sanct-sol",
+    "sanct-venus",
+    "site-leng",
+    "dossier-scp-2317",
+    "site-penglai"
+  ],
+  "updatedAt": "2026-11-27"
+}

@@ -1681,34 +1681,50 @@ export function mountArchiveEngine({ PANTHEON, SCP_FILES, CITIES, FACTIONS, AIC_
       ctxTel.stroke();
     }
 
+    // Seven-planet Chaldean cosmology (07 section 2C): TERRA at the centre, orbits Luna .. Saturnus,
+    // and a broken dashed ring for Yuggoth, which is not among the seven.
+    const COSMO_PLANETS = [
+      { g: '\u263D\uFE0E', n: 'LVNA' }, { g: '\u263F\uFE0E', n: 'MERCVRIVS' }, { g: '\u2640\uFE0E', n: 'VENVS' },
+      { g: '\u2609\uFE0E', n: 'SOL' }, { g: '\u2642\uFE0E', n: 'MARS' }, { g: '\u2643\uFE0E', n: 'IVPPITER' }, { g: '\u2644\uFE0E', n: 'SATVRNVS' }
+    ];
     function drawCosmology(t) {
       if (!ctxCosmo) return;
       const isDay = state.theme === 'day';
+      const ink = isDay ? '10, 24, 144' : '255, 255, 255';
       ctxCosmo.clearRect(0, 0, 420, 240);
       ctxCosmo.save(); ctxCosmo.translate(210, 120);
-      const spheres = [
-        { r: 22, col: isDay ? '#0a1890' : '#ffffff' },
-        { r: 44, col: isDay ? 'rgba(10,24,144,0.45)' : 'rgba(255,255,255,0.45)' },
-        { r: 68, col: isDay ? 'rgba(10,24,144,0.7)' : 'rgba(255,255,255,0.7)' },
-        { r: 92, col: isDay ? 'rgba(10,24,144,0.4)' : 'rgba(255,255,255,0.4)' },
-        { r: 110, col: isDay ? 'rgba(10,24,144,0.55)' : 'rgba(255,255,255,0.55)' }
-      ];
-      spheres.forEach((s, idx) => {
-        ctxCosmo.strokeStyle = s.col; ctxCosmo.lineWidth = idx === 2 ? 1.6 : 1.1;
-        ctxCosmo.beginPath(); ctxCosmo.ellipse(0, 0, safeR(s.r * 1.55), safeR(s.r * 0.88), 0, 0, Math.PI * 2); ctxCosmo.stroke();
-        const na = t * (0.28 - idx * 0.04) * (idx % 2 === 0 ? 1 : -1) + idx * 1.2;
-        const nx = Math.cos(na) * s.r * 1.55, ny = Math.sin(na) * s.r * 0.88;
-        ctxCosmo.fillStyle = s.col;
-        ctxCosmo.beginPath(); ctxCosmo.arc(nx, ny, 3.2, 0, Math.PI * 2); ctxCosmo.fill();
+      const RATIO = 0.55;
+      // Yuggoth: outermost ring, deliberately broken (gap) and dashed
+      const yr = 188;
+      ctxCosmo.strokeStyle = `rgba(${ink}, 0.5)`; ctxCosmo.lineWidth = 1;
+      ctxCosmo.setLineDash([9, 6]); ctxCosmo.lineDashOffset = -t * 5;
+      ctxCosmo.beginPath(); ctxCosmo.ellipse(0, 0, safeR(yr), safeR(yr * RATIO), 0, 0.5, Math.PI * 2 - 0.5); ctxCosmo.stroke();
+      ctxCosmo.setLineDash([]); ctxCosmo.lineDashOffset = 0;
+      // Seven orbits, Chaldean order from the inside out
+      ctxCosmo.font = '13px "Segoe UI Symbol", "Noto Sans Symbols", "DejaVu Sans", serif';
+      ctxCosmo.textAlign = 'left'; ctxCosmo.textBaseline = 'middle';
+      COSMO_PLANETS.forEach((p, idx) => {
+        const rx = 36 + idx * 19, ry = rx * RATIO;
+        ctxCosmo.strokeStyle = `rgba(${ink}, ${idx === 3 ? 0.9 : 0.55})`; ctxCosmo.lineWidth = idx === 3 ? 1.6 : 1.0;
+        ctxCosmo.beginPath(); ctxCosmo.ellipse(0, 0, safeR(rx), safeR(ry), 0, 0, Math.PI * 2); ctxCosmo.stroke();
+        const dir = idx % 2 === 0 ? 1 : -1;
+        const na = t * (0.34 - idx * 0.036) * dir + idx * 0.9;
+        const nx = Math.cos(na) * rx, ny = Math.sin(na) * ry;
+        ctxCosmo.fillStyle = `rgba(${ink}, 0.95)`;
+        ctxCosmo.beginPath(); ctxCosmo.arc(nx, ny, 3, 0, Math.PI * 2); ctxCosmo.fill();
+        ctxCosmo.fillText(p.g, nx + 6, ny - 7);
       });
-      ctxCosmo.fillStyle = isDay ? '#0a1890' : '#ffffff';
-      ctxCosmo.beginPath(); ctxCosmo.arc(0, 0, 5.5, 0, Math.PI * 2); ctxCosmo.fill();
-      ctxCosmo.fillStyle = isDay ? 'rgba(10,24,144,0.78)' : 'rgba(255,255,255,0.78)';
-      ctxCosmo.font = '12px sans-serif'; ctxCosmo.textAlign = 'left';
-      ctxCosmo.fillText('第九重：盲目混沌外圈', -198, -96);
-      ctxCosmo.fillText('第八重：群青圣律天球', 62, -96);
-      ctxCosmo.textAlign = 'center';
-      ctxCosmo.fillText('第一重：休谟基准地球', 0, 17);
+      // Earth at the centre
+      ctxCosmo.fillStyle = `rgba(${ink}, 1)`;
+      ctxCosmo.beginPath(); ctxCosmo.arc(0, 0, 4.5, 0, Math.PI * 2); ctxCosmo.fill();
+      ctxCosmo.fillStyle = `rgba(${ink}, 0.78)`;
+      ctxCosmo.font = '10px "Cinzel", Georgia, serif'; ctxCosmo.textAlign = 'center'; ctxCosmo.textBaseline = 'alphabetic';
+      ctxCosmo.fillText('TERRA', 0, 17);
+      ctxCosmo.font = '11px "Cinzel", Georgia, serif';
+      ctxCosmo.fillText('YVGGOTH \u00B7 \u4E0D\u5728\u4E03\u66DC\u4E4B\u5217', 0, -109);
+      ctxCosmo.textAlign = 'left';
+      ctxCosmo.font = '10px "Cinzel", Georgia, serif';
+      ctxCosmo.fillText('ORDO CHALDAEORVM', -204, 114);
       ctxCosmo.restore();
     }
 

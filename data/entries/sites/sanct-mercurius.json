@@ -1,0 +1,105 @@
+{
+  "id": "sanct-mercurius",
+  "category": "sites",
+  "code": "SANCTVM · ☿︎ MERCVRIVS",
+  "title": "佛罗伦萨 · 汞之城（CIVITAS MERCVRII）",
+  "aliases": [
+    "佛罗伦萨",
+    "汞之城",
+    "水星圣城",
+    "信使之城",
+    "CIVITAS MERCVRII",
+    "sanct-mercurius"
+  ],
+  "clearance": 1,
+  "provenance": "original",
+  "provenanceLabel": "本站原创设定",
+  "geo": {
+    "lat": 43.77,
+    "lon": 11.255,
+    "precision": "city"
+  },
+  "summary": "七曜圣城之二（☿︎ 水星·汞），蓝印盟约七曜议会与文书院驻地。依托阿尔诺河谷 360 公里水银水平仪结界校核言语与契约真伪，守望中欧与地中海北岸。",
+  "sections": [
+    {
+      "heading": "城市",
+      "paragraphs": [
+        "佛罗伦萨位于亚平宁山脉南麓的阿尔诺河谷。史实记载，1463 年人文主义学者马尔西利奥·费奇诺正是在此受托将希腊本《赫尔墨斯文集》译为拉丁文，开启文艺复兴赫尔墨斯学统。大浸染降临后，这座文艺与校勘旧都顺理成章成为 [[goi-foedus-caeruleum|蓝印盟约]] 七曜议会及总文书院所在地。"
+      ]
+    },
+    {
+      "heading": "行星与金属",
+      "paragraphs": [
+        "圣城对应水星（☿︎ MERCVRIVS），导流金属为液态汞（水银）。水星运行迅疾，主司信使、译解、度量衡与契约；城下密封于厚壁石英管网中的百吨高纯度水银在晨昏水星时辰循环流动，一切微小的空间曲率失真都会立即在液面干涉纹上显形。"
+      ]
+    },
+    {
+      "heading": "拉丁铭文",
+      "paragraphs": [
+        "议会厅青铜拱门横梁刻有《翠玉录》首句拉丁铭文：“VERVM SINE MENDACIO, CERTVM ET VERISSIMVM”（真实无妄，确凿至真）。凡送入文书院的各地电文、海图与收容报告，必先在此铭文下的汞镜台过验，筛去模因篡改与幻觉伪字。"
+      ]
+    },
+    {
+      "heading": "结界怎么运作",
+      "paragraphs": [
+        "佛罗伦萨结界半径达 360 公里，北起阿尔卑斯南坡，南抵第勒尼安海。全城八角洗礼堂、钟楼与河岸石桥下连通着环形水银陀螺稳定锚，与南方的 [[sanct-sol|亚历山大金之城]] 共构“子午清道”，并向西北经施维茨（Site-138）与达特穆尔（Site-12）衔接“北大西洋铁桥”。"
+      ]
+    },
+    {
+      "heading": "守着哪个方向的威胁",
+      "paragraphs": [
+        "它向北紧盯越过波希米亚丘陵的 [[site-prague|布拉格阿拉卡达门扉]]（SCP-2264，Metaphysician 撰，CC BY-SA 3.0）假面认知渗漏，防止无面信使的修辞污染混入欧洲外交文书；向西与向南则警戒地中海深水盆地的异变暗流。"
+      ]
+    },
+    {
+      "heading": "日常",
+      "paragraphs": [
+        "城里最多的行当是抄写员、校对人与信差。咖啡馆和拱廊书铺终日营业，但市民从不用铅字活版快印未审稿件；每一份发往其余六城的盟约训令仍由文书院誊录官用青金石防伪墨水手写签押，封入铅锡信筒，交由清道快车在拂晓前送出城门。"
+      ]
+    }
+  ],
+  "infobox": [
+    {
+      "label": "所属城市",
+      "value": "意大利佛罗伦萨（阿尔诺河谷）",
+      "original": false
+    },
+    {
+      "label": "历史锚点",
+      "value": "1463 年费奇诺于此将《赫尔墨斯文集》译为拉丁文（史实）",
+      "original": false
+    },
+    {
+      "label": "七曜与金属",
+      "value": "☿︎ 水星（MERCVRIVS）· 汞",
+      "original": true
+    },
+    {
+      "label": "翠玉铭文",
+      "value": "VERVM SINE MENDACIO, CERTVM ET VERISSIMVM",
+      "original": false
+    },
+    {
+      "label": "结界半径与职能",
+      "value": "360 km · 七曜议会与盟约文书院驻地",
+      "original": true
+    }
+  ],
+  "cluesGranted": [
+    {
+      "id": "clue-sanct-mercurius-scriptorium",
+      "title": "佛罗伦萨文书院汞镜防模因过验规程",
+      "xp": 15
+    }
+  ],
+  "relatedIds": [
+    "codex-tinctura",
+    "goi-foedus-caeruleum",
+    "goi-ordo-caeruleus",
+    "sanct-sol",
+    "sanct-mars",
+    "site-prague",
+    "dossier-scp-2264"
+  ],
+  "updatedAt": "2026-11-27"
+}

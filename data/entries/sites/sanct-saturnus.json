@@ -1,0 +1,104 @@
+{
+  "id": "sanct-saturnus",
+  "category": "sites",
+  "code": "SANCTVM · ♄︎ SATVRNVS",
+  "title": "布宜诺斯艾利斯 · 铅之城（CIVITAS SATVRNI）",
+  "aliases": [
+    "布宜诺斯艾利斯",
+    "铅之城",
+    "土星圣城",
+    "铅封禁书库",
+    "CIVITAS SATVRNI",
+    "sanct-saturnus"
+  ],
+  "clearance": 1,
+  "provenance": "original",
+  "provenanceLabel": "本站原创设定",
+  "geo": {
+    "lat": -34.6,
+    "lon": -58.38,
+    "precision": "city"
+  },
+  "summary": "七曜圣城之七（♄︎ 土星·铅），坐镇拉普拉塔河口的重铅禁书之城。以多层铅室封存南美《死灵之书》原典藏本，撑开 380 公里沉重结界守望南大西洋与南美南锥。",
+  "sections": [
+    {
+      "heading": "城市",
+      "paragraphs": [
+        "布宜诺斯艾利斯展布于宽阔浑黄的拉普拉塔河口西岸，背依一望无际的潘帕斯草原。洛夫克拉夫特于 1927 年写成的原典《死灵之书简史》（公有领域）明确记载，布宜诺斯艾利斯大学秘藏有一部完本拉丁文《死灵之书》。大浸染爆发后，[[goi-foedus-caeruleum|蓝印盟约]] 环绕该馆地底修筑重铅圣座，将其升格为“美洲脊线”南端终点与“南方银线”西端起点。"
+      ]
+    },
+    {
+      "heading": "行星与金属",
+      "paragraphs": [
+        "圣城对应迦勒底七曜最外环的镇星土星（♄︎ SATVRNVS），导流金属为重铅。土星行度最缓，主司边界、终结、重压与封存；铅的高原子序数不仅能阻隔电离射线，在蓝色神学工程中亦是隔绝书页模因辐射与跨维门径低语的终极屏蔽材。"
+      ]
+    },
+    {
+      "heading": "拉丁铭文",
+      "paragraphs": [
+        "地下第三层禁书库铅门阴刻《翠玉录》拉丁铭文：“HIC EST TOTIVS FORTITVDINIS FORTITVDO FORTIS”（此乃一切强力中之至强）。此句不为夸耀武力，而指唯有绝对的静止与铅封重压，方能镇住足以蚀穿常人理智的纸上文字。"
+      ]
+    },
+    {
+      "heading": "结界怎么运作",
+      "paragraphs": [
+        "布宜诺斯艾利斯结界半径达 380 公里，横跨拉普拉塔河口两岸并包入蒙得维的亚外港。城下埋设七道总重逾万吨的环形铅渠，将斯克兰顿稳定锚产生的多余阿基瓦废热与禁书库渗出的认知杂波一并沉入河口深层黏土，使城内保持着近乎凝滞的 1.28 Hm 高密度现实场。"
+      ]
+    },
+    {
+      "heading": "守着哪个方向的威胁",
+      "paragraphs": [
+        "它向南紧盯南大西洋深海海脊“利维坦之脊”与通往 [[site-antarctica|南极禁区]] 的暴风西风带，向北经阿塔卡马观天营地承接安第斯山脊防线，同时替全球看守从南美各失落区抢运集中至此的 [[dossier-codex-al-azif|《阿尔·阿吉夫》]] 残页与禁忌拓本。"
+      ]
+    },
+    {
+      "heading": "日常",
+      "paragraphs": [
+        "铅之城的空气比别处显得更沉、回声更短，连港口汽笛都闷在低音区。老街书店鳞次栉比，但每家旧书商柜台下都备着一只铅皮夹箱——收进来历不明的羊皮旧册先投进箱里落锁，再挂白牌请大学区的铅衣检书官上门核验。傍晚河风吹上码头，人们照常喝马黛茶、拉手风琴，只是没人高声朗读陌生书页上的拉丁文。"
+      ]
+    }
+  ],
+  "infobox": [
+    {
+      "label": "所属城市",
+      "value": "阿根廷布宜诺斯艾利斯（拉普拉塔河口西岸）",
+      "original": false
+    },
+    {
+      "label": "原典锚点",
+      "value": "洛夫克拉夫特《死灵之书简史》（1927）载该市大学藏有一部《死灵之书》",
+      "original": false
+    },
+    {
+      "label": "七曜与金属",
+      "value": "♄︎ 土星（SATVRNVS）· 铅",
+      "original": true
+    },
+    {
+      "label": "翠玉铭文",
+      "value": "HIC EST TOTIVS FORTITVDINIS FORTITVDO FORTIS",
+      "original": false
+    },
+    {
+      "label": "结界半径与航线",
+      "value": "380 km · 美洲脊线南端、南方银线西端",
+      "original": true
+    }
+  ],
+  "cluesGranted": [
+    {
+      "id": "clue-sanct-saturnus-lead-vault",
+      "title": "布宜诺斯艾利斯铅之城地下三层禁书封存规制",
+      "xp": 15
+    }
+  ],
+  "relatedIds": [
+    "codex-tinctura",
+    "goi-foedus-caeruleum",
+    "dossier-codex-al-azif",
+    "sanct-mars",
+    "sanct-luna",
+    "site-antarctica"
+  ],
+  "updatedAt": "2026-11-27"
+}
