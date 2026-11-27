@@ -1,0 +1,105 @@
+{
+  "id": "sanct-luna",
+  "category": "sites",
+  "code": "SANCTVM · ☽︎ LVNA",
+  "title": "惠灵顿 · 银之城（CIVITAS LVNAE）",
+  "aliases": [
+    "惠灵顿",
+    "银之城",
+    "月之圣城",
+    "CIVITAS LVNAE",
+    "MATER EIVS LVNA",
+    "sanct-luna"
+  ],
+  "clearance": 1,
+  "provenance": "original",
+  "provenanceLabel": "本站原创设定",
+  "geo": {
+    "lat": -41.289,
+    "lon": 174.777,
+    "precision": "city"
+  },
+  "summary": "七曜圣城之首（☽︎ 月·银），扼守库克海峡的南太平洋前线圣城。半径 420 公里的白银潮汐结界随太阴月相涨落，在夜间滤除自拉莱耶海渊漫向南半球的沉眠群梦。",
+  "sections": [
+    {
+      "heading": "城市",
+      "paragraphs": [
+        "惠灵顿坐落于新西兰北岛南端，背靠陡峭群山，面朝风浪终年不息的库克海峡。天然环形深水良港嵌入群丘之间，既是南方银线与太平洋长链的交汇终点，也是通往罗斯岛前哨的南极补给线母港。"
+      ]
+    },
+    {
+      "heading": "行星与金属",
+      "paragraphs": [
+        "圣城对应迦勒底七曜最内环的太阴（☽︎ LVNA），导流金属为纯银。每逢太阴越过当地子午线及朔望大潮时辰，埋入港口防波堤与山脊风廊的三十六根白银谐振柱便进入满负荷激振，在空气中析出极淡的冷冽金属味。"
+      ]
+    },
+    {
+      "heading": "拉丁铭文",
+      "paragraphs": [
+        "港口引航塔基座镌刻《翠玉录》拉丁本铭文：“MATER EIVS LVNA”（其母为月）。在蓝色神学仪轨中，太阴银场主司反射、潮汐缓冲与梦境滤净，与正午发自 [[sanct-sol|亚历山大金之城]] 的太阳主频互为表里。"
+      ]
+    },
+    {
+      "heading": "结界怎么运作",
+      "paragraphs": [
+        "惠灵顿拥有七城之中最宽广的 420 公里结界半径，将南北两岛咽喉海域一并罩入 ≥ 1.20 Hm 的圣域。它的斯克兰顿稳定锚组不采用恒定死锁，而是将库克海峡强劲的潮流机械能转化为随半日潮起伏的柔性银幕：涨潮时结界向东外推百里，退潮时收缩蓄能，借海水本身的节律卸去深渊低频冲击。"
+      ]
+    },
+    {
+      "heading": "守着哪个方向的威胁",
+      "paragraphs": [
+        "出港向东偏南越过查塔姆群岛，便是 V 级禁区“沉睡之海”与 [[site-rlyeh|拉莱耶]] 海沟（47°09′S, 126°43′W）；向正南则是冰封的 [[site-antarctica|南极疯狂山脉]]。每当太平洋深处传来十七赫兹以下的群梦暗涌，惠灵顿的银幕便率先承压，替整个澳洲、南美南端与南半球居民挡下夜间渗入枕畔的异形几何梦象。"
+      ]
+    },
+    {
+      "heading": "日常",
+      "paragraphs": [
+        "城里的市政钟楼从不敲点报时，只报潮位与月升。码头工人、测绘抄写员与南极轮换船员按潮汐表上下工；家家户户窗框内侧嵌着一缕细银丝，若半夜银丝微鸣发暗，主妇便起身添灯、合上百叶内窗，等清晨第一声平潮钟响再开门扫街。"
+      ]
+    }
+  ],
+  "infobox": [
+    {
+      "label": "所属城市",
+      "value": "新西兰惠灵顿（库克海峡北岸）",
+      "original": false
+    },
+    {
+      "label": "七曜与金属",
+      "value": "☽︎ 月（LVNA）· 银",
+      "original": true
+    },
+    {
+      "label": "翠玉铭文",
+      "value": "MATER EIVS LVNA（《翠玉录》拉丁本）",
+      "original": false
+    },
+    {
+      "label": "结界半径与等级",
+      "value": "420 km · 0 级圣域（SANCTVM ≥ 1.20 Hm）",
+      "original": true
+    },
+    {
+      "label": "联结航线",
+      "value": "南方银线、太平洋长链、南极补给线",
+      "original": true
+    }
+  ],
+  "cluesGranted": [
+    {
+      "id": "clue-sanct-luna-tide-bell",
+      "title": "惠灵顿银之城潮汐滤梦结界节律记录",
+      "xp": 15
+    }
+  ],
+  "relatedIds": [
+    "codex-tinctura",
+    "goi-foedus-caeruleum",
+    "sanct-sol",
+    "sanct-venus",
+    "sanct-saturnus",
+    "site-rlyeh",
+    "site-antarctica"
+  ],
+  "updatedAt": "2026-11-27"
+}

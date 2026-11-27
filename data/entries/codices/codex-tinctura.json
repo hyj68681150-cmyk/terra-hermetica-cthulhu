@@ -1,0 +1,108 @@
+{
+  "id": "codex-tinctura",
+  "category": "codices",
+  "code": "CODEX · AEVVM TINCTVRAE",
+  "title": "大浸染纪元总述 · 五级危险与群青存续律",
+  "aliases": [
+    "大浸染",
+    "大浸染纪元",
+    "AEVVM TINCTVRAE",
+    "五级危险",
+    "圣域",
+    "平靖",
+    "禁区",
+    "tinctura"
+  ],
+  "clearance": 1,
+  "provenance": "original",
+  "provenanceLabel": "本站原创设定",
+  "summary": "大浸染纪元（AEVVM TINCTVRAE）始于 1925 年春的全球群梦。百年间多处深海与陆地异常彼此共振，致使全球休谟基准场持续下沉，八成以上地表退入警戒乃至禁区；人类依托蓝印盟约、七曜圣城与结界航线守住大于 1.20 Hm 的栖居圣域。",
+  "sections": [
+    {
+      "heading": "起点与百年下沉（1925—2026）",
+      "paragraphs": [
+        "纪元起点定于 1925 年春。据洛夫克拉夫特《克苏鲁的呼唤》（公有领域原典）记载，南太平洋海震将海底巨城短暂推上海面，世界各地的画家、诗人与失眠者在同一周内坠入湿滑巨石的群梦。岛屿虽在数日后沉回水下，全球现实场的底色却自那一年起缓慢变薄。",
+        "此后一个世纪，原本孤立的深层异常在低频地幔与海流中建立耦合共振：南太平洋 [[site-rlyeh|拉莱耶]] 溢出的沉眠潮汐、孟加拉湾深海沟 [[entity-scp-3000|SCP-3000]] 持续渗出的遗忘黏液（作者 djkaktus、Joreth、A Random Day，CC BY-SA 3.0，scp-wiki.wikidot.com/scp-3000）、西伯利亚裂谷 [[dossier-baikal-610|SCP-610]] 扩张的憎恶血肉场（作者 NekoChris，CC BY-SA 3.0，scp-wiki.wikidot.com/scp-610），以及 [[site-antarctica|南极疯狂山脉]] 冰盖下苏醒的太古旧城。四股低休谟漏斗彼此牵引，将全球地表休谟均值一寸寸向下拖拽。",
+        "现实由此变“软”。封闭收容室的混凝土墙开始渗出咸水与异色菌斑，早先只存于古籍边注的石阶与礁影陆续在海岸和荒原显形。休谟越低，物理定律越容易被外力改写——这与 SCP 维基原典一致，原典中休谟最低的自由港节点为木津（Mujin）。"
+      ]
+    },
+    {
+      "heading": "五级危险划分与地表通行守则",
+      "paragraphs": [
+        "[[goi-foedus-caeruleum|蓝印盟约]] 下属铜版测绘局按实测休谟读数，将含海洋在内的全球地表划分为零至五级危险区，作为航行、宵禁与撤离的硬性准绳：",
+        "0 级 · 圣域（SANCTVM，≥ 1.20 Hm）：限于七曜圣城与核心据点的结界之内。几何物理恒定，居民常住，无通行与作息限制。",
+        "I 级 · 平靖（PACATA，0.95–1.20 Hm）：分布于结界航线两侧及定期清扫地带，与 0 级圣域合计仅占地表面积约 18%。商旅车船可正常往来。",
+        "II 级 · 警戒（VIGILIA，0.80–0.95 Hm）：II 级及以上区域已占全球约 82%。白昼尚可通行；日落前必须闭户落栓，外出者须贴身佩戴经群青谐振校准的金属护符。",
+        "III 级 · 浸染（TINCTVRA，0.60–0.80 Hm）：III 级及以上占全球约 58%。空间折光与认知异常常驻不散，零散行人极易迷失，仅准许配备稳定锚车的武装车队编组穿越。",
+        "IV 级 · 失落（AMISSA，0.35–0.60 Hm）：IV 级及以上占全球约 30%。常住人口早已撤空，旧城镇留作无人缓冲带，唯有盟约清道队奉令进出。",
+        "V 级 · 禁区（INTERDICTA，< 0.35 Hm）：占全球约 10%，涵盖拉莱耶海渊、孟加拉遗忘海沟、贝加尔封锁核、印斯茅斯外礁、帕米尔冷原门与南极旧城腹地。神话实体主宰其间，严禁任何人类踏入。"
+      ]
+    },
+    {
+      "heading": "群青反制与七曜仪轨的代价",
+      "paragraphs": [
+        "人类并未输掉这场消耗战。[[goi-ordo-caeruleus|赫尔墨斯蓝色修会]] 取出法罗斯海底封存的 [[dossier-tabula-caerulea|《翠玉录》]] 几何弦律，与 [[goi-tactical-theology|SCP 基金会战术神学部]] 的斯克兰顿现实稳定锚（SRA，源自 SCP 维基原典，CC BY-SA 3.0）合流并网（详见 [[codex-hume-theory|蓝色神学与休谟场论]]）。两套技艺叠合后，足以将整座城池的休谟场硬生生托举回 1.20 Hm 之上。",
+        "这套巨型结界的代价写在天体运行表里：每一座城市级稳定场，都必须独占一颗古典行星的仪轨时辰与对应炼金金属来导流散热。天球七曜各司一席，多立第八座便会引发全球谐振失锁。因此全人类只能保住七座圣城——[[sanct-luna|惠灵顿]]、[[sanct-mercurius|佛罗伦萨]]、[[sanct-venus|京都]]、[[sanct-sol|亚历山大]]、[[sanct-mars|魁北克城]]、[[sanct-iuppiter|西安]]与[[sanct-saturnus|布宜诺斯艾利斯]]。七城之外的广袤水陆，全靠二十余座前哨据点与大圆结界航线一寸寸钉在版图上。"
+      ]
+    }
+  ],
+  "logs": [
+    {
+      "title": "【铜版测绘局全球图式凡例 · CHALCO-LEGEND-01】",
+      "minClearance": 1,
+      "content": "每幅官方海陆舆图须每六小时依诺顿湾数据中心（Site-7）汇总读数重校一次等休谟线。凡读数连续三次跌破 0.60 Hm 之聚落，立即改刻为斜线阴影并启动撤民程序。[本站原创设定]"
+    },
+    {
+      "title": "【七曜天球外环补记 · ORB-YVGGOTH】",
+      "minClearance": 2,
+      "content": "按迦勒底古序，地球之外依次套合月（☽︎）、水（☿︎）、金（♀︎）、日（☉︎）、火（♂︎）、木（♃︎）、土（♄︎）七道实线天球。铜版星图最外缘另刻一道断开的虚线环，标名 YVGGOTH（犹格斯，见洛夫克拉夫特《暗夜呢喃》原典）：彼星不在七曜盟约之列，亦不受法罗斯正午脉冲管辖。"
+    }
+  ],
+  "infobox": [
+    {
+      "label": "纪元拉丁名",
+      "value": "AEVVM TINCTVRAE（大浸染纪元）",
+      "original": true
+    },
+    {
+      "label": "起算年份",
+      "value": "1925 年春（《克苏鲁的呼唤》全球群梦事件）",
+      "original": false
+    },
+    {
+      "label": "安全栖居占比",
+      "value": "0 级圣域与 I 级平靖区合计约占全球地表 18%",
+      "original": true
+    },
+    {
+      "label": "原典致谢",
+      "value": "洛氏公有领域原典；SCP-3000 / SCP-610 / SRA 源自 SCP 维基（CC BY-SA 3.0）",
+      "original": false
+    }
+  ],
+  "cluesGranted": [
+    {
+      "id": "clue-tinctura-five-tiers",
+      "title": "大浸染纪元零至五级休谟危险阈值表",
+      "xp": 20
+    }
+  ],
+  "relatedIds": [
+    "codex-hume-theory",
+    "goi-foedus-caeruleum",
+    "goi-ordo-caeruleus",
+    "goi-tactical-theology",
+    "sanct-luna",
+    "sanct-mercurius",
+    "sanct-venus",
+    "sanct-sol",
+    "sanct-mars",
+    "sanct-iuppiter",
+    "sanct-saturnus",
+    "site-rlyeh",
+    "entity-scp-3000",
+    "dossier-baikal-610",
+    "site-antarctica"
+  ],
+  "updatedAt": "2026-11-27"
+}

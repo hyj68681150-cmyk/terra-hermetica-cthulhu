@@ -1,0 +1,109 @@
+{
+  "id": "sanct-sol",
+  "category": "sites",
+  "code": "SANCTVM · ☉︎ SOL",
+  "title": "亚历山大 · 金之城（CIVITAS SOLIS）",
+  "aliases": [
+    "亚历山大圣城",
+    "金之城",
+    "太阳圣城",
+    "CIVITAS SOLIS",
+    "PATER EIVS EST SOL",
+    "sanct-sol"
+  ],
+  "clearance": 1,
+  "provenance": "original",
+  "provenanceLabel": "本站原创设定",
+  "geo": {
+    "lat": 31.2,
+    "lon": 29.92,
+    "precision": "city"
+  },
+  "summary": "七曜圣城之四（☉︎ 日·金），居迦勒底天球正中之神学中枢。半径 150 公里的黄金棱镜结界环抱法罗斯海岬，每日正午向全球播发 1.80 Hm 群青基准频率。",
+  "sections": [
+    {
+      "heading": "城市",
+      "paragraphs": [
+        "亚历山大雄踞尼罗河三角洲西北隅，北临地中海，东港外侧海岬即为古代法罗斯大灯塔旧址（参见 [[site-alexandria|法罗斯圣座档案]]）。作为 [[goi-ordo-caeruleus|赫尔墨斯蓝色修会]] 的发祥地与 [[goi-foedus-caeruleum|蓝印盟约]] 的神学心脏，子午清道、丝路结界、季风航线、非洲纵线与撒哈拉横线五条大动脉均以此城为零点。"
+      ]
+    },
+    {
+      "heading": "行星与金属",
+      "paragraphs": [
+        "圣城对应迦勒底七曜居中的太阳（☉︎ SOL），导流金属为赤金。黄金化学性质极度惰性，不生锈蚀，不受低休谟盐雾侵袭；十二肋秘仪穹顶内悬吊的八角纯金音叉重逾四吨，专职锁死全球稳定锚网的绝对基准相位。"
+      ]
+    },
+    {
+      "heading": "拉丁铭文",
+      "paragraphs": [
+        "东港防波堤主阙镌刻《翠玉录》拉丁铭文：“PATER EIVS EST SOL”（其父为日）。它与南半球 [[sanct-luna|惠灵顿银之城]] 的太阴铭文遥相呼应：一主正午定频，一主子夜滤潮。"
+      ]
+    },
+    {
+      "heading": "结界怎么运作",
+      "paragraphs": [
+        "亚历山大的结界半径在七城中最小，仅 150 公里，却把功率密度推至极致（核心区高达 1.80 Hm，外环恒定 ≥ 1.35 Hm）。每日当地时间正午十二时整，太阳过中天瞬间，法罗斯海底的 [[dossier-tabula-caerulea|《翠玉录》青金石母碑]] 与穹顶黄金棱镜耦合，沿地壳波导向全球发出一记持续三秒的基准脉冲；其余六座圣城与二十余座据点的稳定锚均凭这一记脉搏消去昼夜累积的时钟漂移。"
+      ]
+    },
+    {
+      "heading": "守着哪个方向的威胁",
+      "paragraphs": [
+        "它向南压制尼罗河上游与 [[site-cairo|吉萨—阿蒙尼-拉姆]] 沙漠边缘的异常躁动，向东隔绝阿拉伯半岛腹地“无名之沙”与两河流域 [[site-001|守门人禁区]] 外围的休谟陡降带，确保苏伊士与红海咽喉不被浸染切断。"
+      ]
+    },
+    {
+      "heading": "日常",
+      "paragraphs": [
+        "正午三秒脉冲是全城人的作息界碑。十一点五十九分，港湾起重机停钩、有轨电车驻轮、街头茶座的商贩放下铜壶；正午钟声与极轻微的空气蜂鸣掠过白色石墙，人们核对一眼腕上的机械怀表，随即恢复喧嚷。入夜后东港灯塔长明，海风里满是烤饼、海盐与晒热石灰岩的气味。"
+      ]
+    }
+  ],
+  "infobox": [
+    {
+      "label": "所属城市",
+      "value": "埃及亚历山大港（尼罗河三角洲西北隅）",
+      "original": false
+    },
+    {
+      "label": "七曜与金属",
+      "value": "☉︎ 日（SOL）· 金",
+      "original": true
+    },
+    {
+      "label": "翠玉铭文",
+      "value": "PATER EIVS EST SOL（《翠玉录》拉丁本）",
+      "original": false
+    },
+    {
+      "label": "结界半径与核心场强",
+      "value": "150 km · 核心 1.80 Hm（全球正午基准源）",
+      "original": true
+    },
+    {
+      "label": "辐射走廊",
+      "value": "子午清道、丝路结界、季风航线、非洲纵线、撒哈拉横线",
+      "original": true
+    }
+  ],
+  "cluesGranted": [
+    {
+      "id": "clue-sanct-sol-noon-pulse",
+      "title": "亚历山大金之城正午三秒全球定频脉冲参数",
+      "xp": 15
+    }
+  ],
+  "relatedIds": [
+    "codex-tinctura",
+    "codex-hume-theory",
+    "goi-foedus-caeruleum",
+    "goi-ordo-caeruleus",
+    "site-alexandria",
+    "dossier-tabula-caerulea",
+    "sanct-luna",
+    "sanct-mercurius",
+    "sanct-iuppiter",
+    "site-cairo",
+    "site-001"
+  ],
+  "updatedAt": "2026-11-27"
+}
