@@ -72,7 +72,7 @@ updatedAt: 2026-11-27
 
 隔离圈内最初锁定了 A、B、C 三处主要感染聚落（Site A、Site B、Site C）。自 2009 年起，基金会先后执行了代号为 SCP-610-L1 至 L5 的五次递进式侦察与武装突击行动，逐步揭开了地表村落之下庞大的地下洞窟与宗教化肉窟结构。
 
-::: doc type=exploration code="附录 610-L1/L2 摘编" title="A 点无人车潜行与 C 点感染中继队焚毁实录" date="2009-04-08" author="SCP-610 隔离指挥部（原典作者 NekoChris，CC BY-SA 3.0）" clearance=1 origin=canon
+::: doc type=exploration code="附录 610-L1/L2 摘编" title="A 点无人车潜行与 C 点感染中继队焚毁实录" date="2009-04-08 至 2009-04-09（原典发布日）" author="SCP-610 隔离指挥部（原典作者 NekoChris，CC BY-SA 3.0）" clearance=1 origin=canon
 【出处说明】本件转述自 NekoChris 所撰 SCP-610-L1（https://scp-wiki.wikidot.com/scp-610-l1）与 SCP-610-L2（https://scp-wiki.wikidot.com/scp-610-l2），按 CC BY-SA 3.0 协议编纂。
 
 一、L1 行动：遥控履带车“赫比（Herbie）”进入 A 点
@@ -98,7 +98,7 @@ DI3 遭飞溅井石击中身亡；DI1 虽仅受擦伤却正快速病变。他刚
 
 C 点中心肉球被焚毁后，A 点并未如预期那样归于死寂，反而诱发了地下空腔的连锁暴露。接下来的 L3、L4 与 L5 三次行动，将基金会的视线彻底拖入了贝加尔裂谷岩层深处。
 
-::: doc type=exploration code="附录 610-L3/L4/L5 摘要" title="A 点深坑塌陷、无人机下探与 B 点地下钟楼教堂遭遇战" date="2009-04-10" author="SCP-610 隔离指挥部（原典作者 NekoChris，CC BY-SA 3.0）" clearance=2 origin=canon
+::: doc type=exploration code="附录 610-L3/L4/L5 摘要" title="A 点深坑塌陷、无人机下探与 B 点地下钟楼教堂遭遇战" date="2009-04-13 至 2009-04-17（原典发布日）" author="SCP-610 隔离指挥部（原典作者 NekoChris，CC BY-SA 3.0）" clearance=2 origin=canon
 【出处说明】本件转述自 NekoChris 所撰 SCP-610-L3（https://scp-wiki.wikidot.com/scp-610-l3）、SCP-610-L4（https://scp-wiki.wikidot.com/scp-610-l4）与 SCP-610-L5（https://scp-wiki.wikidot.com/scp-610-l5），按 CC BY-SA 3.0 协议编纂。
 
 一、L3 行动：A 点塌陷深坑与七级瞬时震荡

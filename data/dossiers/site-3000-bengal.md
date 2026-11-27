@@ -72,7 +72,7 @@ SCP-3000 发现于 1971 年。当年孟加拉湾海域有两艘渔船连同十�
 
 在阿扎克协议确立前的二十余年里，基金会曾两度以载人方式近距离抵近 SCP-3000 头部：第一次是尤金·盖茨博士（Dr. Eugene Getts）参与的初探潜航，第二次则是自潜艇 **SCPF *Stravinsky*** 出舱的机动特遣队 Orion-9（“翠鸟 / Kingfishers”）采样行动。两次接触均付出了惨重代价，但也正是“翠鸟”小组唯一一度生还的 Bravo 队员在濒死前靠浮标送回的那管暗灰色黏液，改变了整个现代基金会的记忆删除技术史。
 
-::: doc type=exploration code="附录 3000-01" title="尤金·盖茨博士初探记录与 MTF Orion-9 采样失联实录" date="1972-04-19" author="Site-151 历史档案馆（原典作者 A Random Day、djkaktus、Joreth，CC BY-SA 3.0）" clearance=2 origin=canon
+::: doc type=exploration code="附录 3000-01" title="尤金·盖茨博士初探记录与 MTF Orion-9 采样失联实录" date="1972-04（原典月度）" author="Site-151 历史档案馆（原典作者 A Random Day、djkaktus、Joreth，CC BY-SA 3.0）" clearance=2 origin=canon
 【出处说明】本件转述自 SCP-3000 原典正文史料及 Addendum 3000.1（CC BY-SA 3.0，https://scp-wiki.wikidot.com/scp-3000）。
 
 一、尤金·盖茨博士初探潜航摘录
@@ -104,7 +104,7 @@ SCP-3000 发现于 1971 年。当年孟加拉湾海域有两艘渔船连同十�
 
 代价同样赤裸而残酷：SCP-3000 唯有在吞食人类之后才会分泌 Y-909，且全部人工合成尝试均以灾难告终。基金会为此将项目划为 **Thaumiel** 级，在五级绝密掩护下维持运转长达数十年的《151-霍利斯特阿扎克协议》。
 
-::: doc type=report code="附录 3000-02" title="151-霍利斯特阿扎克协议流程、Y-909 药理与站点主管备忘摘编" date="1998-10-15" author="Site-29 / Site-50 / Site-151 联合起草；Site Director Nox 备忘（原典作者 A Random Day、djkaktus、Joreth，CC BY-SA 3.0）" clearance=3 origin=canon
+::: doc type=report code="附录 3000-02" title="151-霍利斯特阿扎克协议流程、Y-909 药理与站点主管备忘摘编" date="1998-10（原典月度）" author="Site-29 / Site-50 / Site-151 联合起草；Site Director Nox 备忘（原典作者 A Random Day、djkaktus、Joreth，CC BY-SA 3.0）" clearance=3 origin=canon
 【出处说明】本件综合转述自 SCP-3000 原典 Addendum 3000.2 与 Addendum 3000.6（CC BY-SA 3.0，https://scp-wiki.wikidot.com/scp-3000）。
 
 一、Y-909 记忆删除剂药理优势
@@ -139,7 +139,7 @@ SCP-3000 发现于 1971 年。当年孟加拉湾海域有两艘渔船连同十�
 
 尽管驻艇人员均经过高认知抗性值（CRV）筛选，长期在孟加拉湾深水潜航仍无法彻底隔绝 VIII 级认知危害的慢速渗透。2009 年秋季发生在 SCPF Eremita 号上的连续事故，完整呈现了 SCP-3000 如何在毫无肢体接触的情况下，将两名资深科学家的人格逐层剥蚀并彼此置换。
 
-::: doc type=interview code="附录 3000-03/04" title="文卡特拉曼·克里希纳穆尔蒂博士心理访谈与后气闸失踪事件" date="2009-09-21" author="访谈：Dr. Anand Mannava / 受访：Dr. Venkatraman Krishnamoorthy（原典作者 A Random Day、djkaktus、Joreth，CC BY-SA 3.0）" clearance=4 origin=canon
+::: doc type=interview code="附录 3000-03/04" title="文卡特拉曼·克里希纳穆尔蒂博士心理访谈与后气闸失踪事件" date="2009-09（原典未载确日）" author="访谈：Dr. Anand Mannava / 受访：Dr. Venkatraman Krishnamoorthy（原典作者 A Random Day、djkaktus、Joreth，CC BY-SA 3.0）" clearance=4 origin=canon
 【出处说明】本件转述自 SCP-3000 原典 Addendum 3000.3 与 Addendum 3000.4（CC BY-SA 3.0，https://scp-wiki.wikidot.com/scp-3000）。
 
 一、心理评估访谈摘要（Addendum 3000.3）
@@ -166,7 +166,7 @@ SCP-3000 发现于 1971 年。当年孟加拉湾海域有两艘渔船连同十�
 
 克里希纳穆尔蒂的死并未画上句号。负责为其撰写事故心理报告的曼纳瓦博士，在接下来两个月里靠手写日记对抗记忆流失，却在一场极其偶然的桌面碎裂事故中，揭开了这头深海巨鳗最冷酷的运作真相。
 
-::: doc type=notes code="附录 3000-05/07" title="阿南德·曼纳瓦博士个人手记摘编与撕下终页" date="2009-11-11" author="Dr. Anand Mannava（原典作者 A Random Day、djkaktus、Joreth，CC BY-SA 3.0）" clearance=4 origin=canon
+::: doc type=notes code="附录 3000-05/07" title="阿南德·曼纳瓦博士个人手记摘编与撕下终页" date="2009-09-23 至 2009-11-11 及无日期终页" author="Dr. Anand Mannava（原典作者 A Random Day、djkaktus、Joreth，CC BY-SA 3.0）" clearance=4 origin=canon
 【出处说明】本件转述自 SCP-3000 原典 Addendum 3000.5 与 Addendum 3000.7（CC BY-SA 3.0，https://scp-wiki.wikidot.com/scp-3000）。
 
 一、日记节略（2009 年 9 月至 11 月）
